@@ -330,7 +330,7 @@ $this->pageTitle=Yii::app()->name;
 		    .attr('pointer-events', 'all')
 		    .attr('fill', 'none')
 		    .attr('height', height)
-		    .attr('width', 1024);
+		    .attr('width', width);
 
 		var svg1 = chart.append('svg')
 			    .attr('height', height)
@@ -497,7 +497,7 @@ $this->pageTitle=Yii::app()->name;
 				data.nodes[i].sumbu_y=parseInt(data.nodes[i].sumbu_y);				
 			}
 			y = d3.scale.ordinal()
-				.rangeRoundBands([height, 0], .1)
+				.rangeRoundBands([height + 200, 0], .1)
 				.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
 		}
 		else
@@ -1902,26 +1902,32 @@ $this->pageTitle=Yii::app()->name;
 			var drag = d3.behavior.drag()
 			.on("drag", dragmove).on("dragstart", dragstart);
 
-			var moved = 0;//record the translate x moved by the g which contains the bars.
-			var dragStartX = 0;//record teh point from where the drag started
+			var movedX = 0;//record the translate x moved by the g which contains the bars.
+			var dragStartX = 0;//record the point from where the drag started
 			var oldTranslateX = 0;
+			var movedY = 0;//record the translate y moved by the g which contains the bars.
+			var dragStartY = 0;//record the point from where the drag started
+			var oldTranslateY = 0;
 
 			function dragstart(d){
 			    dragStartX = d3.event.sourceEvent.clientX;
-			    // dragStartY = d3.event.sourceEvent.clientY;
+			    dragStartY = d3.event.sourceEvent.clientY;
 			    oldTranslateX = moved;//record the old translate
-			    // oldTranslateY = movedY; 
-			         console.log(d3.event);  
+			    oldTranslateY = movedY;
+		         console.log(d3.event);  
 			}
 			function dragmove(d) {
 				var x = d3.event.x;
 				var y = d3.event.y;
 				var dx =   x-dragStartX 
 					x = dx + oldTranslateX + 50; //add the old translate to the dx to get the resultant translate
-					moved = x; //record the translate x given
+					movedX = x; //record the translate x given
+				var dy =   y-dragStartY 
+					y = dy + oldTranslateY + 50; //add the old translate to the dy to get the resultant translate
+					movedY = y; //record the translate y given
 
-				d3.select('.draggable').attr("transform", "translate(" + x + "," + 0 + ")");
-				//move the x axis via translate x
+				d3.select('.draggable').attr("transform", "translate(" + x + "," + y + ")");
+				
 			}
 			
     </script>
