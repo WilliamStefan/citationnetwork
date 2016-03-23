@@ -507,7 +507,7 @@ $this->pageTitle=Yii::app()->name;
 				data.nodes[i].sumbu_y=data.nodes[i].sumbu_y.charAt(0).toUpperCase() + data.nodes[i].sumbu_y.slice(1);
 			}
 			y = d3.scale.ordinal()
-				.rangeRoundBands([height, 0], .1)
+				.rangeRoundBands([height + 200, 0], .1)
 				.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
 		}
 		
@@ -1927,6 +1927,7 @@ $this->pageTitle=Yii::app()->name;
 					movedY = y; //record the translate y given
 
 				d3.select('.draggable').attr("transform", "translate(" + x + "," + y + ")");
+				d3.select('.x').attr("transform", "translate(" + x + "," + height + ")");
 				
 			}
 			
