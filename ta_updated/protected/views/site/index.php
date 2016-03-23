@@ -324,6 +324,18 @@ $this->pageTitle=Yii::app()->name;
 			  .attr("class", "y axis")
 			  .attr("transform", "translate(0,0)")
 			  .call(yAxis);
+
+		chart.append('rect')
+		    .attr('class', 'background')
+		    .attr('pointer-events', 'all')
+		    .attr('fill', 'none')
+		    .attr('height', height)
+		    .attr('width', 1024);
+
+		var svg1 = chart.append('svg')
+			    .attr('height', height)
+			    .attr('width', width);
+			svg1.append('g').attr('class', 'draggable');
 		
 		//hitung x asal
 		function hitungX(sourcex,sourcey, targetx, targety, r)
@@ -459,7 +471,7 @@ $this->pageTitle=Yii::app()->name;
 			}
 			x = d3.scale.ordinal()			
 				.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
-				.rangeRoundBands([0, width], .1);
+				.rangeRoundBands([0, width + 74], .1);
 		}
 		//sorting huruf
 		else
@@ -470,7 +482,7 @@ $this->pageTitle=Yii::app()->name;
 			}
 			x = d3.scale.ordinal()
 				.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
-				.rangeRoundBands([0, width], .1);
+				.rangeRoundBands([0, width + 74], .1);
 		}	
 		
 		if ($("#sumbuY option:selected").text()=='Tahun Publikasi')
@@ -631,7 +643,7 @@ $this->pageTitle=Yii::app()->name;
             .text($("#sumbuX option:selected").text());
 			
 		}		
-			var g1 = chart.selectAll("g.circle").data(data.nodes);
+			var g1 = chart.select('.draggable').selectAll("g.circle").data(data.nodes);
 			
 			//chart.selectAll("g.circle").data(data.nodes).enter().append("circle")
 
@@ -652,6 +664,9 @@ $this->pageTitle=Yii::app()->name;
 						.attr("dy", function(d){return d.id.length+3 + "px";})
 					  .text(function(d) {return d.id.length;})
 					  .attr("font-size", "14px");
+
+			  chart.select('.background')
+       				 .call(drag);
 					  
 			entering2.attr("transform", function(d, i) {
 				return "translate(" +
@@ -738,7 +753,7 @@ $this->pageTitle=Yii::app()->name;
 		if(rlink.length!=0)
 		{  
 			//untuk membuat panah
-			var marker = chart.selectAll("g.marker").data(data.links)
+			var marker = chart.select('.draggable').selectAll("g.marker").data(data.links)
 			  .enter().append("svg:marker")
 				.attr("id", function(d,i) { return i; })
 				.attr("viewBox", "0 -5 10 10")
@@ -768,7 +783,7 @@ $this->pageTitle=Yii::app()->name;
 			//(x2,y2) kordinat tujuan
 			//hitungX : mencari x untuk x1 jika garisnya miring
 			//hitungX2 : mencari x untuk x2 jika garisnya miring
-			var link = chart.selectAll("g.link").data(rlink)
+			var link = chart.select('.draggable').selectAll("g.link").data(rlink)
 				.enter().append("line")				
 				  .attr("class", "tes0")
 				  .classed("link", true)
@@ -1882,6 +1897,31 @@ $this->pageTitle=Yii::app()->name;
 				};
 				window.xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				window.xmlhttp.send(query);	
+			}
+
+			var drag = d3.behavior.drag()
+			.on("drag", dragmove).on("dragstart", dragstart);
+
+			var moved = 0;//record the translate x moved by the g which contains the bars.
+			var dragStartX = 0;//record teh point from where the drag started
+			var oldTranslateX = 0;
+
+			function dragstart(d){
+			    dragStartX = d3.event.sourceEvent.clientX;
+			    // dragStartY = d3.event.sourceEvent.clientY;
+			    oldTranslateX = moved;//record the old translate
+			    // oldTranslateY = movedY; 
+			         console.log(d3.event);  
+			}
+			function dragmove(d) {
+				var x = d3.event.x;
+				var y = d3.event.y;
+				var dx =   x-dragStartX 
+					x = dx + oldTranslateX + 50; //add the old translate to the dx to get the resultant translate
+					moved = x; //record the translate x given
+
+				d3.select('.draggable').attr("transform", "translate(" + x + "," + 0 + ")");
+				//move the x axis via translate x
 			}
 			
     </script>
