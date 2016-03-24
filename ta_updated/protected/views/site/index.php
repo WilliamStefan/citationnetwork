@@ -1899,6 +1899,15 @@ $this->pageTitle=Yii::app()->name;
 				window.xmlhttp.send(query);	
 			}
 
+			chart.append("g")
+			  .attr("class", "x2 axis")
+			  .attr("transform", "translate(0," + height + ")")
+			  .call(xAxis);
+
+			chart.append("g")
+			  .attr("class", "y2 axis")
+			  .call(yAxis);
+			
 			var drag = d3.behavior.drag()
 			.on("drag", dragmove).on("dragstart", dragstart);
 
@@ -1928,6 +1937,7 @@ $this->pageTitle=Yii::app()->name;
 
 				d3.select('.draggable').attr("transform", "translate(" + x + "," + y + ")");
 				d3.select('.x').attr("transform", "translate(" + x + "," + height + ")");
+				d3.select('.y').attr("transform", "translate(" + 0 + "," + y + ")");
 				
 			}
 			
