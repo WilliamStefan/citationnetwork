@@ -3,16 +3,16 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs=array(
-	'Daftar Paper',
+	'Data Penelitians',
 );
 
 $this->menu=array(
-	array('label'=>'Tambah Paper', 'url'=>array('create')),
-	array('url'=>array('admin'), 'label'=>'Atur Paper', 'visible'=>Yii::app()->getModule('user')->isAdmin()),
+	array('label'=>'Create DataPenelitian', 'url'=>array('create')),
+	array('label'=>'Manage DataPenelitian', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Daftar Paper</h1>
+<h1>Data Penelitians</h1>
 
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,

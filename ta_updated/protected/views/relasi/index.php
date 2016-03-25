@@ -3,16 +3,16 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs=array(
-	'Daftar Relasi',
+	'Relasis',
 );
 
 $this->menu=array(
-	array('label'=>'Tambah Relasi', 'url'=>array('create')),
-	array('label'=>'Atur Relasi', 'url'=>array('admin'), 'visible'=>Yii::app()->getModule('user')->isAdmin()),
+	array('label'=>'Create Relasi', 'url'=>array('create')),
+	array('label'=>'Manage Relasi', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Daftar Relasi</h1>
+<h1>Relasis</h1>
 
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,

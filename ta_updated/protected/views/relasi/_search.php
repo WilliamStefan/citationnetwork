@@ -17,23 +17,18 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'nama_relasi'); ?>
-		<?php echo $form->textField($model,'metadata_relasi_search'); ?>
+		<?php echo $form->label($model,'id_relasi'); ?>
+		<?php echo $form->textField($model,'id_relasi'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'judul_paper_1'); ?>
-		<?php echo $form->textField($model,'data_penelitian_search'); ?>
+		<?php echo $form->label($model,'id_paper_1'); ?>
+		<?php echo $form->textField($model,'id_paper_1'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'judul_paper_2'); ?>
-		<?php echo $form->textField($model,'data_penelitian2_search'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'pembuat'); ?>
-		<?php echo $form->textArea($model,'creater_search'); ?>
+		<?php echo $form->label($model,'id_paper_2'); ?>
+		<?php echo $form->textField($model,'id_paper_2'); ?>
 	</div>
 
 	<div class="row buttons">

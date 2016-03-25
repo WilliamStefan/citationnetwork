@@ -3,19 +3,19 @@
 /* @var $model DataPenelitian */
 
 $this->breadcrumbs=array(
-	'Daftar Paper'=>array('index'),
+	'Data Penelitians'=>array('index'),
 	$model->id=>array('view','id'=>$model->id),
-	'Perbaharui Paper',
+	'Update',
 );
 
 $this->menu=array(
-	array('label'=>'Daftar Paper', 'url'=>array('index')),
-	array('label'=>'Tambah Paper', 'url'=>array('create')),
-	array('label'=>'Lihat Paper', 'url'=>array('view', 'id'=>$model->id)),
-	array('url'=>array('admin'), 'label'=>'Atur Paper', 'visible'=>Yii::app()->getModule('user')->isAdmin()),
+	array('label'=>'List DataPenelitian', 'url'=>array('index')),
+	array('label'=>'Create DataPenelitian', 'url'=>array('create')),
+	array('label'=>'View DataPenelitian', 'url'=>array('view', 'id'=>$model->id)),
+	array('label'=>'Manage DataPenelitian', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Perbaharui Paper <?php echo $model->id; ?></h1>
+<h1>Update DataPenelitian <?php echo $model->id; ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

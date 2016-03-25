@@ -20,7 +20,7 @@ $this->breadcrumbs=array(
 <?php else: ?>
 
 <p>
-Peta penelitian tersimpan :</p>
+Peta jalan tersimpan :</p>
 <?php foreach( $model as $option) {
 echo '<li class="map_name"><a style="pointer:cursor" href="'.Yii::app()->getBaseUrl(true).'/index.php?r=site/index/'.$option->parameter_x.'/'.$option->parameter_y.'/'.$option->id_paper.'/'.$option->parameter_relation.'">'. $option->map_name  . '</a></li>';
 }?>

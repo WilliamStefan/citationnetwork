@@ -29,19 +29,13 @@
 	<div id="mainmenu">
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index'),),
-				array('label'=>'Tentang', 'url'=>array('/site/page', 'view'=>'about')),
-				array('label'=>'Hubungi Kami', 'url'=>array('/site/contact')),
-				//array('label'=>'Masuk', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-				//array('label'=>'Keluar ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
-				array('label'=>'Daftar Peta Penelitian Tersimpan', 'url'=>array('/site/peta_penelitian'), 'visible'=>!Yii::app()->user->isGuest),
-				array('label'=>'Ubah Paper', 'url'=>array('/datapenelitian'), 'visible'=>!Yii::app()->user->isGuest),
-				array('label'=>'Ubah Relasi', 'url'=>array('/relasi'), 'visible'=>!Yii::app()->user->isGuest),
-				array('label'=>'Bantuan','url'=>array('/site/help')),
-				array('url'=>Yii::app()->getModule('user')->loginUrl, 'label'=>Yii::app()->getModule('user')->t("Masuk"), 'visible'=>Yii::app()->user->isGuest),
-				array('url'=>Yii::app()->getModule('user')->registrationUrl, 'label'=>Yii::app()->getModule('user')->t("Daftar"), 'visible'=>Yii::app()->user->isGuest),
-				array('url'=>Yii::app()->getModule('user')->profileUrl, 'label'=>Yii::app()->getModule('user')->t("Profile"), 'visible'=>!Yii::app()->user->isGuest),
-				array('url'=>Yii::app()->getModule('user')->logoutUrl, 'label'=>Yii::app()->getModule('user')->t("Keluar").' ('.Yii::app()->user->name.')', 'visible'=>!Yii::app()->user->isGuest),
+				array('label'=>'Home', 'url'=>array('/site/index')),
+				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
+				array('label'=>'Contact', 'url'=>array('/site/contact')),
+				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
+				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
+				array('label'=>'Peta Penelitian', 'url'=>array('/site/peta_penelitian'), 'visible'=>!Yii::app()->user->isGuest),
+				array('label'=>'Help','url'=>array('/site/help'))
 			),
 		));
 		?>

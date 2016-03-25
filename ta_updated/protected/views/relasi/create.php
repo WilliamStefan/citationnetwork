@@ -3,16 +3,16 @@
 /* @var $model Relasi */
 
 $this->breadcrumbs=array(
-	'Daftar Relasi'=>array('index'),
-	'Tambah Relasi',
+	'Relasis'=>array('index'),
+	'Create',
 );
 
 $this->menu=array(
-	array('label'=>'Daftar Relasi', 'url'=>array('index')),
-	array('label'=>'Atur Relasi', 'url'=>array('admin'), 'visible'=>Yii::app()->getModule('user')->isAdmin()),
+	array('label'=>'List Relasi', 'url'=>array('index')),
+	array('label'=>'Manage Relasi', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Tambah Relasi</h1>
+<h1>Create Relasi</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

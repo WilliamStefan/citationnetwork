@@ -26,51 +26,39 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'peneliti'); ?>
-		<?php echo $form->textArea($model,'peneliti',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'peneliti'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'tahun_publikasi'); ?>
 		<?php echo $form->textField($model,'tahun_publikasi'); ?>
 		<?php echo $form->error($model,'tahun_publikasi'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'masalah'); ?>
-		<?php echo $form->textArea($model,'masalah',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'masalah'); ?>
+		<?php echo $form->labelEx($model,'tempat_diterbitkan'); ?>
+		<?php echo $form->textArea($model,'tempat_diterbitkan',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->error($model,'tempat_diterbitkan'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'deskripsi_masalah'); ?>
-		<?php echo $form->textArea($model,'deskripsi_masalah',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'deskripsi_masalah'); ?>
+		<?php echo $form->labelEx($model,'jumlah_data'); ?>
+		<?php echo $form->textField($model,'jumlah_data'); ?>
+		<?php echo $form->error($model,'jumlah_data'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'keyword'); ?>
-		<?php echo $form->textArea($model,'keyword',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'keyword'); ?>
+		<?php echo $form->labelEx($model,'sumber_data'); ?>
+		<?php echo $form->textArea($model,'sumber_data',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->error($model,'sumber_data'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'domain_data'); ?>
-		<?php echo $form->textArea($model,'domain_data',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'domain_data'); ?>
+		<?php echo $form->labelEx($model,'nama_metode'); ?>
+		<?php echo $form->textArea($model,'nama_metode',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->error($model,'nama_metode'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'deskripsi_domain_data'); ?>
-		<?php echo $form->textArea($model,'deskripsi_domain_data',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'deskripsi_domain_data'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'metode'); ?>
-		<?php echo $form->textArea($model,'metode',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'metode'); ?>
+		<?php echo $form->labelEx($model,'pendekatan_metode'); ?>
+		<?php echo $form->textArea($model,'pendekatan_metode',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->error($model,'pendekatan_metode'); ?>
 	</div>
 
 	<div class="row">
@@ -80,9 +68,33 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'hasil'); ?>
-		<?php echo $form->textArea($model,'hasil',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'hasil'); ?>
+		<?php echo $form->labelEx($model,'akurasi'); ?>
+		<?php echo $form->textField($model,'akurasi'); ?>
+		<?php echo $form->error($model,'akurasi'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'metode_evaluasi'); ?>
+		<?php echo $form->textArea($model,'metode_evaluasi',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->error($model,'metode_evaluasi'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'skenario_evaluasi'); ?>
+		<?php echo $form->textArea($model,'skenario_evaluasi',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->error($model,'skenario_evaluasi'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'kategori_hasil'); ?>
+		<?php echo $form->textArea($model,'kategori_hasil',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->error($model,'kategori_hasil'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'nama_masalah'); ?>
+		<?php echo $form->textArea($model,'nama_masalah',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->error($model,'nama_masalah'); ?>
 	</div>
 
 	<div class="row buttons">

@@ -8,17 +8,12 @@
  * @property integer $id_relasi
  * @property integer $id_paper_1
  * @property integer $id_paper_2
- * @property string $creater
  */
 class Relasi extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
-	public $data_penelitian_search;
-	public $data_penelitian2_search;
-	public $metadata_relasi_search;
-	public $creater_search;
 	public function tableName()
 	{
 		return 'relasi';
@@ -32,11 +27,11 @@ class Relasi extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_relasi, id_paper_1, id_paper_2, creater', 'required'),
+			array('id_relasi, id_paper_1, id_paper_2', 'required'),
 			array('id_relasi, id_paper_1, id_paper_2', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_relasi, id_paper_1, id_paper_2, creater, metadata_relasi.deskripsi, data_penelitian.judul, data_penelitian2.judul, data_penelitian_search, data_penelitian2_search, metadata_relasi_search, creater_search', 'safe', 'on'=>'search'),
+			array('id, id_relasi, id_paper_1, id_paper_2', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,10 +43,6 @@ class Relasi extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'metadata_relasi'=>array(self::BELONGS_TO, 'MetadataRelasi', array('id_relasi' => 'id')),
-            'data_penelitian'=>array(self::BELONGS_TO, 'DataPenelitian',  array('id_paper_1' => 'id')),
-            'data_penelitian2'=>array(self::BELONGS_TO, 'DataPenelitian',  array('id_paper_2' => 'id')),
-            'creater'=>array(self::BELONGS_TO, 'TblUsers',  array('creater' => 'id'))
 		);
 	}
 
@@ -62,10 +53,9 @@ class Relasi extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'id_relasi' => 'Nama Relasi',
-			'id_paper_1' => 'Judul Paper 1',
-			'id_paper_2' => 'Judul Paper 2',
-			'creater' => 'Creater',
+			'id_relasi' => 'Id Relasi',
+			'id_paper_1' => 'Id Paper 1',
+			'id_paper_2' => 'Id Paper 2',
 		);
 	}
 
@@ -86,17 +76,11 @@ class Relasi extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-		$criteria->with=array('data_penelitian','data_penelitian2','metadata_relasi','creater');
-		//$criteria->with=array();
-		//$criteria->with=array();
+
 		$criteria->compare('id',$this->id);
 		$criteria->compare('id_relasi',$this->id_relasi);
 		$criteria->compare('id_paper_1',$this->id_paper_1);
 		$criteria->compare('id_paper_2',$this->id_paper_2);
-		$criteria->compare('datapenelitian.judul',$this->data_penelitian_search, true);
-		$criteria->compare('datapenelitian2.judul',$this->data_penelitian2_search, true);
-		$criteria->compare('metadata_relasi.deskripsi',$this->metadata_relasi_search, true);
-		$criteria->compare('creater.username',$this->creater_search, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

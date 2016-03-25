@@ -3,13 +3,13 @@
 /* @var $model DataPenelitian */
 
 $this->breadcrumbs=array(
-	'Daftar Paper'=>array('index'),
-	'Atur Paper',
+	'Data Penelitians'=>array('index'),
+	'Manage',
 );
 
 $this->menu=array(
-	array('label'=>'Daftar Paper', 'url'=>array('index')),
-	array('label'=>'Tambah Paper', 'url'=>array('create')),
+	array('label'=>'List DataPenelitian', 'url'=>array('index')),
+	array('label'=>'Create DataPenelitian', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Atur Paper</h1>
+<h1>Manage Data Penelitians</h1>
 
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
@@ -47,17 +47,19 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'columns'=>array(
 		'id',
 		'judul',
-		'peneliti',
 		'tahun_publikasi',
-		'masalah',
-		'deskripsi_masalah',
+		'tempat_diterbitkan',
+		'jumlah_data',
+		'sumber_data',
 		/*
-		'keyword',
-		'domain_data',
-		'deskripsi_domain_data',
-		'metode',
+		'nama_metode',
+		'pendekatan_metode',
 		'deskripsi_metode',
-		'hasil',
+		'akurasi',
+		'metode_evaluasi',
+		'skenario_evaluasi',
+		'kategori_hasil',
+		'nama_masalah',
 		*/
 		array(
 			'class'=>'CButtonColumn',

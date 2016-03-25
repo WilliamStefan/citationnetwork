@@ -214,8 +214,6 @@ class MetadataPenelitianController extends Controller
 			$AllData[1] = $dbCommand->queryAll();
 		}
 		
-		
-		
 		//ambil id relasi
 		$sql = "SELECT id FROM metadata_relasi WHERE deskripsi = '" . $edge . "'";
 		$dbCommand = Yii::app()->db->createCommand($sql);
@@ -327,7 +325,10 @@ class MetadataPenelitianController extends Controller
 				$tmp2[$i]['children'][0]=$tmp3[0];
 			}
 		}
-		
+
+		for ($i = 0; $i < count($tmp2); $i++) {
+			$tmp2[$i]['size'] = count($tmp2[$i]['children']);
+		}
 		
 		$data3=array();
 		
@@ -347,6 +348,7 @@ class MetadataPenelitianController extends Controller
 						{	*/						
 							$data3['links'][$i]['source']=$edgeData[$i]['id_paper_1'];
 							$data3['links'][$i]['target']=$edgeData[$i]['id_paper_2'];
+							$data3['links'][$i]['value']=1;
 							/*break;
 						}						
 					}					
@@ -360,7 +362,6 @@ class MetadataPenelitianController extends Controller
 		$dbCommand = Yii::app()->db->createCommand($sql);
 		$relation = $dbCommand->queryAll();
 		
-		
 		$result = array(
 			'data3' => $data3,
 			'all_data' => $AllData,
@@ -369,9 +370,9 @@ class MetadataPenelitianController extends Controller
 		);
 		
 		$parameter="";
+		file_put_contents("data3.json", CJSON::encode($data3));
 		echo CJSON::encode($result);
 		//$result=$edgeData;
-		
 	}
 	public function actionChangeDropDown()
 	{

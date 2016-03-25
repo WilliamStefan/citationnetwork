@@ -113,26 +113,30 @@
     visibility: visible;
 }
 .close {
+    background-color: rgba(0, 0, 0, 0.8);
     height: 30px;
     line-height: 30px;
     position: absolute;
-    right: 5px;
+    right: 0;
     text-align: center;
     text-decoration: none;
-    top: 5px;
+    top: -15px;
     width: 30px;
-	color:grey;
-	opacity: 1;
+
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    border-radius: 15px;
 }
 .close:before {
-    content: "\2716";
-    font-size: 22px;
-	
-	opacity: 1;
+    color: rgba(255, 255, 255, 0.9);
+    content: "X";
+    font-size: 24px;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
 }
 .close:hover {
-	color:black;
-	opacity:1;
+    background-color: rgba(64, 128, 128, 0.8);
 }
 .popup p {
     margin-bottom: 10px;
@@ -215,12 +219,11 @@ background-color: green;
 
 .label2
 {
-	//fill:#4796B7;
 	display:inline;
 	text-align:center;
 	vertical-align:baseline;
 	text-anchor:middle;
-	//text-shadow:0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+	text-shadow:0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
 	font-weight:bold;
 	position:absolute;
 	z-index:1;
@@ -231,31 +234,23 @@ background-color: green;
 	position:absolute;
 	z-index:-1;
 	cursor: pointer;
-	stroke: #F2A9A2;
+	stroke: #000;
 }
 
-.click_breadcrumb{
+#trail{
   cursor: pointer;
-  fill : #6399cd;
-}
-.not_click_breadcrumb{
-  cursor: default;
-  fill:rgb(123, 97, 92);
 }
 #home{
   cursor: pointer;
 }
-.tick:hover
-{
-	cursor:default;
-}
-.lingkaran:hover .node{
-  stroke: #F0563D;
+
+.node:hover {
+  stroke: #000;
   stroke-width: 1.5px;
 }
 
 .node--leaf {
-  fill: #FFC2AD;
+  fill: white;
 }
 
 .label {
@@ -366,10 +361,7 @@ border-radius:3px;
 	
 	width:135px;
 	border:1px solid #ccc;
-}\
-
-
-
+}
 .button:hover
 {
 	//color: #333;
@@ -396,17 +388,5 @@ border-radius:3px;
 	color:#555555;
 	vertical-align:middle;
 	border-radius:4px;
-	width:70%;
 	
-}
-.saveInput
-{
-	border:1px solid #cccccc;
-	box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075);
-	transition:border linear 0.2s, box-shadow linear 0.2s;
-	padding:4px 6px;
-	line-height:20px;
-	color:#555555;
-	vertical-align:middle;
-	border-radius:4px;
 }

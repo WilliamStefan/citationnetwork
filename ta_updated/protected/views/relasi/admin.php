@@ -3,13 +3,13 @@
 /* @var $model Relasi */
 
 $this->breadcrumbs=array(
-	'Daftar Relasi'=>array('index'),
-	'Atur Relasi',
+	'Relasis'=>array('index'),
+	'Manage',
 );
 
 $this->menu=array(
-	array('label'=>'Daftar Relasi', 'url'=>array('index')),
-	array('label'=>'Tambah Relasi', 'url'=>array('create')),
+	array('label'=>'List Relasi', 'url'=>array('index')),
+	array('label'=>'Create Relasi', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Atur Relasi</h1>
+<h1>Manage Relasis</h1>
 
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
@@ -46,21 +46,9 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'filter'=>$model,
 	'columns'=>array(
 		'id',
-		 array(
-			'name'=>'nama_relasi', 
-            'value'=>'$data->metadata_relasi->deskripsi',
-            'filter'=>CHtml::activeTextField($model,'metadata_relasi_search'),
-        ),
-		 array(
-			'name'=>'judul_paper_1', 
-            'value'=>'$data->data_penelitian->judul',
-            'filter'=>CHtml::activeTextField($model,'data_penelitian_search'),
-        ),
-		 array(
-			'name'=>'judul_paper_2', 
-            'value'=>'$data->data_penelitian2->judul',
-            'filter'=>CHtml::activeTextField($model,'data_penelitian2_search'),
-        ),
+		'id_relasi',
+		'id_paper_1',
+		'id_paper_2',
 		array(
 			'class'=>'CButtonColumn',
 		),

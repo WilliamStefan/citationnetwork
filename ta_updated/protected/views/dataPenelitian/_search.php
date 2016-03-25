@@ -22,43 +22,33 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'peneliti'); ?>
-		<?php echo $form->textArea($model,'peneliti',array('rows'=>6, 'cols'=>50)); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'tahun_publikasi'); ?>
 		<?php echo $form->textField($model,'tahun_publikasi'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'masalah'); ?>
-		<?php echo $form->textArea($model,'masalah',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->label($model,'tempat_diterbitkan'); ?>
+		<?php echo $form->textArea($model,'tempat_diterbitkan',array('rows'=>6, 'cols'=>50)); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'deskripsi_masalah'); ?>
-		<?php echo $form->textArea($model,'deskripsi_masalah',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->label($model,'jumlah_data'); ?>
+		<?php echo $form->textField($model,'jumlah_data'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'keyword'); ?>
-		<?php echo $form->textArea($model,'keyword',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->label($model,'sumber_data'); ?>
+		<?php echo $form->textArea($model,'sumber_data',array('rows'=>6, 'cols'=>50)); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'domain_data'); ?>
-		<?php echo $form->textArea($model,'domain_data',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->label($model,'nama_metode'); ?>
+		<?php echo $form->textArea($model,'nama_metode',array('rows'=>6, 'cols'=>50)); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'deskripsi_domain_data'); ?>
-		<?php echo $form->textArea($model,'deskripsi_domain_data',array('rows'=>6, 'cols'=>50)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'metode'); ?>
-		<?php echo $form->textArea($model,'metode',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->label($model,'pendekatan_metode'); ?>
+		<?php echo $form->textArea($model,'pendekatan_metode',array('rows'=>6, 'cols'=>50)); ?>
 	</div>
 
 	<div class="row">
@@ -67,13 +57,28 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'hasil'); ?>
-		<?php echo $form->textArea($model,'hasil',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->label($model,'akurasi'); ?>
+		<?php echo $form->textField($model,'akurasi'); ?>
 	</div>
-	
+
 	<div class="row">
-		<?php echo $form->label($model,'pembuat'); ?>
-		<?php echo $form->textArea($model,'creater_search'); ?>
+		<?php echo $form->label($model,'metode_evaluasi'); ?>
+		<?php echo $form->textArea($model,'metode_evaluasi',array('rows'=>6, 'cols'=>50)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'skenario_evaluasi'); ?>
+		<?php echo $form->textArea($model,'skenario_evaluasi',array('rows'=>6, 'cols'=>50)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'kategori_hasil'); ?>
+		<?php echo $form->textArea($model,'kategori_hasil',array('rows'=>6, 'cols'=>50)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'nama_masalah'); ?>
+		<?php echo $form->textArea($model,'nama_masalah',array('rows'=>6, 'cols'=>50)); ?>
 	</div>
 
 	<div class="row buttons">
