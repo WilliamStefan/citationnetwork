@@ -288,10 +288,12 @@ $this->pageTitle=Yii::app()->name;
 			
 		var xAxis = d3.svg.axis()
 			.scale(x)
+			.outerTickSize(0)
 			.orient("bottom");
 
 		var yAxis = d3.svg.axis()
 			.scale(y)
+			.outerTickSize(0)
 			.orient("left");
 
 		var chart = d3.select(".chart")
@@ -553,7 +555,7 @@ $this->pageTitle=Yii::app()->name;
 		var r = d3.scale.linear()
 				.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) {return d.id.length; }))])
 				.range([start,minimum/2]);
-		xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(function(d) {
+		xAxis = d3.svg.axis().scale(x).outerTickSize(0).orient("bottom").tickFormat(function(d) {
 			if(d.length>minimum/10)
 			{
 				chart.selectAll(".x.axis").selectAll(".tick").each(function( index ) {
@@ -572,7 +574,7 @@ $this->pageTitle=Yii::app()->name;
 				return d;
 			}
 		});
-		yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(function(d) {
+		yAxis = d3.svg.axis().scale(y).outerTickSize(0).orient("left").tickFormat(function(d) {
 			if(d.length>10)
 			{
 				chart.selectAll(".y.axis").selectAll(".tick").each(function( index ) {
@@ -1902,7 +1904,7 @@ $this->pageTitle=Yii::app()->name;
 			chart.append("g")
 			  .attr("class", "x2 axis")
 			  .attr("transform", "translate(0," + height + ")")
-			  .call(xAxis);
+			  .call(xAxis)
 
 			chart.append("g")
 			  .attr("class", "y2 axis")
@@ -1937,6 +1939,9 @@ $this->pageTitle=Yii::app()->name;
 
 				d3.select('.draggable').attr("transform", "translate(" + x + "," + y + ")");
 				d3.select('.x').attr("transform", "translate(" + x + "," + height + ")");
+				if(x < 0){
+					d3.select('.x').style('color','white');
+				}
 				d3.select('.y').attr("transform", "translate(" + 0 + "," + y + ")");
 				
 			}
