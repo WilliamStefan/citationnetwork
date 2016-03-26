@@ -327,12 +327,21 @@ $this->pageTitle=Yii::app()->name;
 			  .attr("transform", "translate(0,0)")
 			  .call(yAxis);
 
+		//background to drag
 		chart.append('rect')
 		    .attr('class', 'background')
 		    .attr('pointer-events', 'all')
 		    .attr('fill', 'none')
 		    .attr('height', height)
 		    .attr('width', width);
+
+		//block to hide dragged axis 
+		chart.append('rect')
+		    .attr('class', 'block')
+		    .attr('fill', 'white')
+		    .attr('height', 200)
+		    .attr('width', 205)
+		    .attr("transform", "translate(-200,460)");
 
 		var svg1 = chart.append('svg')
 			    .attr('height', height)
@@ -1940,7 +1949,7 @@ $this->pageTitle=Yii::app()->name;
 				d3.select('.draggable').attr("transform", "translate(" + x + "," + y + ")");
 				d3.select('.x').attr("transform", "translate(" + x + "," + height + ")");
 				if(x < 0){
-					d3.select('.x').style('color','white');
+					d3.select('path').style('visibility','hidden');
 				}
 				d3.select('.y').attr("transform", "translate(" + 0 + "," + y + ")");
 				
