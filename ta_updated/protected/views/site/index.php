@@ -331,6 +331,7 @@ $this->pageTitle=Yii::app()->name;
 		chart.append('rect')
 		    .attr('class', 'background')
 		    .attr('pointer-events', 'all')
+		    .style('cursor','move')
 		    .attr('fill', 'none')
 		    .attr('height', height)
 		    .attr('width', width);
@@ -1948,9 +1949,6 @@ $this->pageTitle=Yii::app()->name;
 
 				d3.select('.draggable').attr("transform", "translate(" + x + "," + y + ")");
 				d3.select('.x').attr("transform", "translate(" + x + "," + height + ")");
-				if(x < 0){
-					d3.select('path').style('visibility','hidden');
-				}
 				d3.select('.y').attr("transform", "translate(" + 0 + "," + y + ")");
 				
 			}
