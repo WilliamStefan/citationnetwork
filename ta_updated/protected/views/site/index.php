@@ -90,6 +90,7 @@ $this->pageTitle=Yii::app()->name;
   $cs->registerCssFile($baseUrl.'/css/tipsy.css');
   $cs->registerCssFile($baseUrl.'/css/introjs.css');
   $cs->registerCssFile($baseUrl.'/css/bootstrap-responsive.min.css');
+  $cs->registerCssFile($baseUrl.'/css/TApan.css');
 ?>
 	<div class="right-content">
 	<div class="page-header">
@@ -255,7 +256,7 @@ $this->pageTitle=Yii::app()->name;
 	<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none;float:left;margin-right:10px"></img>
 	<div id="sequence" style="display:none;"></div>
 	<svg class="chart" id="chart"></svg>
-	
+	<!-- <svg class="slider" id="slider"></svg> -->
 	<svg class="svg" id="svg" widht="0" height="500" style="display:none;">
 	
 	<!--<g transform="translate(0,10)scale(1,1)" style="stroke-width: 1px;">-->
@@ -341,7 +342,7 @@ $this->pageTitle=Yii::app()->name;
 		    .attr('class', 'block')
 		    .attr('fill', 'white')
 		    .attr('height', 200)
-		    .attr('width', 205)
+		    .attr('width', 201)
 		    .attr("transform", "translate(-200,460)");
 
 		var svg1 = chart.append('svg')
@@ -535,7 +536,7 @@ $this->pageTitle=Yii::app()->name;
 		{
 			minimum=y.rangeBand();
 		}
-		
+
 		var start;
 		if(minimum/2<15)
 		{
@@ -562,6 +563,7 @@ $this->pageTitle=Yii::app()->name;
 				start=minimum/2;
 			}
 		}
+
 		var r = d3.scale.linear()
 				.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) {return d.id.length; }))])
 				.range([start,minimum/2]);
@@ -661,24 +663,20 @@ $this->pageTitle=Yii::app()->name;
 
 			  // Add breadcrumb and label for entering nodes.
 			  var entering2 = g1.enter().append("svg:g").classed("lingkaran",true);
-
+		
 			  entering2.append("svg:circle")
 					.classed("node", true)
 					.attr("id", function(d){
 						if(d.id.length>1){return d.id.length;}
 					})					
 					.attr("r", function(d) { return r(d.id.length); })					
-					.style("fill", "#FFC2AD")
-					
-
+					.style("fill", "#FFC2AD");
+	
 			  entering2.append("svg:text")
 						.classed("label2", true)
 						.attr("dy", function(d){return d.id.length+3 + "px";})
 					  .text(function(d) {return d.id.length;})
 					  .attr("font-size", "14px");
-
-			  chart.select('.background')
-       				 .call(drag);
 					  
 			entering2.attr("transform", function(d, i) {
 				return "translate(" +
@@ -756,11 +754,50 @@ $this->pageTitle=Yii::app()->name;
 			title: function() {
 				return "<span style=\"font-size:12px\">"+this.__data__.children[0].judul+"</span><br>Peneliti : "+this.__data__.children[0].peneliti;  
 			}
-		  });
+		 	});
 		  }
 		});
 		
-					
+		//mendapatkan lingkaran di luar view utama
+		var ling = $( "g.lingkaran" ).filter(function(index){
+			xout = d3.transform(d3.select(g1[0][index]).attr('transform')).translate;
+			if (xout[0] > 720 || xout[1] > 460){
+				return xout;
+			}
+		});
+		console.log(ling[0]);
+
+		if (ling.length > 0){
+			var g = chart.selectAll('g.circle').data(ling);
+			var test = g.enter().append('svg:g').classed('tes',true);
+
+			overviewRight.style('visibility','visible');
+		
+			test.append("svg:circle")
+				.classed("nodetest", true)
+				.attr("id", function(d,i){
+					if(ling[i].length>1){return ling[i].length;}
+				})					
+				.attr("r",10)	
+				.style("fill", "#FFC2AD");
+
+			test.append("svg:text")
+				.classed("label2", true)
+				.attr("dy", function(d){return d.id.length+3 + "px";})
+				.text(function(d,i) {return ling[i].length;})
+				.attr("font-size", "10px");
+
+			test.attr("transform", function(d,i){
+				var xling = d3.transform(d3.select(ling[i]).attr('transform')).translate[0];
+				var yling = d3.transform(d3.select(ling[i]).attr('transform')).translate[1];
+					return "translate("+ (i*2+730) +", "+ yling +")";	
+			});
+			// var xplot = d3.scale.linear()
+			// 	.domain([ling[0],ling[length-1]])
+			// 	.range(overviewRight.width);
+		}
+		
+
 		//panah dan garis hanya akan dibuat jika linknya ada
 		if(rlink.length!=0)
 		{  
@@ -1401,7 +1438,7 @@ $this->pageTitle=Yii::app()->name;
 					//$('#SaveButton').attr('disabled','disabled');
 				}
 			}
-			 function drawTablePaper(data){
+			function drawTablePaper(data){
 				//array of added paper
 				var rowNode1=new Array(100);
 				var rowNode2=new Array(100);
@@ -1911,51 +1948,92 @@ $this->pageTitle=Yii::app()->name;
 				window.xmlhttp.send(query);	
 			}
 
-			chart.append("g")
-			  .attr("class", "x2 axis")
-			  .attr("transform", "translate(0," + height + ")")
-			  .call(xAxis)
+</script>
+<script type="text/javascript">
+	chart.append("g")
+		.attr("class", "x2 axis")
+		.attr("transform", "translate(0," + height + ")")
+		.call(xAxis)
 
-			chart.append("g")
-			  .attr("class", "y2 axis")
-			  .call(yAxis);
+	chart.append("g")
+		.attr("class", "y2 axis")
+		.call(yAxis);
 			
-			var drag = d3.behavior.drag()
-			.on("drag", dragmove).on("dragstart", dragstart);
+	var drag = d3.behavior.drag()
+		.on("drag", dragmove).on("dragstart", dragstart);
 
-			var movedX = 0;//record the translate x moved by the g which contains the bars.
-			var dragStartX = 0;//record the point from where the drag started
-			var oldTranslateX = 0;
-			var movedY = 0;//record the translate y moved by the g which contains the bars.
-			var dragStartY = 0;//record the point from where the drag started
-			var oldTranslateY = 0;
+	var movedX = 0;//record the translate x moved by the g which contains the bars.
+	var dragStartX = 0;//record the point from where the drag started
+	var oldTranslateX = 0;
+	var movedY = 0;//record the translate y moved by the g which contains the bars.
+	var dragStartY = 0;//record the point from where the drag started
+	var oldTranslateY = 0;
 
-			function dragstart(d){
-			    dragStartX = d3.event.sourceEvent.clientX;
-			    dragStartY = d3.event.sourceEvent.clientY;
-			    oldTranslateX = moved;//record the old translate
-			    oldTranslateY = movedY;
-		         console.log(d3.event);  
-			}
-			function dragmove(d) {
-				var x = d3.event.x;
-				var y = d3.event.y;
-				var dx =   x-dragStartX 
-					x = dx + oldTranslateX + 50; //add the old translate to the dx to get the resultant translate
-					movedX = x; //record the translate x given
-				var dy =   y-dragStartY 
-					y = dy + oldTranslateY + 50; //add the old translate to the dy to get the resultant translate
-					movedY = y; //record the translate y given
-
-				d3.select('.draggable').attr("transform", "translate(" + x + "," + y + ")");
-				d3.select('.x').attr("transform", "translate(" + x + "," + height + ")");
-				d3.select('.y').attr("transform", "translate(" + 0 + "," + y + ")");
+	function dragstart(d){
+	    dragStartX = d3.event.sourceEvent.clientX;
+	    dragStartY = d3.event.sourceEvent.clientY;
+	    oldTranslateX = movedX;//record the old translate
+	    oldTranslateY = movedY;
+         console.log(d3.event);  
+	}
+			
+	function dragmove(d) {
+		var x = d3.event.x;
+		var y = d3.event.y;
+		var dx =   x-dragStartX 
+			x = dx + oldTranslateX + 50; //add the old translate to the dx to get the resultant translate
+			movedX = x; //record the translate x given
+		var dy =   y-dragStartY 
+			y = dy + oldTranslateY + 50; //add the old translate to the dy to get the resultant translate
+			movedY = y; //record the translate y given
 				
-			}
-			
-    </script>
-	<script>
+		d3.select('.draggable').attr("transform", "translate(" + x + "," + y + ")");
+		d3.select('.x').attr("transform", "translate(" + x + "," + height + ")");
+		d3.select('.y').attr("transform", "translate(" + 0 + "," + y + ")");
+		// d3.select('.background').attr("transform", "translate(" + x + "," + y + ")");
+				
+	}
+	chart.select('.background').call(drag);
+</script>
+
+<script>
+		
+	var overviewRight = chart.append('rect')
+		.attr('width',80)
+		.attr('height',height)
+		.attr('class','overviewRight')
+		.attr("transform","translate(" + 720 + "," + 0 + ")")
+		// .style('opacity',.8)
+		// .style('background-color','#000')
+		.attr("class","view-overlay")
+		.style('visibility','hidden');
+	
+  /*var margin_slider = {top: 20, right: 30, bottom: 40, left: 150},
+  		width_slider = 950 - margin.left - margin.right,
+		height_slider = 210 - margin.top - margin.bottom;
   
+  var slider = d3.select(".slider")
+  	.attr("width", width + margin_slider.left + margin_slider.right)
+	.attr("height", height_slider)
+	.append("g")
+	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  slider.append
+
+  var x3 = d3.scale.ordinal()			
+	.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
+	.rangeRoundBands([0, width], .1);
+
+  var y3 = d3.scale.ordinal()
+	.rangeRoundBands([200, 0], .1)
+	.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
+
+  var xSlider = d3.svg.axis().scale(x3).orient("bottom"),
+    ySlider = d3.svg.axis().scale(y3).orient("left");
+
+  var brush = d3.svg.brush()
+    .x(x3)
+    .on("brush", brushed);*/
 </script>
 
 	 <!-- popup form #1 -->
