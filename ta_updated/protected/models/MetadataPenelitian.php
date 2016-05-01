@@ -32,7 +32,6 @@ class MetadataPenelitian extends CActiveRecord
 			array('col_name, deskripsi, id', 'safe', 'on'=>'search'),
 		);
 	}
-
 	/**
 	 * @return array relational rules.
 	 */

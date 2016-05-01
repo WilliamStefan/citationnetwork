@@ -8,6 +8,7 @@ $this->pageTitle=Yii::app()->name;
 		var dataString="";
 		var help;
 		var SelectedId;
+		var defaultPan;
 		<?php if (!Yii::app()->user->isGuest)
 			echo ('userID='.Yii::app()->user->id.';');
 		else
@@ -52,6 +53,14 @@ $this->pageTitle=Yii::app()->name;
 		{
 			echo ('defaultY="Tahun Publikasi";');
 		}
+		// if(isset(Yii::app()->session['panning']))
+		// {
+		// 	echo ('defaultPan="'.Yii::app()->session['panning'].'";');
+		// }
+		// else
+		// {
+		// 	echo ('defaultPan="Linier";');
+		// }
 		?>
 </script>
 <script>
@@ -66,6 +75,7 @@ $this->pageTitle=Yii::app()->name;
 		defaultY=a[3];
 		defaultParameter=a[4];
 		defaultEdge=a[5];
+		// defaultPan=a[6];
 	}	
 </script>
 
@@ -91,6 +101,7 @@ $this->pageTitle=Yii::app()->name;
   $cs->registerCssFile($baseUrl.'/css/introjs.css');
   $cs->registerCssFile($baseUrl.'/css/bootstrap-responsive.min.css');
   $cs->registerCssFile($baseUrl.'/css/TApan.css');
+  $cs->registerScriptFile($baseUrl.'/js/fisheyePan.js'); 
 ?>
 	<div class="right-content">
 	<div class="page-header">
@@ -219,7 +230,7 @@ $this->pageTitle=Yii::app()->name;
 					'data'=>array('sumbuY' => 'js:this.value','sumbuXselected' => 'js:$(\'#sumbuX\').val()')
 					/*
 					'success' => "js:function(data)
-							{
+							{ 
 							   alert(data);
 							}",*/
 					),'class'=>'dropdown-style'));
@@ -250,7 +261,22 @@ $this->pageTitle=Yii::app()->name;
 				?>
 			</div>
 		</div>
-		
+		<div id="pan" class="sub-right-content">
+			<div class="sub-heading">Mode Pan</div>
+			<div class="dropdown">
+				<?php
+					
+					echo CHtml::dropDownList('mode_pan','',array('distortion' => 'Distortion', 'linier' => 'Linier'),array(
+					'ajax' => array(
+					'type'=>'POST', //request type
+					'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
+					'update' => '#mode_pan',
+					'data'=>array('mode_pan' => 'js:this.value','panSelected' => 'js:$(\'#mode_pan\').val()')
+					), 
+					'class'=>'dropdown-style'));
+				?>
+			</div>
+		</div>
 	</div>
 	<div class="left-content" style="width:80%">
 	<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none;float:left;margin-right:10px"></img>
@@ -281,11 +307,21 @@ $this->pageTitle=Yii::app()->name;
 		var margin = {top: 10, right: 30, bottom: 40, left: 150},
 			width = 950 - margin.left - margin.right,
 			height = 510 - margin.top - margin.bottom;
-		var x = d3.scale.ordinal()
+
+		if ($("#mode_pan option:selected").text()=='Linier'){
+			var x = d3.scale.ordinal()
 			.rangeRoundBands([0, width], .1);
 
-		var y = d3.scale.ordinal()
+			var y = d3.scale.ordinal()
 			.rangeRoundBands([height, 0], .1);
+		}
+		else{
+			var x = d3.fisheye.ordinal()
+			.rangeRoundBands([0, width], .1);
+
+			var y = d3.fisheye.ordinal()
+			.rangeRoundBands([height, 0], .1);
+		}
 			
 		var xAxis = d3.svg.axis()
 			.scale(x)
@@ -337,14 +373,14 @@ $this->pageTitle=Yii::app()->name;
 		    .attr('height', height)
 		    .attr('width', width);
 
-		//block to hide dragged axis 
+		// block to hide dragged axis 
 		chart.append('rect')
 		    .attr('class', 'block')
 		    .attr('fill', 'white')
 		    .attr('height', 200)
 		    .attr('width', 201)
 		    .attr("transform", "translate(-200,460)");
-
+		//menampung elemen yang bisa di-pan
 		var svg1 = chart.append('svg')
 			    .attr('height', height)
 			    .attr('width', width);
@@ -482,9 +518,16 @@ $this->pageTitle=Yii::app()->name;
 			{
 				data.nodes[i].sumbu_x=parseInt(data.nodes[i].sumbu_x);				
 			}
-			x = d3.scale.ordinal()			
-				.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
-				.rangeRoundBands([0, width + 74], .1);
+			if ($("#mode_pan option:selected").text()=='Linier'){
+				x = d3.scale.ordinal()			
+					.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
+					.rangeRoundBands([0, width], .1);
+			}
+			else{
+				x = d3.fisheye.ordinal()			
+					.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
+					.rangeRoundBands([0, width], .1);
+			}
 		}
 		//sorting huruf
 		else
@@ -493,9 +536,16 @@ $this->pageTitle=Yii::app()->name;
 			{				
 				data.nodes[i].sumbu_x=data.nodes[i].sumbu_x.charAt(0).toUpperCase() + data.nodes[i].sumbu_x.slice(1);
 			}
-			x = d3.scale.ordinal()
-				.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
-				.rangeRoundBands([0, width + 74], .1);
+			if ($("#mode_pan option:selected").text()=='Linier'){
+				x = d3.scale.ordinal()
+					.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
+					.rangeRoundBands([0, width], .1);
+			}
+			else{
+				x = d3.fisheye.ordinal()
+					.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
+					.rangeRoundBands([0, width], .1);
+			}
 		}	
 		
 		if ($("#sumbuY option:selected").text()=='Tahun Publikasi')
@@ -509,9 +559,16 @@ $this->pageTitle=Yii::app()->name;
 			{
 				data.nodes[i].sumbu_y=parseInt(data.nodes[i].sumbu_y);				
 			}
-			y = d3.scale.ordinal()
-				.rangeRoundBands([height + 200, 0], .1)
-				.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
+			if ($("#mode_pan option:selected").text()=='Linier'){
+				y = d3.scale.ordinal()
+					.rangeRoundBands([height, 0], .1)
+					.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
+			}
+			else{
+				y = d3.fisheye.ordinal()
+					.rangeRoundBands([height, 0], .1)
+					.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
+			}
 		}
 		else
 		{
@@ -519,12 +576,18 @@ $this->pageTitle=Yii::app()->name;
 			{
 				data.nodes[i].sumbu_y=data.nodes[i].sumbu_y.charAt(0).toUpperCase() + data.nodes[i].sumbu_y.slice(1);
 			}
-			y = d3.scale.ordinal()
-				.rangeRoundBands([height + 200, 0], .1)
-				.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
+			if ($("#mode_pan option:selected").text()=='Linier'){
+				y = d3.scale.ordinal()
+					.rangeRoundBands([height, 0], .1)
+					.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
+			}
+			else{
+				y = d3.fisheye.ordinal()
+					.rangeRoundBands([height, 0], .1)
+					.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
+			}
 		}
-		
-		
+			
 			
 		//x
 		var xAxis,yAxis;
@@ -567,6 +630,7 @@ $this->pageTitle=Yii::app()->name;
 		var r = d3.scale.linear()
 				.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) {return d.id.length; }))])
 				.range([start,minimum/2]);
+		
 		xAxis = d3.svg.axis().scale(x).outerTickSize(0).orient("bottom").tickFormat(function(d) {
 			if(d.length>minimum/10)
 			{
@@ -657,13 +721,13 @@ $this->pageTitle=Yii::app()->name;
             .text($("#sumbuX option:selected").text());
 			
 		}		
-			var g1 = chart.select('.draggable').selectAll("g.circle").data(data.nodes);
+			var g1 = chart.select(".draggable").selectAll("g.circle").data(data.nodes);
 			
 			//chart.selectAll("g.circle").data(data.nodes).enter().append("circle")
 
 			  // Add breadcrumb and label for entering nodes.
 			  var entering2 = g1.enter().append("svg:g").classed("lingkaran",true);
-		
+			
 			  entering2.append("svg:circle")
 					.classed("node", true)
 					.attr("id", function(d){
@@ -671,7 +735,7 @@ $this->pageTitle=Yii::app()->name;
 					})					
 					.attr("r", function(d) { return r(d.id.length); })					
 					.style("fill", "#FFC2AD");
-	
+
 			  entering2.append("svg:text")
 						.classed("label2", true)
 						.attr("dy", function(d){return d.id.length+3 + "px";})
@@ -687,7 +751,8 @@ $this->pageTitle=Yii::app()->name;
 							
 					 +")";
 			  })
-			 .on("click", function(d) {						
+			// .attr("x",function(d,i){return (x.rangeBand());})
+			 .on("click", function(d) {	          					
 						if(d.children.length==1)
 						{
 						
@@ -742,7 +807,10 @@ $this->pageTitle=Yii::app()->name;
 							transition(d,chart,  x(d.sumbu_x)+ (x.rangeBand()/2), y(d.sumbu_y)+ (y.rangeBand()/2)); 
 						}
 					});
-		
+
+			// console.log(x(data.nodes.sumbu_x));
+			// console.log(entering2.attr("x"));
+
 		//kode untuk hover lingkaran keluar judul sama peneliti
 		$( "svg circle" ).each(function( index ) {
 		  if(g1[0][index].__data__.children.length==1)
@@ -757,52 +825,181 @@ $this->pageTitle=Yii::app()->name;
 		 	});
 		  }
 		});
-		
-		//mendapatkan lingkaran di luar view utama
-		var ling = $( "g.lingkaran" ).filter(function(index){
-			xout = d3.transform(d3.select(g1[0][index]).attr('transform')).translate;
-			if (xout[0] > 720 || xout[1] > 460){
-				return xout;
-			}
+
+	if ($("#mode_pan option:selected").text()=='Distortion'){
+		//respond to the mouse and distort where necessary
+		// var drag = d3.behavior.drag().on("drag", function() {
+		chart.select(".background").on("mousemove", function(){
+		  var mouse = d3.mouse(this);
+		  // var coor = d3.transform(d3.select(".draggable").attr("transform")).translate;
+	      x.distortion(2).focus(mouse[0]);
+	      y.distortion(2).focus(mouse[1]);
+	      // d3.select(".draggable").attr('transform', 'translate(' + (d3.event.dx + coor[0]) + ',' + (d3.event.dy + coor[1]) + ')');
+	   //    d3.select(".x").attr('transform', 'translate(' + (d3.event.dx + coor[0]) + ',' + height + ')');	
+		  // d3.select(".y").attr('transform', 'translate(' + 0 + ',' + (d3.event.dy + coor[1]) + ')');
+	      	//redraw node 
+	        entering2.append("svg:circle")
+					.classed("node", true)
+					.attr("id", function(d){
+						if(d.id.length>1){return d.id.length;}
+					})					
+					.attr("r", function(d) { return r(d.id.length); })					
+					.style("fill", "#FFC2AD");
+
+			entering2.append("svg:text")
+						.classed("label2", true)
+						.attr("dy", function(d){return d.id.length+3 + "px";})
+					  .text(function(d) {return d.id.length;})
+					  .attr("font-size", "14px");
+					  
+			entering2.attr("transform", function(d, i) {
+				return "translate(" +
+							(x(d.sumbu_x)+ (x.rangeBand()/2))
+							
+					 + ", "+
+							(y(d.sumbu_y)+ (y.rangeBand()/2))
+							
+					 +")";
+			  });
+			//redraw link
+			link.attr("x1", function(d) {
+						//garis horizontal jika lingkaran asal ada di kanan target
+						if((y(d.target.sumbu_y)==y(d.source.sumbu_y)) && (x(d.target.sumbu_x) > x(d.source.sumbu_x)))
+						{
+							return x(d.source.sumbu_x)+ (x.rangeBand()/2)+r(d.source.id.length); 
+						}
+						//garis horizontal jika lingkaran asal ada di kiri target
+						else if ((y(d.target.sumbu_y)==y(d.source.sumbu_y)) && (x(d.target.sumbu_x) < x(d.source.sumbu_x)))
+						{
+							return x(d.source.sumbu_x)+ (x.rangeBand()/2)-r(d.source.id.length);
+						}
+						//garis vertical
+						else if(x(d.target.sumbu_x) == x(d.source.sumbu_x))
+						{
+							return x(d.source.sumbu_x)+(x.rangeBand()/2);
+						}
+						//garis miring
+						else
+						{
+							return hitungX((x(d.source.sumbu_x)+ (x.rangeBand()/2)),(y(d.source.sumbu_y)+ (y.rangeBand()/2)),(x(d.target.sumbu_x)+ (x.rangeBand()/2)),(y(d.target.sumbu_y)+ (y.rangeBand()/2)),r(d.source.id.length));
+						}	 	  
+				  })
+				  .attr("y1", function(d) { 
+						//garis horizontal
+						if(y(d.target.sumbu_y)==y(d.source.sumbu_y))
+						{
+							return y(d.source.sumbu_y)+ (y.rangeBand()/2); 
+						}
+						//garis vertical dengan lingkaran asal ada di atas target
+						else if((x(d.target.sumbu_x)==x(d.source.sumbu_x)) && (y(d.target.sumbu_y) > y(d.source.sumbu_y)))
+						{
+							return (y(d.source.sumbu_y)+ (y.rangeBand()/2) + r(d.source.id.length));
+						}
+						//garis vertical dengan lingkaran asal ada di bawah target
+						else if((x(d.target.sumbu_x)==x(d.source.sumbu_x)) && (y(d.target.sumbu_y) < y(d.source.sumbu_y)))
+						{
+						return (y(d.source.sumbu_y)+ (y.rangeBand()/2) - r(d.source.id.length));
+						}
+						else
+						//garis miring
+						{
+							var miring=Math.sqrt(Math.pow(((x(d.source.sumbu_x)+x.rangeBand()/2)-(x(d.target.sumbu_x)+x.rangeBand()/2)),2)+Math.pow(((y(d.source.sumbu_y)+y.rangeBand()/2)-(y(d.target.sumbu_y)+y.rangeBand()/2)),2));						
+							return (y(d.source.sumbu_y)+y.rangeBand()/2)-(((y(d.source.sumbu_y)+y.rangeBand()/2)-(y(d.target.sumbu_y)+y.rangeBand()/2))*r(d.source.id.length)/miring);
+						}
+				  })
+				  //sama seperti diatas, hanya untuk lingkaran target
+				  .attr("x2", function(d) { 
+						if((x(d.target.sumbu_x) > x(d.source.sumbu_x)) && (y(d.target.sumbu_y)==y(d.source.sumbu_y)))
+						{
+							return x(d.target.sumbu_x)+ (x.rangeBand()/2)-r(d.target.id.length); 
+						}
+						else if ((x(d.target.sumbu_x) < x(d.source.sumbu_x)) && (y(d.target.sumbu_y)==y(d.source.sumbu_y)))
+						{
+							return x(d.target.sumbu_x)+ (x.rangeBand()/2)+r(d.target.id.length); 
+						}
+						else if(x(d.target.sumbu_x) == x(d.source.sumbu_x))
+						{
+							return x(d.source.sumbu_x)+(x.rangeBand()/2);
+						}
+						else
+						{
+							return hitungX2((x(d.source.sumbu_x) + (x.rangeBand()/2)),(y(d.source.sumbu_y) + (y.rangeBand()/2)),(x(d.target.sumbu_x) + (x.rangeBand()/2)),(y(d.target.sumbu_y) + (y.rangeBand()/2)),r(d.target.id.length));
+							
+						}	
+				  })
+				  .attr("y2", function(d) {
+						if(y(d.target.sumbu_y)==y(d.source.sumbu_y))
+						{
+						return y(d.target.sumbu_y)+ (y.rangeBand()/2); 
+						}
+						else if((x(d.target.sumbu_x)==x(d.source.sumbu_x)) && (y(d.target.sumbu_y) > y(d.source.sumbu_y)))
+						{
+						return (y(d.target.sumbu_y)+ (y.rangeBand()/2) - r(d.target.id.length));
+						}
+						else if((x(d.target.sumbu_x)==x(d.source.sumbu_x)) && (y(d.target.sumbu_y) < y(d.source.sumbu_y)))
+						{
+						return (y(d.target.sumbu_y)+ (y.rangeBand()/2) + r(d.target.id.length));
+						}
+						else
+						{
+							var miring=Math.sqrt(Math.pow(((x(d.source.sumbu_x)+x.rangeBand()/2)-(x(d.target.sumbu_x)+x.rangeBand()/2)),2)+Math.pow(((y(d.source.sumbu_y)+y.rangeBand()/2)-(y(d.target.sumbu_y)+y.rangeBand()/2)),2));
+							return y(d.source.sumbu_y)+ (y.rangeBand()/2)-(((miring-r(d.target.id.length))*((y(d.source.sumbu_y)+ (y.rangeBand()/2))-(y(d.target.sumbu_y)+ (y.rangeBand()/2)))/miring));
+						}
+				  
+				  })
+				  .attr("marker-end", function(d,i) { return "url(#"+i+")"; });
+
+	      chart.select(".x.axis").call(xAxis);
+	      chart.select(".y.axis").call(yAxis);
+  
 		});
-		console.log(ling[0]);
+	}
+		// chart.select(".background").call(drag);
 
-		if (ling.length > 0){
-			var g = chart.selectAll('g.circle').data(ling);
-			var test = g.enter().append('svg:g').classed('tes',true);
+		//mendapatkan lingkaran di luar view utama
+		// var ling = $( "g.lingkaran" ).filter(function(index){
+		// 	xout = d3.transform(d3.select(g1[0][index]).attr('transform')).translate;
+		// 	if (xout[0] > 720 || xout[1] > 460){
+		// 		return xout;
+		// 	}
+		// });
+		// // console.log(ling[0]);
 
-			overviewRight.style('visibility','visible');
+		// if (ling.length > 0){
+		// 	var g = chart.selectAll('g.circle').data(ling);
+		// 	var test = g.enter().append('svg:g').classed('tes',true);
+
+		// 	overviewRight.style('visibility','visible');
 		
-			test.append("svg:circle")
-				.classed("nodetest", true)
-				.attr("id", function(d,i){
-					if(ling[i].length>1){return ling[i].length;}
-				})					
-				.attr("r",10)	
-				.style("fill", "#FFC2AD");
+		// 	test.append("svg:circle")
+		// 		.classed("nodetest", true)
+		// 		.attr("id", function(d,i){
+		// 			if(d.id.length>1){return d.id.length;}
+		// 		})					
+		// 		.attr("r",13)	
+		// 		.style("fill", "#FFC2AD")
+		// 		.style("opacity",.6);
 
-			test.append("svg:text")
-				.classed("label2", true)
-				.attr("dy", function(d){return d.id.length+3 + "px";})
-				.text(function(d,i) {return ling[i].length;})
-				.attr("font-size", "10px");
+		// 	test.append("svg:text")
+		// 		.classed("label2", true)
+		// 		.attr("dy", function(d){return d.id.length+3 + "px";})
+		// 		.text(function(d,i) {return d.id.length;})
+		// 		.attr("font-size", "10px");
 
-			test.attr("transform", function(d,i){
-				var xling = d3.transform(d3.select(ling[i]).attr('transform')).translate[0];
-				var yling = d3.transform(d3.select(ling[i]).attr('transform')).translate[1];
-					return "translate("+ (i*2+730) +", "+ yling +")";	
-			});
-			// var xplot = d3.scale.linear()
-			// 	.domain([ling[0],ling[length-1]])
-			// 	.range(overviewRight.width);
-		}
+		// 	test.attr("transform", function(d,i){
+		// 		var xling = d3.transform(d3.select(ling[i]).attr('transform')).translate[0];
+		// 		var yling = d3.transform(d3.select(ling[i]).attr('transform')).translate[1];
+		// 			return "translate("+ (i*2+730) +", "+ yling +")";	
+		// 	});
+		// 	// console.log(d3.transform(entering2.attr("transform")).translate)
+		// }
 		
 
 		//panah dan garis hanya akan dibuat jika linknya ada
 		if(rlink.length!=0)
 		{  
 			//untuk membuat panah
-			var marker = chart.select('.draggable').selectAll("g.marker").data(data.links)
+			var marker = chart.select(".draggable").selectAll("g.marker").data(data.links)
 			  .enter().append("svg:marker")
 				.attr("id", function(d,i) { return i; })
 				.attr("viewBox", "0 -5 10 10")
@@ -832,7 +1029,7 @@ $this->pageTitle=Yii::app()->name;
 			//(x2,y2) kordinat tujuan
 			//hitungX : mencari x untuk x1 jika garisnya miring
 			//hitungX2 : mencari x untuk x2 jika garisnya miring
-			var link = chart.select('.draggable').selectAll("g.link").data(rlink)
+			var link = chart.select(".draggable").selectAll("g.link").data(rlink)
 				.enter().append("line")				
 				  .attr("class", "tes0")
 				  .classed("link", true)
@@ -924,8 +1121,7 @@ $this->pageTitle=Yii::app()->name;
 				  .attr("marker-end", function(d,i) { return "url(#"+i+")"; });
 				}
 		}
-		
-		
+
 		var view;
 		var active = d3.select(null);
 		var counter=0;
@@ -958,7 +1154,7 @@ $this->pageTitle=Yii::app()->name;
 					{//return intialZoomed(d,chart,x,y);
 					}
 				  });
-			
+
 		}
 		function returnTransiton(){
 			var dx=40.5*2,dy=40.5*2;
@@ -1950,64 +2146,55 @@ $this->pageTitle=Yii::app()->name;
 
 </script>
 <script type="text/javascript">
+	if ($("#mode_pan option:selected").text()=='Linier'){
+	//direct repositioning panning
 	chart.append("g")
 		.attr("class", "x2 axis")
 		.attr("transform", "translate(0," + height + ")")
-		.call(xAxis)
+		.call(xAxis);
 
 	chart.append("g")
 		.attr("class", "y2 axis")
 		.call(yAxis);
 			
 	var drag = d3.behavior.drag()
-		.on("drag", dragmove).on("dragstart", dragstart);
+		.on("drag", dragmove);
 
-	var movedX = 0;//record the translate x moved by the g which contains the bars.
-	var dragStartX = 0;//record the point from where the drag started
-	var oldTranslateX = 0;
-	var movedY = 0;//record the translate y moved by the g which contains the bars.
-	var dragStartY = 0;//record the point from where the drag started
-	var oldTranslateY = 0;
-
-	function dragstart(d){
-	    dragStartX = d3.event.sourceEvent.clientX;
-	    dragStartY = d3.event.sourceEvent.clientY;
-	    oldTranslateX = movedX;//record the old translate
-	    oldTranslateY = movedY;
-         console.log(d3.event);  
-	}
-			
 	function dragmove(d) {
-		var x = d3.event.x;
-		var y = d3.event.y;
-		var dx =   x-dragStartX 
-			x = dx + oldTranslateX + 50; //add the old translate to the dx to get the resultant translate
-			movedX = x; //record the translate x given
-		var dy =   y-dragStartY 
-			y = dy + oldTranslateY + 50; //add the old translate to the dy to get the resultant translate
-			movedY = y; //record the translate y given
-				
-		d3.select('.draggable').attr("transform", "translate(" + x + "," + y + ")");
-		d3.select('.x').attr("transform", "translate(" + x + "," + height + ")");
-		d3.select('.y').attr("transform", "translate(" + 0 + "," + y + ")");
-		// d3.select('.background').attr("transform", "translate(" + x + "," + y + ")");
-				
+		var translate = d3.transform(d3.select(".draggable").attr("transform")).translate;
+
+                x = d3.event.dx + translate[0],
+                y = d3.event.dy + translate[1];
+
+		  d3.select(".draggable").attr('transform', 'translate(' + (x) + ',' + (y) + ')');
+		  d3.select(".x").attr('transform', 'translate(' + (x) + ',' + height + ')');	
+		  d3.select(".y").attr('transform', 'translate(' + 0 + ',' + (y) + ')');
 	}
 	chart.select('.background').call(drag);
-</script>
+}
 
-<script>
-		
-	var overviewRight = chart.append('rect')
-		.attr('width',80)
-		.attr('height',height)
-		.attr('class','overviewRight')
-		.attr("transform","translate(" + 720 + "," + 0 + ")")
-		// .style('opacity',.8)
-		// .style('background-color','#000')
-		.attr("class","view-overlay")
-		.style('visibility','hidden');
+	// var overviewRight = chart.append('rect')
+	// 	.attr('width',80)
+	// 	.attr('height',height)
+	// 	.attr('class','overviewRight')
+	// 	.attr("transform","translate(" + 720 + "," + 0 + ")")
+	// 	.style('opacity',.8)
+	// 	.style('background-color','#c9c9c9')
+	// 	// .attr("class","view-overlay")
+	// 	.style('visibility','hidden');
+
+	// var blockright = chart.append('rect')
+	// 	.attr('width',80)
+	// 	.attr('height',height)
+	// 	.attr('class','blockright')
+	// 	.attr("transform","translate(" + 720 + "," + 0 + ")")
+	// 	.style('opacity',.8)
+	// 	.style('background-color','#fff')
+	// 	.style('visibility','visible');
+</script>
 	
+<script>
+	//range slider to pan
   /*var margin_slider = {top: 20, right: 30, bottom: 40, left: 150},
   		width_slider = 950 - margin.left - margin.right,
 		height_slider = 210 - margin.top - margin.bottom;
