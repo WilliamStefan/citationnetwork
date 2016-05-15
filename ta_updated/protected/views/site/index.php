@@ -53,14 +53,14 @@ $this->pageTitle=Yii::app()->name;
 		{
 			echo ('defaultY="Tahun Publikasi";');
 		}
-		// if(isset(Yii::app()->session['panning']))
-		// {
-		// 	echo ('defaultPan="'.Yii::app()->session['panning'].'";');
-		// }
-		// else
-		// {
-		// 	echo ('defaultPan="Linier";');
-		// }
+		if(isset(Yii::app()->session['pan']))
+		{
+			echo ('defaultPan="'.Yii::app()->session['pan'].'";');
+		}
+		else
+		{
+			echo ('defaultPan="Linier";');
+		}
 		?>
 </script>
 <script>
@@ -75,11 +75,11 @@ $this->pageTitle=Yii::app()->name;
 		defaultY=a[3];
 		defaultParameter=a[4];
 		defaultEdge=a[5];
-		// defaultPan=a[6];
+		defaultPan=a[6];
 	}	
 </script>
 
-<body id="body" onLoad="getDataInit(defaultX,defaultY,defaultParameter,defaultEdge)">
+<body id="body" onLoad="getDataInit(defaultX,defaultY,defaultParameter,defaultEdge,defaultPan)">
 
 <?php  
   $baseUrl = Yii::app()->baseUrl; 
@@ -100,7 +100,6 @@ $this->pageTitle=Yii::app()->name;
   $cs->registerCssFile($baseUrl.'/css/tipsy.css');
   $cs->registerCssFile($baseUrl.'/css/introjs.css');
   $cs->registerCssFile($baseUrl.'/css/bootstrap-responsive.min.css');
-  $cs->registerCssFile($baseUrl.'/css/TApan.css');
   $cs->registerScriptFile($baseUrl.'/js/fisheyePan.js'); 
 ?>
 	<div class="right-content">
@@ -266,21 +265,22 @@ $this->pageTitle=Yii::app()->name;
 			<div class="dropdown">
 				<?php
 					
-					echo CHtml::dropDownList('mode_pan','',array('distortion' => 'Distortion', 'linier' => 'Linier'),array(
+					echo CHtml::dropDownList('mode_pan','',array('Distortion' => 'Distortion','Linier' => 'Linier'),array(
 					'ajax' => array(
 					'type'=>'POST', //request type
 					'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
 					'update' => '#mode_pan',
-					'data'=>array('mode_pan' => 'js:this.value','panSelected' => 'js:$(\'#mode_pan\').val()')
+					'data'=>array('mode_pan' => 'js:this.value','panSelected'=>'js:$(\'#mode_pan\').val()')
 					), 
 					'class'=>'dropdown-style'));
-				?>
+				?> 
 			</div>
 		</div>
 	</div>
 	<div class="left-content" style="width:80%">
 	<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none;float:left;margin-right:10px"></img>
 	<div id="sequence" style="display:none;"></div>
+	<button id="reset" style="margin-left: 150px;" class="btn btn-info">Reset</button>
 	<svg class="chart" id="chart"></svg>
 	<!-- <svg class="slider" id="slider"></svg> -->
 	<svg class="svg" id="svg" widht="0" height="500" style="display:none;">
@@ -301,6 +301,7 @@ $this->pageTitle=Yii::app()->name;
 	$('select[name^="sumbuX"] option[value="'+defaultX+'"]').attr("selected","selected");
 	$('select[name^="sumbuY"] option[value="'+defaultY+'"]').attr("selected","selected");
 	$('select[name^="edge"] option[value="'+defaultEdge+'"]').attr("selected","selected");
+	$('select[name^="mode_pan"] option[value="'+defaultPan+'"]').attr("selected","selected");
 		
 		var nodes = {};
 		
@@ -364,7 +365,6 @@ $this->pageTitle=Yii::app()->name;
 			  .attr("transform", "translate(0,0)")
 			  .call(yAxis);
 
-		//background to drag
 		chart.append('rect')
 		    .attr('class', 'background')
 		    .attr('pointer-events', 'all')
@@ -373,13 +373,6 @@ $this->pageTitle=Yii::app()->name;
 		    .attr('height', height)
 		    .attr('width', width);
 
-		// block to hide dragged axis 
-		chart.append('rect')
-		    .attr('class', 'block')
-		    .attr('fill', 'white')
-		    .attr('height', 200)
-		    .attr('width', 201)
-		    .attr("transform", "translate(-200,460)");
 		//menampung elemen yang bisa di-pan
 		var svg1 = chart.append('svg')
 			    .attr('height', height)
@@ -521,7 +514,7 @@ $this->pageTitle=Yii::app()->name;
 			if ($("#mode_pan option:selected").text()=='Linier'){
 				x = d3.scale.ordinal()			
 					.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
-					.rangeRoundBands([0, width], .1);
+					.rangeRoundBands([0, width+100], .1);
 			}
 			else{
 				x = d3.fisheye.ordinal()			
@@ -539,7 +532,7 @@ $this->pageTitle=Yii::app()->name;
 			if ($("#mode_pan option:selected").text()=='Linier'){
 				x = d3.scale.ordinal()
 					.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
-					.rangeRoundBands([0, width], .1);
+					.rangeRoundBands([0, width+100], .1);
 			}
 			else{
 				x = d3.fisheye.ordinal()
@@ -561,7 +554,7 @@ $this->pageTitle=Yii::app()->name;
 			}
 			if ($("#mode_pan option:selected").text()=='Linier'){
 				y = d3.scale.ordinal()
-					.rangeRoundBands([height, 0], .1)
+					.rangeRoundBands([height+50, 0], .1)
 					.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
 			}
 			else{
@@ -578,7 +571,7 @@ $this->pageTitle=Yii::app()->name;
 			}
 			if ($("#mode_pan option:selected").text()=='Linier'){
 				y = d3.scale.ordinal()
-					.rangeRoundBands([height, 0], .1)
+					.rangeRoundBands([height+50, 0], .1)
 					.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
 			}
 			else{
@@ -599,7 +592,6 @@ $this->pageTitle=Yii::app()->name;
 		{
 			minimum=y.rangeBand();
 		}
-
 		var start;
 		if(minimum/2<15)
 		{
@@ -630,7 +622,7 @@ $this->pageTitle=Yii::app()->name;
 		var r = d3.scale.linear()
 				.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) {return d.id.length; }))])
 				.range([start,minimum/2]);
-		
+
 		xAxis = d3.svg.axis().scale(x).outerTickSize(0).orient("bottom").tickFormat(function(d) {
 			if(d.length>minimum/10)
 			{
@@ -827,16 +819,14 @@ $this->pageTitle=Yii::app()->name;
 		});
 
 	if ($("#mode_pan option:selected").text()=='Distortion'){
+		chart.select('.background').on('mousedown.drag',null);
 		//respond to the mouse and distort where necessary
-		// var drag = d3.behavior.drag().on("drag", function() {
 		chart.select(".background").on("mousemove", function(){
+		if(!d3.event.ctrlKey){	//if the ctrl key is not pressed
 		  var mouse = d3.mouse(this);
-		  // var coor = d3.transform(d3.select(".draggable").attr("transform")).translate;
 	      x.distortion(2).focus(mouse[0]);
 	      y.distortion(2).focus(mouse[1]);
-	      // d3.select(".draggable").attr('transform', 'translate(' + (d3.event.dx + coor[0]) + ',' + (d3.event.dy + coor[1]) + ')');
-	   //    d3.select(".x").attr('transform', 'translate(' + (d3.event.dx + coor[0]) + ',' + height + ')');	
-		  // d3.select(".y").attr('transform', 'translate(' + 0 + ',' + (d3.event.dy + coor[1]) + ')');
+
 	      	//redraw node 
 	        entering2.append("svg:circle")
 					.classed("node", true)
@@ -951,8 +941,51 @@ $this->pageTitle=Yii::app()->name;
 
 	      chart.select(".x.axis").call(xAxis);
 	      chart.select(".y.axis").call(yAxis);
-  
+  		}
 		});
+	}
+	else{
+		chart.select('.background').on('mousemove',null);
+		chart.append('rect')
+		    .attr('class', 'block')
+		    .attr('fill', 'white')
+		    .attr('height', 200)
+		    .attr('width', 201)
+		    .attr("transform", "translate(-200,460)");
+		chart.append('line')
+			.style('stroke','#000')
+			.style('shape-rendering','crispEdges')
+			.attr('x1',0).attr('y1',0)
+			.attr('x2',0).attr('y2',460);
+		chart.append('line')
+			.style('stroke','#000')
+			.style('shape-rendering','crispEdges')
+			.attr('x1',0).attr('y1',460)
+			.attr('x2',800).attr('y2',460);
+		
+		var drag = d3.behavior.drag()
+			.on("drag", dragmove);
+
+		function dragmove(d) {
+			var translate = d3.transform(d3.select(".draggable").attr("transform")).translate;
+
+	                x = d3.event.dx + translate[0],
+	                y = d3.event.dy + translate[1];
+
+			  d3.select(".draggable").attr('transform', 'translate(' + (x) + ',' + (y) + ')');
+			  d3.select(".x").attr('transform', 'translate(' + (x) + ',' + height + ')');	
+			  d3.select(".y").attr('transform', 'translate(' + 0 + ',' + (y) + ')');
+		}
+		chart.select('.background').call(drag);
+
+		d3.select("#reset").on('click', function(){
+			chart.select('.draggable').transition()
+				.attr("transform", function(d,i){
+					return "translate(" + 0 + ", "+ 0 +")";
+				})
+			chart.select(".x.axis").transition().attr('transform', 'translate(' + 0 + ',' + height + ')');	
+			chart.select(".y.axis").transition().attr('transform', 'translate(' + 0 + ',' + 0 + ')');
+		})
 	}
 		// chart.select(".background").call(drag);
 
@@ -1414,12 +1447,12 @@ $this->pageTitle=Yii::app()->name;
 		return xmlHttpObj;
 	}
 	
-	function getData(sbX, sbY, parameter,edge){
+	function getData(sbX, sbY, parameter,edge,pan){
 			window.xmlhttp = getXmlHttpRequest();
 			if(!window.xmlhttp)
 				return;
 			window.xmlhttp.open('POST', 'index.php?r=metadataPenelitian/getData ', true);
-			var query = 'sumbuX=' + sbX+'&sumbuY='+sbY+'&parameter='+parameter+'&edge='+edge;
+			var query = 'sumbuX=' + sbX+'&sumbuY='+sbY+'&parameter='+parameter+'&edge='+edge+'&mode_pan='+pan;
 			
 			window.xmlhttp.onreadystatechange = function() {
 				if(window.xmlhttp.readyState == 4 && window.xmlhttp.status == 200) {
@@ -1437,13 +1470,13 @@ $this->pageTitle=Yii::app()->name;
 			window.xmlhttp.send(query);		
 	}
 	
-	function getDataInit(sbX, sbY, parameter,edge){
+	function getDataInit(sbX, sbY, parameter,edge,pan){
 			
 			window.xmlhttp = getXmlHttpRequest();
 			if(!window.xmlhttp)
 				return;
 			window.xmlhttp.open('POST', 'index.php?r=metadataPenelitian/getData ', true);
-			var query = 'sumbuX=' + sbX+'&sumbuY='+sbY+'&parameter='+parameter+'&edge='+edge;
+			var query = 'sumbuX=' + sbX+'&sumbuY='+sbY+'&parameter='+parameter+'&edge='+edge+'&mode_pan='+pan;
 			
 			window.xmlhttp.onreadystatechange = function() {
 				if(window.xmlhttp.readyState == 4 && window.xmlhttp.status == 200) {
@@ -1475,10 +1508,6 @@ $this->pageTitle=Yii::app()->name;
 			window.xmlhttp.send(query);		
 	}
 	
-	
-	  
-	
-
 	$("#sumbuX").change(function() {
 		$('.sumbuXlabel').remove();
 		$('.sumbuYlabel').remove();
@@ -1486,16 +1515,17 @@ $this->pageTitle=Yii::app()->name;
 		sumbuY = $("#sumbuY option:selected").text();
 		defaultX=sumbuX;		
 		edge = $("#edge option:selected").text();
+		pan = $("#mode_pan option:selected").text();
 		if(typeof(sumbuX) != 'undefined' && typeof(sumbuY) != 'undefined')
 		{
 			
 			if(typeof(parameter)=='undefined')
 			{
-				getData(sumbuX, sumbuY,'all', edge);
+				getData(sumbuX, sumbuY,'all', edge,pan);
 			}
 			else
 			{
-				getData(sumbuX, sumbuY,parameter,edge);
+				getData(sumbuX, sumbuY,parameter,edge,pan);
 			}
 		
 		}
@@ -1509,15 +1539,16 @@ $this->pageTitle=Yii::app()->name;
 		sumbuY = $("#sumbuY option:selected").text();
 		defaultY=sumbuY;
 		edge = $("#edge option:selected").text();
+		pan = $("#mode_pan option:selected").text();
 		if(typeof(sumbuX) != 'undefined' && typeof(sumbuY) != 'undefined')
 		{
 			if(typeof(parameter)=='undefined')
 			{
-				getData(sumbuX, sumbuY,'all',edge);
+				getData(sumbuX, sumbuY,'all',edge,pan);
 			}
 			else
 			{
-				getData(sumbuX, sumbuY,parameter,edge);
+				getData(sumbuX, sumbuY,parameter,edge,pan);
 			}
 		}
 	});
@@ -1526,16 +1557,38 @@ $this->pageTitle=Yii::app()->name;
 		sumbuX = $("#sumbuX option:selected").text();
 		sumbuY = $("#sumbuY option:selected").text();
 		edge = $("#edge option:selected").text();
+		pan = $("#mode_pan option:selected").text();
 		defaultEdge=edge;
 		if(typeof(edge) != 'undefined')
 		{
 			if(typeof(parameter)=='undefined')
 			{
-				getData(sumbuX, sumbuY,'all',edge);
+				getData(sumbuX, sumbuY,'all',edge,pan);
 			}
 			else
 			{
-				getData(sumbuX, sumbuY,parameter,edge);
+				getData(sumbuX, sumbuY,parameter,edge,pan);
+			}
+		
+		}
+		
+	});
+
+	$("#mode_pan").change(function() {
+		sumbuX = $("#sumbuX option:selected").text();
+		sumbuY = $("#sumbuY option:selected").text();
+		edge = $("#edge option:selected").text();
+		pan = $("#mode_pan option:selected").text();
+		defaultPan=pan;
+		if(typeof(pan) != 'undefined')
+		{
+			if(typeof(parameter)=='undefined')
+			{
+				getData(sumbuX, sumbuY,'all',edge,pan);
+			}
+			else
+			{
+				getData(sumbuX, sumbuY,parameter,edge,pan);
 			}
 		
 		}
@@ -1903,7 +1956,8 @@ $this->pageTitle=Yii::app()->name;
 						document.location.href=document.URL+'#close';
 					}
 					edge = $("#edge option:selected").text();
-					getData(defaultX,defaultY,SelectedId,edge);
+					pan = $("#mode_pan option:selected").text();
+					getData(defaultX,defaultY,SelectedId,edge,pan);
 					jumlahPaper=t.fnSettings().fnRecordsTotal();
 					$("#jumlahPaper").text(jumlahPaper);
 					$("#Close").attr("href", "#close");		
@@ -2095,7 +2149,8 @@ $this->pageTitle=Yii::app()->name;
 						sumbuX = $("#sumbuX option:selected").text();
 						sumbuY = $("#sumbuY option:selected").text();
 						edge = $("#edge option:selected").text();
-						saveData(userID,SelectedId,sumbuX,sumbuY,edge, map_name);	
+						pan = $("#mode_pan option:selected").text();
+						saveData(userID,SelectedId,sumbuX,sumbuY,edge, map_name,pan);	
 						$( "#map_name" ).val('');
 					}
 				});	
@@ -2108,14 +2163,14 @@ $this->pageTitle=Yii::app()->name;
 					$( "#map_name" ).val('');		
 				});					
 			});
-			function saveData(userID, paperID, sumbuX, sumbuY, relation, map_name)
+			function saveData(userID, paperID, sumbuX, sumbuY, relation, map_name,pan)
 			{
 		
 				window.xmlhttp = getXmlHttpRequest();
 				if(!window.xmlhttp)
 					return;
 				window.xmlhttp.open('POST', 'index.php?r=metadataPenelitian/saveData ', true);
-				var query =  'userID=' + userID+'&paperID='+paperID+'&sumbuX=' + sumbuX+'&sumbuY='+sumbuY+'&relation='+relation+'&map_name='+map_name  ;
+				var query =  'userID=' + userID+'&paperID='+paperID+'&sumbuX=' + sumbuX+'&sumbuY='+sumbuY+'&relation='+relation+'&map_name='+map_name+'&mode_pan='+pan  ;
 				
 				window.xmlhttp.onreadystatechange = function() {
 					if(window.xmlhttp.readyState == 4 && window.xmlhttp.status == 200) {
@@ -2146,33 +2201,6 @@ $this->pageTitle=Yii::app()->name;
 
 </script>
 <script type="text/javascript">
-	if ($("#mode_pan option:selected").text()=='Linier'){
-	//direct repositioning panning
-	chart.append("g")
-		.attr("class", "x2 axis")
-		.attr("transform", "translate(0," + height + ")")
-		.call(xAxis);
-
-	chart.append("g")
-		.attr("class", "y2 axis")
-		.call(yAxis);
-			
-	var drag = d3.behavior.drag()
-		.on("drag", dragmove);
-
-	function dragmove(d) {
-		var translate = d3.transform(d3.select(".draggable").attr("transform")).translate;
-
-                x = d3.event.dx + translate[0],
-                y = d3.event.dy + translate[1];
-
-		  d3.select(".draggable").attr('transform', 'translate(' + (x) + ',' + (y) + ')');
-		  d3.select(".x").attr('transform', 'translate(' + (x) + ',' + height + ')');	
-		  d3.select(".y").attr('transform', 'translate(' + 0 + ',' + (y) + ')');
-	}
-	chart.select('.background').call(drag);
-}
-
 	// var overviewRight = chart.append('rect')
 	// 	.attr('width',80)
 	// 	.attr('height',height)
@@ -2193,36 +2221,6 @@ $this->pageTitle=Yii::app()->name;
 	// 	.style('visibility','visible');
 </script>
 	
-<script>
-	//range slider to pan
-  /*var margin_slider = {top: 20, right: 30, bottom: 40, left: 150},
-  		width_slider = 950 - margin.left - margin.right,
-		height_slider = 210 - margin.top - margin.bottom;
-  
-  var slider = d3.select(".slider")
-  	.attr("width", width + margin_slider.left + margin_slider.right)
-	.attr("height", height_slider)
-	.append("g")
-	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  slider.append
-
-  var x3 = d3.scale.ordinal()			
-	.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
-	.rangeRoundBands([0, width], .1);
-
-  var y3 = d3.scale.ordinal()
-	.rangeRoundBands([200, 0], .1)
-	.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
-
-  var xSlider = d3.svg.axis().scale(x3).orient("bottom"),
-    ySlider = d3.svg.axis().scale(y3).orient("left");
-
-  var brush = d3.svg.brush()
-    .x(x3)
-    .on("brush", brushed);*/
-</script>
-
 	 <!-- popup form #1 -->
         <a href="#x" class="overlay" id="AddPaper"></a>
         <div class="popup">

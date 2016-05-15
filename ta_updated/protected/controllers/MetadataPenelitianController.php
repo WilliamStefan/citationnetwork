@@ -431,12 +431,22 @@ class MetadataPenelitianController extends Controller
 				}
 				else
 				{	
-				echo CHtml::tag('option',
+		 		echo CHtml::tag('option',
 						   array('value'=>$key),CHtml::encode($value),true);								 
 				}
 			}
 		}
+
+		// if(isset($_POST['mode_pan'])){
+		// 	if($_POST['mode_pan']=='Linier'){
+		// 		echo CHtml::tag('option', array('value'=>'Linier','selected'=>'selected'),CHtml::encode('Linier'),true);
+		// 	}
+		// 	else if($_POST['mode_pan']=='Distortion'){
+		// 		echo CHtml::tag('option', array('value'=>'Distortion','selected'=>'selected'),CHtml::encode('Distortion'),true);
+		// 	}
+		// }
 	}
+
 	public function actionSaveData()
 	{
 		$userID = $_POST['userID'];
