@@ -214,22 +214,23 @@ class MetadataPenelitianController extends Controller
 			$AllData[1] = $dbCommand->queryAll();
 		}
 		
-		//ambil id relasi
+		// Mengambil id relasi
 		$sql = "SELECT id FROM metadata_relasi WHERE deskripsi = '" . $edge . "'";
 		$dbCommand = Yii::app()->db->createCommand($sql);
 		$idEdge = $dbCommand->queryAll();
 		$idEdge=$idEdge[0]['id'];
 		
-		//cari data paper terkait sesuai dgn id relasi diatas
+		// Mencari data paper terkait sesuai dengan id relasi di atas
 		$sql = "SELECT id_paper_1, id_paper_2 FROM relasi WHERE id_relasi = '" . $idEdge . "'";
 		$dbCommand = Yii::app()->db->createCommand($sql);
 		$edgeData = $dbCommand->queryAll();
 		
 		//$edgeData=$idEdge[0]['id'];
 		//$AllData=$sumbuY[0]['col_name'];
-		//ambil data penelitiannya
-		// parameter merupakan id dari paper yang di pilih oleh pengguna
-		if($parameter=='all')
+
+		// Ambil data penelitiannya
+		// Parameter merupakan id dari paper yang dipilih oleh pengguna
+		if($parameter == 'all')
 		{
 			$sql = "SELECT id,".$sumbuX.",".$sumbuY.", keyword FROM data_penelitian";
 			$dbCommand = Yii::app()->db->createCommand($sql);
@@ -253,7 +254,8 @@ class MetadataPenelitianController extends Controller
 
 		}
 		
-		//set r = 0 pada data2
+		// Set r = 0 pada data2
+		
 		/*
 		foreach ($data2 as &$value) {						
 			$value['r']=0;
@@ -262,23 +264,24 @@ class MetadataPenelitianController extends Controller
 		$tmp = array ();
 		$tmp2 = array ();
 		
-		//bikin data penelitian yg sudah di ambil jd unik --> masukin ke tmp
+		// Buat data penelitian yang sudah diambil menjadi unik --> masukkann ke tmp
 		foreach ($data2 as $row) 
 			if (!in_array($row,$tmp)) array_push($tmp,$row);
 		
-		//set r pada tmp = 0
+		// Set r pada tmp = 0
+
 		/*
 		foreach ($tmp as &$value) {						
 			$value['r']=0;
 		}*/
 		
-		//set id pada tmp dgn array
+		// Set id pada tmp dengan array
 		foreach ($tmp as &$value) {						
 			$value['id']=array();
 			$value['keyword']=array();
 		}
 		
-		//masukin id dan r pada tmp sesuai data sebenernya (data)
+		// Masukkan id dan r pada tmp sesuai data sebenarnya (data)
 		for ($i = 0; $i < count($tmp); $i++) {
 			for ($j = 0; $j < count($data); $j++) {				
 				if(($tmp[$i][''.$sumbuX.'']==$data[$j][''.$sumbuX.'']) && ($tmp[$i][''.$sumbuY.'']==$data[$j][''.$sumbuY.'']))
@@ -294,7 +297,7 @@ class MetadataPenelitianController extends Controller
 			if (!in_array($row,$tmp2)) array_push($tmp2,$row);
 		
 		
-		//ganti nama sumbu menjadi 'sumbu x'
+		// Ganti nama sumbu menjadi 'sumbu x'
 		for ($i = 0; $i < count($tmp2); $i++) {
 			$tmp2[$i]['sumbu_x'] = $tmp2[$i][''.$sumbuX.''];
 			unset($tmp2[$i][''.$sumbuX.'']);
@@ -302,27 +305,28 @@ class MetadataPenelitianController extends Controller
 			unset($tmp2[$i][''.$sumbuY.'']);
 		}
 		
-		// array bt simpen child sama parent
+		// Array untuk menyimpan child dan parent
 		$tmp3=array();
 		for ($i = 0; $i < count($tmp2); $i++) {
-			if(count($tmp2[$i]['id'])>1)
-			{
-				
+			if(count($tmp2[$i]['id']) > 1) {
 				for ($j = 0; $j < count($tmp2[$i]['id']); $j++) {
-				$sql = "SELECT * FROM data_penelitian WHERE id=" . $tmp2[$i]['id'][$j] ;
-				$dbCommand = Yii::app()->db->createCommand($sql);
-				$tmp3 = $dbCommand->queryAll();
+					$sql = "SELECT * FROM data_penelitian WHERE id=" .$tmp2[$i]['id'][$j];
+					$dbCommand = Yii::app()->db->createCommand($sql);
+					$tmp3 = $dbCommand->queryAll();
 
-				$tmp2[$i]['children'][$j]=$tmp3[0];
+					$tmp2[$i]['children'][$j] = $tmp3[0];
+
+					// for ($z = 0; $z < count($tmp2[$i]['id']); $z++) {
+
+					// }
 				}
 			}
-			else
-			{
-				$sql = "SELECT * FROM data_penelitian WHERE id=" . $tmp2[$i]['id'][0] ;
+			else {
+				$sql = "SELECT * FROM data_penelitian WHERE id=" .$tmp2[$i]['id'][0];
 				$dbCommand = Yii::app()->db->createCommand($sql);
 				$tmp3 = $dbCommand->queryAll();
 
-				$tmp2[$i]['children'][0]=$tmp3[0];
+				$tmp2[$i]['children'][0] = $tmp3[0];
 			}
 		}
 
@@ -332,7 +336,7 @@ class MetadataPenelitianController extends Controller
 		
 		$data3=array();
 		
-		//bikin citation
+		// Untuk membuat citation
 		$data3['nodes']=$tmp2;
 		$data3['links']=array();
 		
@@ -369,11 +373,12 @@ class MetadataPenelitianController extends Controller
 			'relation' => $relation
 		);
 		
-		$parameter="";
+		$parameter = "";
 		file_put_contents("data3.json", CJSON::encode($data3));
 		echo CJSON::encode($result);
 		//$result=$edgeData;
 	}
+
 	public function actionChangeDropDown()
 	{
 		//$data=MetadataPenelitian::model()->findAll('deskripsi=:deskripsi', 

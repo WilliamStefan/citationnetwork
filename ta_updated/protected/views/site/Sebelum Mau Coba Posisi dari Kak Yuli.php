@@ -1,63 +1,56 @@
 <?php /* @var $this SiteController */
 	$this->pageTitle=Yii::app()->name;
-?>
-
+ ?>
+ 
 <!-- Script ini digunakan untuk menentukan nilai-nilai default yang akan digunakan sesuai dengan sesinya -->
 <script type="text/javascript">
 	var userID, defaultX, defaultY, defaultEdge, defaultParameter;
 	var dataString = "";
 	var help;
 	var SelectedId;
-	var defaultZoom;
-
+ 
 	<?php
 		if (!Yii::app()->user->isGuest)
 			echo ('userID='.Yii::app()->user->id.';');
 		else
 			echo 'userID="";';
-
+ 
 		if(isset(Yii::app()->session['help'])) {
 			echo('help='.Yii::app()->session['help'].';');
 		} else {
 			echo 'help="";';
 		}
-
+ 
 		if(isset(Yii::app()->session['IdPaper'])) {
 			echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
 		} else {
 			echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19";');
 		}
-
+ 
 		if(isset(Yii::app()->session['Edge'])) {
 			echo ('defaultEdge="'.Yii::app()->session['Edge'].'";');
 		} else {
 			echo ('defaultEdge="Citation";');
 		}
-
+ 
 		if(isset(Yii::app()->session['sbX'])) {
 			echo ('defaultX="'.Yii::app()->session['sbX'].'";');
 		} else {
 			echo ('defaultX="Domain Data";');
 		}
-
+ 
 		if(isset(Yii::app()->session['sbY'])) {
 			echo ('defaultY="'.Yii::app()->session['sbY'].'";');
 		} else {
 			echo ('defaultY="Tahun Publikasi";');
 		}
-
-		if(isset(Yii::app()->session['zoom'])) {
-			echo ('defaultZoom="'.Yii::app()->session['zoom'].'";');
-		} else {
-			echo ('defaultZoom="Breadcrumbs";');
-		}
 	?>
 </script>
-
+ 
 <!-- Script ini digunakan untuk mendapatkan nilai-nilai default -->
 <script>
 	var a = "<?php echo Yii::app()->request->getParam('r');?>".split("/");
-
+ 
 	if(typeof a[2] === "undefined" || a.length==2) {
 		defaultParameter = SelectedId;
 	} else {
@@ -65,11 +58,11 @@
 		defaultY = a[3];
 		defaultParameter = a[4];
 		defaultEdge = a[5];
-		defaultZoom = a[6];
 	}   
 </script>
+ 
 
-<body id="body" onLoad="getDataInit(defaultX, defaultY, defaultParameter, defaultEdge, defaultZoom)">
+<body id="body" onLoad="getDataInit(defaultX, defaultY, defaultParameter, defaultEdge)">
 	<!-- Import file -->
 	<?php  
 		$baseUrl = Yii::app()->baseUrl; 
@@ -92,14 +85,14 @@
 		$cs->registerCssFile($baseUrl.'/css/introjs.css');
 		$cs->registerCssFile($baseUrl.'/css/bootstrap-responsive.min.css');
 	?>
-
+ 
 	<!-- Tampilan di sebelah kanan peta penelitian, yaitu: jumlah paper, pemilihan parameter untuk: sumbu x, sumbu y, dan relasi -->
 	<div class="right-content">
 		<!-- Header -->
 		<div class="page-header">
 			<h3>Paper</h3>
 		</div>
-
+ 
 		<!-- Header untuk menampilkan jumlah paper -->
 		<label style="width:100px">Jumlah Paper</label>
 		<label style="width:13px">:</label>
@@ -107,7 +100,7 @@
  
 		<br/>
 		<br/>
-
+ 
 		<!-- Fitur memilih paper yang akan ditampilkan -->
 		<a href="#AddPaper" id="login_pop" class="button" data-intro="Tombol ini digunakan untuk menambahkan dan mengurangi paper yang akan divisualisasikan" data-step="2">
 			Pilih Paper
@@ -167,7 +160,7 @@
 				});
 				
 				// Memulai help
-				// intro.start();
+				intro.start();
 				/*
 				$(".introjs-button introjs-nextbutton").click(function(){
 					intro.setOption('doneLabel', 'Lihat zooming').start().oncomplete(function() {
@@ -252,23 +245,8 @@
 						{
 						alert(data);
 					}",*/
-					), 'class'=>'dropdown-style'));
+				), 'class'=>'dropdown-style'));
 				?>
-			</div>
-		</div>
-		<div id="zoom" class="sub-right-content">
-			<div class="sub-heading">Mode Zoom</div>
-			<div class="dropdown">
-				<?php
-					echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye', 'Breadcrumbs' => 'Breadcrumbs'), array(
-					'ajax' => array(
-						'type'=>'POST', //request type
-						'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
-						'update' => '#mode_zoom',
-						'data'=>array('mode_zoom' => 'js:this.value', 'zoomSelected'=>'js:$(\'#mode_zoom\').val()')
-					), 
-					'class'=>'dropdown-style'));
-				?> 
 			</div>
 		</div>
 	</div>
@@ -298,7 +276,6 @@
 		$('select[name^="sumbuX"] option[value="' + defaultX + '"]').attr("selected", "selected");
 		$('select[name^="sumbuY"] option[value="' + defaultY + '"]').attr("selected", "selected");
 		$('select[name^="edge"] option[value="' + defaultEdge + '"]').attr("selected", "selected");
-		$('select[name^="zoom"] option[value="' + defaultZoom + '"]').attr("selected", "selected");
  
 		var nodes = {};
 		 
@@ -333,8 +310,7 @@
 		var sumbuX;
 		var sumbuY;
 		var pack = d3.layout.pack().padding(2).size([200,200]).value(function(d) {
-			// console.log("d.name: " + d.name);
-			return d.name.length;
+			console.log("d.name: " + d.name); return d.name.length;
 		});
 		var data;
 		var b = {
@@ -421,7 +397,7 @@
 					 
 					sudah_ketemu = 0;
 					 
-					while(data.nodes.length > k && !sudah_ketemu) {
+					while(data.nodes.length>k && !sudah_ketemu) {
 						// console.log(data.nodes[k]);
 						if(data.nodes[k].id.length == 1 && data.links[i].target != data.nodes[k].id[0]) {
 							k++;
@@ -450,9 +426,9 @@
 					if(j < data.nodes.length && k < data.nodes.length && ((data.nodes[j].id.length == 1 && data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id && data.links[i].source == data.nodes[j].id) || (data.nodes[j].id.length > 1 && data.nodes[k].id.length > 1 && data.links[i].target == data.nodes[k].id[m] && data.links[i].source == data.nodes[j].id[l]) || (data.nodes[j].id.length == 1 && data.nodes[k].id.length > 1 && data.links[i].target == data.nodes[k].id[m] && data.links[i].source == data.nodes[j].id) ||(data.nodes[j].id.length > 1 && data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id && data.links[i].source ==data.nodes[j].id[l]))) {
 						 
 						rlink[counter_rlink] = new Array();
-						rlink[counter_rlink].source = data.nodes[j];
+						rlink[counter_rlink].source=data.nodes[j];
 						 
-						rlink[counter_rlink].target = data.nodes[k];
+						rlink[counter_rlink].target=data.nodes[k];
 						counter_rlink++;
 					} else {}
 				}
@@ -477,7 +453,7 @@
 				}
  
 				x = d3.scale.ordinal()          
-				.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
+				.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
 				.rangeRoundBands([0, width], .1);
 			}
 			 
@@ -487,24 +463,24 @@
 					data.nodes[i].sumbu_x = data.nodes[i].sumbu_x.charAt(0).toUpperCase() + data.nodes[i].sumbu_x.slice(1);
 				}
 				x = d3.scale.ordinal()
-				.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
+				.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
 				.rangeRoundBands([0, width], .1);
-			}
+			}   
 			
 			// Fungsi apabila dipilih parameter pada sumbu y dengan nilai "Tahun Publikasi"
 			if ($("#sumbuY option:selected").text() == 'Tahun Publikasi') {
 				// y = d3.scale.linear()
 				// .domain([d3.min(data.nodes.map(function(d) {return d.sumbu_y; }))-5, d3.max(data.nodes.map(function(d) {return d.sumbu_y; }))])
 				// .range([0, height]);
-				
-				// Ubah angka string menjadi angka numeric
+				// Ubah angka string jd angka numeric
+				 
 				for(var i = 0; i < data.nodes.length; i++) {
 					data.nodes[i].sumbu_y = parseInt(data.nodes[i].sumbu_y);
 				}
  
 				y = d3.scale.ordinal()
 				.rangeRoundBands([height, 0], .1)
-				.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
+				.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
 			} else {
 				for(i = 0; i < data.nodes.length; i++) {
 					data.nodes[i].sumbu_y = data.nodes[i].sumbu_y.charAt(0).toUpperCase() + data.nodes[i].sumbu_y.slice(1);
@@ -512,10 +488,10 @@
 				 
 				y = d3.scale.ordinal()
 				.rangeRoundBands([height, 0], .1)
-				.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
+				.domain(data.nodes.sort(function(a, b){  return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
 			}
 			 
-			// X, Y
+			// X
 			var xAxis, yAxis;
 			if(y.rangeBand() > x.rangeBand()) {
 				minimum = x.rangeBand();
@@ -538,21 +514,20 @@
 				if(d3.min(data.nodes.map(function(d) {return d.id.length; })) != d3.max(data.nodes.map(function(d) {return d.id.length; }))) {
 					start = 15;
 				} else {
-					start = minimum / 2;
+					start = minimum/2;
 				}
 			}
 			 
 			var r = d3.scale.linear()
 			.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) {return d.id.length; }))])
-			.range([start, minimum / 2]);
+			.range([start, minimum/2]);
 			 
 			xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(function(d) {
 				if(d.length > minimum / 10) {
 					chart.selectAll(".x.axis").selectAll(".tick").each(function( index ) {
 						$(this).tipsy({ 
 							gravity: 'n', 
-							html: true,
-							delayIn: 1000,
+							html:true,
 							title: function() {
 								return "<span style=\"font-size:12px\">" + index + "</span>";
 							}
@@ -569,8 +544,7 @@
 					chart.selectAll(".y.axis").selectAll(".tick").each(function( index ) {
 						$(this).tipsy({ 
 							gravity: 'e', 
-							html: true,
-							delayIn: 1000,
+							html:true,
 							title: function() {
 								return "<span style=\"font-size:12px\">" + index + "</span>";
 							}
@@ -668,7 +642,7 @@
 			.on("click", function(d) {
 				if(d.children.length == 1) {
 					if(document.URL.indexOf("#") >= 0) {
-						var location = document.URL.split("#");
+						var location=document.URL.split("#");
 						document.location.href = location[0] + '#ShowDetailPaper';
 					} else {
 						document.location.href = document.URL + '#ShowDetailPaper';
@@ -717,8 +691,7 @@
 				if(g1[0][d].__data__.children.length == 1) {
 					$(g1[0][d]).tipsy({ 
 						gravity: 'w', 
-						html: true,
-						delayIn: 1000,
+						html:true,
 						title: function() {
 							return "<span style=\"font-size:12px\">" + this.__data__.children[0].judul + "</span><br>Peneliti : " + this.__data__.children[0].peneliti;
 						}
@@ -728,27 +701,17 @@
  
 			// Panah dan garis hanya akan dibuat jika linknya ada
 			if(rlink.length != 0) {
-				// console.log("rlink Ci Yuli: " + JSON.stringify(rlink));
-				// console.log("rlink/length Ci Yuli: " + rlink.length);
 				// Untuk membuat panah
 				var marker = chart.selectAll("g.marker").data(data.links)
 					.enter().append("svg:marker")
 					.attr("id", function(d,i) { return i; })
 					.attr("viewBox", "0 -5 10 10")
 					.attr("refX", function(d) {
-						if((y(d.target.value) == y(d.source.value)) && (x(d.target.sumbu_x) == x(d.source.sumbu_x))) {}
+						if((y(d.target.value) == y(d.source.value)) && (x(d.target.sumbu_x == x(d.source.sumbu_x)))) {}
 						 
 						if(x(d.target.sumbu_x) > x(d.source.sumbu_x)) {
-							// console.log("x(d.target.sumbu_x): " + JSON.stringify(x(d.target.sumbu_x)));
-							// console.log("x(d.source.sumbu_x): " + JSON.stringify(x(d.source.sumbu_x)));
-							// console.log("d.target.sumbu_x: " + JSON.stringify(d.target.sumbu_x));
-							// console.log("d.source.sumbu_x: " + JSON.stringify(d.source.sumbu_x));
 							return 10;
 						} else {
-							// console.log("x(d.target.sumbu_x): " + JSON.stringify(x(d.target.sumbu_x)));
-							// console.log("x(d.source.sumbu_x): " + JSON.stringify(x(d.source.sumbu_x)));
-							// console.log("d.target.sumbu_x: " + JSON.stringify(d.target.sumbu_x));
-							// console.log("d.source.sumbu_x: " + JSON.stringify(d.source.sumbu_x));
 							return 10;
 						}           
 					})
@@ -771,22 +734,22 @@
 				.attr("class", "tes0")
 				.classed("link", true)
 				.attr("x1", function(d) {
-					// Garis horizontal jika lingkaran asal ada di kanan target
+					//garis horizontal jika lingkaran asal ada di kanan target
 					if((y(d.target.sumbu_y) == y(d.source.sumbu_y)) && (x(d.target.sumbu_x) > x(d.source.sumbu_x))) {
 						return x(d.source.sumbu_x)+ (x.rangeBand() / 2) + r(d.source.id.length); 
 					}
 					 
-					// Garis horizontal jika lingkaran asal ada di kiri target
+					//garis horizontal jika lingkaran asal ada di kiri target
 					else if ((y(d.target.sumbu_y) == y(d.source.sumbu_y)) && (x(d.target.sumbu_x) < x(d.source.sumbu_x))) {
 						return x(d.source.sumbu_x) + (x.rangeBand() / 2) - r(d.source.id.length);
 					}
 					 
-					// Garis vertical
+					//garis vertical
 					else if(x(d.target.sumbu_x) == x(d.source.sumbu_x)) {
 						return x(d.source.sumbu_x) + (x.rangeBand() / 2);
 					}
 					 
-					// Garis miring
+					//garis miring
 					else {
 						return hitungX((x(d.source.sumbu_x) + (x.rangeBand() / 2)),(y(d.source.sumbu_y) + (y.rangeBand() / 2)), (x(d.target.sumbu_x) + (x.rangeBand() / 2)), (y(d.target.sumbu_y) + (y.rangeBand() / 2)), r(d.source.id.length));
 					}
@@ -1134,12 +1097,12 @@
 		}
  
 		// Fungsi untuk mendapatkan data sesuai dengan parameter pada sumbu x, sumbu y, dan jenis relasi
-		function getData(sbX, sbY, parameter, edge, zoom){
+		function getData(sbX, sbY, parameter, edge){
 			window.xmlhttp = getXmlHttpRequest();
 			if(!window.xmlhttp)
 				return;
 			window.xmlhttp.open('POST', 'index.php?r=metadataPenelitian/getData ', true);
-			var query = 'sumbuX=' + sbX + '&sumbuY=' + sbY + '&parameter=' + parameter + '&edge=' + edge + '&zoom=' + zoom;
+			var query = 'sumbuX=' + sbX + '&sumbuY=' + sbY + '&parameter=' + parameter + '&edge=' + edge;
  
 			window.xmlhttp.onreadystatechange = function() {
 				if(window.xmlhttp.readyState == 4 && window.xmlhttp.status == 200) {
@@ -1158,13 +1121,13 @@
 		}
 		 
 		// Fungsi untuk mendapatkan data sesuai dengan parameter pada sumbu x, sumbu y, dan jenis relasi pada inisialisasi
-		function getDataInit(sbX, sbY, parameter, edge, zoom){
+		function getDataInit(sbX, sbY, parameter, edge){
 			window.xmlhttp = getXmlHttpRequest();
 			if(!window.xmlhttp)
 				return;
 			window.xmlhttp.open('POST', 'index.php?r=metadataPenelitian/getData ', true);
-			var query = 'sumbuX=' + sbX + '&sumbuY=' + sbY + '&parameter=' + parameter + '&edge=' + edge + '&zoom=' + zoom;
-			
+			var query = 'sumbuX=' + sbX + '&sumbuY=' + sbY + '&parameter=' + parameter + '&edge=' + edge;
+			 
 			window.xmlhttp.onreadystatechange = function() {
 				if(window.xmlhttp.readyState == 4 && window.xmlhttp.status == 200) {
 					var response = window.xmlhttp.responseText;
@@ -1198,13 +1161,12 @@
 			sumbuY = $("#sumbuY option:selected").text();
 			defaultX = sumbuX;      
 			edge = $("#edge option:selected").text();
-			zoom = $("#mode_zoom option:selected").text();
 			if(typeof(sumbuX) != 'undefined' && typeof(sumbuY) != 'undefined') {
 				if(typeof(parameter) == 'undefined') {
-					getData(sumbuX, sumbuY, 'all', edge, zoom);
+					getData(sumbuX, sumbuY, 'all', edge);
 				}
 				else {
-					getData(sumbuX, sumbuY, parameter, edge, zoom);
+					getData(sumbuX, sumbuY, parameter, edge);
 				}
 			}
 		});
@@ -1217,12 +1179,11 @@
 			sumbuY = $("#sumbuY option:selected").text();
 			defaultY = sumbuY;
 			edge = $("#edge option:selected").text();
-			zoom = $("#mode_zoom option:selected").text();
 			if(typeof(sumbuX) != 'undefined' && typeof(sumbuY) != 'undefined') {
 				if(typeof(parameter) == 'undefined') {
-					getData(sumbuX, sumbuY, 'all', edge, zoom);
+					getData(sumbuX, sumbuY, 'all', edge);
 				} else {
-					getData(sumbuX, sumbuY, parameter, edge, zoom);
+					getData(sumbuX, sumbuY, parameter, edge);
 				}
 			}
 		});
@@ -1233,28 +1194,12 @@
 			sumbuY = $("#sumbuY option:selected").text();
 			edge = $("#edge option:selected").text();
 			defaultEdge = edge;
-			zoom = $("#mode_zoom option:selected").text();
 			if(typeof(edge) != 'undefined') {
 				if(typeof(parameter) == 'undefined') {
-					getData(sumbuX, sumbuY, 'all', edge, zoom);
+					getData(sumbuX, sumbuY, 'all', edge);
 				}
 				else {
-					getData(sumbuX, sumbuY, parameter, edge, zoom);
-				}
-			}
-		});
-
-		$("#mode_zoom").change(function() {
-			sumbuX = $("#sumbuX option:selected").text();
-			sumbuY = $("#sumbuY option:selected").text();
-			edge = $("#edge option:selected").text();
-			zoom = $("#mode_zoom option:selected").text();
-			defaultZoom = zoom;
-			if(typeof(zoom) != 'undefined') {
-				if(typeof(parameter)=='undefined') {
-					getData(sumbuX, sumbuY, 'all', edge, zoom);
-				} else {
-					getData(sumbuX, sumbuY, parameter, edge, zoom);
+					getData(sumbuX, sumbuY, parameter, edge);
 				}
 			}
 		});
@@ -1376,7 +1321,7 @@
 			$('.dataTables_scrollBody').eq(1).attr('id', 'AddedPaperScrollBody');
  
 			$('.dataTables_filter').find('input').attr("class", "searchInput");
-			// Membuat setting pointer awal untuk body table
+			// Membuat settingan pointer awal untuk body table
 			// Jika table kosong maka pointer jadi default
 			// Jika table terisi maka pointer diubah menjadi pointer
 			changeCursor(); 
@@ -1413,7 +1358,7 @@
 					$(this).addClass("selected1");
 				}
 			});
-		 
+			 
 			$('.searchInput').focus(function(){
 				$('#AddedPaper tbody tr').each(function (i, row) {
 					if($(row).css('background-color') == 'rgb(255, 255, 0)') {
@@ -1424,9 +1369,10 @@
 					if($(row).css('background-color') == 'rgb(255, 255, 0)') {
 						$(row).css('background-color',"");
 					}
-				}); 
+				});
+ 
 			});
-
+ 
 			$('#AddedPaper tbody').on('click', 'tr', function () {
 				if($(this).attr("class") == 'selected2') {
 					$(this).css("background-color","");
@@ -1447,19 +1393,19 @@
 							$(row).css('background-color',"");
 						}
 					});
-				 
+					 
 					// ClearTimeout(time);
 					dataPindah2[counter1][0] = $('td', this).eq(0).text();
 					dataPindah2[counter1][1] = $('td', this).eq(1).text();
 					dataPindah2[counter1][2] = $(this).attr('id');
-				 
+					 
 					counter1++;
 					$(this).css({'background-color' : 'Gainsboro '});
 					$(this).removeClass();
 					$(this).addClass("selected2");
 				}
 			});
-
+ 
 			$("#rightButton").click(function() {
 				//clearTimeout(time);
 				if(typeof dataPindah1[0][0] !== 'undefined') {
@@ -1469,7 +1415,7 @@
 						}
 						counter2 = 0;
 					}
-				 
+					 
 					var json;
 					json = "[";
 					for(var i = 0; i < counter; i++) {
@@ -1479,32 +1425,32 @@
 							json = json + "{\"judul\":\"" + dataPindah1[i][0] + "\",\"peneliti\":\"" + dataPindah1[i][1] + "\"},";
 						}
 					}
-				 
+					 
 					json = json + "]";
 					json = JSON.parse(json);
-				 
+					 
 					var rownode = t.fnAddData(json);
 					for(var i = 0; i < counter; i++) {
 						var theNode = $('#AddedPaper').dataTable().fnSettings().aoData[rownode[i]].nTr;
 						theNode.setAttribute('id',dataPindah1[i][2]);
 						$('#AddedPaper > tbody > tr').eq(rownode[i]).css('background-color', 'Yellow');
 					}
-				 
+					 
 					table.api().row('.selected1').remove().draw();
 					changeCursor(); 
 					var rowpos = $('#AddedPaper tr:last').position();
-				 
+					 
 					$('#AddedPaperScrollBody').animate({scrollTop: rowpos.top}, "slow", function() {
 						jumlahPaper = t.fnSettings().fnRecordsTotal();
 						if(jumlahPaper <= 21) {}
 						else {}
 					});
-			 
+				 
 					counter2 = counter;
 					counter = 0;
 				}
 			});
-
+ 
 			$("#leftButton").click(function() {
 				// clearTimeout(time);
 				if(typeof dataPindah2[0][0] !== 'undefined') {
@@ -1514,10 +1460,10 @@
 						}
 						counter3 = 0;
 					}
-				 
+					 
 					var json2;
 					json2 = "[";
-				 
+					 
 					for(var i = 0; i < counter1; i++) {
 						if(i == counter1 - 1) {
 							json2 = json2 + "{\"judul\":\"" + dataPindah2[i][0] + "\",\"peneliti\":\"" + dataPindah2[i][1] + "\"}";
@@ -1525,35 +1471,35 @@
 							json2 = json2 + "{\"judul\":\"" + dataPindah2[i][0] + "\",\"peneliti\":\"" + dataPindah2[i][1] + "\"},";
 						}
 					}
-				 
+					 
 					json2=json2+"]";
 					t.api().row('.selected2').remove().draw();
 					json2 = JSON.parse(json2);
 					var rownode=table.fnAddData(json2);
-				 
+					 
 					for(var i = 0; i < counter1; i++) {
 						var theNode = $('#TableAddPaper').dataTable().fnSettings().aoData[rownode[i]].nTr;
 						theNode.setAttribute('id',dataPindah2[i][2]);
 						$('#TableAddPaper > tbody > tr').eq(rownode[i]).css('background-color', 'Yellow');
 					}
-				 
+					 
 					changeCursor();
-
+ 
 					var rowpos = $('#TableAddPaper tr:last').position();
-				 
+					 
 					$('#TableAddPaperScrollBody').animate({scrollTop: rowpos.top}, "slow",function() {
 						jumlahPaper=t.fnSettings().fnRecordsTotal();
 						if(jumlahPaper<=21) {}
 						else { }
 					});
-			 
+				 
 					counter3 = counter1;
 					counter1 = 0;
 				}
 			});
-
+ 
 			$("#SaveButton").click(function() {
-				jumlahPaper = t.fnSettings().fnRecordsTotal();
+				jumlahPaper=t.fnSettings().fnRecordsTotal();
 				if(jumlahPaper <= 21) {
 					$('.sumbuXlabel').remove();
 					$('.sumbuYlabel').remove();
@@ -1584,8 +1530,7 @@
 					}
 					 
 					edge = $("#edge option:selected").text();
-					zoom = $("#mode_zoom option:selected").text();
-					getData(defaultX, defaultY, SelectedId, edge, zoom);
+					getData(defaultX,defaultY,SelectedId,edge);
 					jumlahPaper = t.fnSettings().fnRecordsTotal();
 					$("#jumlahPaper").text(jumlahPaper);
 					$("#Close").attr("href", "#close");
@@ -1595,7 +1540,7 @@
 				}
 			});
 		};
-		 
+			 
 		function changeCursor() {
 			if($('#AddedPaper .dataTables_empty').length) {
 				$('#AddedPaper tbody tr').css({'cursor' : 'default'});
@@ -1609,7 +1554,7 @@
 				$('#TableAddPaper tbody tr').css({'cursor' : 'pointer'});
 			}
 		}
-			 
+				 
 		function initializeBreadcrumbTrail() {
 			// Add the svg area.
 			var trail = d3.select("#sequence").append("svg:svg")
@@ -1622,17 +1567,17 @@
 			.attr("id", "endlabel")
 			.style("fill", "#000");
 		}
-
+ 
 		function mouseover(d) {
 			var sequenceArray = getAncestors(d);
 			updateBreadcrumbs(sequenceArray);
 		}
-
+ 
 		function mouseoverInit() {
 			var sequenceArray = [{name:"Level 1",depth:0}];
 			updateBreadcrumbs(sequenceArray);
 		}
-
+ 
 		function getAncestors(node) {
 			var path = [];
 			var home={name:"Level 1",depth:0};
@@ -1644,7 +1589,7 @@
 			path.unshift(home);
 			return path;
 		}
-
+ 
 		function breadcrumbPoints(d, i) {
 			var points = [];
 			points.push("0,0");
@@ -1652,59 +1597,59 @@
 			points.push(b.w + b.t + "," + (b.h / 2));
 			points.push(b.w + "," + b.h);
 			points.push("0," + b.h);
-		 
+			 
 			if (i > 0) { // Leftmost breadcrumb; don't include 6th vertex.
 				points.push(b.t + "," + (b.h / 2));
 			}
 			return points.join(" ");
 		}
-
+ 
 		// Update the breadcrumb trail to show the current sequence and percentage.
 		function updateBreadcrumbs(nodeArray) {
-
+ 
 			// Data join; key function combines name and depth (= position in sequence).
 			var g = d3.select("#trail")
 				.selectAll("g")
 				.data(nodeArray, function(d) { return d.name + d.depth; });
-
+ 
 			// Add breadcrumb and label for entering nodes.
 			var entering = g.enter().append("svg:g");
-		 
+			 
 			entering.append("svg:polygon")
 			.attr("points", breadcrumbPoints);
-
+ 
 			entering.append("svg:text")
 			.attr("x", (b.w + b.t) / 2)
 			.attr("y", b.h / 2)
 			.attr("dy", "0.35em")
 			.attr("text-anchor", "middle")
 			.text(function(d) { return "Level "+(d.depth+1); });
-
+ 
 			// Set position for entering and updating nodes.
 			g.attr("transform", function(d, i) {
 				return "translate(" + i * (b.w + b.s) + ", 10)";
 			})
 			.attr("class",function(d,i){if(nodeArray.length-1==i){return "not_click_breadcrumb"}else{return "click_breadcrumb"}})
 			.on("click", function(d, i) {if(nodeArray.length-1==i){}else{ zoom(nodes2[i]);updateBreadcrumbs(getAncestors(d))}});
-			 
+				 
 			// Remove exiting nodes.
 			g.exit().remove();
-
+ 
 			// Now move and update the percentage at the end.
 			d3.select("#trail").select("#endlabel")
 			.attr("x", (nodeArray.length + 0.5) * (b.w + b.s))
 			.attr("y", b.h / 2)
 			.attr("dy", "0.35em")
 			.attr("text-anchor", "middle");
-
+ 
 			// Make the breadcrumb trail visible, if it's hidden.
 			d3.select("#trail")
 			.style("visibility", "");
 		}
-
+ 
 		function group(listOfPapers, jumlahPengelompokan) {
 			var paperGrouping = new Array(jumlahPengelompokan);
-			if(listOfPapers.length == 3) {	
+			if(listOfPapers.length == 3) {
 				paperGrouping[0] = new Array(2);
 				paperGrouping[0] = listOfPapers[0];
 				paperGrouping[0].name = listOfPapers[0].keyword;
@@ -1726,45 +1671,7 @@
 			}
 			return paperGrouping;
 		}
-
-		function grouping(papers, listOfSizes) {
-			var paperGrouping = new Array(listOfSizes.length);
-			var urutan_di_papers = 0;
-
-			for(var i = 0; i < listOfSizes.length; i++) {
-				paperGrouping[i] = new Array(listOfSizes[i]);
-				for(var j = 0; j < listOfSizes[i]; j++) {
-					paperGrouping[i]['children'] = new Array(listOfSizes[i]);
-					// paperGrouping[i]['children'][j] = new Array(2);
-					paperGrouping[i]['children'][j] = papers.children[urutan_di_papers + j];
-					// console.log("paperGrouping[i]['children'][j]: " + JSON.stringify(paperGrouping[i]['children'][j]));
-					// console.log("paperGrouping[i]['children']: " + JSON.stringify(paperGrouping[i]['children']));
-				}
-				urutan_di_papers += listOfSizes[i];
-				// console.log("paperGrouping[i]: " + JSON.stringify(paperGrouping[i]));
-			}
-			// console.log("paperGrouping['children']: " + JSON.stringify(paperGrouping['children']));
-			return paperGrouping;
-		}
-
-		function grouping2(papers, listOfSizes) {
-			var paperGrouping = new Array(listOfSizes.length);
-			var urutan_di_papers = 0;
-
-			for(var i = 0; i < listOfSizes.length; i++) {
-				paperGrouping[i] = new Array(listOfSizes.length);
-				for(var j = 0; j < listOfSizes[i]; j++) {
-					paperGrouping[i][j] = new Array(listOfSizes[i]);
-					paperGrouping[i][j] = papers.children[urutan_di_papers + j];
-					// console.log("paperGrouping[" + i + "][" + j + "]: " + JSON.stringify(paperGrouping[i][j]) + "\n");
-				}
-				urutan_di_papers += listOfSizes[i];
-				// console.log("paperGrouping[" + i + "]: " + JSON.stringify(paperGrouping[i]) + "\n\n");
-			}
-			// console.log("paperGrouping: " + JSON.stringify(paperGrouping));
-			return paperGrouping;
-		}
-
+				 
 		function getChildren(papers) {
 			var newPapers = new Array(papers.length);
 			for(var i = 0; i < papers.length; i++) {
@@ -1786,19 +1693,9 @@
 			}
 			return newPapers;
 		}
-
+ 
 		function getChildrenOnly(paper) {
-			// return grouping(paper, paper.size);
 			return paper.children;
-		}
-
-		function getChildrenWithGrouping(paper) {
-			return grouping2(paper, paper.size);
-		}
-
-		function getChildrenOnly3(paper) {
-			return grouping3(paper, paper.size);
-			// return paper.children;
 		}
  
 		$("#save_paper").click(function() {
@@ -1857,906 +1754,387 @@
 	</script>
 
 	<script type="text/javascript">
-		if ($("#mode_zoom option:selected").text() == 'Fisheye') {
-			(function fisheye() {
-				var zoomLevel0 = true;
-				var zoomLevel1 = false;
-				var zoomLevel2 = false;
-	 
-				var width = 950;
-				var height = 515;
-	 
-				// Untuk mempersiapkan layout
-				var force = d3.layout.force()
-				.charge(-240)
-				.linkDistance(40)
-				.size([width, height]);
-	 
-				// Ambil kelas .chart lalu buat tag g dengan atribut width dan height di dalamnya
-				var svgFisheye = d3.select(".chart")
+		(function fisheye() {
+			var zoomLevel0 = true;
+			var zoomLevel1 = false;
+ 
+			var width = 950;
+			var height = 515;
+ 
+			// Untuk mempersiapkan layout
+			var force = d3.layout.force()
+			.charge(-240)
+			.linkDistance(40)
+			.size([width, height]);
+ 
+			// Ambil kelas .chart lalu buat tag g dengan atribut width dan height di dalamnya
+			var svgFisheye = d3.select(".chart")
+			.append("g")
+			.attr("width", width)
+			.attr("height", height);
+			// .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+ 
+			var color = d3.scale.category20();
+ 
+			var fisheye = d3.fisheye.circular()
+			.radius(100);
+ 
+			d3.json("data3.json", function(data) {
+				var n = data.nodes.length;
+ 
+				force.nodes(data.nodes).links(data.links);
+ 
+				// Initialize the positions deterministically, for better results.
+				// Atur koordinat lingkaran pada sumbu x dan sumbu y
+				data.nodes.forEach(function(d, i) {
+					// d.x = d.y = width / n * i;
+					if(i == 0) { d.x = 943; d.y = 23; }
+					else if(i == 1) { d.x = 63; d.y = 520; }
+					else if(i == 2) { d.x = 323; d.y = 263; }
+					else if(i == 3) { d.x = 562; d.y = 185; }
+					else if(i == 4) { d.x = 447; d.y = 110; }
+					else if(i == 5) { d.x = 193; d.y = -57; }
+					else if(i == 6) { d.x = 818; d.y = 350; }
+					else if(i == 7) { d.x = 692; d.y = -57; }
+					else if(i == 8) { d.x = 1070; d.y = 440; }
+				});
+ 
+				// Run the layout a fixed number of times.
+				// The ideal number of times scales with graph complexity.
+				// Of course, don't run too long—you'll hang the page!
+				force.start();
+				for (var i = n; i > 0; --i) force.tick();
+				force.stop();
+ 
+				// // Center the nodes in the middle.
+				// var ox = 0, oy = 0;
+				// data.nodes.forEach(function(d) { ox += d.x, oy += d.y; });
+				// ox = ox / n - width / 2, oy = oy / n - height / 2;
+				// data.nodes.forEach(function(d) { d.x -= ox, d.y -= oy; });
+ 
+				// Memetakan relasi dari data json
+				var link = svgFisheye.selectAll(".link")
+				.data(data.links)
+				.enter().append("line")
+				.attr("class", "link")
+				.attr("x1", function(d) { return d.source; })
+				.attr("y1", function(d) { return d.source; })
+				.attr("x2", function(d) { return d.target; })
+				.attr("y2", function(d) { return d.target; })
+				.style("stroke-width", function(d) { return Math.sqrt(d.value); });
+ 
+				var elemParent = svgFisheye.selectAll("g.circle")
+				.data(data.nodes);
+ 
+				// Buat tag g dengan kelas lingkaran
+				var elemParentEnter = elemParent.enter()
 				.append("g")
-				.attr("width", width)
-				.attr("height", height);
-				// .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-	 
-				var color = d3.scale.category20();
-	 
-				var fisheye = d3.fisheye.circular()
-				.radius(100);
-	 
-				d3.json("dummySize.json", function(data) {
-					var n = data.nodes.length;
-					force.nodes(data.nodes).links(data.links);
-	 
-					// Initialize the positions deterministically, for better results.
-					// Atur koordinat lingkaran pada sumbu x dan sumbu y
-					var posisiX, posisiY;
-					
-					// Fungsi apabila dipilih parameter pada sumbu x dengan nilai "Tahun Publikasi"
-					if ($("#sumbuX option:selected").text() == 'Tahun Publikasi') {
-						for(var i = 0; i < data.nodes.length; i++) {
-							data.nodes[i].sumbu_x = parseInt(d[i].sumbu_x);
-						}
-		 
-						posisiX = d3.scale.ordinal()          
-						.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
-						.rangeRoundBands([0, width], .1);
+				.attr("class", "paperParent");
+				// .attr("transform", function(d) {return "translate(10, 60)"});
+ 
+				// Buat tag circle di dalam tag lingkaran dengan class nodeParent
+				var node = elemParentEnter.append("circle")
+				.attr("class", "nodeParent")
+				.attr("id", function(d, i) {
+					return "circleParent-" + i;  // id tiap circle
+					// return "circle-" + d.id;
+				})
+				.attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
+				.attr("cy", function(d, i) { return d.y;}) // Koordinat lingkaran pada sumbu y
+				.attr("r", function(d, i) {
+					// Mengatur jari-jari lingkaran 
+					if(d.size == 1){
+						return 15;
 					}
-					 
-					// Sorting huruf
-					else {
-						for(i = 0; i < data.nodes.length; i++) {
-							data.nodes[i].sumbu_x = data.nodes[i].sumbu_x.charAt(0).toUpperCase() + data.nodes[i].sumbu_x.slice(1);
-						}
-						posisiX = d3.scale.ordinal()
-						.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
-						.rangeRoundBands([0, width], .1);
+					else if (d.size == 3)
+						return 25;
+				 })
+				.style("fill", "#1F77B4"); // Warna lingkaran, biru
+				// .call(force.drag);
+ 
+				// Buat tag text di dalam tag lingkaran dengan class label
+				var label = elemParentEnter.append("text")
+				.attr("class", "labelParent")
+				.attr("font-family", "sans-serif") // Jenis font
+				.attr("font-size", "14px") // Ukuran font
+				.attr("text-anchor", "middle")
+				.attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
+				.attr("y", function(d, i) { return d.y + 5; }) // Koordinat label pada sumbu y
+				.text(function(d){ return d.size }); // Isi label
+				 
+				// Hover untuk node dengan jumlah data 1
+				var g1 = svgFisheye.selectAll("g.paperParent").data(data.nodes);
+
+				$("svg circle").each(function(d, i) {
+					if(g1[0][d].__data__.children.length == 1) {
+						$(g1[0][d]).tipsy({ 
+							gravity: 'w', 
+							html:true,
+							title: function() {
+								console.log("g2[1][d]: " + JSON.stringify(g1[0][d]));
+								var passData = g1[0][d];
+								console.log("passData: " + JSON.stringify(passData));
+								setTimeout(function(passData) {
+									return "<span style=\"font-size:12px\">" + passData.__data__.children[0].judul + "</span><br>Peneliti : " + passData.__data__.children[0].peneliti;
+								}, 3000);
+							}
+						});
 					}
+				});
 
-					// Fungsi apabila dipilih parameter pada sumbu y dengan nilai "Tahun Publikasi"
-					if ($("#sumbuY option:selected").text() == 'Tahun Publikasi') {
-						// y = d3.scale.linear()
-						// .domain([d3.min(data.nodes.map(function(d) {return d.sumbu_y; }))-5, d3.max(data.nodes.map(function(d) {return d.sumbu_y; }))])
-						// .range([0, height]);
-						
-						// Ubah angka string menjadi angka numeric 
-						for(var i = 0; i < data.nodes.length; i++) {
-							data.nodes[i].sumbu_y = parseInt(data.nodes[i].sumbu_y);
-						}
-		 
-						posisiY = d3.scale.ordinal()
-						.rangeRoundBands([height, 0], .1)
-						.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
-					} else {
-						for(i = 0; i < data.nodes.length; i++) {
-							data.nodes[i].sumbu_y = data.nodes[i].sumbu_y.charAt(0).toUpperCase() + data.nodes[i].sumbu_y.slice(1);
-						}
-						 
-						posisiY = d3.scale.ordinal()
-						.rangeRoundBands([height, 0], .1)
-						.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
-					}
-
-					data.nodes.forEach(function(d, i) {
-						d.x = posisiX(d.sumbu_x)
-						+ (x.rangeBand() / 100);
-						d.y = posisiY(d.sumbu_y)
-						+ (y.rangeBand() / 100);
-					});
-
-					var minimum;
-					if(y.rangeBand() > x.rangeBand()) {
-						minimum = x.rangeBand();
-					} else {
-						minimum = y.rangeBand();
-					}
-
-					var start;
-					if((minimum / 2) < 15) {
-						alert("Data yang dimasukkan terlalu banyak! Kurangi data");
+				elemParentEnter.on("mouseover", function(d, i) {
+					fisheye.focus(d3.mouse(this));
+ 
+					// Fisheye untuk setiap node
+					node.each(function(d) { d.fisheye = fisheye(d); })
+					.attr("cx", function(d) {
+						return d.fisheye.x;
+					})
+					.attr("cy", function(d) {
+						return d.fisheye.y;
+					})
+					.attr("r", function(d) { return d.fisheye.z * 15});
+ 
+					// Fisheye untuk setiap label
+					label.each(function(d) { d.fisheye = fisheye(d); })
+					.attr("x", function(d) {
+						return d.fisheye.x;
+					})
+					.attr("y", function(d) {
+						return d.fisheye.y;
+					})
+					.attr("r", function(d) { return d.fisheye.z * 15});
+ 
+					// Fisheye untuk setiap garis
+					link.attr("x1", function(d) { return d.source.fisheye.x; })
+					.attr("y1", function(d) { return d.source.fisheye.y; })
+					.attr("x2", function(d) { return d.target.fisheye.x; })
+					.attr("y2", function(d) { return d.target.fisheye.y; });
+				});
+ 
+				elemParentEnter.on("click", function(d, i) {
+					if(d.children.length == 1) {
 						if(document.URL.indexOf("#") >= 0) {
 							var location = document.URL.split("#");
-							document.location.href = location[0] + '#AddPaper';
+							document.location.href = location[0] + '#ShowDetailPaper';
 						} else {
-							document.location.href = document.URL + '#AddPaper';
+							document.location.href = document.URL + '#ShowDetailPaper';
 						}
-						 
-						// start = minimum / 2 - 1;
-					} else {
-						if(d3.min(data.nodes.map(function(d) {return d.id.length; })) != d3.max(data.nodes.map(function(d) {return d.id.length; }))) {
-							start = 15;
-						} else {
-							start = minimum / 2;
-						}
-					}
-
-					var posisiR = d3.scale.linear()
-					.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) {return d.id.length; }))])
-					.range([start, minimum / 2]);
-
-					// data.nodes.forEach(function(d, i) {
-					// 	// d.x = d.y = width / n * i;
-					// 	if(i == 0) { d.x = 1000; d.y = 23; }
-					// 	else if(i == 1) { d.x = 63; d.y = 520; }
-					// 	else if(i == 2) { d.x = 323; d.y = 263; }
-					// 	else if(i == 3) { d.x = 562; d.y = 185; }
-					// 	else if(i == 4) { d.x = 562; d.y = 520; }
-					// 	else if(i == 5) { d.x = 447; d.y = 110; }
-					// 	else if(i == 6) { d.x = 1170; d.y = 110; }
-					// 	else if(i == 7) { d.x = 193; d.y = -57; }
-					// 	else if(i == 8) { d.x = 818; d.y = 350; }
-					// 	else if(i == 9) { d.x = 692; d.y = -57; }
-					// 	else if(i == 10) { d.x = 1170; d.y = 440; }
-					// });
-
-					// Run the layout a fixed number of times.
-					// The ideal number of times scales with graph complexity.
-					// Of course, don't run too long—you'll hang the page!
-					force.start();
-					for (var i = n; i > 0; --i) force.tick();
-					force.stop();
-
-					// // Center the nodes in the middle.
-					// var ox = 0, oy = 0;
-					// data.nodes.forEach(function(d) { ox += d.x, oy += d.y; });
-					// ox = ox / n - width / 2, oy = oy / n - height / 2;
-					// data.nodes.forEach(function(d) { d.x -= ox, d.y -= oy; });
-
-					//////////////////
-					// Membuat link //
-					//////////////////
-
-					// Setting data untuk link, source dan targetnya ud data node
-					var rlink = new Array();
-					if(data.links.length != 0) {
-						var counter_rlink;
-						counter_rlink = 0;
-						var rlinks = new Array(data.links.length);
-						for(var i = 0; i < data.links.length; i++) {
-							var j, k, l, m;
-							j = 0; k = 0;
-							 
-							var sudah_ketemu; sudah_ketemu = 0;
-							while(data.nodes.length > j && !sudah_ketemu) {
-								if(data.nodes[j].id.length == 1 && data.links[i].source != data.nodes[j].id[0]) {
-									j++;                
-								}
-								else if(data.nodes[j].id.length == 1 && data.links[i].source == data.nodes[j].id[0]) {
-									sudah_ketemu = 1;
-								}
-								else {
-									l = 0;
-									 
-									while(data.nodes[j].id.length > l && data.links[i].source != data.nodes[j].id[l]) { // 3>0 && 1!=1
-										l++;
-									}
-		 
-									if(data.nodes[j].id.length < l || data.links[i].source != data.nodes[j].id[l]) {
-										j++;
-									}
-									else if (data.nodes[j].id.length > l && data.links[i].source == data.nodes[j].id[l]) {
-										sudah_ketemu = 1;
-									}
-								}
-							}
-							 
-							sudah_ketemu = 0;
-							 
-							while(data.nodes.length > k && !sudah_ketemu) {
-								// console.log(data.nodes[k]);
-								if(data.nodes[k].id.length == 1 && data.links[i].target != data.nodes[k].id[0]) {
-									k++;
-								}
-								else if (data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id[0]) {
-									sudah_ketemu = 1;
-								}
-								 
-								else {
-									m = 0;
-									 
-									while(data.nodes[k].id.length > m && data.links[i].target != data.nodes[k].id[m]) {
-										m++;
-									}
-									 
-									if(data.nodes[k].id.length < m || data.links[i].target != data.nodes[k].id[m]) {
-										k++;
-									}
-									else if(data.nodes[k].id.length > m && data.links[i].target == data.nodes[k].id[m]) {
-										sudah_ketemu = 1;
-									}
-								}
-							}
-							 
-							// Untuk melist semua kemungkinan apakah source dan target berada dalam 1 level atau tidak
-							if(j < data.nodes.length && k < data.nodes.length && ((data.nodes[j].id.length == 1 && data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id && data.links[i].source == data.nodes[j].id) || (data.nodes[j].id.length > 1 && data.nodes[k].id.length > 1 && data.links[i].target == data.nodes[k].id[m] && data.links[i].source == data.nodes[j].id[l]) || (data.nodes[j].id.length == 1 && data.nodes[k].id.length > 1 && data.links[i].target == data.nodes[k].id[m] && data.links[i].source == data.nodes[j].id) ||(data.nodes[j].id.length > 1 && data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id && data.links[i].source ==data.nodes[j].id[l]))) {
-								 
-								rlink[counter_rlink] = new Array();
-								rlink[counter_rlink].source = data.nodes[j];
-								 
-								rlink[counter_rlink].target = data.nodes[k];
-								counter_rlink++;
-							} else {}
-						}
-					}
-
-					// Panah dan garis hanya akan dibuat jika linknya ada
-					// console.log("rlink: " + JSON.stringify(rlink));
-					// console.log("rlink.length: " + rlink.length);
-					if(rlink.length != 0) {
-						// Untuk membuat panah
-						var marker = chart.selectAll("g.marker").data(data.links)
-							.enter().append("marker")
-							.attr("id", function(d, i) { return i; })
-							.attr("viewBox", "0 -5 10 10")
-							.attr("refX", function(d) {
-								if((posisiY(d.target.value) == posisiY(d.source.value)) && (posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x))) {
-									// console.log("posisiY(d.target.value): " + JSON.stringify(posisiY(d.target.value)));
-									// console.log("posisiY(d.source.value): " + JSON.stringify(posisiY(d.source.value)));
-									// console.log("posisiX(d.target.sumbu_x): " + JSON.stringify(posisiX(d.target.sumbu_x)));
-									// console.log("posisiX(d.source.sumbu_x): " + JSON.stringify(posisiX(d.source.sumbu_x)));
-
-									// console.log("d.target.value: " + JSON.stringify(d.target.value));
-									// console.log("d.source.value: " + JSON.stringify(d.source.value));
-									// console.log("d.target.sumbu_x: " + JSON.stringify(d.target.sumbu_x));
-									// console.log("d.source.sumbu_x: " + JSON.stringify(d.source.sumbu_x));
-								}
-								 
-								if(posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) {
-									// console.log("posisiX(d.target.sumbu_x): " + JSON.stringify(posisiX(d.target.sumbu_x)));
-									// console.log("posisiX(d.source.sumbu_x): " + JSON.stringify(posisiX(d.source.sumbu_x)));
-									// console.log("d.target.sumbu_x: " + JSON.stringify(d.target.sumbu_x));
-									// console.log("d.source.sumbu_x: " + JSON.stringify(d.source.sumbu_x));
-									return 10;
-								} else {
-									// console.log("posisiX(d.target.sumbu_x): " + JSON.stringify(posisiX(d.target.sumbu_x)));
-									// console.log("posisiX(d.source.sumbu_x): " + JSON.stringify(posisiX(d.source.sumbu_x)));
-									// console.log("d.target.sumbu_x: " + JSON.stringify(d.target.sumbu_x));
-									// console.log("d.source.sumbu_x: " + JSON.stringify(d.source.sumbu_x));
-									return 10;
-								}           
-							})
-							.attr("refY", 0)
-							.attr("markerWidth", 6)
-							.attr("markerHeight", 6)
-							.attr("orient", "auto")
-							.append("svg:path")
-							.attr("d", "M0,-5L10,0L0,5")
-							.attr("fill","none")
-							.attr("stroke","black");
-						 
-						// (X1, Y1) koordinat asal
-						// (X2, Y2) koordinat tujuan
-
-						// console.log("marker: " + JSON.stringify(marker));
-						 
-						var link = chart.selectAll("g.link").data(rlink)
-						.enter().append("line")
-						.attr("class", "link")
-						// .attr("x1", function(d) {
-						// 	// Garis horizontal jika lingkaran asal ada di kanan target
-						// 	if((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x))) {
-						// 		return posisiX(d.source.sumbu_x) + (x.rangeBand() / 2) + posisiR(d.source.id.length); 
-						// 	}
-							 
-						// 	// Garis horizontal jika lingkaran asal ada di kiri target
-						// 	else if ((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x))) {
-						// 		return posisiX(d.source.sumbu_x) + (x.rangeBand() / 2) - posisiR(d.source.id.length);
-						// 	}
-							 
-						// 	// Garis vertical
-						// 	else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
-						// 		return posisiX(d.source.sumbu_x) + (x.rangeBand() / 2);
-						// 	}
-							 
-						// 	// Garis miring
-						// 	else {
-						// 		return hitungX((x(d.source.sumbu_x) + (x.rangeBand() / 2)),(posisiY(d.source.sumbu_y) + (y.rangeBand() / 2)), (posisiX(d.target.sumbu_x) + (x.rangeBand() / 2)), (posisiY(d.target.sumbu_y) + (y.rangeBand() / 2)), posisiR(d.source.id.length));
-						// 	}
-						// })
-						// .attr("y1", function(d) { 
-						// 	//garis horizontal
-						// 	if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
-						// 		return posisiY(d.source.sumbu_y) + (y.rangeBand() / 2);
-						// 	}
-							 
-						// 	//garis vertical dengan lingkaran asal ada di atas target
-						// 	else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
-						// 		return (posisiY(d.source.sumbu_y)+ (y.rangeBand() / 2) + posisiR(d.source.id.length));
-						// 	}
-							 
-						// 	//garis vertical dengan lingkaran asal ada di bawah target
-						// 	else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
-						// 		return (posisiY(d.source.sumbu_y) + (y.rangeBand() / 2) - posisiR(d.source.id.length));
-						// 	}
-		 
-						// 	else {
-						// 		var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + x.rangeBand() / 2) - (posisiX(d.target.sumbu_x) + x.rangeBand() / 2)), 2) + Math.pow(((posisiY(d.source.sumbu_y) + y.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + y.rangeBand() / 2)), 2));
-						// 		return (posisiY(d.source.sumbu_y) + y.rangeBand() / 2) - (((posisiY(d.source.sumbu_y) + y.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + y.rangeBand() / 2)) * posisiR(d.source.id.length) / miring);
-						// 	}
-						// })
-						// // Sama seperti diatas, hanya untuk lingkaran target
-						// .attr("x2", function(d) {
-						// 	if((posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
-						// 		return posisiX(d.target.sumbu_x) + (x.rangeBand() / 2) - posisiR(d.target.id.length); 
-						// 	}
-						// 	else if ((posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
-						// 		return posisiX(d.target.sumbu_x) + (x.rangeBand() / 2) + posisiR(d.target.id.length); 
-						// 	}
-						// 	else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
-						// 		return posisiX(d.source.sumbu_x) + (x.rangeBand() / 2);
-						// 	} else {
-						// 		return hitungX2((posisiX(d.source.sumbu_x) + (x.rangeBand() / 2)), (posisiY(d.source.sumbu_y) + (y.rangeBand() / 2)), (posisiX(d.target.sumbu_x) + (x.rangeBand() / 2)), (posisiY(d.target.sumbu_y) + (y.rangeBand() / 2)), posisiR(d.target.id.length));
-						// 	}   
-						// })
-						// .attr("y2", function(d) {
-						// 	if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
-						// 		return posisiY(d.target.sumbu_y) + (y.rangeBand() / 2);
-						// 	}
-						// 	else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
-						// 		return (posisiY(d.target.sumbu_y) + (y.rangeBand() / 2) - posisiR(d.target.id.length));
-						// 	}
-						// 	else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
-						// 		return (posisiY(d.target.sumbu_y) + (y.rangeBand() / 2) + posisiR(d.target.id.length));
-						// 	} else {
-						// 		var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + x.rangeBand() / 2) - (posisiX(d.target.sumbu_x) + x.rangeBand() / 2)), 2) + Math.pow(((posisiY(d.source.sumbu_y) + y.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + y.rangeBand() / 2)), 2));
-						// 		return posisiY(d.source.sumbu_y) + (y.rangeBand() / 2) - (((miring - posisiR(d.target.id.length)) * ((posisiY(d.source.sumbu_y) + (y.rangeBand() / 2)) - (posisiY(d.target.sumbu_y) + (y.rangeBand() / 2))) / miring));
-						// 	}
-						// })
-						.attr("marker-end", function(d, i) { return "url(#" + i + ")"; });
-						// .attr("x1", function(d) { console.log("x1: " + JSON.stringify(d.source.x)); return d.source.x; })
-						// .attr("y1", function(d) { console.log("y1: " + JSON.stringify(d.source.y)); return d.source.y; })
-						// .attr("x2", function(d) { console.log("x2: " + JSON.stringify(d.target.x)); return d.target.x; })
-						// .attr("y2", function(d) { console.log("y2: " + JSON.stringify(d.target.y)); return d.target.y; });
-						// .style("stroke width", function(d) { return Math.sqrt(d.value); });
-
-						// console.log("link: " + JSON.stringify(link));
-					}
-
-					//////////////////////////
-					// Membuat link selesai //
-					//////////////////////////
-
-					// // Memetakan relasi dari data json
-					// var link = svgFisheye.selectAll(".link")
-					// .data(data.links)
-					// .enter().append("line")
-					// .attr("class", "link")
-					// .attr("x1", function(d) { return d.source; })
-					// .attr("y1", function(d) { return d.source; })
-					// .attr("x2", function(d) { return d.target; })
-					// .attr("y2", function(d) { return d.target; })
-					// .style("stroke-width", function(d) { return Math.sqrt(d.value); });
-
-					var elemParent = svgFisheye.selectAll("g.circle")
-					.data(data.nodes);
-
-					// Buat tag g dengan kelas lingkaran
-					var elemParentEnter = elemParent.enter()
-					.append("g")
-					.attr("class", "paperParent");
-					// .attr("transform", function(d) {return "translate(10, 60)"});
-
-					// Buat tag circle di dalam tag lingkaran dengan class nodeParent
-					var node = elemParentEnter.append("circle")
-					.attr("class", "nodeParent")
-					.attr("id", function(d, i) {
-						return "circleParent-" + i;  // id tiap circle
-						// return "circle-" + d.id;
-					})
-					.attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
-					.attr("cy", function(d, i) { return d.y;}) // Koordinat lingkaran pada sumbu y
-					.attr("r", function(d, i) {
-						// Mengatur jari-jari lingkaran
-						if(d.size.length == 1) {
-							if(d.size[0] == 1) {
-								return 15;
-							} else if (d.size[0] == 2) {
-								return 20;
-							} else if (d.size[0] == 3) {
-								return 25;
-							} else if (d.size[0] == 4) {
-								return 30;
-							}
-						}
-					 })
-					.style("fill", function(d, i) {
-						if(d.size.length == 1) {
-							return "#6C9ECA";
-						} else {
-							if(d.children.length == 2) {
-								return "#447DB1";
-							} else if(d.children.length == 3) {
-								return "#2868A2";
-							} else if(d.children.length == 4) {
-								return "#0F528E";
-							} 
-						}
-					});
-					// .call(force.drag);
-
-					// Buat tag text di dalam tag lingkaran dengan class label
-					var label = elemParentEnter.append("text")
-					.attr("class", "labelParent")
-					.attr("font-family", "sans-serif") // Jenis font
-					.attr("font-size", "14px") // Ukuran font
-					.attr("text-anchor", "middle")
-					.attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
-					.attr("y", function(d, i) { return d.y + 5; }) // Koordinat label pada sumbu y
-					.text(function(d) {
-						// Isi label
-						return d.children.length;
-					});
-
-					// Hover untuk node dengan jumlah data 1
-					var g1 = svgFisheye.selectAll("g.paperParent").data(data.nodes);
-
-					$("svg circle").each(function(d, i) {
-						if(g1[0][d].__data__.children.length == 1) {
-							$(g1[0][d]).tipsy({ 
-								gravity: 'w', 
-								html: true,
-								delayIn: 1000,
-								title: function() {				
-									return "<span style=\"font-size:12px\">" + this.__data__.children[0].judul + "</span><br>Peneliti : " + this.__data__.children[0].peneliti;
-								}
-							});
-						} else {
-							$(g1[0][d]).tipsy({ 
-								gravity: 'w', 
-								html: true,
-								delayIn: 1000,
-								title: function() {
-									return "<span style=\"font-size:12px\">" + this.__data__.keyword[0] + "</span>";
-								}
-							});
-						}
-					});
-
-					elemParentEnter.on("mouseover", function(d, i) {
-						fisheye.focus(d3.mouse(this));
-	 
-						// Fisheye untuk setiap node
-						node.each(function(d) { d.fisheye = fisheye(d); })
-						// .attr("cx", function(d) { return d.fisheye.x; })
-						// .attr("cy", function(d) { return d.fisheye.y; })
-						.attr("r", function(d) { return d.fisheye.z * 15 });
-						
-						// Fisheye untuk setiap label
-						label.each(function(d) { d.fisheye = fisheye(d); })
-						// .attr("x", function(d) { return d.fisheye.x; })
-						// .attr("y", function(d) { return d.fisheye.y; })
-						.attr("r", function(d) { return d.fisheye.z * 15});
-
-						$("svg circle").hover(function() {
-							$("svg circle").addClass("border");
+ 
+						var maxKey = 0;
+						var maxValue = 0;
+ 
+						$.each(d.children[0], function(key, value) {
+						 if(maxKey < key.length) { maxKey = key.length; }
+						 if(maxValue < value.length) { maxValue = value.length; }
 						});
-
-						// Fisheye untuk setiap garis
-						// link.attr("x1", function(d) { return d.source.fisheye.x; })
-						// .attr("y1", function(d) { return d.source.fisheye.y; })
-						// .attr("x2", function(d) { return d.target.fisheye.x; })
-						// .attr("y2", function(d) { return d.target.fisheye.y; });
-					});
-
-					elemParentEnter.on("click", function(d, i) {
-						if(d.children.length == 1) {
-							if(document.URL.indexOf("#") >= 0) {
-								var location = document.URL.split("#");
-								document.location.href = location[0] + '#ShowDetailPaper';
-							} else {
-								document.location.href = document.URL + '#ShowDetailPaper';
-							}
-
-							var maxKey = 0;
-							var maxValue = 0;
-
-							$.each(d.children[0], function(key, value) {
-								console.log("d.children[0]: " + d.children[0]);
-								console.log("key: " + key);
-								console.log("value: " + value);
-								if(maxKey < key.length) { maxKey = key.length; }
-								if(maxValue < value.length) { maxValue = value.length; }
-							});
-
-							$.each(d.children[0], function(key, value) {
-								if(key == "id" || key == "creater") {}
+ 
+						$.each(d.children[0], function(key, value) {
+							if(key == "id" || key == "creater") {}
+							else {
+								$( "#popup-content" ).append( "<li><label style=\"width:" + maxKey * 8 + "px\">" + key + "</label><label style=\"width:10px\"> : </label></li>" );
+								if(value == "") {}
 								else {
-									$( "#popup-content" ).append( "<li><label style=\"width:" + maxKey * 8 + "px\">" + key + "</label><label style=\"width:10px\"> : </label></li>" );
-									if(value == "") {}
-									else {
-										$( "#popup-content" ).append('<span class="detail-content">' + value + '</span>');
-									}
+									$( "#popup-content" ).append('<span class="detail-content">' + value + '</span>');
+								}
+							}
+						});
+ 
+						$('a[href="#close"]').click(function() {
+							$( "#popup-content" ).empty();
+							$( "#map_name" ).val('');
+						});
+ 
+						$('a[href="#x"]').click(function() {
+							$( "#popup-content" ).empty();
+							$( "#map_name" ).val('');
+						});                 
+					} else { // d.children.length > 1
+						 
+						// Periksa apakah boolean bernilai true / false untuk menentukan zoom level mana yang dipakai
+						// Menonaktifkan zoom pada level 0 dan mengaktifkan zoom pada level 1
+						if (zoomLevel0 == true) {
+							elemParentEnter.on("mouseover", function(d, i) {});
+							 
+							zoomLevel0 = false;
+							zoomLevel1 = true;
+ 
+							var dataChild = getChildrenOnly(d);
+ 
+							dataChild.forEach(function(p, i) {
+								if(i == 0) {
+									p.x = d.x;
+									p.y = d.y - 75;
+								} else if (i == 1) {
+									p.x = d.x + 75;
+									p.y = d.y;
+								} else if (i == 2) {
+									p.x = d.x;
+									p.y = d.y + 75;
 								}
 							});
 
-							$('a[href="#close"]').click(function() {
-								$( "#popup-content" ).empty();
-								$( "#map_name" ).val('');
+							node.style("fill", "#D9D9D9");
+ 
+							var elemChild = svgFisheye.selectAll("g.circle")
+							.data(dataChild);
+ 
+							var elemChildEnter = elemChild.enter()
+							.append("g")
+							.attr("class", "paperChild");
+ 
+							var nodeChild = elemChildEnter.append("circle")
+							.attr("class", "node")
+							.attr("id", function(p, i) {
+								return "circleChild-" + i;  // id tiap circle
+							})
+							.attr("cx", function(p, i) { return p.x; })
+							.attr("cy", function(p, i) { return p.y; })
+							.attr("r", function(p, i) { return 15; })
+							.style("fill", "#1F77B4") // Warna lingkaran, biru
+							.style("stroke-width", "0px");
+							// .call(force.drag);
+ 
+							var labelChild = elemChildEnter.append("text")
+							.attr("class", "label")
+							.attr("font-family", "sans-serif")
+							.attr("font-size", "14px")
+							.attr("text-anchor", "middle")
+							.attr("x", function(p, i) {
+								return p.x;
+							})
+							.attr("y", function(p, i) {
+								return p.y + 5;
+							})
+							.text(function(p){ return 1 });
+
+							// Hover untuk node dengan jumlah data 1
+							var g2 = svgFisheye.selectAll("g.paperParent").data(data.nodes);
+
+							$("svg circle").each(function(p, i) {
+								$(g2[0][p]).tipsy({ 
+									gravity: 'w', 
+									html:true,
+									title: function() {
+											console.log("g2[0][p]: " + JSON.stringify(g2[0][p]));
+											setTimeout(function() {
+												return "<span style=\"font-size:12px\">" + this.__data__.children[0].judul + "</span><br>Peneliti : " + this.__data__.children[0].peneliti;
+											}, 3000);
+										}
+								});
 							});
 
-							$('a[href="#x"]').click(function() {
-								$( "#popup-content" ).empty();
-								$( "#map_name" ).val('');
-							});                 
-						} else { // d.children.length > 1
-
-							// Periksa apakah boolean bernilai true / false untuk menentukan zoom level mana yang dipakai
-							// Menonaktifkan zoom pada level 0 dan mengaktifkan zoom pada level 1
-							if (zoomLevel0 == true) {
-								elemParentEnter.on("mouseover", function(d, i) {});
-
-								zoomLevel0 = false;
-								zoomLevel1 = true;
-								zoomLevel2 = false;
-
-								var dataChild = getChildrenWithGrouping(d);
-
-								if(dataChild.length == 2) {
-									dataChild.forEach(function(p, i) {
-										if(i == 0) {
-											p.x = d.x;
-											p.y = d.y - 75;
-										} else if (i == 1) {
-											p.x = d.x + 75;
-											p.y = d.y;
-										}
-									});
-								}
-
-								if(dataChild.length == 3) {
-									dataChild.forEach(function(p, i) {
-										if(i == 0) {
-											p.x = d.x - 75;
-											p.y = d.y;
-										} else if (i == 1) {
-											p.x = d.x;
-											p.y = d.y - 75;
-										} else if (i == 2) {
-											p.x = d.x + 75;
-											p.y = d.y;
-										}
-									});
-								}
-
-								if(dataChild.length == 4) {
-									dataChild.forEach(function(p, i) {
-										if(i == 0) {
-											p.x = d.x;
-											p.y = d.y - 75;
-										} else if (i == 1) {
-											p.x = d.x + 75;
-											p.y = d.y;
-										} else if (i == 2) {
-											p.x = d.x;
-											p.y = d.y + 75;
-										} else if (i == 3) {
-											p.x = d.x - 75;
-											p.y = d.y;
-										}
-									});
-								}
-								
-								// Ubah warna paperParent
-								node.style("fill", "#C2C3C4");
-
-								var elemChild = svgFisheye.selectAll("g.circle")
-								.data(dataChild);
-
-								var elemChildEnter = elemChild.enter()
-								.append("g")
-								.attr("class", "paperChild");
-
-								var nodeChild = elemChildEnter.append("circle")
-								.attr("class", "node")
-								.attr("id", function(p, i) {
-									return "circleChild-" + i;  // id tiap circle
-								})
-								.attr("cx", function(p, i) { return p.x; })
-								.attr("cy", function(p, i) { return p.y; })
-								.attr("r", function(p, i) { return 15; })
-								.style("fill", function(p, i) {
-									var lastIndex = p.length - 1;
-
-									if(p[lastIndex] == null) {
-										return "#6C9ECA";
-									} else if(p.length == 2) {
-										return "#447DB1";
-									}
-								})
-								.style("stroke-width", "0px");
-								// .call(force.drag);
-
-								var labelChild = elemChildEnter.append("text")
-								.attr("class", "label")
-								.attr("font-family", "sans-serif")
-								.attr("font-size", "14px")
-								.attr("text-anchor", "middle")
-								.attr("x", function(p, i) {
-									return p.x;
-								})
-								.attr("y", function(p, i) {
-									return p.y + 5;
-								})
-								.text(function(p, i){ return d.size[i] });
-
-								// Hover untuk node dengan jumlah data 1
-								var g2 = svgFisheye.selectAll("g.paperChild").data(dataChild);
-
-								$("svg circle").each(function(p, i) {
-									$(g2[0][p]).tipsy({ 
-										gravity: 'w',
-										html: true,
-										delayIn: 1000,
-										title: function() {
-											var lastIndex = g2[0][p].__data__.length - 1;
-
-											if(g2[0][p].__data__[lastIndex] == null) {
-												return "<span style=\"font-size:12px\">" + g2[0][p].__data__[0].judul + "</span><br>Peneliti : " + g2[0][p].__data__[0].peneliti;
-											} else {
-												return "<span style=\"font-size:12px\">" + g2[0][p].__data__[0].keyword + "</span>";
-											}
-										}
-									});
-								});
-
-								elemChildEnter.on("mouseover", function(p, i) {
-									fisheye.focus(d3.mouse(this));
-
-									// Fisheye untuk setiap node
-									nodeChild.each(function(p) { p.fisheye = fisheye(p); })
-									// .attr("cx", function(p) { return p.fisheye.x; })
-									// .attr("cy", function(p) { return p.fisheye.y; })
+ 
+							elemChildEnter.on("mouseover", function(p, i) { 
+								fisheye.focus(d3.mouse(this));
+ 
+								// Fisheye untuk setiap node
+								nodeChild.each(function(p) { p.fisheye = fisheye(p); })
+									.attr("cx", function(p) { return p.fisheye.x; })
+									.attr("cy", function(p) { return p.fisheye.y; })
 									.attr("r", function(p) { return p.fisheye.z * 15; });
-
-									// Fisheye untuk setiap label
-									labelChild.each(function(p) { p.fisheye = fisheye(p); })
-									// .attr("x", function(p) { return p.fisheye.x; })
-									// .attr("y", function(p) { return p.fisheye.y; })
+ 
+								// Fisheye untuk setiap label
+								labelChild.each(function(p) { p.fisheye = fisheye(p); })
+									.attr("x", function(p) { return p.fisheye.x; })
+									.attr("y", function(p) { return p.fisheye.y; })
 									.attr("r", function(p) { return p.fisheye.z * 15; });
+							});
+ 
+							elemChildEnter.on("click", function(p, i) {
+								if(document.URL.indexOf("#") >= 0) {
+									var location = document.URL.split("#");
+									document.location.href = location[0] + '#ShowDetailPaper';
+								} else {
+									document.location.href = document.URL + '#ShowDetailPaper';
+								}
+ 
+								var maxKeyChildren = 0;
+								var maxValueChildren = 0;
+ 
+								$.each(p, function(key, value) {
+									if(maxKeyChildren < key.length) { maxKeyChildren = key.length; }
+									if(maxValueChildren < value.length) { maxValueChildren = value.length; }
 								});
-
-								elemChildEnter.on("click", function(p, i) {
-									if(d.size[i] == 1) {
-										if(document.URL.indexOf("#") >= 0) {
-											var location = document.URL.split("#");
-											document.location.href = location[0] + '#ShowDetailPaper';
-										} else {
-											document.location.href = document.URL + '#ShowDetailPaper';
+ 
+								$.each(p, function(keyChildren, valueChildren) {
+									// if(key == "id" || key == "creater") {}
+									// else {
+										if(valueChildren == "" || keyChildren == "x" || keyChildren == "y" || keyChildren == "px" || keyChildren == "py" || keyChildren == "fisheye" || keyChildren == "id") {}
+										else {
+											$( "#popup-content" ).append( "<li><label style=\"width:" + maxKeyChildren * 8 + "px\">" + keyChildren + "</label><label style=\"width:10px\"> : </label></li>" );
+											$( "#popup-content" ).append('<span class="detail-content">' + valueChildren + '</span>');
 										}
-
-										var maxKeyChildren = 0;
-										var maxValueChildren = 0;
-
-										$.each(p[0], function(key, value) {
-											if(maxKeyChildren < key.length) { maxKeyChildren = key.length; }
-											if(maxValueChildren < value.length) { maxValueChildren = value.length; }
-										});
-
-										$.each(p[0], function(keyChildren, valueChildren) {
-											if(valueChildren == "" || keyChildren == "x" || keyChildren == "y" || keyChildren == "px" || keyChildren == "py" || keyChildren == "fisheye" || keyChildren == "id") {}
-											else {
-												$( "#popup-content" ).append( "<li><label style=\"width:" + maxKeyChildren * 8 + "px\">" + keyChildren + "</label><label style=\"width:10px\"> : </label></li>" );
-												$( "#popup-content" ).append('<span class="detail-content">' + valueChildren + '</span>');
-											}
-										});
-
-										$('a[href="#close"]').click(function() {
-											$( "#popup-content" ).empty();
-											$( "#map_name" ).val('');
-										});
-
-										$('a[href="#x"]').click(function() {
-											$( "#popup-content" ).empty();
-											$( "#map_name" ).val('');
-										});
-									} else {
-										if(zoomLevel1 == true) {
-											zoomLevel0 = false;
-											zoomLevel1 = false;
-											zoomLevel2 = true;
-
-											elemParentEnter.on("mouseover", function(d, i) {});
-											elemChildEnter.on("mouseover", function(p, i) {});
-
-											// Ubah warna paperParent
-											node.style("fill", "#909396");
-
-											// Ubah warna paperChild
-											nodeChild.style("fill", "#C2C3C4");
-
-											var dataGrandChild = p;
-
-											dataGrandChild.forEach(function(q, i) {
-												if(i == 0) {
-													q.x = p.x;
-													q.y = p.y - 75;
-												} else if (i == 1) {
-													q.x = p.x + 75;
-													q.y = p.y;
-												}
-											});
-
-											var elemGrandChild = svgFisheye.selectAll("g.circle")
-											.data(dataGrandChild);
-
-											var elemGrandChildEnter = elemGrandChild.enter()
-											.append("g")
-											.attr("class", "paperGrandChild");
-
-											var nodeGrandChild = elemGrandChildEnter.append("circle")
-											.attr("class", "node")
-											.attr("id", function(q, i) {
-												return "circleGrandChild-" + i;  // id tiap circle
-											})
-											.attr("cx", function(q, i) { return q.x; })
-											.attr("cy", function(q, i) { return q.y; })
-											.attr("r", function(q, i) { return 15; })
-											.style("fill", "#6C9ECA")
-											.style("stroke-width", "0px");
-											// .call(force.drag);
-
-											var labelGrandChild = elemGrandChildEnter.append("text")
-											.attr("class", "label")
-											.attr("font-family", "sans-serif")
-											.attr("font-size", "14px")
-											.attr("text-anchor", "middle")
-											.attr("x", function(q, i) {
-												return q.x;
-											})
-											.attr("y", function(q, i) {
-												return q.y + 5;
-											})
-											.text("1");
-
-											// Hover untuk node dengan jumlah data 1
-											var g3 = svgFisheye.selectAll("g.paperGrandChild").data(dataGrandChild);
-
-											$("svg circle").each(function(q, i) {
-												$(g3[0][q]).tipsy({ 
-													gravity: 'w', 
-													html: true,
-													delayIn: 1000,
-													title: function() {
-														return "<span style=\"font-size:12px\">" + g3[0][q].__data__.judul + "</span><br>Peneliti : " + g3[0][q].__data__.peneliti;
-													}
-												});
-											});
-
-											elemGrandChildEnter.on("mouseover", function(q, i) {
-												fisheye.focus(d3.mouse(this));
-
-												// Fisheye untuk setiap node
-												nodeGrandChild.each(function(q) { q.fisheye = fisheye(q); })
-												// .attr("cx", function(q) { return q.fisheye.x; })
-												// .attr("cy", function(q) { return q.fisheye.y; })
-												.attr("r", function(q) { return q.fisheye.z * 15; });
-
-												// Fisheye untuk setiap label
-												labelGrandChild.each(function(q) { q.fisheye = fisheye(q); })
-												// .attr("x", function(q) { return q.fisheye.x; })
-												// .attr("y", function(q) { return q.fisheye.y; })
-												.attr("r", function(q) { return q.fisheye.z * 15; });
-											});
-
-											elemGrandChildEnter.on("click", function(q, i) {
-												// if(q.length == 1) {
-													if(document.URL.indexOf("#") >= 0) {
-														var location = document.URL.split("#");
-														document.location.href = location[0] + '#ShowDetailPaper';
-													} else {
-														document.location.href = document.URL + '#ShowDetailPaper';
-													}
-
-													var maxKey = 0;
-													var maxValue = 0;
-
-													$.each(q, function(key, value) {
-													 if(maxKey < key.length) { maxKey = key.length; }
-													 if(maxValue < value.length) { maxValue = value.length; }
-													});
-
-													$.each(q, function(key, value) {
-														if(key == "id" || key == "creater") {}
-														else {
-															$( "#popup-content" ).append( "<li><label style=\"width:" + maxKey * 8 + "px\">" + key + "</label><label style=\"width:10px\"> : </label></li>" );
-															if(value == "") {}
-															else {
-																$( "#popup-content" ).append('<span class="detail-content">' + value + '</span>');
-															}
-														}
-													});
-
-													$('a[href="#close"]').click(function() {
-														$( "#popup-content" ).empty();
-														$( "#map_name" ).val('');
-													});
-
-													$('a[href="#x"]').click(function() {
-														$( "#popup-content" ).empty();
-														$( "#map_name" ).val('');
-													});
-												// }
-											});
-										}
-
-										// Menonaktifkan zoom pada level 2 dan mengaktifkan zoom pada level 1
-										else if(zoomLevel1 == false) {
-											elemChildEnter.on("mouseover", function(p, i) {
-												$(".paperGrandChild").remove();
-
-												node.style("fill", "#C2C3C4");
-
-												nodeChild.style("fill", function(p, i) {
-													var lastIndex = p.length - 1;
-
-													if(p[lastIndex] == null) {
-														return "#6C9ECA";
-													} else if(p.length == 2) {
-														return "#447DB1";
-													}
-												});
-
-												fisheye.focus(d3.mouse(this));
-
-												// Fisheye untuk setiap node
-												nodeChild.each(function(p) { p.fisheye = fisheye(p); })
-												// .attr("cx", function(p) { return p.fisheye.x; })
-												// .attr("cy", function(p) { return p.fisheye.y; })
-												.attr("r", function(p) { return p.fisheye.z * 15});
-
-												// Fisheye untuk setiap label
-												labelChild.each(function(p) { p.fisheye = fisheye(p); })
-												// .attr("x", function(p) { return p.fisheye.x; })
-												// .attr("y", function(p) { return p.fisheye.y; })
-												.attr("r", function(p) { return p.fisheye.z * 15});
-											});
-
-											zoomLevel0 = false;
-											zoomLevel1 = true;
-											zoomLevel2 = false;
-										}
-									}
+									// }
 								});
-							}
-
-							// Menonaktifkan zoom pada level 1 dan mengaktifkan zoom pada level 0
-							else if (zoomLevel0 == false) {
-								elemParentEnter.on("mouseover", function(d, i) {
-									$(".paperChild").remove();
-									$(".paperGrandChild").remove();
-
-									node.style("fill", "#1F77B4");
-
-									fisheye.focus(d3.mouse(this));
-
-									// Fisheye untuk setiap node
-									node.each(function(d) { d.fisheye = fisheye(d); })
-									// .attr("cx", function(d) { return d.fisheye.x; })
-									// .attr("cy", function(d) { return d.fisheye.y; })
-									.attr("r", function(d) { return d.fisheye.z * 15});
-
-									// Fisheye untuk setiap label
-									label.each(function(d) { d.fisheye = fisheye(d); })
-									// .attr("x", function(d) { return d.fisheye.x; })
-									// .attr("y", function(d) { return d.fisheye.y; })
-									.attr("r", function(d) { return d.fisheye.z * 15});
-
-									// Fisheye untuk setiap garis
-									// link.attr("x1", function(d) { return d.source.fisheye.x; })
-									// .attr("y1", function(d) { return d.source.fisheye.y; })
-									// .attr("x2", function(d) { return d.target.fisheye.x; })
-									// .attr("y2", function(d) { return d.target.fisheye.y; });
+ 
+								$('a[href="#close"]').click(function() {
+									$( "#popup-content" ).empty();
+									$( "#map_name" ).val('');
 								});
-
-								zoomLevel0 = true;
-								zoomLevel1 = false;
-								zoomLevel2 = false;
-							}
+ 
+								$('a[href="#x"]').click(function() {
+									$( "#popup-content" ).empty();
+									$( "#map_name" ).val('');
+								});
+							});
 						}
-					});
+ 
+						// Menonaktifkan zoom pada level 1 dan mengaktifkan zoom pada level 0
+						else if (zoomLevel0 == false) {
+							elemParentEnter.on("mouseover", function(d, i) {
+								// Hover untuk node dengan jumlah data 1
+								// if(d.children.length == 1) {
+								//  var g1 = svgFisheye.selectAll("g.circle").data(data.nodes);
+								//  $(g1[0][d]).tipsy({ 
+								//      gravity: 'w', 
+								//      html:true,
+								//      title: function() {
+								//          return "<span style=\"font-size:12px\">" + d.children[0].judul + "</span><br>Peneliti : " + d.children[0].peneliti;
+								//      }
+								//  });
+								// }
+ 
+								$(".paperChild").remove();
+
+								node.style("fill", "#1F77B4");
+ 
+								fisheye.focus(d3.mouse(this));
+ 
+								// Fisheye untuk setiap node
+								node.each(function(d) { d.fisheye = fisheye(d); })
+								.attr("cx", function(d) {
+									return d.fisheye.x;
+								})
+								.attr("cy", function(d) {
+									return d.fisheye.y;
+								})
+								.attr("r", function(d) { return d.fisheye.z * 15});
+ 
+								// Fisheye untuk setiap label
+								label.each(function(d) { d.fisheye = fisheye(d); })
+								.attr("x", function(d) {
+									return d.fisheye.x;
+								})
+								.attr("y", function(d) {
+									return d.fisheye.y;
+								})
+								.attr("r", function(d) { return d.fisheye.z * 15});
+ 
+								// Fisheye untuk setiap garis
+								link.attr("x1", function(d) { return d.source.fisheye.x; })
+								.attr("y1", function(d) { return d.source.fisheye.y; })
+								.attr("x2", function(d) { return d.target.fisheye.x; })
+								.attr("y2", function(d) { return d.target.fisheye.y; });
+							});
+ 
+							zoomLevel0 = true;
+							zoomLevel1 = false;
+						}
+					}
 				});
-			})();
-		}
+			});
+		})();
 	</script> 
 
 	<script>
@@ -2764,12 +2142,6 @@
 		$('[data-toggle="tooltip"]').tooltip();   
 	});
 	</script>
-
-	<style>
-	.border{
-		stroke: black;
-	}
-	</style>
 
 	<!-- popup form #1 -->
 	<a href="#x" class="overlay" id="AddPaper"></a>
@@ -2788,7 +2160,7 @@
 					</thead>
 				</table>
 			</div>
-
+			 
 			<div style="top:50%; position:absolute;left:48%">
 				<button type="button" id="rightButton" class="btn btn-default btn-sm">
 					<span class="glyphicon glyphicon-chevron-right"></span>
@@ -2798,7 +2170,7 @@
 					<span class="glyphicon glyphicon-chevron-left"></span>
 				</button>
 			</div>
-
+			 
 			<div class="RightPopUp" style="float:right">
 				<h2 id="SelectedPaper">Selected Paper</h2>
 				<table cellpadding="0" cellspacing="0" border="0" id="AddedPaper">
@@ -2808,16 +2180,16 @@
 							<th>Peneliti</th>
 						</tr>
 					</thead>
-
+					 
 					<tbody id="SelectedRow"></tbody>
 				</table>
 			</div>
 		</div>
-
+		 
 		<button id="SaveButton" class="button"style="float:right;margin-right:10px;width:auto">Simpan</button>
 		<a class="close" href="#close" id="Close"></a>
 	</div>
-
+		 
 	<!-- popup form #2 -->
 	<a href="#x" class="overlay" id="ShowDetailPaper"></a>
 	<div class="popup" style ="width:800px;">
@@ -2825,7 +2197,7 @@
 		<div id="popup-content"></div>
 		<a class="close" href="#close" id="closeDetail"></a>
 	</div>
-
+	 
 	<a href="#x" class="overlay" id="SavePaper"></a>
 	<div class="popup" style ="width:300px;">
 		<h2>Simpan Peta</h2>
