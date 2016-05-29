@@ -1821,13 +1821,9 @@
 			var zoomLevel2 = false;
 			
 			var margin = { top: 10, right: 30, bottom: 40, left: 150 };
-			// var margin = {top: 10, right: 30, bottom: 30, left: 50};
  
 			var width = 950 - margin.left - margin.right;
 			var height = 510 - margin.top - margin.bottom;
-			
-			// var width = 850 - margin.left - margin.right;
-			// var height = 500 - margin.top - margin.bottom;
  
 			// Untuk mempersiapkan layout
 			var force = d3.layout.force()
@@ -1878,9 +1874,6 @@
 
 				// Fungsi apabila dipilih parameter pada sumbu y dengan nilai "Tahun Publikasi"
 				if ($("#sumbuY option:selected").text() == 'Tahun Publikasi') {
-					// y = d3.scale.linear()
-					// .domain([d3.min(data.nodes.map(function(d) {return d.sumbu_y; }))-5, d3.max(data.nodes.map(function(d) {return d.sumbu_y; }))])
-					// .range([0, height]);
 					
 					// Ubah angka string menjadi angka numeric 
 					for(var i = 0; i < data.nodes.length; i++) {
@@ -2126,7 +2119,6 @@
 						}
 					})
 					.attr("marker-end", function(d, i) { return "url(#" + i + ")"; });
-					// .style("stroke width", function(d) { return Math.sqrt(d.value); });
 				}
 
 				//////////////////////////
@@ -2140,7 +2132,6 @@
 				var elemParentEnter = elemParent.enter()
 				.append("g")
 				.attr("class", "paperParent");
-				// .attr("transform", function(d) {return "translate(10, 60)"});
 				
 				data.nodes.forEach(function(d, i) {
 					d.x = posisiX(d.sumbu_x)
@@ -2149,27 +2140,11 @@
 					+ (y.rangeBand() / 180) + 2;
 				});
 
-				// data.nodes.forEach(function(d, i) {
-				// 	// d.x = d.y = width / n * i;
-				// 	if(i == 0) { d.x = 1000; d.y = 23; }
-				// 	else if(i == 1) { d.x = 63; d.y = 520; }
-				// 	else if(i == 2) { d.x = 323; d.y = 263; }
-				// 	else if(i == 3) { d.x = 562; d.y = 185; }
-				// 	else if(i == 4) { d.x = 562; d.y = 520; }
-				// 	else if(i == 5) { d.x = 447; d.y = 110; }
-				// 	else if(i == 6) { d.x = 1170; d.y = 110; }
-				// 	else if(i == 7) { d.x = 193; d.y = -57; }
-				// 	else if(i == 8) { d.x = 818; d.y = 350; }
-				// 	else if(i == 9) { d.x = 692; d.y = -57; }
-				// 	else if(i == 10) { d.x = 1170; d.y = 440; }
-				// });
-
 				// Buat tag circle di dalam tag lingkaran dengan class nodeParent
 				var node = elemParentEnter.append("circle")
 				.attr("class", "nodeParent")
 				.attr("id", function(d, i) {
 					return "circleParent-" + i;  // id tiap circle
-					// return "circle-" + d.id;
 				})
 				.attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
 				.attr("cy", function(d, i) { return d.y;}) // Koordinat lingkaran pada sumbu y
@@ -2186,9 +2161,6 @@
 						for(var iterator = 0; iterator < d.size.length; iterator++) {
 							realSize += d.size[iterator];
 							totalSize += realSize;
-
-							console.log("realSize: " + realSize);
-							console.log("totalSize: " + totalSize);
 						}
 
 						if (realSize == 2) {
@@ -2258,14 +2230,10 @@
  
 					// Fisheye untuk setiap node
 					node.each(function(d) { d.fisheye = fisheye(d); })
-					// .attr("cx", function(d) { return d.fisheye.x; })
-					// .attr("cy", function(d) { return d.fisheye.y; })
 					.attr("r", function(d) { return d.fisheye.z * 15 });
 					
 					// Fisheye untuk setiap label
 					label.each(function(d) { d.fisheye = fisheye(d); })
-					// .attr("x", function(d) { return d.fisheye.x; })
-					// .attr("y", function(d) { return d.fisheye.y; })
 					.attr("r", function(d) { return d.fisheye.z * 15});
 
 					// Fisheye untuk setiap garis
@@ -2442,14 +2410,10 @@
 
 								// Fisheye untuk setiap node
 								nodeChild.each(function(p) { p.fisheye = fisheye(p); })
-								// .attr("cx", function(p) { return p.fisheye.x; })
-								// .attr("cy", function(p) { return p.fisheye.y; })
 								.attr("r", function(p) { return p.fisheye.z * 15; });
 
 								// Fisheye untuk setiap label
 								labelChild.each(function(p) { p.fisheye = fisheye(p); })
-								// .attr("x", function(p) { return p.fisheye.x; })
-								// .attr("y", function(p) { return p.fisheye.y; })
 								.attr("r", function(p) { return p.fisheye.z * 15; });
 							});
 
@@ -2570,14 +2534,10 @@
 
 											// Fisheye untuk setiap node
 											nodeGrandChild.each(function(q) { q.fisheye = fisheye(q); })
-											// .attr("cx", function(q) { return q.fisheye.x; })
-											// .attr("cy", function(q) { return q.fisheye.y; })
 											.attr("r", function(q) { return q.fisheye.z * 15; });
 
 											// Fisheye untuk setiap label
 											labelGrandChild.each(function(q) { q.fisheye = fisheye(q); })
-											// .attr("x", function(q) { return q.fisheye.x; })
-											// .attr("y", function(q) { return q.fisheye.y; })
 											.attr("r", function(q) { return q.fisheye.z * 15; });
 										});
 
@@ -2647,14 +2607,10 @@
 
 											// Fisheye untuk setiap node
 											nodeChild.each(function(p) { p.fisheye = fisheye(p); })
-											// .attr("cx", function(p) { return p.fisheye.x; })
-											// .attr("cy", function(p) { return p.fisheye.y; })
 											.attr("r", function(p) { return p.fisheye.z * 15});
 
 											// Fisheye untuk setiap label
 											labelChild.each(function(p) { p.fisheye = fisheye(p); })
-											// .attr("x", function(p) { return p.fisheye.x; })
-											// .attr("y", function(p) { return p.fisheye.y; })
 											.attr("r", function(p) { return p.fisheye.z * 15});
 										});
 
