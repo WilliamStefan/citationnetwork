@@ -1940,26 +1940,6 @@
 				var y = d3.fisheye.ordinal()
 				.rangeRoundBands([height, 0], .1);
 			}
- 
-			var xAxis = d3.svg.axis()
-			.scale(x)
-			.outerTickSize(0)
-			.orient("bottom");
-	 
-			var yAxis = d3.svg.axis()
-			.scale(y)
-			.outerTickSize(0)
-			.orient("left");
-
-			svgFisheye.append("g")
-			.attr("class", "x axis")
-			.attr("transform", "translate(0," + height + ")")
-			.call(xAxis);
-	 
-			svgFisheye.append("g")
-			.attr("class", "y axis")
-			.attr("transform", "translate(0,0)")
-			.call(yAxis);
 	 			
 			svgFisheye.append('rect')
 			    .attr('class', 'background')
@@ -2183,49 +2163,6 @@
 				.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) {return d.id.length; }))])
 				.range([start, minimum / 2]);
 
-				xAxis = d3.svg.axis().scale(x).outerTickSize(0).orient("bottom").tickFormat(function(d) {
-					if(d.length>minimum/10)
-					{
-						svgFisheye.selectAll(".x.axis").selectAll(".tick").each(function( index ) {
-							$(this).tipsy({ 
-							gravity: 'n', 
-							html:true,
-							title: function() {
-								return "<span style=\"font-size:12px\">"+index+"</span>";  
-							}
-						  });
-						});
-						d=d.substr(0,minimum/10);return d+"..."
-					}
-					else
-					{
-						return d;
-					}
-				});
-				yAxis = d3.svg.axis().scale(y).outerTickSize(0).orient("left").tickFormat(function(d) {
-					if(d.length>10)
-					{
-						svgFisheye.selectAll(".y.axis").selectAll(".tick").each(function( index ) {
-							$(this).tipsy({ 
-							gravity: 'e', 
-							html:true,
-							title: function() {
-								return "<span style=\"font-size:12px\">"+index+"</span>";  
-							}
-						  });
-						});
-						d=d.substr(0,10);return d+"..."
-					}
-					else
-					{
-						return d;
-					}
-				});
-				
-				svgFisheye.selectAll("g.y.axis")
-					.call(yAxis);
-				svgFisheye.selectAll("g.x.axis")
-					.call(xAxis);
 				// Run the layout a fixed number of times.
 				// The ideal number of times scales with graph complexity.
 				// Of course, don't run too long—you'll hang the page!
