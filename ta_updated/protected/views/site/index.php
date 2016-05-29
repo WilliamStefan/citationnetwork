@@ -2100,7 +2100,7 @@ $this->pageTitle=Yii::app()->name;
 					//$('#SaveButton').attr('disabled','disabled');
 					alert("Jumlah paper melebihi 21. Kurangi paper");
 				}
-													
+				d3.select('.frame').remove();									
 				});
 				
 			};
