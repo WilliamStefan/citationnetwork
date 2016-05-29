@@ -32,6 +32,13 @@ class SiteController extends Controller
 		$this->render('index');
 	}
 
+	public function actionIndexFisheye()
+	{
+		// renders the view file 'protected/views/site/indexFisheye.php'
+		// using the default layout 'protected/views/layouts/main.php'
+		$this->render('indexFisheye');
+	}
+
 	/**
 	 * This is the action to handle external exceptions.
 	 */

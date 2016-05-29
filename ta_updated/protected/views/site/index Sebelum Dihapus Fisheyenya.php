@@ -1334,9 +1334,7 @@
 				"fnCreatedRow": function( nRow, aData, iDataIndex ) {
 					$(nRow).attr('id', aData['id']);
 				}
-			});
-
-			var jumlahPaper;
+			});var jumlahPaper;
 			 
 			jumlahPaper = t.fnSettings().fnRecordsTotal();
 			$("#jumlahPaper").text(jumlahPaper);
@@ -1518,10 +1516,10 @@
 						}
 					}
 				 
-					json2 = json2+"]";
+					json2=json2+"]";
 					t.api().row('.selected2').remove().draw();
 					json2 = JSON.parse(json2);
-					var rownode = table.fnAddData(json2);
+					var rownode=table.fnAddData(json2);
 				 
 					for(var i = 0; i < counter1; i++) {
 						var theNode = $('#TableAddPaper').dataTable().fnSettings().aoData[rownode[i]].nTr;
@@ -1534,8 +1532,8 @@
 					var rowpos = $('#TableAddPaper tr:last').position();
 				 
 					$('#TableAddPaperScrollBody').animate({scrollTop: rowpos.top}, "slow",function() {
-						jumlahPaper = t.fnSettings().fnRecordsTotal();
-						if(jumlahPaper <= 21) {}
+						jumlahPaper=t.fnSettings().fnRecordsTotal();
+						if(jumlahPaper<=21) {}
 						else { }
 					});
 			 
@@ -1719,6 +1717,44 @@
 			return paperGrouping;
 		}
 
+		function grouping(papers, listOfSizes) {
+			var paperGrouping = new Array(listOfSizes.length);
+			var urutan_di_papers = 0;
+
+			for(var i = 0; i < listOfSizes.length; i++) {
+				paperGrouping[i] = new Array(listOfSizes[i]);
+				for(var j = 0; j < listOfSizes[i]; j++) {
+					paperGrouping[i]['children'] = new Array(listOfSizes[i]);
+					// paperGrouping[i]['children'][j] = new Array(2);
+					paperGrouping[i]['children'][j] = papers.children[urutan_di_papers + j];
+					// console.log("paperGrouping[i]['children'][j]: " + JSON.stringify(paperGrouping[i]['children'][j]));
+					// console.log("paperGrouping[i]['children']: " + JSON.stringify(paperGrouping[i]['children']));
+				}
+				urutan_di_papers += listOfSizes[i];
+				// console.log("paperGrouping[i]: " + JSON.stringify(paperGrouping[i]));
+			}
+			// console.log("paperGrouping['children']: " + JSON.stringify(paperGrouping['children']));
+			return paperGrouping;
+		}
+
+		function grouping2(papers, listOfSizes) {
+			var paperGrouping = new Array(listOfSizes.length);
+			var urutan_di_papers = 0;
+
+			for(var i = 0; i < listOfSizes.length; i++) {
+				paperGrouping[i] = new Array(listOfSizes.length);
+				for(var j = 0; j < listOfSizes[i]; j++) {
+					paperGrouping[i][j] = new Array(listOfSizes[i]);
+					paperGrouping[i][j] = papers.children[urutan_di_papers + j];
+					// console.log("paperGrouping[" + i + "][" + j + "]: " + JSON.stringify(paperGrouping[i][j]) + "\n");
+				}
+				urutan_di_papers += listOfSizes[i];
+				// console.log("paperGrouping[" + i + "]: " + JSON.stringify(paperGrouping[i]) + "\n\n");
+			}
+			// console.log("paperGrouping: " + JSON.stringify(paperGrouping));
+			return paperGrouping;
+		}
+
 		function getChildren(papers) {
 			var newPapers = new Array(papers.length);
 			for(var i = 0; i < papers.length; i++) {
@@ -1739,6 +1775,20 @@
 				}
 			}
 			return newPapers;
+		}
+
+		function getChildrenOnly(paper) {
+			// return grouping(paper, paper.size);
+			return paper.children;
+		}
+
+		function getChildrenWithGrouping(paper) {
+			return grouping2(paper, paper.size);
+		}
+
+		function getChildrenOnly3(paper) {
+			return grouping3(paper, paper.size);
+			// return paper.children;
 		}
  
 		$("#save_paper").click(function() {
@@ -1795,6 +1845,930 @@
 			window.xmlhttp.send(query);
 		}
 	</script>
+
+	<script type="text/javascript">
+		(function breadcrumb() {
+			if ($("#mode_zoom option:selected").text() == 'Breadcrumbs') {
+
+			}
+		});
+	</script>
+
+	<script type="text/javascript">
+		(function fisheye() {
+			if ($("#mode_zoom option:selected").text() == 'Fisheye') {
+				var zoomLevel0 = true;
+				var zoomLevel1 = false;
+				var zoomLevel2 = false;
+				
+				var margin = { top: 10, right: 30, bottom: 40, left: 150 };
+				// var margin = {top: 10, right: 30, bottom: 30, left: 50};
+	 
+				var width = 950 - margin.left - margin.right;
+				var height = 510 - margin.top - margin.bottom;
+				
+				// var width = 850 - margin.left - margin.right;
+				// var height = 500 - margin.top - margin.bottom;
+	 
+				// Untuk mempersiapkan layout
+				var force = d3.layout.force()
+				.charge(-240)
+				.linkDistance(40)
+				.size([width, height]);
+	 
+				// Ambil kelas .chart lalu buat tag g dengan atribut width dan height di dalamnya
+				var svgFisheye = d3.select(".chart")
+				.append("g")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", 515)
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	 
+				var color = d3.scale.category20();
+	 
+				var fisheye = d3.fisheye.circular()
+				.radius(100);
+	 
+				d3.json("dummySize.json", function(data) {
+					var n = data.nodes.length;
+					force.nodes(data.nodes).links(data.links);
+	 
+					// Initialize the positions deterministically, for better results.
+					// Atur koordinat lingkaran pada sumbu x dan sumbu y
+					var posisiX, posisiY;
+					
+					// Fungsi apabila dipilih parameter pada sumbu x dengan nilai "Tahun Publikasi"
+					if ($("#sumbuX option:selected").text() == 'Tahun Publikasi') {
+						for(var i = 0; i < data.nodes.length; i++) {
+							data.nodes[i].sumbu_x = parseInt(d[i].sumbu_x);
+						}
+		 
+						posisiX = d3.scale.ordinal()          
+						.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
+						.rangeRoundBands([0, width], .1);
+					}
+					 
+					// Sorting huruf
+					else {
+						for(i = 0; i < data.nodes.length; i++) {
+							data.nodes[i].sumbu_x = data.nodes[i].sumbu_x.charAt(0).toUpperCase() + data.nodes[i].sumbu_x.slice(1);
+						}
+						posisiX = d3.scale.ordinal()
+						.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
+						.rangeRoundBands([0, width], .1);
+					}
+
+					// Fungsi apabila dipilih parameter pada sumbu y dengan nilai "Tahun Publikasi"
+					if ($("#sumbuY option:selected").text() == 'Tahun Publikasi') {
+						// y = d3.scale.linear()
+						// .domain([d3.min(data.nodes.map(function(d) {return d.sumbu_y; }))-5, d3.max(data.nodes.map(function(d) {return d.sumbu_y; }))])
+						// .range([0, height]);
+						
+						// Ubah angka string menjadi angka numeric 
+						for(var i = 0; i < data.nodes.length; i++) {
+							data.nodes[i].sumbu_y = parseInt(data.nodes[i].sumbu_y);
+						}
+		 
+						posisiY = d3.scale.ordinal()
+						.rangeRoundBands([height, 0], .1)
+						.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
+					} else {
+						for(i = 0; i < data.nodes.length; i++) {
+							data.nodes[i].sumbu_y = data.nodes[i].sumbu_y.charAt(0).toUpperCase() + data.nodes[i].sumbu_y.slice(1);
+						}
+						 
+						posisiY = d3.scale.ordinal()
+						.rangeRoundBands([height, 0], .1)
+						.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
+					}
+
+					var minimum;
+					if(y.rangeBand() > x.rangeBand()) {
+						minimum = x.rangeBand();
+					} else {
+						minimum = y.rangeBand();
+					}
+
+					var start;
+					if((minimum / 2) < 15) {
+						alert("Data yang dimasukkan terlalu banyak! Kurangi data");
+						if(document.URL.indexOf("#") >= 0) {
+							var location = document.URL.split("#");
+							document.location.href = location[0] + '#AddPaper';
+						} else {
+							document.location.href = document.URL + '#AddPaper';
+						}
+						 
+						// start = minimum / 2 - 1;
+					} else {
+						if(d3.min(data.nodes.map(function(d) {return d.id.length; })) != d3.max(data.nodes.map(function(d) {return d.id.length; }))) {
+							start = 15;
+						} else {
+							start = minimum / 2;
+						}
+					}
+
+					var posisiR = d3.scale.linear()
+					.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) {return d.id.length; }))])
+					.range([start, minimum / 2]);
+
+					// Run the layout a fixed number of times.
+					// The ideal number of times scales with graph complexity.
+					// Of course, don't run too long—you'll hang the page!
+					force.start();
+					for (var i = n; i > 0; --i) force.tick();
+					force.stop();
+
+					//////////////////
+					// Membuat link //
+					//////////////////
+
+					// Hitung x asal
+					function hitungXAsal(sourcex, sourcey, targetx, targety, r) {
+						var miring = Math.sqrt(Math.pow((targetx - sourcex), 2) + Math.pow((targety - sourcey), 2));
+						return ((targetx * r - sourcex * r + miring * sourcex) / miring);
+					}
+					 
+					// Hitung x tujuan
+					function hitungXTujuan(sourcex, sourcey, targetx, targety, r) {
+						var miring = Math.sqrt(Math.pow((sourcex - targetx), 2) + Math.pow((sourcey - targety), 2));
+						return ((targetx * miring - targetx * r - sourcex * miring + sourcex * r) / miring) + sourcex;
+					}
+
+					// Setting data untuk link, source dan targetnya ud data node
+					var rlink = new Array();
+					if(data.links.length != 0) {
+						var counter_rlink;
+						counter_rlink = 0;
+						var rlinks = new Array(data.links.length);
+						for(var i = 0; i < data.links.length; i++) {
+							var j, k, l, m;
+							j = 0; k = 0;
+							 
+							var sudah_ketemu; sudah_ketemu = 0;
+							while(data.nodes.length > j && !sudah_ketemu) {
+								if(data.nodes[j].id.length == 1 && data.links[i].source != data.nodes[j].id[0]) {
+									j++;                
+								}
+								else if(data.nodes[j].id.length == 1 && data.links[i].source == data.nodes[j].id[0]) {
+									sudah_ketemu = 1;
+								}
+								else {
+									l = 0;
+									 
+									while(data.nodes[j].id.length > l && data.links[i].source != data.nodes[j].id[l]) { // 3>0 && 1!=1
+										l++;
+									}
+		 
+									if(data.nodes[j].id.length < l || data.links[i].source != data.nodes[j].id[l]) {
+										j++;
+									}
+									else if (data.nodes[j].id.length > l && data.links[i].source == data.nodes[j].id[l]) {
+										sudah_ketemu = 1;
+									}
+								}
+							}
+							 
+							sudah_ketemu = 0;
+							 
+							while(data.nodes.length > k && !sudah_ketemu) {
+								// console.log(data.nodes[k]);
+								if(data.nodes[k].id.length == 1 && data.links[i].target != data.nodes[k].id[0]) {
+									k++;
+								}
+								else if (data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id[0]) {
+									sudah_ketemu = 1;
+								}
+								 
+								else {
+									m = 0;
+									 
+									while(data.nodes[k].id.length > m && data.links[i].target != data.nodes[k].id[m]) {
+										m++;
+									}
+									 
+									if(data.nodes[k].id.length < m || data.links[i].target != data.nodes[k].id[m]) {
+										k++;
+									}
+									else if(data.nodes[k].id.length > m && data.links[i].target == data.nodes[k].id[m]) {
+										sudah_ketemu = 1;
+									}
+								}
+							}
+							 
+							// Untuk melist semua kemungkinan apakah source dan target berada dalam 1 level atau tidak
+							if(j < data.nodes.length && k < data.nodes.length && ((data.nodes[j].id.length == 1 && data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id && data.links[i].source == data.nodes[j].id) || (data.nodes[j].id.length > 1 && data.nodes[k].id.length > 1 && data.links[i].target == data.nodes[k].id[m] && data.links[i].source == data.nodes[j].id[l]) || (data.nodes[j].id.length == 1 && data.nodes[k].id.length > 1 && data.links[i].target == data.nodes[k].id[m] && data.links[i].source == data.nodes[j].id) ||(data.nodes[j].id.length > 1 && data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id && data.links[i].source ==data.nodes[j].id[l]))) {
+								 
+								rlink[counter_rlink] = new Array();
+								rlink[counter_rlink].source = data.nodes[j];
+								 
+								rlink[counter_rlink].target = data.nodes[k];
+								counter_rlink++;
+							} else {}
+						}
+					}
+
+					// Panah dan garis hanya akan dibuat jika linknya ada
+					if(rlink.length != 0) {
+						// Untuk membuat panah
+						var marker = svgFisheye.selectAll("g.marker").data(data.links)
+							.enter().append("marker")
+							.attr("id", function(d, i) { return i; })
+							.attr("viewBox", "0 -5 10 10")
+							.attr("refX", function(d) {
+								if((posisiY(d.target.value) == posisiY(d.source.value)) && (posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x))) {}
+								 
+								if(posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) {
+									return 10;
+								} else {
+									return 10;
+								}           
+							})
+							.attr("refY", 0)
+							.attr("markerWidth", 6)
+							.attr("markerHeight", 6)
+							.attr("orient", "auto")
+							.append("svg:path")
+							.attr("d", "M0,-5L10,0L0,5")
+							.attr("fill", "none")
+							.attr("stroke", "black");
+						 
+						// (X1, Y1) koordinat asal
+						// (X2, Y2) koordinat tujuan						 
+						var link = svgFisheye.selectAll("g.link").data(rlink)
+						.enter().append("line")
+						.attr("class", "link")
+						.attr("x1", function(d) {
+							if((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x))) {
+								return posisiX(d.source.sumbu_x)+ (x.rangeBand() / 180) + posisiR(d.source.id.length); 
+							}
+							 
+							// Garis horizontal jika lingkaran asal ada di kiri target
+							else if ((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x))) {
+								return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180) - posisiR(d.source.id.length);
+							}
+							 
+							// Garis vertical
+							else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
+								return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180);
+							}
+							 
+							// Garis miring
+							else {
+								return hitungXAsal((posisiX(d.source.sumbu_x) + (x.rangeBand() / 180)),(posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)), (posisiX(d.target.sumbu_x) + (x.rangeBand() / 180)), (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180)), posisiR(d.source.id.length));
+							}
+						})
+						.attr("y1", function(d) { 
+							//garis horizontal
+							if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
+								return posisiY(d.source.sumbu_y) + (y.rangeBand() / 180);
+							}
+							 
+							//garis vertical dengan lingkaran asal ada di atas target
+							else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
+								return (posisiY(d.source.sumbu_y)+ (y.rangeBand() / 180) + posisiR(d.source.id.length));
+							}
+							 
+							//garis vertical dengan lingkaran asal ada di bawah target
+							else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
+								return (posisiY(d.source.sumbu_y) + (y.rangeBand() / 180) - posisiR(d.source.id.length));
+							}
+
+							else {
+								var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + x.rangeBand() / 180)-(posisiX(d.target.sumbu_x) + x.rangeBand() / 180)), 2) + Math.pow(((posisiY(d.source.sumbu_y)+y.rangeBand() / 180)-(posisiY(d.target.sumbu_y) + y.rangeBand() / 180)), 2));
+								return (posisiY(d.source.sumbu_y) + y.rangeBand() / 180)-(((posisiY(d.source.sumbu_y) + y.rangeBand() / 180)-(posisiY(d.target.sumbu_y) + y.rangeBand() / 180)) * posisiR(d.source.id.length) / miring);
+							}
+						})
+						// Sama seperti diatas, hanya untuk lingkaran target
+						.attr("x2", function(d) {
+							if((posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
+								return posisiX(d.target.sumbu_x) + (x.rangeBand() / 180) - posisiR(d.target.id.length); 
+							}
+							else if ((posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
+								return posisiX(d.target.sumbu_x) + (x.rangeBand() / 180) + posisiR(d.target.id.length); 
+							}
+							else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
+								return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180);
+							} else {
+								return hitungXTujuan((posisiX(d.source.sumbu_x) + (x.rangeBand() / 180)), (posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)),(posisiX(d.target.sumbu_x) + (x.rangeBand() / 180)),(posisiY(d.target.sumbu_y) + (y.rangeBand() / 180)), posisiR(d.target.id.length));
+							}   
+						})
+						.attr("y2", function(d) {
+							if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
+								return posisiY(d.target.sumbu_y) + (y.rangeBand() / 180);
+							}
+							else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
+								return (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180) - posisiR(d.target.id.length));
+							}
+							else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
+								return (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180) + posisiR(d.target.id.length));
+							} else {
+								var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + x.rangeBand() / 180) - (posisiX(d.target.sumbu_x) + x.rangeBand() / 180)), 2) + Math.pow(((posisiY(d.source.sumbu_y) + y.rangeBand() / 180) - (posisiY(d.target.sumbu_y) + y.rangeBand() / 180)), 2));
+								return posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)-(((miring - posisiR(d.target.id.length)) * ((posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)) - (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180))) / miring));
+							}
+						})
+						.attr("marker-end", function(d, i) { return "url(#" + i + ")"; });
+						// .style("stroke width", function(d) { return Math.sqrt(d.value); });
+					}
+
+					//////////////////////////
+					// Membuat link selesai //
+					//////////////////////////
+
+					var elemParent = svgFisheye.selectAll("g.circle")
+					.data(data.nodes);
+
+					// Buat tag g dengan kelas lingkaran
+					var elemParentEnter = elemParent.enter()
+					.append("g")
+					.attr("class", "paperParent");
+					// .attr("transform", function(d) {return "translate(10, 60)"});
+					
+					data.nodes.forEach(function(d, i) {
+						d.x = posisiX(d.sumbu_x)
+						+ (x.rangeBand() / 180) - 1;
+						d.y = posisiY(d.sumbu_y)
+						+ (y.rangeBand() / 180) + 2;
+					});
+
+					// data.nodes.forEach(function(d, i) {
+					// 	// d.x = d.y = width / n * i;
+					// 	if(i == 0) { d.x = 1000; d.y = 23; }
+					// 	else if(i == 1) { d.x = 63; d.y = 520; }
+					// 	else if(i == 2) { d.x = 323; d.y = 263; }
+					// 	else if(i == 3) { d.x = 562; d.y = 185; }
+					// 	else if(i == 4) { d.x = 562; d.y = 520; }
+					// 	else if(i == 5) { d.x = 447; d.y = 110; }
+					// 	else if(i == 6) { d.x = 1170; d.y = 110; }
+					// 	else if(i == 7) { d.x = 193; d.y = -57; }
+					// 	else if(i == 8) { d.x = 818; d.y = 350; }
+					// 	else if(i == 9) { d.x = 692; d.y = -57; }
+					// 	else if(i == 10) { d.x = 1170; d.y = 440; }
+					// });
+
+					// Buat tag circle di dalam tag lingkaran dengan class nodeParent
+					var node = elemParentEnter.append("circle")
+					.attr("class", "nodeParent")
+					.attr("id", function(d, i) {
+						return "circleParent-" + i;  // id tiap circle
+						// return "circle-" + d.id;
+					})
+					.attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
+					.attr("cy", function(d, i) { return d.y;}) // Koordinat lingkaran pada sumbu y
+					.attr("r", function(d, i) {
+						// Mengatur jari-jari lingkaran
+						if(d.size.length == 1) {
+							if(d.size[0] == 1) {
+								return 15;
+							}
+						} else {
+							var realSize = 0;
+
+							for(var iterator = 0; iterator < d.size.length; iterator++) {
+								realSize += d.size[iterator];
+							}
+
+							if (realSize == 2) {
+								return 20;
+							} else if (realSize == 3) {
+								return 25;
+							} else if (realSize == 4) {
+								return 30;
+							}
+						}
+					 })
+					.style("fill", function(d, i) {
+						if(d.size.length == 1) {
+							return "#6C9ECA";
+						} else {
+							if(d.children.length == 2) {
+								return "#447DB1";
+							} else if(d.children.length == 3) {
+								return "#2868A2";
+							} else if(d.children.length == 4) {
+								return "#0F528E";
+							} 
+						}
+					});
+					// .call(force.drag);
+
+					// Buat tag text di dalam tag lingkaran dengan class label
+					var label = elemParentEnter.append("text")
+					.attr("class", "labelParent")
+					.attr("font-family", "sans-serif") // Jenis font
+					.attr("font-size", "14px") // Ukuran font
+					.attr("text-anchor", "middle")
+					.attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
+					.attr("y", function(d, i) { return d.y + 5; }) // Koordinat label pada sumbu y
+					.text(function(d) {
+						// Isi label
+						return d.children.length;
+					});
+
+					// Hover untuk node dengan jumlah data 1
+					var g1 = svgFisheye.selectAll("g.paperParent").data(data.nodes);
+
+					$("svg circle").each(function(d, i) {
+						if(g1[0][d].__data__.children.length == 1) {
+							$(g1[0][d]).tipsy({ 
+								gravity: 'w', 
+								html: true,
+								delayIn: 1000,
+								title: function() {				
+									return "<span style=\"font-size:12px\">" + this.__data__.children[0].judul + "</span><br>Peneliti : " + this.__data__.children[0].peneliti;
+								}
+							});
+						} else {
+							$(g1[0][d]).tipsy({ 
+								gravity: 'w', 
+								html: true,
+								delayIn: 1000,
+								title: function() {
+									return "<span style=\"font-size:12px\">" + this.__data__.keyword[0] + "</span>";
+								}
+							});
+						}
+					});
+
+					elemParentEnter.on("mouseover", function(d, i) {
+						fisheye.focus(d3.mouse(this));
+	 
+						// Fisheye untuk setiap node
+						node.each(function(d) { d.fisheye = fisheye(d); })
+						// .attr("cx", function(d) { return d.fisheye.x; })
+						// .attr("cy", function(d) { return d.fisheye.y; })
+						.attr("r", function(d) { return d.fisheye.z * 15 });
+						
+						// Fisheye untuk setiap label
+						label.each(function(d) { d.fisheye = fisheye(d); })
+						// .attr("x", function(d) { return d.fisheye.x; })
+						// .attr("y", function(d) { return d.fisheye.y; })
+						.attr("r", function(d) { return d.fisheye.z * 15});
+
+						// Fisheye untuk setiap garis
+						link.attr("x1", function(d) { return d.source.fisheye.x - 10; })
+						.attr("y1", function(d) { return d.source.fisheye.y + 10; })
+						.attr("x2", function(d) { return d.target.fisheye.x + 10; })
+						.attr("y2", function(d) { return d.target.fisheye.y - 10; });
+					});
+
+					elemParentEnter.on("click", function(d, i) {
+						if(d.children.length == 1) {
+							if(document.URL.indexOf("#") >= 0) {
+								var location = document.URL.split("#");
+								document.location.href = location[0] + '#ShowDetailPaper';
+							} else {
+								document.location.href = document.URL + '#ShowDetailPaper';
+							}
+
+							var maxKey = 0;
+							var maxValue = 0;
+
+							$.each(d.children[0], function(key, value) {
+								if(maxKey < key.length) { maxKey = key.length; }
+								if(maxValue < value.length) { maxValue = value.length; }
+							});
+
+							$.each(d.children[0], function(key, value) {
+								if(key == "id" || key == "creater") {}
+								else {
+									$( "#popup-content" ).append( "<li><label style=\"width:" + maxKey * 8 + "px\">" + key + "</label><label style=\"width:10px\"> : </label></li>" );
+									if(value == "") {}
+									else {
+										$( "#popup-content" ).append('<span class="detail-content">' + value + '</span>');
+									}
+								}
+							});
+
+							$('a[href="#close"]').click(function() {
+								$( "#popup-content" ).empty();
+								$( "#map_name" ).val('');
+							});
+
+							$('a[href="#x"]').click(function() {
+								$( "#popup-content" ).empty();
+								$( "#map_name" ).val('');
+							});                 
+						} else { // d.children.length > 1
+							// Periksa apakah boolean bernilai true / false untuk menentukan zoom level mana yang dipakai
+							// Menonaktifkan zoom pada level 0 dan mengaktifkan zoom pada level 1
+							if (zoomLevel0 == true) {
+								elemParentEnter.on("mouseover", function(d, i) {});
+
+								var clickedParent = "circleParent-" + i;
+
+								var circleParent = document.getElementById(clickedParent);
+								circleParent.classList.add("circleStroke");
+
+								zoomLevel0 = false;
+								zoomLevel1 = true;
+								zoomLevel2 = false;
+
+								var dataChild = getChildrenWithGrouping(d);
+
+								if(dataChild.length == 2) {
+									dataChild.forEach(function(p, ii) {
+										if(ii == 0) {
+											p.x = d.x;
+											p.y = d.y - 75;
+										} else if (ii == 1) {
+											p.x = d.x + 75;
+											p.y = d.y;
+										}
+									});
+								}
+
+								if(dataChild.length == 3) {
+									dataChild.forEach(function(p, ii) {
+										if(ii == 0) {
+											p.x = d.x - 75;
+											p.y = d.y;
+										} else if (ii == 1) {
+											p.x = d.x;
+											p.y = d.y - 75;
+										} else if (ii == 2) {
+											p.x = d.x + 75;
+											p.y = d.y;
+										}
+									});
+								}
+
+								if(dataChild.length == 4) {
+									dataChild.forEach(function(p, ii) {
+										if(ii == 0) {
+											p.x = d.x;
+											p.y = d.y - 75;
+										} else if (ii == 1) {
+											p.x = d.x + 75;
+											p.y = d.y;
+										} else if (ii == 2) {
+											p.x = d.x;
+											p.y = d.y + 75;
+										} else if (ii == 3) {
+											p.x = d.x - 75;
+											p.y = d.y;
+										}
+									});
+								}
+								
+								// Ubah warna paperParent
+								node.style("fill", "#C2C3C4");					
+
+								var elemChild = svgFisheye.selectAll("g.circle")
+								.data(dataChild);
+
+								var elemChildEnter = elemChild.enter()
+								.append("g")
+								.attr("class", "paperChild");
+
+								var nodeChild = elemChildEnter.append("circle")
+								.attr("class", "nodeChild")
+								.attr("id", function(p, ii) {
+									return "circleChild-" + ii;  // id tiap circle
+								})
+								.attr("cx", function(p, ii) { return p.x; })
+								.attr("cy", function(p, ii) { return p.y; })
+								.attr("r", function(p, ii) { return 15; })
+								.style("fill", function(p, ii) {
+									var lastIndex = p.length - 1;
+
+									if(p[lastIndex] == null) {
+										return "#6C9ECA";
+									} else if(p.length == 2) {
+										return "#447DB1";
+									}
+								})
+								.style("stroke-width", "0px");
+								// .call(force.drag);
+
+								var labelChild = elemChildEnter.append("text")
+								.attr("class", "label")
+								.attr("font-family", "sans-serif")
+								.attr("font-size", "14px")
+								.attr("text-anchor", "middle")
+								.attr("x", function(p, ii) {
+									return p.x;
+								})
+								.attr("y", function(p, ii) {
+									return p.y + 5;
+								})
+								.text(function(p, ii){ return d.size[ii] });
+
+								// Hover untuk node dengan jumlah data 1
+								var g2 = svgFisheye.selectAll("g.paperChild").data(dataChild);
+
+								$("svg circle").each(function(p, ii) {
+									$(g2[0][p]).tipsy({ 
+										gravity: 'w',
+										html: true,
+										delayIn: 1000,
+										title: function() {
+											var lastIndex = g2[0][p].__data__.length - 1;
+
+											if(g2[0][p].__data__[lastIndex] == null) {
+												return "<span style=\"font-size:12px\">" + g2[0][p].__data__[0].judul + "</span><br>Peneliti : " + g2[0][p].__data__[0].peneliti;
+											} else {
+												return "<span style=\"font-size:12px\">" + g2[0][p].__data__[0].keyword + "</span>";
+											}
+										}
+									});
+								});
+
+								elemChildEnter.on("mouseover", function(p, ii) {
+									fisheye.focus(d3.mouse(this));
+
+									// Fisheye untuk setiap node
+									nodeChild.each(function(p) { p.fisheye = fisheye(p); })
+									// .attr("cx", function(p) { return p.fisheye.x; })
+									// .attr("cy", function(p) { return p.fisheye.y; })
+									.attr("r", function(p) { return p.fisheye.z * 15; });
+
+									// Fisheye untuk setiap label
+									labelChild.each(function(p) { p.fisheye = fisheye(p); })
+									// .attr("x", function(p) { return p.fisheye.x; })
+									// .attr("y", function(p) { return p.fisheye.y; })
+									.attr("r", function(p) { return p.fisheye.z * 15; });
+								});
+
+								elemChildEnter.on("click", function(p, i) {
+									if(d.size[i] == 1) {
+										if(document.URL.indexOf("#") >= 0) {
+											var location = document.URL.split("#");
+											document.location.href = location[0] + '#ShowDetailPaper';
+										} else {
+											document.location.href = document.URL + '#ShowDetailPaper';
+										}
+
+										var maxKeyChildren = 0;
+										var maxValueChildren = 0;
+
+										$.each(p[0], function(key, value) {
+											if(maxKeyChildren < key.length) { maxKeyChildren = key.length; }
+											if(maxValueChildren < value.length) { maxValueChildren = value.length; }
+										});
+
+										$.each(p[0], function(keyChildren, valueChildren) {
+											if(valueChildren == "" || keyChildren == "x" || keyChildren == "y" || keyChildren == "px" || keyChildren == "py" || keyChildren == "fisheye" || keyChildren == "id") {}
+											else {
+												$( "#popup-content" ).append( "<li><label style=\"width:" + maxKeyChildren * 8 + "px\">" + keyChildren + "</label><label style=\"width:10px\"> : </label></li>" );
+												$( "#popup-content" ).append('<span class="detail-content">' + valueChildren + '</span>');
+											}
+										});
+
+										$('a[href="#close"]').click(function() {
+											$( "#popup-content" ).empty();
+											$( "#map_name" ).val('');
+										});
+
+										$('a[href="#x"]').click(function() {
+											$( "#popup-content" ).empty();
+											$( "#map_name" ).val('');
+										});
+									} else {
+										if(zoomLevel1 == true) {
+											zoomLevel0 = false;
+											zoomLevel1 = false;
+											zoomLevel2 = true;
+
+											elemParentEnter.on("mouseover", function(d, i) {});
+											elemChildEnter.on("mouseover", function(p, i) {});
+
+											var clickedChild = "circleChild-" + i;
+
+											var circleChild = document.getElementById(clickedChild);
+											circleChild.classList.add("circleStroke2");
+
+											// Ubah warna paperParent
+											node.style("fill", "#909396");
+
+											// Ubah warna paperChild
+											nodeChild.style("fill", "#C2C3C4");
+
+											var dataGrandChild = p;
+
+											dataGrandChild.forEach(function(q, i) {
+												if(i == 0) {
+													q.x = p.x;
+													q.y = p.y - 75;
+												} else if (i == 1) {
+													q.x = p.x + 75;
+													q.y = p.y;
+												}
+											});
+
+											var elemGrandChild = svgFisheye.selectAll("g.circle")
+											.data(dataGrandChild);
+
+											var elemGrandChildEnter = elemGrandChild.enter()
+											.append("g")
+											.attr("class", "paperGrandChild");
+
+											var nodeGrandChild = elemGrandChildEnter.append("circle")
+											.attr("class", "nodeGrandChild")
+											.attr("id", function(q, i) {
+												return "circleGrandChild-" + i;  // id tiap circle
+											})
+											.attr("cx", function(q, i) { return q.x; })
+											.attr("cy", function(q, i) { return q.y; })
+											.attr("r", function(q, i) { return 15; })
+											.style("fill", "#6C9ECA")
+											.style("stroke-width", "0px");
+											// .call(force.drag);
+
+											var labelGrandChild = elemGrandChildEnter.append("text")
+											.attr("class", "label")
+											.attr("font-family", "sans-serif")
+											.attr("font-size", "14px")
+											.attr("text-anchor", "middle")
+											.attr("x", function(q, i) {
+												return q.x;
+											})
+											.attr("y", function(q, i) {
+												return q.y + 5;
+											})
+											.text("1");
+
+											// Hover untuk node dengan jumlah data 1
+											var g3 = svgFisheye.selectAll("g.paperGrandChild").data(dataGrandChild);
+
+											$("svg circle").each(function(q, i) {
+												$(g3[0][q]).tipsy({ 
+													gravity: 'w', 
+													html: true,
+													delayIn: 1000,
+													title: function() {
+														return "<span style=\"font-size:12px\">" + g3[0][q].__data__.judul + "</span><br>Peneliti : " + g3[0][q].__data__.peneliti;
+													}
+												});
+											});
+
+											elemGrandChildEnter.on("mouseover", function(q, i) {
+												fisheye.focus(d3.mouse(this));
+
+												// Fisheye untuk setiap node
+												nodeGrandChild.each(function(q) { q.fisheye = fisheye(q); })
+												// .attr("cx", function(q) { return q.fisheye.x; })
+												// .attr("cy", function(q) { return q.fisheye.y; })
+												.attr("r", function(q) { return q.fisheye.z * 15; });
+
+												// Fisheye untuk setiap label
+												labelGrandChild.each(function(q) { q.fisheye = fisheye(q); })
+												// .attr("x", function(q) { return q.fisheye.x; })
+												// .attr("y", function(q) { return q.fisheye.y; })
+												.attr("r", function(q) { return q.fisheye.z * 15; });
+											});
+
+											elemGrandChildEnter.on("click", function(q, i) {
+												// if(q.length == 1) {
+													if(document.URL.indexOf("#") >= 0) {
+														var location = document.URL.split("#");
+														document.location.href = location[0] + '#ShowDetailPaper';
+													} else {
+														document.location.href = document.URL + '#ShowDetailPaper';
+													}
+
+													var maxKey = 0;
+													var maxValue = 0;
+
+													$.each(q, function(key, value) {
+													 if(maxKey < key.length) { maxKey = key.length; }
+													 if(maxValue < value.length) { maxValue = value.length; }
+													});
+
+													$.each(q, function(key, value) {
+														if(key == "id" || key == "creater") {}
+														else {
+															$( "#popup-content" ).append( "<li><label style=\"width:" + maxKey * 8 + "px\">" + key + "</label><label style=\"width:10px\"> : </label></li>" );
+															if(value == "") {}
+															else {
+																$( "#popup-content" ).append('<span class="detail-content">' + value + '</span>');
+															}
+														}
+													});
+
+													$('a[href="#close"]').click(function() {
+														$( "#popup-content" ).empty();
+														$( "#map_name" ).val('');
+													});
+
+													$('a[href="#x"]').click(function() {
+														$( "#popup-content" ).empty();
+														$( "#map_name" ).val('');
+													});
+												// }
+											});
+										}
+
+										// Menonaktifkan zoom pada level 2 dan mengaktifkan zoom pada level 1
+										else if(zoomLevel1 == false) {
+
+											circleChild = document.getElementsByClassName("circleStroke2");
+											circleChild[0].classList.remove("circleStroke2");
+
+											elemChildEnter.on("mouseover", function(p, i) {
+												$(".paperGrandChild").remove();
+
+												node.style("fill", "#C2C3C4");
+
+												nodeChild.style("fill", function(p, i) {
+													var lastIndex = p.length - 1;
+
+													if(p[lastIndex] == null) {
+														return "#6C9ECA";
+													} else if(p.length == 2) {
+														return "#447DB1";
+													}
+												});
+
+												fisheye.focus(d3.mouse(this));
+
+												// Fisheye untuk setiap node
+												nodeChild.each(function(p) { p.fisheye = fisheye(p); })
+												// .attr("cx", function(p) { return p.fisheye.x; })
+												// .attr("cy", function(p) { return p.fisheye.y; })
+												.attr("r", function(p) { return p.fisheye.z * 15});
+
+												// Fisheye untuk setiap label
+												labelChild.each(function(p) { p.fisheye = fisheye(p); })
+												// .attr("x", function(p) { return p.fisheye.x; })
+												// .attr("y", function(p) { return p.fisheye.y; })
+												.attr("r", function(p) { return p.fisheye.z * 15});
+											});
+
+											zoomLevel0 = false;
+											zoomLevel1 = true;
+											zoomLevel2 = false;
+										}
+									}
+								});
+							}
+
+							// Menonaktifkan zoom pada level 1 dan mengaktifkan zoom pada level 0
+							else if (zoomLevel0 == false) {
+
+								circleParent = document.getElementsByClassName("circleStroke");
+								circleParent[0].classList.remove("circleStroke");
+
+								elemParentEnter.on("mouseover", function(d, i) {
+									$(".paperChild").remove();
+									$(".paperGrandChild").remove();
+
+									node.style("fill", function(d, i) {
+										if(d.size.length == 1) {
+											return "#6C9ECA";
+										} else {
+											if(d.children.length == 2) {
+												return "#447DB1";
+											} else if(d.children.length == 3) {
+												return "#2868A2";
+											} else if(d.children.length == 4) {
+												return "#0F528E";
+											} 
+										}
+									});
+
+									fisheye.focus(d3.mouse(this));
+
+									// Fisheye untuk setiap node
+									node.each(function(d) { d.fisheye = fisheye(d); })
+									// .attr("cx", function(d) { return d.fisheye.x; })
+									// .attr("cy", function(d) { return d.fisheye.y; })
+									.attr("r", function(d) { return d.fisheye.z * 15});
+
+									// Fisheye untuk setiap label
+									label.each(function(d) { d.fisheye = fisheye(d); })
+									// .attr("x", function(d) { return d.fisheye.x; })
+									// .attr("y", function(d) { return d.fisheye.y; })
+									.attr("r", function(d) { return d.fisheye.z * 15});
+
+									// Fisheye untuk setiap garis
+									link.attr("x1", function(d) { return d.source.fisheye.x - 10; })
+									.attr("y1", function(d) { return d.source.fisheye.y + 10; })
+									.attr("x2", function(d) { return d.target.fisheye.x + 10; })
+									.attr("y2", function(d) { return d.target.fisheye.y - 10; });
+								});
+
+								zoomLevel0 = true;
+								zoomLevel1 = false;
+								zoomLevel2 = false;
+							}
+						}
+					});
+				});
+			}
+		})();
+	</script> 
+	
+	<script>
+	$(document).ready(function(){
+		$('[data-toggle="tooltip"]').tooltip();   
+	});
+	</script>
+
+	<style>
+	.border{
+		stroke: black;
+	}
+	</style>
 
 	<!-- popup form #1 -->
 	<a href="#x" class="overlay" id="AddPaper"></a>

@@ -1,3 +1,9 @@
-.displayNone {
-	display: block;
+.circleStroke {
+	stroke: #000000;
+	stroke-width: 3px !important;
+}
+
+.circleStroke2 {
+	stroke: #000000;
+	stroke-width: 3px !important;
 }
