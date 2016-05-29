@@ -1842,10 +1842,33 @@
 			.attr("height", 515)
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
  
-			var color = d3.scale.category20();
- 
 			var fisheye = d3.fisheye.circular()
 			.radius(100);
+
+			var sumbuX = d3.scale.ordinal()
+			.rangeRoundBands([0, width], .1);
+	 
+			var sumbuY = d3.scale.ordinal()
+			.rangeRoundBands([height, 0], .1);
+
+			var garisSumbuX = d3.svg.axis()
+			.scale(x)
+			.orient("bottom");
+	 
+			var garisSumbuY = d3.svg.axis()
+			.scale(y)
+			.orient("left");
+
+			svgFisheye.append("g")
+			.attr("class", "x axis")
+			.attr("transform", "translate(0, " + height + ")")
+			.call(xAxis);
+	 
+			svgFisheye.append("g")
+			.attr("class", "y axis")
+			.attr("transform", "translate(0, 0)")
+			.call(yAxis);
+
  
 			d3.json("dummySize.json", function(data) {
 				var n = data.nodes.length;
