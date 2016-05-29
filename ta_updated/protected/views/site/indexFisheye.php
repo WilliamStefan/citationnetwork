@@ -280,9 +280,8 @@
 				?> 
 			</div>
 		</div>
-	</div>
 
-	<div id="pan" class="sub-right-content">
+	  <div id="pan" class="sub-right-content">
 		<div class="sub-heading">Mode Pan</div>
 		<div class="dropdown">
 			<?php
@@ -296,13 +295,14 @@
 				'class'=>'dropdown-style'));
 			?> 
 		</div>
+	  </div>
 	</div>
  
 	<!-- Tampilan di sebelah kiri, yaitu peta penelitian -->
 	<div class="left-content" style="width:80%">
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
-		
+		<button id="reset" style="margin-left: 150px;" class="btn btn-info">Reset</button>
 		<!-- Container untuk zoom menggunakan breadcrumb pada level 0 -->
 		<!-- <p id="chart"> -->
 			<svg class="chart" id="chart"></svg>
@@ -1925,7 +1925,42 @@
 			.attr("height", 515)
 			.attr('class','wrapper map')
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
- 			
+
+			if ($("#mode_pan option:selected").text()=='Linier'){
+				var x = d3.scale.ordinal()
+				.rangeRoundBands([0, width], .1);
+
+				var y = d3.scale.ordinal()
+				.rangeRoundBands([height, 0], .1);
+			}
+			else{
+				var x = d3.fisheye.ordinal()
+				.rangeRoundBands([0, width], .1);
+
+				var y = d3.fisheye.ordinal()
+				.rangeRoundBands([height, 0], .1);
+			}
+ 
+			var xAxis = d3.svg.axis()
+			.scale(x)
+			.outerTickSize(0)
+			.orient("bottom");
+	 
+			var yAxis = d3.svg.axis()
+			.scale(y)
+			.outerTickSize(0)
+			.orient("left");
+
+			svgFisheye.append("g")
+			.attr("class", "x axis")
+			.attr("transform", "translate(0," + height + ")")
+			.call(xAxis);
+	 
+			svgFisheye.append("g")
+			.attr("class", "y axis")
+			.attr("transform", "translate(0,0)")
+			.call(yAxis);
+	 			
 			svgFisheye.append('rect')
 			    .attr('class', 'background')
 			    .attr('pointer-events', 'all')
@@ -1941,7 +1976,9 @@
 			wrapperInner.append("rect")
 		        .attr("class", "background")
 		        .attr("width", width)
+		        .attr('pointer-events', 'all')
 		        .style('fill','none')
+		        .style('cursor','move')
 		        .attr("height", height);
 
 		    var panCanvas = wrapperInner.append("g")
@@ -1962,6 +1999,76 @@
 				    .attr('width', width);
 				    
 			svg1.append('g').attr('class', 'draggable');
+
+			var canvasChart = d3.select('.chart');
+
+			var defs = canvasChart.append('defs');
+		
+			defs.append("clipPath")
+		        .attr("id", "wrapperClipPath")
+		        .attr("class", "wrapper clipPath")
+		        .append("rect")
+		        .attr("class", "background")
+		        .attr("width", width)
+		        .attr("height", height);
+		            
+		    defs.append("clipPath")
+		        .attr("id", "overviewClipPath")
+		        .attr("class", "overview clipPath")
+		        .attr("width", width)
+		        .attr("height", height)
+		 		.append("rect")
+		        .attr("class", "background")
+		        .attr("width", width)
+		        .attr("height", height);
+		            
+		    var filter = defs.append("svg:filter")
+		        .attr("id", "overviewDropShadow")
+		        .attr("x", "-20%")
+		        .attr("y", "-20%")
+		        .attr("width", "150%")
+		        .attr("height", "150%");
+
+		    filter.append("svg:feOffset")
+		        .attr("result", "offOut")
+		        .attr("in", "SourceGraphic")
+		        .attr("dx", "1")
+		        .attr("dy", "1");
+
+		    filter.append("svg:feColorMatrix")
+		        .attr("result", "matrixOut")
+		        .attr("in", "offOut")
+		        .attr("type", "matrix")
+		        .attr("values", "0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.5 0");
+
+		    filter.append("svg:feGaussianBlur")
+		       .attr("result", "blurOut")
+		       .attr("in", "matrixOut")
+		       .attr("stdDeviation", "10");
+
+		    filter.append("svg:feBlend")
+		       .attr("in", "SourceGraphic")
+		       .attr("in2", "blurOut")
+		       .attr("mode", "normal");
+		    var overviewRadialFill = defs.append("radialGradient")
+		        .attr({
+		            id:"overviewGradient",
+		            gradientUnits:"userSpaceOnUse",
+		            cx:"500",
+		            cy:"500",
+		            r:"400",
+		            fx:"500",
+		            fy:"500"
+		        });
+		    overviewRadialFill.append("stop")
+		        .attr("offset", "0%")
+		        .attr("stop-color", "#FFFFFF");
+		    overviewRadialFill.append("stop")
+		        .attr("offset", "40%")
+		        .attr("stop-color", "#EEEEEE");
+		    overviewRadialFill.append("stop")
+		        .attr("offset", "100%")
+		        .attr("stop-color", "#E0E0E0");
 
 			var color = d3.scale.category20();
  
@@ -2076,6 +2183,49 @@
 				.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) {return d.id.length; }))])
 				.range([start, minimum / 2]);
 
+				xAxis = d3.svg.axis().scale(x).outerTickSize(0).orient("bottom").tickFormat(function(d) {
+					if(d.length>minimum/10)
+					{
+						svgFisheye.selectAll(".x.axis").selectAll(".tick").each(function( index ) {
+							$(this).tipsy({ 
+							gravity: 'n', 
+							html:true,
+							title: function() {
+								return "<span style=\"font-size:12px\">"+index+"</span>";  
+							}
+						  });
+						});
+						d=d.substr(0,minimum/10);return d+"..."
+					}
+					else
+					{
+						return d;
+					}
+				});
+				yAxis = d3.svg.axis().scale(y).outerTickSize(0).orient("left").tickFormat(function(d) {
+					if(d.length>10)
+					{
+						svgFisheye.selectAll(".y.axis").selectAll(".tick").each(function( index ) {
+							$(this).tipsy({ 
+							gravity: 'e', 
+							html:true,
+							title: function() {
+								return "<span style=\"font-size:12px\">"+index+"</span>";  
+							}
+						  });
+						});
+						d=d.substr(0,10);return d+"..."
+					}
+					else
+					{
+						return d;
+					}
+				});
+				
+				svgFisheye.selectAll("g.y.axis")
+					.call(yAxis);
+				svgFisheye.selectAll("g.x.axis")
+					.call(xAxis);
 				// Run the layout a fixed number of times.
 				// The ideal number of times scales with graph complexity.
 				// Of course, don't run too long—you'll hang the page!
@@ -2175,7 +2325,7 @@
 				// Panah dan garis hanya akan dibuat jika linknya ada
 				if(rlink.length != 0) {
 					// Untuk membuat panah
-					var marker = svgFisheye.selectAll("g.marker").data(data.links)
+					var marker = svgFisheye.select('.draggable').selectAll("g.marker").data(data.links)
 						.enter().append("marker")
 						.attr("id", function(d, i) { return i; })
 						.attr("viewBox", "0 -5 10 10")
@@ -2199,7 +2349,7 @@
 					 
 					// (X1, Y1) koordinat asal
 					// (X2, Y2) koordinat tujuan						 
-					var link = svgFisheye.selectAll("g.link").data(rlink)
+					var link = svgFisheye.select('.draggable').selectAll("g.link").data(rlink)
 					.enter().append("line")
 					.attr("class", "link")
 					.attr("x1", function(d) {
@@ -2912,22 +3062,90 @@
 					  d3.select(".draggable").attr('transform', 'translate(' + (x) + ',' + (y) + ')');
 					  // d3.select(".x").attr('transform', 'translate(' + (x) + ',' + height + ')');	
 					  // d3.select(".y").attr('transform', 'translate(' + 0 + ',' + (y) + ')');
-				      // d3.select(".frame").attr("transform", "translate(" + (-x) + "," + (-y) + ")");
+				      d3.select(".frame").attr("transform", "translate(" + (-x) + "," + (-y) + ")");
 				}
-				svgFisheye.select('.background').call(drag);
+				wrapperInner.select('.background').call(drag);
 
-				// canvas.call(overviewmap); 
+				canvasChart.call(overviewmap); 
 
-				// d3.select("#reset").on('click', function(){
-				// 	svgFisheye.select('.draggable').transition()
-				// 		.attr("transform", function(d,i){
-				// 			return "translate(" + 0 + ", "+ 0 +")";
-				// 		})
-				// 	svgFisheye.select(".x.axis").transition().attr('transform', 'translate(' + 0 + ',' + height + ')');	
-				// 	svgFisheye.select(".y.axis").transition().attr('transform', 'translate(' + 0 + ',' + 0 + ')');
-					// d3.select(".frame").transition().attr("transform", "translate(" + 0 + "," + 0 + ")");
-					// canvas.select(".panCanvas").transition().attr("transform", "translate(" + 0 + "," + 0 + ")");
-				// })
+				d3.select("#reset").on('click', function(){
+					svgFisheye.select('.draggable').transition()
+						.attr("transform", function(d,i){
+							return "translate(" + 0 + ", "+ 0 +")";
+						})
+					// svgFisheye.select(".x.axis").transition().attr('transform', 'translate(' + 0 + ',' + height + ')');	
+					// svgFisheye.select(".y.axis").transition().attr('transform', 'translate(' + 0 + ',' + 0 + ')');
+					d3.select(".frame").transition().attr("transform", "translate(" + 0 + "," + 0 + ")");
+					canvasChart.select(".panCanvas").transition().attr("transform", "translate(" + 0 + "," + 0 + ")");
+				})
+			}
+
+			/* PANNING WITH NAVIGATION WINDOW TECHNIQUE (OVERVIEW MAP) */	
+			function overviewmap(selection){
+				var target = panCanvas,
+					overviewScale = 0.1,
+					scale = 1,
+					zoom,
+			        x = width+20, y=20,
+					frameX,
+					frameY;
+				var base = selection;
+			    var container = selection.append("g")
+			        .attr("class", "overviewmap");
+			       
+			    overviewmap.node = container.node();
+
+			 	var frame = container.append("g")
+			        .attr("class", "frame")
+			        .attr('transform','translate(0,0)');
+
+			    frame.append("rect")
+			        .attr("class", "background")
+			        .attr("width", width)
+			        .attr("height", height)
+			        .attr("filter", "url(#overviewDropShadow)");
+			    	
+			    var drag = d3.behavior.drag()
+			        .on("dragstart.overviewmap", function() {
+			            var frameTranslate = getXYTranslate(frame.attr("transform"));
+			                frameX = frameTranslate[0];
+			                frameY = frameTranslate[1];
+			        })
+			        .on("drag.overviewmap", function() {
+			            d3.event.sourceEvent.stopImmediatePropagation();
+			                frameX += d3.event.dx;
+			                frameY += d3.event.dy;
+			                frame.attr("transform", "translate(" + frameX + "," + frameY + ")");
+			                var translate =  [(-frameX*scale),(-frameY*scale)];
+			                target.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+			                d3.select('.x').attr('transform', 'translate(' + (-frameX*scale) + ',' + height + ')scale('+ scale +')');	
+					  		d3.select('.y').attr('transform', 'translate(' + 0 + ',' + (-frameY*scale) + ')scale('+ scale +')');
+			        });
+
+			    frame.call(drag);
+			    var render = function(){
+			    	// scale = 1.75;
+			        container.attr("transform", "scale(" + overviewScale + ")");
+				    var node = target.node().cloneNode(true);
+				    node.removeAttribute("id");
+				    base.selectAll(".overviewmap .panCanvas").remove();
+				    overviewmap.node.appendChild(node);
+				    var transformTarget = getXYTranslate(target.attr("transform"));
+				    frame.attr("transform", "translate(" + (-transformTarget[0]/scale) + "," + (-transformTarget[1]/scale) + ")")
+				        .select(".background")
+				        .attr("width", width/scale)
+				        .attr("height", height/scale);
+				    frame.node().parentNode.appendChild(frame.node());
+				    d3.select(node).attr("transform", "translate(0,0)");
+			    };
+			    selection.call(render);
+			}
+
+			function getXYTranslate(translateString){
+				var split = translateString.split(",");
+			    var x = split[0] ? ~~split[0].split("(")[1] : 0;
+			    var y = split[1] ? ~~split[1].split(")")[0] : 0;
+			    return [x, y];
 			}
 		}
 	</script>
