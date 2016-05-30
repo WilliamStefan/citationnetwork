@@ -331,7 +331,15 @@ class MetadataPenelitianController extends Controller
 		}
 
 		for ($i = 0; $i < count($tmp2); $i++) {
-			$tmp2[$i]['size'] = count($tmp2[$i]['children']);
+			if(count($tmp2[$i]['children']) == 1) {
+				$tmp2[$i]['size'] = [1];
+			} else if(count($tmp2[$i]['children']) == 2) {
+				$tmp2[$i]['size'] = [1, 1];
+			} else if(count($tmp2[$i]['children']) == 3) {
+				$tmp2[$i]['size'] = [1, 2];
+			} else if(count($tmp2[$i]['children']) == 4) {
+				$tmp2[$i]['size'] = [2, 2];
+			}
 		}
 		
 		$data3=array();
