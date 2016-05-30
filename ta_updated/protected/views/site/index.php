@@ -1705,7 +1705,7 @@ $this->pageTitle=Yii::app()->name;
 		
 		}
 		
-	});
+	}); 
 
 	$("#mode_pan").change(function() {
 		sumbuX = $("#sumbuX option:selected").text();
@@ -1819,7 +1819,7 @@ $this->pageTitle=Yii::app()->name;
 					//$('#SaveButton').attr('disabled','disabled');
 				}
 			}
-
+			console.log($("#jumlahPaper").text(jumlahPaper));
 			function drawTablePaper(data){
 				//array of added paper
 				var rowNode1=new Array(100);

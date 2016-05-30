@@ -215,12 +215,12 @@ background-color: green;
 
 .label2
 {
-	//fill:#4796B7;
+	/*fill:#4796B7;*/
 	display:inline;
 	text-align:center;
 	vertical-align:baseline;
 	text-anchor:middle;
-	//text-shadow:0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+	/*text-shadow:0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;*/
 	font-weight:bold;
 	position:absolute;
 	z-index:1;
@@ -231,7 +231,7 @@ background-color: green;
 	position:absolute;
 	z-index:-1;
 	cursor: pointer;
-	stroke: #F2A9A2;
+	stroke: #F2A9A2 !important;
 }
 
 .click_breadcrumb{
@@ -422,11 +422,11 @@ border-radius:3px;
 }
 .overviewmap .panCanvas .background{
     stroke: blue;
-    stroke-width: 2px;
+    stroke-width: 5px;
 }
 .overviewmap .frame .background {
     stroke: blue;
-    stroke-width: 1px;
+    stroke-width: 3px;
     fill-opacity: 0.2;
     fill: #ffffff;
     fill: url(#overviewGradient);
