@@ -1904,14 +1904,10 @@
 			var zoomLevel2 = false;
 			
 			var margin = { top: 10, right: 30, bottom: 40, left: 150 };
-			// var margin = {top: 10, right: 30, bottom: 30, left: 50};
- 
+			
 			var width = 950 - margin.left - margin.right;
 			var height = 510 - margin.top - margin.bottom;
-			
-			// var width = 850 - margin.left - margin.right;
-			// var height = 500 - margin.top - margin.bottom;
- 
+	
 			// Untuk mempersiapkan layout
 			var force = d3.layout.force()
 			.charge(-240)
@@ -1929,11 +1925,20 @@
 			var fisheye = d3.fisheye.circular()
 			.radius(100);
 
-			var sumbuX = d3.scale.ordinal()
-			.rangeRoundBands([0, width], .1);
-	 
-			var sumbuY = d3.scale.ordinal()
-			.rangeRoundBands([height, 0], .1);
+			if ($("#mode_pan option:selected").text()=='Linier'){
+				var sumbuX = d3.scale.ordinal()
+				.rangeRoundBands([0, width], .1);
+		 
+				var sumbuY = d3.scale.ordinal()
+				.rangeRoundBands([height, 0], .1);
+			}
+			else{
+				var sumbuX = d3.fisheye.ordinal()
+				.rangeRoundBands([0, width], .1);
+
+				var sumbuY = d3.fisheye.ordinal()
+				.rangeRoundBands([height, 0], .1);
+			}
 
 			var garisSumbuX = d3.svg.axis()
 			.scale(x)
@@ -1952,7 +1957,115 @@
 			.attr("class", "y axis")
 			.attr("transform", "translate(0, 0)")
 			.call(yAxis);
+			
+			svgFisheye.append('rect')
+			    .attr('class', 'background')
+			    .attr('pointer-events', 'all')
+			    .style('cursor','move')
+			    .attr('fill', 'none')
+			    .attr('height', height);
 
+			var wrapperInner = svgFisheye.append('g')
+			.attr('class','wrapper inner')
+			.attr('clip-path','url(#wrapperClipPath)')
+			.attr("transform", "translate(" + 0 + "," + 0 + ")"); 
+
+			wrapperInner.append("rect")
+		        .attr("class", "background")
+		        .attr("width", width)
+		        .attr('pointer-events', 'all')
+		        .style('fill','none')
+		        .style('cursor','move')
+		        .attr("height", height);
+
+		    var panCanvas = wrapperInner.append("g")
+		        .attr("class", "panCanvas")
+		        .attr("width", width)
+		        .attr("height", height)
+		        .attr("transform", "translate(0,0)");
+
+		    panCanvas.append("rect")
+		        .attr("class", "background")
+		        .attr("width", width)
+		        .style('fill','none')
+		        .attr("height", height);
+
+			//menampung elemen yang bisa di-pan
+			var svg1 = panCanvas.append('svg')
+				    .attr('height', height)
+				    .attr('width', width);
+				    
+			svg1.append('g').attr('class', 'draggable');
+
+			var canvasChart = d3.select('.chart');
+
+			var defs = canvasChart.append('defs');
+		
+			defs.append("clipPath")
+		        .attr("id", "wrapperClipPath")
+		        .attr("class", "wrapper clipPath")
+		        .append("rect")
+		        .attr("class", "background")
+		        .attr("width", width)
+		        .attr("height", height);
+		            
+		    defs.append("clipPath")
+		        .attr("id", "overviewClipPath")
+		        .attr("class", "overview clipPath")
+		        .attr("width", width)
+		        .attr("height", height)
+		 		.append("rect")
+		        .attr("class", "background")
+		        .attr("width", width)
+		        .attr("height", height);
+		            
+		    var filter = defs.append("svg:filter")
+		        .attr("id", "overviewDropShadow")
+		        .attr("x", "-20%")
+		        .attr("y", "-20%")
+		        .attr("width", "150%")
+		        .attr("height", "150%");
+
+		    filter.append("svg:feOffset")
+		        .attr("result", "offOut")
+		        .attr("in", "SourceGraphic")
+		        .attr("dx", "1")
+		        .attr("dy", "1");
+
+		    filter.append("svg:feColorMatrix")
+		        .attr("result", "matrixOut")
+		        .attr("in", "offOut")
+		        .attr("type", "matrix")
+		        .attr("values", "0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.5 0");
+
+		    filter.append("svg:feGaussianBlur")
+		       .attr("result", "blurOut")
+		       .attr("in", "matrixOut")
+		       .attr("stdDeviation", "10");
+
+		    filter.append("svg:feBlend")
+		       .attr("in", "SourceGraphic")
+		       .attr("in2", "blurOut")
+		       .attr("mode", "normal");
+		    var overviewRadialFill = defs.append("radialGradient")
+		        .attr({
+		            id:"overviewGradient",
+		            gradientUnits:"userSpaceOnUse",
+		            cx:"500",
+		            cy:"500",
+		            r:"400",
+		            fx:"500",
+		            fy:"500"
+		        });
+		    overviewRadialFill.append("stop")
+		        .attr("offset", "0%")
+		        .attr("stop-color", "#FFFFFF");
+		    overviewRadialFill.append("stop")
+		        .attr("offset", "40%")
+		        .attr("stop-color", "#EEEEEE");
+		    overviewRadialFill.append("stop")
+		        .attr("offset", "100%")
+		        .attr("stop-color", "#E0E0E0");
  
 			d3.json("dummySize.json", function(data) {
 				var n = data.nodes.length;
