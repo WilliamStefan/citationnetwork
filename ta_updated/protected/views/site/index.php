@@ -385,9 +385,6 @@
 			// console.log(data['nodes']);
 			 
 			data.nodes = getChildren(data.nodes); // Ambil anak-anak (tag "children") dari data sebelumnya (array of nodes)
-			// data.nodes[0].judul = "Destra";
-			// console.log(data.nodes[0].judul);
-			// console.log("data.nodes:" + data.nodes[0].sumbu_x);
  
 			// Setting data untuk link, source dan targetnya ud data node
 			if(data.links.length != 0) {
@@ -538,7 +535,7 @@
 				 
 				// start = minimum / 2 - 1;
 			} else {
-				if(d3.min(data.nodes.map(function(d) {return d.id.length; })) != d3.max(data.nodes.map(function(d) {return d.id.length; }))) {
+				if(d3.min(data.nodes.map(function(d) {return d.id.length; })) != d3.max(data.nodes.map(function(d) { return d.id.length; }))) {
 					start = 15;
 				} else {
 					start = minimum / 2;
@@ -546,10 +543,13 @@
 			}
 			 
 			var r = d3.scale.linear()
-			.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) {return d.id.length; }))])
+			.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) { return d.id.length; }))])
 			.range([start, minimum / 2]);
 			 
 			xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(function(d) {
+				console.log("xAxis Ci Yuli:");
+				console.log(d);
+				console.log(minimum);
 				if(d.length > minimum / 10) {
 					chart.selectAll(".x.axis").selectAll(".tick").each(function( index ) {
 						$(this).tipsy({ 
@@ -568,6 +568,8 @@
 			});
  
 			yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(function(d) {
+				console.log("yAxis Ci Yuli:");
+				console.log(d);
 				if(d.length > 10) {
 					chart.selectAll(".y.axis").selectAll(".tick").each(function( index ) {
 						$(this).tipsy({ 
@@ -1243,9 +1245,9 @@
 			zooming = $("#mode_zoom option:selected").text();
 
 			if(zooming == "Fisheye") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+				window.location.assign("http://localhost:1337/TA_Yulianti/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost:1337/TA_Yulianti/ta_updated/index.php?r=site/index")
 			}
 		});
 		 

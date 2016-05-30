@@ -374,8 +374,7 @@
 			// d3.selectAll("line").remove();
 			d3.selectAll(".label2").remove();
 
-			data2 = JSON.parse(dataString); // Parse data dari basis data ke dalam bentuk JSON dan
-			// console.log("Ini data2, dataString: " + dataString);
+			data2 = JSON.parse(dataString); // Parse data dari basis data ke dalam bentuk JSON
 			 
 			data = data2.data3; // Ambil data dengan tag "data3" (berupa array of nodes)
  
@@ -537,7 +536,7 @@
 				 
 				// start = minimum / 2 - 1;
 			} else {
-				if(d3.min(data.nodes.map(function(d) {return d.id.length; })) != d3.max(data.nodes.map(function(d) {return d.id.length; }))) {
+				if(d3.min(data.nodes.map(function(d) {return d.id.length; })) != d3.max(data.nodes.map(function(d) { return d.id.length; }))) {
 					start = 15;
 				} else {
 					start = minimum / 2;
@@ -545,97 +544,97 @@
 			}
 			 
 			var r = d3.scale.linear()
-			.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) {return d.id.length; }))])
+			.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) { return d.id.length; }))])
 			.range([start, minimum / 2]);
 			 
-			xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(function(d) {
-				if(d.length > minimum / 10) {
-					chart.selectAll(".x.axis").selectAll(".tick").each(function( index ) {
-						$(this).tipsy({ 
-							gravity: 'n', 
-							html: true,
-							delayIn: 1000,
-							title: function() {
-								return "<span style=\"font-size:12px\">" + index + "</span>";
-							}
-						});
-					});
-					d = d.substr(0, minimum / 10); return d + "..."
-				} else {
-					return d;
-				}
-			});
+			// xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(function(d) {
+			// 	if(d.length > minimum / 10) {
+			// 		chart.selectAll(".x.axis").selectAll(".tick").each(function( index ) {
+			// 			$(this).tipsy({ 
+			// 				gravity: 'n', 
+			// 				html: true,
+			// 				delayIn: 1000,
+			// 				title: function() {
+			// 					return "<span style=\"font-size:12px\">" + index + "</span>";
+			// 				}
+			// 			});
+			// 		});
+			// 		d = d.substr(0, minimum / 10); return d + "..."
+			// 	} else {
+			// 		return d;
+			// 	}
+			// });
  
-			yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(function(d) {
-				if(d.length > 10) {
-					chart.selectAll(".y.axis").selectAll(".tick").each(function( index ) {
-						$(this).tipsy({ 
-							gravity: 'e', 
-							html: true,
-							delayIn: 1000,
-							title: function() {
-								return "<span style=\"font-size:12px\">" + index + "</span>";
-							}
-						});
-					});
+			// yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(function(d) {
+			// 	if(d.length > 10) {
+			// 		chart.selectAll(".y.axis").selectAll(".tick").each(function( index ) {
+			// 			$(this).tipsy({ 
+			// 				gravity: 'e', 
+			// 				html: true,
+			// 				delayIn: 1000,
+			// 				title: function() {
+			// 					return "<span style=\"font-size:12px\">" + index + "</span>";
+			// 				}
+			// 			});
+			// 		});
 					 
-					d = d.substr(0, 10); return d+"..."
-				} else {
-					return d;
-				}
-			});
+			// 		d = d.substr(0, 10); return d+"..."
+			// 	} else {
+			// 		return d;
+			// 	}
+			// });
 			
-			chart.selectAll("g.y.axis")
-			.call(yAxis);
+			// chart.selectAll("g.y.axis")
+			// .call(yAxis);
 
-			chart.selectAll("g.x.axis")
-			.call(xAxis);
+			// chart.selectAll("g.x.axis")
+			// .call(xAxis);
 			
-			var string = new Array();
+			// var string = new Array();
 			
-			var keyword = new Array(data.nodes.length);
-			// keyword[0] = [];
-			for(i = 0; i < data.nodes.length; i++) {
-				// string = data.nodes[i].keyword[0].split(" ");
-				keyword[i] = new Array();
-				keyword[i] = data.nodes[i].keyword[0].replace(/ /g,"\n");;
-				data.nodes[i].keyword = [];
-				// data.nodes[i].keyword.splice(0, 1, data.nodes[i].keyword[0].split(" "));
-				$.merge(data.nodes[i].keyword, keyword[i]);
-			}
+			// var keyword = new Array(data.nodes.length);
+			// // keyword[0] = [];
+			// for(i = 0; i < data.nodes.length; i++) {
+			// 	// string = data.nodes[i].keyword[0].split(" ");
+			// 	keyword[i] = new Array();
+			// 	keyword[i] = data.nodes[i].keyword[0].replace(/ /g,"\n");;
+			// 	data.nodes[i].keyword = [];
+			// 	// data.nodes[i].keyword.splice(0, 1, data.nodes[i].keyword[0].split(" "));
+			// 	$.merge(data.nodes[i].keyword, keyword[i]);
+			// }
 
-			// Ubah label pada sumbu X dan Y
-			if($("#sumbuY option:selected").text().indexOf(' ') >= 0) {
-				chart.append("text")
-				.attr("class", "sumbuYlabel")
-				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-				.attr("transform", "translate(" + -115 + "," + ((height / 2) - 15) + ")")  // text is drawn off the screen top left, move down and out and rotate
-				.text($("#sumbuY option:selected").text().split(' ')[0]);
+			// // Ubah label pada sumbu X dan Y
+			// if($("#sumbuY option:selected").text().indexOf(' ') >= 0) {
+			// 	chart.append("text")
+			// 	.attr("class", "sumbuYlabel")
+			// 	.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+			// 	.attr("transform", "translate(" + -115 + "," + ((height / 2) - 15) + ")")  // text is drawn off the screen top left, move down and out and rotate
+			// 	.text($("#sumbuY option:selected").text().split(' ')[0]);
 
-				chart.append("text")
-				.attr("class", "sumbuYlabel")
-				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-				.attr("transform", "translate(" + -115 + "," + (height / 2) + ")")  // text is drawn off the screen top left, move down and out and rotate
-				.text($("#sumbuY option:selected").text().split(' ')[1]);
+			// 	chart.append("text")
+			// 	.attr("class", "sumbuYlabel")
+			// 	.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+			// 	.attr("transform", "translate(" + -115 + "," + (height / 2) + ")")  // text is drawn off the screen top left, move down and out and rotate
+			// 	.text($("#sumbuY option:selected").text().split(' ')[1]);
 
-				chart.append("text")
-				.attr("class", "sumbuXlabel")
-				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-				.attr("transform", "translate(" + (width / 2) + "," + (height + 45) + ")")  // centre below axis
-				.text($("#sumbuX option:selected").text());
-			} else {
-				chart.append("text")
-				.attr("class", "sumbuYlabel")
-				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-				.attr("transform", "translate(" + -115 + "," + (height / 2) + ")")  // text is drawn off the screen top left, move down and out and rotate
-				.text($("#sumbuY option:selected").text());
+			// 	chart.append("text")
+			// 	.attr("class", "sumbuXlabel")
+			// 	.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+			// 	.attr("transform", "translate(" + (width / 2) + "," + (height + 45) + ")")  // centre below axis
+			// 	.text($("#sumbuX option:selected").text());
+			// } else {
+			// 	chart.append("text")
+			// 	.attr("class", "sumbuYlabel")
+			// 	.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+			// 	.attr("transform", "translate(" + -115 + "," + (height / 2) + ")")  // text is drawn off the screen top left, move down and out and rotate
+			// 	.text($("#sumbuY option:selected").text());
  
-				chart.append("text")
-				.attr("class", "sumbuXlabel")
-				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-				.attr("transform", "translate(" + (width / 2) + ","+(height + 45) + ")")  // centre below axis
-				.text($("#sumbuX option:selected").text());
-			}
+			// 	chart.append("text")
+			// 	.attr("class", "sumbuXlabel")
+			// 	.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+			// 	.attr("transform", "translate(" + (width / 2) + ","+(height + 45) + ")")  // centre below axis
+			// 	.text($("#sumbuX option:selected").text());
+			// }
  
 			// var g1 = chart.selectAll("g.circle").data(data.nodes);
 			// // console.log(JSON.stringify(g1));
@@ -912,7 +911,7 @@
 			.attr("class","graph")
 			.attr("transform", "translate(" + 950 / 2 + "," + height / 2 + ")");
  
-			// var  svg = d3.select("body").append("svg")
+			// var svg = d3.select("body").append("svg")
 			// .attr("width", 950)
 			// .attr("height", 515)
 			// .append("g")
@@ -996,6 +995,7 @@
 			var x2 = d3.scale.ordinal()
 			.rangeRoundBands([0, 600], .1)
 			.domain(arrayX.map(function(d) {return d.sumbu_x; }));
+
 			var y2 = d3.scale.ordinal()
 			.rangeRoundBands([height, 0], .1)
 			.domain(arrayY.map(function(d) {return d.sumbu_y; }));
@@ -1242,9 +1242,9 @@
 			zooming = $("#mode_zoom option:selected").text();
 
 			if(zooming == "Fisheye") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+				window.location.assign("http://localhost:1337/TA_Yulianti/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost:1337/TA_Yulianti/ta_updated/index.php?r=site/index")
 			}
 		});
 		 
@@ -1821,13 +1821,9 @@
 			var zoomLevel2 = false;
 			
 			var margin = { top: 10, right: 30, bottom: 40, left: 150 };
-			// var margin = {top: 10, right: 30, bottom: 30, left: 50};
  
 			var width = 950 - margin.left - margin.right;
 			var height = 510 - margin.top - margin.bottom;
-			
-			// var width = 850 - margin.left - margin.right;
-			// var height = 500 - margin.top - margin.bottom;
  
 			// Untuk mempersiapkan layout
 			var force = d3.layout.force()
@@ -1842,20 +1838,26 @@
 			.attr("height", 515)
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
  
+			var color = d3.scale.category20();
+ 
 			var fisheye = d3.fisheye.circular()
 			.radius(100);
 
-			var sumbuX = d3.scale.ordinal()
+			///////////////////////////////////////////
+			// Persiapan membuat garis sumbu x dan y //
+			///////////////////////////////////////////
+
+			var x = d3.scale.ordinal()
 			.rangeRoundBands([0, width], .1);
 	 
-			var sumbuY = d3.scale.ordinal()
+			var y = d3.scale.ordinal()
 			.rangeRoundBands([height, 0], .1);
 
-			var garisSumbuX = d3.svg.axis()
+			var xAxis = d3.svg.axis()
 			.scale(x)
 			.orient("bottom");
 	 
-			var garisSumbuY = d3.svg.axis()
+			var yAxis = d3.svg.axis()
 			.scale(y)
 			.orient("left");
 
@@ -1869,11 +1871,20 @@
 			.attr("transform", "translate(0, 0)")
 			.call(yAxis);
 
+			///////////////////////////////////////////////////
+			// Persiapan membuat garis sumbu x dan y selesai //
+			///////////////////////////////////////////////////
  
 			d3.json("dummySize.json", function(data) {
 				var n = data.nodes.length;
 				force.nodes(data.nodes).links(data.links);
+
+				/////////////////////////////////
+				// Menentukan posisi lingkaran //
+				/////////////////////////////////
  
+				var minimum;
+
 				// Initialize the positions deterministically, for better results.
 				// Atur koordinat lingkaran pada sumbu x dan sumbu y
 				var posisiX, posisiY;
@@ -1900,7 +1911,8 @@
 				}
 
 				// Fungsi apabila dipilih parameter pada sumbu y dengan nilai "Tahun Publikasi"
-				if ($("#sumbuY option:selected").text() == 'Tahun Publikasi') {					
+				if ($("#sumbuY option:selected").text() == 'Tahun Publikasi') {
+					
 					// Ubah angka string menjadi angka numeric 
 					for(var i = 0; i < data.nodes.length; i++) {
 						data.nodes[i].sumbu_y = parseInt(data.nodes[i].sumbu_y);
@@ -1919,11 +1931,21 @@
 					.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
 				}
 
-				var minimum;
-				if(y.rangeBand() > x.rangeBand()) {
-					minimum = x.rangeBand();
+				// Run the layout a fixed number of times.
+				// The ideal number of times scales with graph complexity.
+				// Of course, don't run too long—you'll hang the page!
+				force.start();
+				for (var i = n; i > 0; --i) force.tick();
+				force.stop();
+
+				/////////////////////////////////////////
+				// Menentukan posisi lingkaran selesai //
+				/////////////////////////////////////////
+
+				if(posisiY.rangeBand() > posisiX.rangeBand()) {
+					minimum = posisiX.rangeBand();
 				} else {
-					minimum = y.rangeBand();
+					minimum = posisiY.rangeBand();
 				}
 
 				var start;
@@ -1938,7 +1960,7 @@
 					 
 					// start = minimum / 2 - 1;
 				} else {
-					if(d3.min(data.nodes.map(function(d) {return d.id.length; })) != d3.max(data.nodes.map(function(d) {return d.id.length; }))) {
+					if(d3.min(data.nodes.map(function(d) {return d.id.length; })) != d3.max(data.nodes.map(function(d) { return d.id.length; }))) {
 						start = 15;
 					} else {
 						start = minimum / 2;
@@ -1946,15 +1968,104 @@
 				}
 
 				var posisiR = d3.scale.linear()
-				.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) {return d.id.length; }))])
+				.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) { return d.id.length; }))])
 				.range([start, minimum / 2]);
 
-				// Run the layout a fixed number of times.
-				// The ideal number of times scales with graph complexity.
-				// Of course, don't run too long—you'll hang the page!
-				force.start();
-				for (var i = n; i > 0; --i) force.tick();
-				force.stop();
+				//////////////////////////////////////
+				// Membuat garis pada sumbu x dan y //
+				//////////////////////////////////////
+
+				xAxis = d3.svg.axis().scale(posisiX).orient("bottom").tickFormat(function(d) {
+					console.log(d);
+					console.log(minimum);
+					if(d.length > minimum / 10) {
+						console.log("masuk if");
+						svgFisheye.selectAll(".x.axis").selectAll(".tick").each(function(index) {
+							$(this).tipsy({ 
+								gravity: 'n', 
+								html: true,
+								delayIn: 1000,
+								title: function() {
+									return "<span style=\"font-size:12px\">" + index + "</span>";
+								}
+							});
+						});
+						d = d.substr(0, minimum / 10); return d + "..."
+					} else {
+						console.log("masuk else");
+						return d;
+					}
+				});
+	 
+				yAxis = d3.svg.axis().scale(posisiY).orient("left").tickFormat(function(d) {
+					if(d.length > 10) {
+						svgFisheye.selectAll(".y.axis").selectAll(".tick").each(function( index ) {
+							$(this).tipsy({ 
+								gravity: 'e', 
+								html: true,
+								delayIn: 1000,
+								title: function() {
+									return "<span style=\"font-size:12px\">" + index + "</span>";
+								}
+							});
+						});
+						 
+						d = d.substr(0, 10); return d + "..."
+					} else {
+						return d;
+					}
+				});
+
+				svgFisheye.selectAll("g.y.axis")
+				.call(yAxis);
+
+				svgFisheye.selectAll("g.x.axis")
+				.call(xAxis);
+
+				var keyword = new Array(data.nodes.length);
+				for(i = 0; i < data.nodes.length; i++) {
+					keyword[i] = new Array();
+					keyword[i] = data.nodes[i].keyword[0].replace(/ /g,"\n");;
+					data.nodes[i].keyword = [];
+					$.merge(data.nodes[i].keyword, keyword[i]);
+				}
+
+				// Ubah label pada sumbu X dan Y
+				if($("#sumbuY option:selected").text().indexOf(' ') >= 0) {
+					svgFisheye.append("text")
+					.attr("class", "sumbuYlabel")
+					.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+					.attr("transform", "translate(" + -115 + "," + ((height / 2) - 15) + ")")  // text is drawn off the screen top left, move down and out and rotate
+					.text($("#sumbuY option:selected").text().split(' ')[0]);
+
+					svgFisheye.append("text")
+					.attr("class", "sumbuYlabel")
+					.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+					.attr("transform", "translate(" + -115 + "," + (height / 2) + ")")  // text is drawn off the screen top left, move down and out and rotate
+					.text($("#sumbuY option:selected").text().split(' ')[1]);
+
+					svgFisheye.append("text")
+					.attr("class", "sumbuXlabel")
+					.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+					.attr("transform", "translate(" + (width / 2) + "," + (height + 45) + ")")  // centre below axis
+					.text($("#sumbuX option:selected").text());
+				} else {
+					svgFisheye.append("text")
+					.attr("class", "sumbuYlabel")
+					.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+					.attr("transform", "translate(" + -115 + "," + (height / 2) + ")")  // text is drawn off the screen top left, move down and out and rotate
+					.text($("#sumbuY option:selected").text());
+	 
+					svgFisheye.append("text")
+					.attr("class", "sumbuXlabel")
+					.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+					.attr("transform", "translate(" + (width / 2) + ","+(height + 45) + ")")  // centre below axis
+					.text($("#sumbuX option:selected").text());
+				}
+
+				//////////////////////////////////////////////
+				// Membuat garis pada sumbu x dan y selesai //
+				//////////////////////////////////////////////
 
 				//////////////////
 				// Membuat link //
@@ -2106,7 +2217,7 @@
 							return (posisiY(d.source.sumbu_y)+ (y.rangeBand() / 180) + posisiR(d.source.id.length));
 						}
 						 
-						// Garis vertical dengan lingkaran asal ada di bawah target
+						//garis vertical dengan lingkaran asal ada di bawah target
 						else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
 							return (posisiY(d.source.sumbu_y) + (y.rangeBand() / 180) - posisiR(d.source.id.length));
 						}
@@ -2151,6 +2262,12 @@
 				// Membuat link selesai //
 				//////////////////////////
 
+				
+
+				////////////////////////////////
+				// Membuat representasi paper //
+				////////////////////////////////
+
 				var elemParent = svgFisheye.selectAll("g.circle")
 				.data(data.nodes);
 
@@ -2158,13 +2275,12 @@
 				var elemParentEnter = elemParent.enter()
 				.append("g")
 				.attr("class", "paperParent");
-				// .attr("transform", function(d) {return "translate(10, 60)"});
 				
 				data.nodes.forEach(function(d, i) {
 					d.x = posisiX(d.sumbu_x)
-					+ (x.rangeBand() / 180) - 1;
+					+ (posisiX.rangeBand() / 2);
 					d.y = posisiY(d.sumbu_y)
-					+ (y.rangeBand() / 180) + 2;
+					+ (posisiY.rangeBand() / 2);
 				});
 
 				// Buat tag circle di dalam tag lingkaran dengan class nodeParent
@@ -2172,7 +2288,6 @@
 				.attr("class", "nodeParent")
 				.attr("id", function(d, i) {
 					return "circleParent-" + i;  // id tiap circle
-					// return "circle-" + d.id;
 				})
 				.attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
 				.attr("cy", function(d, i) { return d.y;}) // Koordinat lingkaran pada sumbu y
@@ -2189,9 +2304,6 @@
 						for(var iterator = 0; iterator < d.size.length; iterator++) {
 							realSize += d.size[iterator];
 							totalSize += realSize;
-
-							console.log("realSize: " + realSize);
-							console.log("totalSize: " + totalSize);
 						}
 
 						if (realSize == 2) {
@@ -2202,20 +2314,22 @@
 							return 30;
 						}
 					}
-				 })
-				.style("fill", function(d, i) {
-					if(d.size.length == 1) {
-						return "#6C9ECA";
-					} else {
-						if(d.children.length == 2) {
-							return "#447DB1";
-						} else if(d.children.length == 3) {
-							return "#2868A2";
-						} else if(d.children.length == 4) {
-							return "#0F528E";
-						} 
-					}
-				});
+				})
+				.style("fill", "#FFC2AD");
+
+				// .style("fill", function(d, i) {
+				// 	if(d.size.length == 1) {
+				// 		return "#6C9ECA";
+				// 	} else {
+				// 		if(d.children.length == 2) {
+				// 			return "#447DB1";
+				// 		} else if(d.children.length == 3) {
+				// 			return "#2868A2";
+				// 		} else if(d.children.length == 4) {
+				// 			return "#0F528E";
+				// 		} 
+				// 	}
+				// });
 				// .call(force.drag);
 
 				// Buat tag text di dalam tag lingkaran dengan class label
@@ -2235,6 +2349,7 @@
 				var g1 = svgFisheye.selectAll("g.paperParent").data(data.nodes);
 
 				$("svg circle").each(function(d, i) {
+					console.log(g1[0][d].__data__);
 					if(g1[0][d].__data__.children.length == 1) {
 						$(g1[0][d]).tipsy({ 
 							gravity: 'w', 
@@ -2250,7 +2365,13 @@
 							html: true,
 							delayIn: 1000,
 							title: function() {
-								return "<span style=\"font-size:12px\">" + this.__data__.keyword[0] + "</span>";
+								var realKeyword = "";
+
+								for(var iterator = 0; iterator < g1[0][d].__data__.keyword.length; iterator ++) {
+									realKeyword += g1[0][d].__data__.keyword[iterator];
+								}
+
+								return "<span style=\"font-size:12px\">" + realKeyword + "</span>";
 							}
 						});
 					}
@@ -2374,7 +2495,7 @@
 							}
 							
 							// Ubah warna paperParent
-							node.style("fill", "#C2C3C4");					
+							node.style("fill", "#DDDDDD");					
 
 							var elemChild = svgFisheye.selectAll("g.circle")
 							.data(dataChild);
@@ -2391,15 +2512,16 @@
 							.attr("cx", function(p, ii) { return p.x; })
 							.attr("cy", function(p, ii) { return p.y; })
 							.attr("r", function(p, ii) { return 15; })
-							.style("fill", function(p, ii) {
-								var lastIndex = p.length - 1;
+							.style("fill", "#FFC2AD")
+							// .style("fill", function(p, ii) {
+							// 	var lastIndex = p.length - 1;
 
-								if(p[lastIndex] == null) {
-									return "#6C9ECA";
-								} else if(p.length == 2) {
-									return "#447DB1";
-								}
-							})
+							// 	if(p[lastIndex] == null) {
+							// 		return "#6C9ECA";
+							// 	} else if(p.length == 2) {
+							// 		return "#447DB1";
+							// 	}
+							// })
 							.style("stroke-width", "0px");
 							// .call(force.drag);
 
@@ -2497,10 +2619,10 @@
 										circleChild.classList.add("circleStroke2");
 
 										// Ubah warna paperParent
-										node.style("fill", "#909396");
+										node.style("fill", "#DDDDDD");
 
 										// Ubah warna paperChild
-										nodeChild.style("fill", "#C2C3C4");
+										nodeChild.style("fill", "#DDDDDD");
 
 										var dataGrandChild = p;
 
@@ -2529,7 +2651,7 @@
 										.attr("cx", function(q, i) { return q.x; })
 										.attr("cy", function(q, i) { return q.y; })
 										.attr("r", function(q, i) { return 15; })
-										.style("fill", "#6C9ECA")
+										.style("fill", "#FFC2AD")
 										.style("stroke-width", "0px");
 										// .call(force.drag);
 
@@ -2622,17 +2744,19 @@
 										elemChildEnter.on("mouseover", function(p, i) {
 											$(".paperGrandChild").remove();
 
-											node.style("fill", "#C2C3C4");
+											node.style("fill", "#DDDDDD");
 
-											nodeChild.style("fill", function(p, i) {
-												var lastIndex = p.length - 1;
+											nodeChild.style("fill", "#FFC2AD");
 
-												if(p[lastIndex] == null) {
-													return "#6C9ECA";
-												} else if(p.length == 2) {
-													return "#447DB1";
-												}
-											});
+											// nodeChild.style("fill", function(p, i) {
+											// 	var lastIndex = p.length - 1;
+
+											// 	if(p[lastIndex] == null) {
+											// 		return "#6C9ECA";
+											// 	} else if(p.length == 2) {
+											// 		return "#447DB1";
+											// 	}
+											// });
 
 											fisheye.focus(d3.mouse(this));
 
@@ -2663,28 +2787,34 @@
 								$(".paperChild").remove();
 								$(".paperGrandChild").remove();
 
-								node.style("fill", function(d, i) {
-									if(d.size.length == 1) {
-										return "#6C9ECA";
-									} else {
-										if(d.children.length == 2) {
-											return "#447DB1";
-										} else if(d.children.length == 3) {
-											return "#2868A2";
-										} else if(d.children.length == 4) {
-											return "#0F528E";
-										} 
-									}
-								});
+								node.style("fill", "#FFC2AD");
+
+								// node.style("fill", function(d, i) {
+								// 	if(d.size.length == 1) {
+								// 		return "#6C9ECA";
+								// 	} else {
+								// 		if(d.children.length == 2) {
+								// 			return "#447DB1";
+								// 		} else if(d.children.length == 3) {
+								// 			return "#2868A2";
+								// 		} else if(d.children.length == 4) {
+								// 			return "#0F528E";
+								// 		} 
+								// 	}
+								// });
 
 								fisheye.focus(d3.mouse(this));
 
 								// Fisheye untuk setiap node
 								node.each(function(d) { d.fisheye = fisheye(d); })
+								// .attr("cx", function(d) { return d.fisheye.x; })
+								// .attr("cy", function(d) { return d.fisheye.y; })
 								.attr("r", function(d) { return d.fisheye.z * 15});
 
 								// Fisheye untuk setiap label
 								label.each(function(d) { d.fisheye = fisheye(d); })
+								// .attr("x", function(d) { return d.fisheye.x; })
+								// .attr("y", function(d) { return d.fisheye.y; })
 								.attr("r", function(d) { return d.fisheye.z * 15});
 
 								// Fisheye untuk setiap garis
@@ -2700,6 +2830,9 @@
 						}
 					}
 				});
+				////////////////////////////////////////
+				// Membuat representasi paper selesai //
+				////////////////////////////////////////
 			});
 		}
 	</script>
