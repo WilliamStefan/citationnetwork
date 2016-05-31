@@ -1067,7 +1067,7 @@
 						// Ubah warna paperParent
 						node.style("fill", "#DDDDDD");
 
-						var elemChild = svgFisheye.selectAll("g.circle")
+						var elemChild = svgFisheye.select(".draggable").selectAll("g.circle")
 						.data(dataChild);
 
 						var elemChildEnter = elemChild.enter()
@@ -1210,7 +1210,7 @@
 										}
 									});
 
-									var elemGrandChild = svgFisheye.selectAll("g.circle")
+									var elemGrandChild = svgFisheye.select(".draggable").selectAll("g.circle")
 									.data(dataGrandChild);
 
 									var elemGrandChildEnter = elemGrandChild.enter()
