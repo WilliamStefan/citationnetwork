@@ -108,9 +108,6 @@
 	<!-- Tampilan di sebelah kanan peta penelitian, yaitu: jumlah paper, pemilihan parameter untuk: sumbu x, sumbu y, dan relasi -->
 	<div class="right-content">
 		<!-- Header -->
-		<div class="page-header">
-			<h3>Paper</h3>
-		</div>
 
 		<!-- Header untuk menampilkan jumlah paper -->
 		<label style="width:100px">Jumlah Paper</label>
