@@ -223,7 +223,7 @@ background-color: green;
 	text-align:center;
 	vertical-align:baseline;
 	text-anchor:middle;
-	text-shadow:0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+	/*text-shadow:0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;*/
 	font-weight:bold;
 	position:absolute;
 	z-index:1;
@@ -234,7 +234,7 @@ background-color: green;
 	position:absolute;
 	z-index:-1;
 	cursor: pointer;
-	stroke: #000;
+	stroke: #F2A9A2;;
 }
 
 #trail{
@@ -389,4 +389,27 @@ border-radius:3px;
 	vertical-align:middle;
 	border-radius:4px;
 	
+}
+
+/* for panning */
+.overviewmap .background {
+    fill: #F6F6F6;
+    stroke: #333333;
+    cursor: move;
+}
+.overviewmap .panCanvas {
+    cursor: move;
+}
+.overviewmap .panCanvas .background{
+    stroke: blue;
+    stroke-width: 2px;
+}
+.overviewmap .frame .background {
+    stroke: blue;
+    stroke-width: 1px;
+    fill-opacity: 0.2;
+    fill: #ffffff;
+    fill: url(#overviewGradient);
+    filter: url(#overviewDropShadow);
+    cursor: move;
 }
