@@ -744,7 +744,7 @@
 			 
 			xAxis = d3.svg.axis().scale(posisiX).outerTickSize(0).orient("bottom").tickFormat(function(d) {
 				if(d.length > minimum / 10) {
-					chart.selectAll(".x.axis").selectAll(".tick").each(function( index ) {
+					svgFisheye.selectAll(".x.axis").selectAll(".tick").each(function( index ) {
 						$(this).tipsy({ 
 							gravity: 'n', 
 							html: true,
@@ -762,7 +762,7 @@
  
 			yAxis = d3.svg.axis().scale(posisiY).outerTickSize(0).orient("left").tickFormat(function(d) {
 				if(d.length > 10) {
-					chart.selectAll(".y.axis").selectAll(".tick").each(function( index ) {
+					svgFisheye.selectAll(".y.axis").selectAll(".tick").each(function( index ) {
 						$(this).tipsy({ 
 							gravity: 'e', 
 							html: true,
@@ -779,10 +779,10 @@
 				}
 			});
 			
-			chart.selectAll("g.y.axis")
+			svgFisheye.selectAll("g.y.axis")
 			.call(yAxis);
 
-			chart.selectAll("g.x.axis")
+			svgFisheye.selectAll("g.x.axis")
 			.call(xAxis);
 			
 			var keyword = new Array(data.nodes.length);
@@ -795,31 +795,31 @@
 
 			// Ubah label pada sumbu X dan Y
 			if($("#sumbuY option:selected").text().indexOf(' ') >= 0) {
-				chart.append("text")
+				svgFisheye.append("text")
 				.attr("class", "sumbuYlabel")
 				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
 				.attr("transform", "translate(" + -115 + "," + ((height / 2) - 15) + ")")  // text is drawn off the screen top left, move down and out and rotate
 				.text($("#sumbuY option:selected").text().split(' ')[0]);
 
-				chart.append("text")
+				svgFisheye.append("text")
 				.attr("class", "sumbuYlabel")
 				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
 				.attr("transform", "translate(" + -115 + "," + (height / 2) + ")")  // text is drawn off the screen top left, move down and out and rotate
 				.text($("#sumbuY option:selected").text().split(' ')[1]);
 
-				chart.append("text")
+				svgFisheye.append("text")
 				.attr("class", "sumbuXlabel")
 				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
 				.attr("transform", "translate(" + (width / 2) + "," + (height + 45) + ")")  // centre below axis
 				.text($("#sumbuX option:selected").text());
 			} else {
-				chart.append("text")
+				svgFisheye.append("text")
 				.attr("class", "sumbuYlabel")
 				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
 				.attr("transform", "translate(" + -115 + "," + (height / 2) + ")")  // text is drawn off the screen top left, move down and out and rotate
 				.text($("#sumbuY option:selected").text());
  
-				chart.append("text")
+				svgFisheye.append("text")
 				.attr("class", "sumbuXlabel")
 				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
 				.attr("transform", "translate(" + (width / 2) + ","+(height + 45) + ")")  // centre below axis

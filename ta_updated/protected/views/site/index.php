@@ -326,7 +326,7 @@
 		$('select[name^="sumbuY"] option[value="' + defaultY + '"]').attr("selected", "selected");
 		$('select[name^="edge"] option[value="' + defaultEdge + '"]').attr("selected", "selected");
 		$('select[name^="mode_zoom"] option[value="' + defaultZoom + '"]').attr("selected", "selected");
- 		$('select[name^="mode_pan"] option[value="'+defaultPan+'"]').attr("selected","selected");
+		$('select[name^="mode_pan"] option[value="'+defaultPan+'"]').attr("selected","selected");
 		
 		var nodes = {};
 		 
@@ -392,12 +392,12 @@
 		.call(yAxis);
 
 		chart.append('rect')
-		    .attr('class', 'background')
-		    .attr('pointer-events', 'all')
-		    .style('cursor','move')
-		    .attr('fill', 'none')
-		    .attr('height', height)
-		    .attr('width', width);
+			.attr('class', 'background')
+			.attr('pointer-events', 'all')
+			.style('cursor','move')
+			.attr('fill', 'none')
+			.attr('height', height)
+			.attr('width', width);
 
 		var wrapperInner = chart.append('g')
 			.attr('class','wrapper inner')
@@ -405,28 +405,34 @@
 			.attr("transform", "translate(" + 0 + "," + 0 + ")"); 
 
 		wrapperInner.append("rect")
-	        .attr("class", "background")
-	        .attr("width", width)
-	        .style('fill','none')
-	        .attr("height", height);
+			.attr("class", "background")
+			.attr("width", width)
+			.style('fill','none')
+			.attr("height", height);
 
-	    var panCanvas = wrapperInner.append("g")
-	        .attr("class", "panCanvas")
-	        .attr("width", width)
-	        .attr("height", height)
-	        .attr("transform", "translate(0,0)");
+		var panCanvas = wrapperInner.append("g")
+			.attr("class", "panCanvas")
+			.attr("width", width)
+			.attr("height", height)
+			.attr("transform", "translate(0,0)");
 
-	    panCanvas.append("rect")
-	        .attr("class", "background")
-	        .attr("width", width+385)
-	        .style('fill','none')
-	        .attr("height", height+230);
+		panCanvas.append("rect")
+			.attr("class", "background")
+			.attr("width", width+385)
+			.style('fill','none')
+			.attr("height", height+230);
 
 		//menampung elemen yang bisa di-pan
 		var svg1 = panCanvas.append('svg')
+<<<<<<< HEAD
+				.attr('height', height+385)
+				.attr('width', width+230);
+				
+=======
 			    .attr('height', height+230)
 			    .attr('width', width+385);
 			    
+>>>>>>> e6d64e6b763f21e8af9f42679d62cfc883e369d9
 		svg1.append('g').attr('class', 'draggable');
 		
 		var canvas = d3.select('.chart');
@@ -434,70 +440,70 @@
 		var defs = canvas.append('defs');
 		
 		defs.append("clipPath")
-	        .attr("id", "wrapperClipPath")
-	        .attr("class", "wrapper clipPath")
-	        .append("rect")
-	        .attr("class", "background")
-	        .attr("width", width)
-	        .attr("height", height);
-	            
-	    defs.append("clipPath")
-	        .attr("id", "overviewClipPath")
-	        .attr("class", "overview clipPath")
-	        .attr("width", width)
-	        .attr("height", height)
-	 		.append("rect")
-	        .attr("class", "background")
-	        .attr("width", width)
-	        .attr("height", height);
-	            
-	    var filter = defs.append("svg:filter")
-	        .attr("id", "overviewDropShadow")
-	        .attr("x", "-20%")
-	        .attr("y", "-20%")
-	        .attr("width", "150%")
-	        .attr("height", "150%");
+			.attr("id", "wrapperClipPath")
+			.attr("class", "wrapper clipPath")
+			.append("rect")
+			.attr("class", "background")
+			.attr("width", width)
+			.attr("height", height);
+				
+		defs.append("clipPath")
+			.attr("id", "overviewClipPath")
+			.attr("class", "overview clipPath")
+			.attr("width", width)
+			.attr("height", height)
+			.append("rect")
+			.attr("class", "background")
+			.attr("width", width)
+			.attr("height", height);
+				
+		var filter = defs.append("svg:filter")
+			.attr("id", "overviewDropShadow")
+			.attr("x", "-20%")
+			.attr("y", "-20%")
+			.attr("width", "150%")
+			.attr("height", "150%");
 
-	    filter.append("svg:feOffset")
-	        .attr("result", "offOut")
-	        .attr("in", "SourceGraphic")
-	        .attr("dx", "1")
-	        .attr("dy", "1");
+		filter.append("svg:feOffset")
+			.attr("result", "offOut")
+			.attr("in", "SourceGraphic")
+			.attr("dx", "1")
+			.attr("dy", "1");
 
-	    filter.append("svg:feColorMatrix")
-	        .attr("result", "matrixOut")
-	        .attr("in", "offOut")
-	        .attr("type", "matrix")
-	        .attr("values", "0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.5 0");
+		filter.append("svg:feColorMatrix")
+			.attr("result", "matrixOut")
+			.attr("in", "offOut")
+			.attr("type", "matrix")
+			.attr("values", "0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.5 0");
 
-	    filter.append("svg:feGaussianBlur")
-	       .attr("result", "blurOut")
-	       .attr("in", "matrixOut")
-	       .attr("stdDeviation", "10");
+		filter.append("svg:feGaussianBlur")
+		   .attr("result", "blurOut")
+		   .attr("in", "matrixOut")
+		   .attr("stdDeviation", "10");
 
-	    filter.append("svg:feBlend")
-	       .attr("in", "SourceGraphic")
-	       .attr("in2", "blurOut")
-	       .attr("mode", "normal");
-	    var overviewRadialFill = defs.append("radialGradient")
-	        .attr({
-	            id:"overviewGradient",
-	            gradientUnits:"userSpaceOnUse",
-	            cx:"500",
-	            cy:"500",
-	            r:"400",
-	            fx:"500",
-	            fy:"500"
-	        });
-	    overviewRadialFill.append("stop")
-	        .attr("offset", "0%")
-	        .attr("stop-color", "#FFFFFF");
-	    overviewRadialFill.append("stop")
-	        .attr("offset", "40%")
-	        .attr("stop-color", "#EEEEEE");
-	    overviewRadialFill.append("stop")
-	        .attr("offset", "100%")
-	        .attr("stop-color", "#E0E0E0");
+		filter.append("svg:feBlend")
+		   .attr("in", "SourceGraphic")
+		   .attr("in2", "blurOut")
+		   .attr("mode", "normal");
+		var overviewRadialFill = defs.append("radialGradient")
+			.attr({
+				id:"overviewGradient",
+				gradientUnits:"userSpaceOnUse",
+				cx:"500",
+				cy:"500",
+				r:"400",
+				fx:"500",
+				fy:"500"
+			});
+		overviewRadialFill.append("stop")
+			.attr("offset", "0%")
+			.attr("stop-color", "#FFFFFF");
+		overviewRadialFill.append("stop")
+			.attr("offset", "40%")
+			.attr("stop-color", "#EEEEEE");
+		overviewRadialFill.append("stop")
+			.attr("offset", "100%")
+			.attr("stop-color", "#E0E0E0");
  
 		// Hitung x asal
 		function hitungX(sourcex, sourcey, targetx, targety, r) {
@@ -514,6 +520,11 @@
 		// Fungsi untuk menggambar kembali tampilan sesuai dengan parameter yang dipilih
 		function redraw(dataString) {
 			var rlink = new Array();
+<<<<<<< HEAD
+			d3.selectAll(".lingkaran").remove();
+			d3.selectAll(".tes0.link").remove();
+=======
+>>>>>>> e6d64e6b763f21e8af9f42679d62cfc883e369d9
 			d3.selectAll("circle").remove();
 			d3.selectAll("line").remove();
 			d3.selectAll(".label2").remove();
@@ -1006,12 +1017,12 @@
 				//respond to the mouse and distort where necessary
 				chart.select(".background").on("mousemove", function(){
 				if(!d3.event.ctrlKey){	//if the ctrl key is not pressed
-				  var mouse = d3.mouse(this);
-			      x.distortion(2).focus(mouse[0]);
-			      y.distortion(2).focus(mouse[1]);
+					var mouse = d3.mouse(this);
+					x.distortion(2).focus(mouse[0]);
+					y.distortion(2).focus(mouse[1]);
 
-			      	//redraw node 
-			        entering2.append("svg:circle")
+					//redraw node 
+					entering2.append("svg:circle")
 							.classed("node", true)
 							.attr("id", function(d){
 								console.log("d di distortion");
@@ -1125,9 +1136,9 @@
 						  })
 						  .attr("marker-end", function(d,i) { return "url(#"+i+")"; });
 
-			      chart.select(".x.axis").call(xAxis);
-			      chart.select(".y.axis").call(yAxis);
-		  		}
+				  chart.select(".x.axis").call(xAxis);
+				  chart.select(".y.axis").call(yAxis);
+				}
 				});
 			}
 			/* PANNING WITH DIRECT REPOSITIONING TECHNIQUE (GRAB AND DRAG) */
@@ -1135,11 +1146,11 @@
 				chart.select('.background').on('mousemove',null);
 				d3.select('#reset').style('visibility','visible');
 				chart.append('rect')
-				    .attr('class', 'block')
-				    .attr('fill', 'white')
-				    .attr('height', 200)
-				    .attr('width', 201)
-				    .attr("transform", "translate(-200,460)");
+					.attr('class', 'block')
+					.attr('fill', 'white')
+					.attr('height', 200)
+					.attr('width', 201)
+					.attr("transform", "translate(-200,460)");
 				chart.append('line')
 					.style('stroke','#000')
 					.style('shape-rendering','crispEdges')
@@ -1157,14 +1168,14 @@
 				function dragmove(d) {
 					var translate = d3.transform(d3.select(".draggable").attr("transform")).translate;
 
-			                x = d3.event.dx + translate[0],
-			                y = d3.event.dy + translate[1];
+							x = d3.event.dx + translate[0],
+							y = d3.event.dy + translate[1];
 
 					  d3.select(".draggable").attr('transform', 'translate(' + (x) + ',' + (y) + ')');
 					  d3.select(".x").attr('transform', 'translate(' + (x) + ',' + height + ')');	
 					  d3.select(".y").attr('transform', 'translate(' + 0 + ',' + (y) + ')');
 					  // var transformTarget = getXYTranslate(panCanvas.attr("transform"));
-				      d3.select(".frame").attr("transform", "translate(" + (-x) + "," + (-y) + ")");
+					  d3.select(".frame").attr("transform", "translate(" + (-x) + "," + (-y) + ")");
 				}
 				chart.select('.background').call(drag);
 
@@ -1188,66 +1199,66 @@
 					overviewScale = 0.1,
 					scale = 1,
 					zoom,
-			        x = width+20, y=20,
+					x = width+20, y=20,
 					frameX,
 					frameY;
 				var base = selection;
-			    var container = selection.append("g")
-			        .attr("class", "overviewmap");
-			       
-			    overviewmap.node = container.node();
+				var container = selection.append("g")
+					.attr("class", "overviewmap");
+				   
+				overviewmap.node = container.node();
 
-			 	var frame = container.append("g")
-			        .attr("class", "frame")
-			        .attr('transform','translate(0,0)');
+				var frame = container.append("g")
+					.attr("class", "frame")
+					.attr('transform','translate(0,0)');
 
-			    frame.append("rect")
-			        .attr("class", "background")
-			        .attr("width", width)
-			        .attr("height", height)
-			        .attr("filter", "url(#overviewDropShadow)");
-			    	
-			    var drag = d3.behavior.drag()
-			        .on("dragstart.overviewmap", function() {
-			            var frameTranslate = getXYTranslate(frame.attr("transform"));
-			                frameX = frameTranslate[0];
-			                frameY = frameTranslate[1];
-			        })
-			        .on("drag.overviewmap", function() {
-			            d3.event.sourceEvent.stopImmediatePropagation();
-			                frameX += d3.event.dx;
-			                frameY += d3.event.dy;
-			                frame.attr("transform", "translate(" + frameX + "," + frameY + ")");
-			                var translate =  [(-frameX*scale),(-frameY*scale)];
-			                target.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
-			                d3.select('.x').attr('transform', 'translate(' + (-frameX*scale) + ',' + height + ')scale('+ scale +')');	
-					  		d3.select('.y').attr('transform', 'translate(' + 0 + ',' + (-frameY*scale) + ')scale('+ scale +')');
-			        });
+				frame.append("rect")
+					.attr("class", "background")
+					.attr("width", width)
+					.attr("height", height)
+					.attr("filter", "url(#overviewDropShadow)");
+					
+				var drag = d3.behavior.drag()
+					.on("dragstart.overviewmap", function() {
+						var frameTranslate = getXYTranslate(frame.attr("transform"));
+							frameX = frameTranslate[0];
+							frameY = frameTranslate[1];
+					})
+					.on("drag.overviewmap", function() {
+						d3.event.sourceEvent.stopImmediatePropagation();
+							frameX += d3.event.dx;
+							frameY += d3.event.dy;
+							frame.attr("transform", "translate(" + frameX + "," + frameY + ")");
+							var translate =  [(-frameX*scale),(-frameY*scale)];
+							target.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+							d3.select('.x').attr('transform', 'translate(' + (-frameX*scale) + ',' + height + ')scale('+ scale +')');	
+							d3.select('.y').attr('transform', 'translate(' + 0 + ',' + (-frameY*scale) + ')scale('+ scale +')');
+					});
 
-			    frame.call(drag);
-			    var render = function(){
-			    	// scale = 1.75;
-			        container.attr("transform", "scale(" + overviewScale + ")");
-				    var node = target.node().cloneNode(true);
-				    node.removeAttribute("id");
-				    base.selectAll(".overviewmap .panCanvas").remove();
-				    overviewmap.node.appendChild(node);
-				    var transformTarget = getXYTranslate(target.attr("transform"));
-				    frame.attr("transform", "translate(" + (-transformTarget[0]/scale) + "," + (-transformTarget[1]/scale) + ")")
-				        .select(".background")
-				        .attr("width", width/scale)
-				        .attr("height", height/scale);
-				    frame.node().parentNode.appendChild(frame.node());
-				    d3.select(node).attr("transform", "translate(0,0)");
-			    };
-			    selection.call(render);
+				frame.call(drag);
+				var render = function(){
+					// scale = 1.75;
+					container.attr("transform", "scale(" + overviewScale + ")");
+					var node = target.node().cloneNode(true);
+					node.removeAttribute("id");
+					base.selectAll(".overviewmap .panCanvas").remove();
+					overviewmap.node.appendChild(node);
+					var transformTarget = getXYTranslate(target.attr("transform"));
+					frame.attr("transform", "translate(" + (-transformTarget[0]/scale) + "," + (-transformTarget[1]/scale) + ")")
+						.select(".background")
+						.attr("width", width/scale)
+						.attr("height", height/scale);
+					frame.node().parentNode.appendChild(frame.node());
+					d3.select(node).attr("transform", "translate(0,0)");
+				};
+				selection.call(render);
 			}
 
 			function getXYTranslate(translateString){
 				var split = translateString.split(",");
-			    var x = split[0] ? ~~split[0].split("(")[1] : 0;
-			    var y = split[1] ? ~~split[1].split(")")[0] : 0;
-			    return [x, y];
+				var x = split[0] ? ~~split[0].split("(")[1] : 0;
+				var y = split[1] ? ~~split[1].split(")")[0] : 0;
+				return [x, y];
 			}
 		}
  
