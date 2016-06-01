@@ -467,9 +467,9 @@
 	        .style('fill','none')
 	        .attr("height", height+230);
 
-		//menampung elemen yang bisa di-pan
-		var svg1 = panCanvas.append('svg')
-			    .attr('height', height+230)
+			//menampung elemen yang bisa di-pan
+			var svg1 = panCanvas.append('svg')
+				    .attr('height', height+230)
 			    .attr('width', width+385);
 				    
 			svg1.append('g').attr('class', 'draggable');
