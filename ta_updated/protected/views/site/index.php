@@ -363,10 +363,11 @@
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", 515)
 		.append("g")
+		.attr('class','wrapper map')
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		 
-		// var parameter;   
-		// parameter="8,10,11,12,13,14,15,16,17,18,19";
+		var parameter;   
+		parameter="8,10,11,12,13,14,15,16,17,18,19";
 				 
 		var force = d3.layout.force();
 		var sumbuX;
@@ -423,8 +424,8 @@
 
 		//menampung elemen yang bisa di-pan
 		var svg1 = panCanvas.append('svg')
-			    .attr('height', height+385)
-			    .attr('width', width+230);
+			    .attr('height', height+230)
+			    .attr('width', width+385);
 			    
 		svg1.append('g').attr('class', 'draggable');
 		
@@ -513,21 +514,14 @@
 		// Fungsi untuk menggambar kembali tampilan sesuai dengan parameter yang dipilih
 		function redraw(dataString) {
 			var rlink = new Array();
-			d3.selectAll(".lingkaran").remove();
-			d3.selectAll(".tes0.link").remove();
-			// d3.selectAll("circle").remove();
-			// d3.selectAll("line").remove();
+			d3.selectAll("circle").remove();
+			d3.selectAll("line").remove();
 			d3.selectAll(".label2").remove();
 
 			data2 = JSON.parse(dataString); // Parse data dari basis data ke dalam bentuk JSON dan
-			// console.log("Ini data2, dataString: " + dataString);
 			 
 			data = data2.data3; // Ambil data dengan tag "data3" (berupa array of nodes)
  
-			// console.log(data);
-			// console.log(data['links'][0]);
-			// console.log(data['nodes']);
-			 
 			data.nodes = getChildren(data.nodes); // Ambil anak-anak (tag "children") dari data sebelumnya (array of nodes)
  
 			// Setting data untuk link, source dan targetnya ud data node
@@ -1680,6 +1674,7 @@
 			sumbuX = $("#sumbuX option:selected").text();
 			sumbuY = $("#sumbuY option:selected").text();
 			edge = $("#edge option:selected").text();
+			zooming = $("#mode_zoom option:selected").text();
 			pan = $("#mode_pan option:selected").text();
 			defaultPan=pan;
 			if(typeof(pan) != 'undefined')
