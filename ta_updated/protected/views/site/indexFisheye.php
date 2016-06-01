@@ -1,4 +1,4 @@
-<?php /* @var $this SiteController */
+f<?php /* @var $this SiteController */
 	$this->pageTitle=Yii::app()->name;
 ?>
 
@@ -1155,7 +1155,7 @@
 								});
 
 								$.each(p[0], function(keyChildren, valueChildren) {
-									if(valueChildren == "" || keyChildren == "x" || keyChildren == "y" || keyChildren == "px" || keyChildren == "py" || keyChildren == "fisheye" || keyChildren == "id") {}
+									if(valueChildren == "" || keyChildren == "x" || keyChildren == "y" || keyChildren == "px" || keyChildren == "py" || keyChildren == "fisheye" || keyChildren == "id" || keyChildren == "name") {}
 									else {
 										$( "#popup-content" ).append( "<li><label style=\"width:" + maxKeyChildren * 8 + "px\">" + keyChildren + "</label><label style=\"width:10px\"> : </label></li>" );
 										$( "#popup-content" ).append('<span class="detail-content">' + valueChildren + '</span>');
@@ -1274,21 +1274,21 @@
 												document.location.href = document.URL + '#ShowDetailPaper';
 											}
 
-											var maxKey = 0;
-											var maxValue = 0;
+											var maxKeyGrandChild = 0;
+											var maxValueGrandChild = 0;
 
-											$.each(q, function(key, value) {
-											 if(maxKey < key.length) { maxKey = key.length; }
-											 if(maxValue < value.length) { maxValue = value.length; }
+											$.each(q, function(keyGrandChild, valueGrandChild) {
+												if(maxKeyGrandChild < keyGrandChild.length) { maxKeyGrandChild = keyGrandChild.length; }
+												if(maxValueGrandChild < valueGrandChild.length) { maxValueGrandChild = valueGrandChild.length; }
 											});
 
-											$.each(q, function(key, value) {
-												if(key == "id" || key == "creater") {}
+											$.each(q, function(keyGrandChild, valueGrandChild) {
+												if(keyGrandChild == "id" || keyGrandChild == "creater" || keyGrandChild == "x" || keyGrandChild == "y" || keyGrandChild == "name" || keyGrandChild == "fisheye") {}
 												else {
-													$( "#popup-content" ).append( "<li><label style=\"width:" + maxKey * 8 + "px\">" + key + "</label><label style=\"width:10px\"> : </label></li>" );
-													if(value == "") {}
+													$( "#popup-content" ).append( "<li><label style=\"width:" + maxKeyGrandChild * 8 + "px\">" + keyGrandChild + "</label><label style=\"width:10px\"> : </label></li>" );
+													if(valueGrandChild == "") {}
 													else {
-														$( "#popup-content" ).append('<span class="detail-content">' + value + '</span>');
+														$( "#popup-content" ).append('<span class="detail-content">' + valueGrandChild + '</span>');
 													}
 												}
 											});
