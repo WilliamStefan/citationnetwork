@@ -1718,89 +1718,76 @@
 							return realSize;
 						});
 
-						elemParentEnter.attr("transform", function(d, i) {
-							return "translate(" +
-										(posisiX(d.sumbu_x)+ (posisiX.rangeBand()/2))
-										
-								 + ", "+
-										(posisiY(d.sumbu_y)+ (posisiY.rangeBand()/2))
-										
-								 +")";
-						  });
+						link.attr("x1", function(d) {
+							if((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x))) {
+								return posisiX(d.source.sumbu_x)+ (x.rangeBand() / 180) + posisiR(d.source.id.length); 
+							}
+							 
+							// Garis horizontal jika lingkaran asal ada di kiri target
+							else if ((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x))) {
+								return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180) - posisiR(d.source.id.length);
+							}
+							 
+							// Garis vertical
+							else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
+								return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180);
+							}
+							 
+							// Garis miring
+							else {
+								return hitungXAsal((posisiX(d.source.sumbu_x) + (x.rangeBand() / 180)),(posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)), (posisiX(d.target.sumbu_x) + (x.rangeBand() / 180)), (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180)), posisiR(d.source.id.length));
+							}
+						})
+						.attr("y1", function(d) { 
+							//garis horizontal
+							if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
+								return posisiY(d.source.sumbu_y) + (y.rangeBand() / 180);
+							}
+							 
+							//garis vertical dengan lingkaran asal ada di atas target
+							else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
+								return (posisiY(d.source.sumbu_y)+ (y.rangeBand() / 180) + posisiR(d.source.id.length));
+							}
+							 
+							//garis vertical dengan lingkaran asal ada di bawah target
+							else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
+								return (posisiY(d.source.sumbu_y) + (y.rangeBand() / 180) - posisiR(d.source.id.length));
+							}
 
-						// var link = svgFisheye.select('.draggable').selectAll("g.link").data(rlink)
-						// .enter().append("line")
-						// .attr("class", "link")
-						// .attr("x1", function(d) {
-						// 	if((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x))) {
-						// 		return posisiX(d.source.sumbu_x)+ (x.rangeBand() / 180) + posisiR(d.source.id.length); 
-						// 	}
-							 
-						// 	// Garis horizontal jika lingkaran asal ada di kiri target
-						// 	else if ((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x))) {
-						// 		return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180) - posisiR(d.source.id.length);
-						// 	}
-							 
-						// 	// Garis vertical
-						// 	else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
-						// 		return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180);
-						// 	}
-							 
-						// 	// Garis miring
-						// 	else {
-						// 		return hitungXAsal((posisiX(d.source.sumbu_x) + (x.rangeBand() / 180)),(posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)), (posisiX(d.target.sumbu_x) + (x.rangeBand() / 180)), (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180)), posisiR(d.source.id.length));
-						// 	}
-						// })
-						// .attr("y1", function(d) { 
-						// 	//garis horizontal
-						// 	if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
-						// 		return posisiY(d.source.sumbu_y) + (y.rangeBand() / 180);
-						// 	}
-							 
-						// 	//garis vertical dengan lingkaran asal ada di atas target
-						// 	else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
-						// 		return (posisiY(d.source.sumbu_y)+ (y.rangeBand() / 180) + posisiR(d.source.id.length));
-						// 	}
-							 
-						// 	//garis vertical dengan lingkaran asal ada di bawah target
-						// 	else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
-						// 		return (posisiY(d.source.sumbu_y) + (y.rangeBand() / 180) - posisiR(d.source.id.length));
-						// 	}
-
-						// 	else {
-						// 		var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + x.rangeBand() / 180)-(posisiX(d.target.sumbu_x) + x.rangeBand() / 180)), 2) + Math.pow(((posisiY(d.source.sumbu_y)+y.rangeBand() / 180)-(posisiY(d.target.sumbu_y) + y.rangeBand() / 180)), 2));
-						// 		return (posisiY(d.source.sumbu_y) + y.rangeBand() / 180)-(((posisiY(d.source.sumbu_y) + y.rangeBand() / 180)-(posisiY(d.target.sumbu_y) + y.rangeBand() / 180)) * posisiR(d.source.id.length) / miring);
-						// 	}
-						// })
-						// // Sama seperti diatas, hanya untuk lingkaran target
-						// .attr("x2", function(d) {
-						// 	if((posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
-						// 		return posisiX(d.target.sumbu_x) + (x.rangeBand() / 180) - posisiR(d.target.id.length); 
-						// 	}
-						// 	else if ((posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
-						// 		return posisiX(d.target.sumbu_x) + (x.rangeBand() / 180) + posisiR(d.target.id.length); 
-						// 	}
-						// 	else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
-						// 		return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180);
-						// 	} else {
-						// 		return hitungXTujuan((posisiX(d.source.sumbu_x) + (x.rangeBand() / 180)), (posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)),(posisiX(d.target.sumbu_x) + (x.rangeBand() / 180)),(posisiY(d.target.sumbu_y) + (y.rangeBand() / 180)), posisiR(d.target.id.length));
-						// 	}   
-						// })
-						// .attr("y2", function(d) {
-						// 	if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
-						// 		return posisiY(d.target.sumbu_y) + (y.rangeBand() / 180);
-						// 	}
-						// 	else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
-						// 		return (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180) - posisiR(d.target.id.length));
-						// 	}
-						// 	else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
-						// 		return (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180) + posisiR(d.target.id.length));
-						// 	} else {
-						// 		var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + x.rangeBand() / 180) - (posisiX(d.target.sumbu_x) + x.rangeBand() / 180)), 2) + Math.pow(((posisiY(d.source.sumbu_y) + y.rangeBand() / 180) - (posisiY(d.target.sumbu_y) + y.rangeBand() / 180)), 2));
-						// 		return posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)-(((miring - posisiR(d.target.id.length)) * ((posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)) - (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180))) / miring));
-						// 	}
-						// })
-						// .attr("marker-end", function(d, i) { return "url(#" + i + ")"; });
+							else {
+								var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + x.rangeBand() / 180)-(posisiX(d.target.sumbu_x) + x.rangeBand() / 180)), 2) + Math.pow(((posisiY(d.source.sumbu_y)+y.rangeBand() / 180)-(posisiY(d.target.sumbu_y) + y.rangeBand() / 180)), 2));
+								return (posisiY(d.source.sumbu_y) + y.rangeBand() / 180)-(((posisiY(d.source.sumbu_y) + y.rangeBand() / 180)-(posisiY(d.target.sumbu_y) + y.rangeBand() / 180)) * posisiR(d.source.id.length) / miring);
+							}
+						})
+						// Sama seperti diatas, hanya untuk lingkaran target
+						.attr("x2", function(d) {
+							if((posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
+								return posisiX(d.target.sumbu_x) + (x.rangeBand() / 180) - posisiR(d.target.id.length); 
+							}
+							else if ((posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
+								return posisiX(d.target.sumbu_x) + (x.rangeBand() / 180) + posisiR(d.target.id.length); 
+							}
+							else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
+								return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180);
+							} else {
+								return hitungXTujuan((posisiX(d.source.sumbu_x) + (x.rangeBand() / 180)), (posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)),(posisiX(d.target.sumbu_x) + (x.rangeBand() / 180)),(posisiY(d.target.sumbu_y) + (y.rangeBand() / 180)), posisiR(d.target.id.length));
+							}   
+						})
+						.attr("y2", function(d) {
+							if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
+								return posisiY(d.target.sumbu_y) + (y.rangeBand() / 180);
+							}
+							else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
+								return (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180) - posisiR(d.target.id.length));
+							}
+							else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
+								return (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180) + posisiR(d.target.id.length));
+							} else {
+								var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + x.rangeBand() / 180) - (posisiX(d.target.sumbu_x) + x.rangeBand() / 180)), 2) + Math.pow(((posisiY(d.source.sumbu_y) + y.rangeBand() / 180) - (posisiY(d.target.sumbu_y) + y.rangeBand() / 180)), 2));
+								return posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)-(((miring - posisiR(d.target.id.length)) * ((posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)) - (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180))) / miring));
+							}
+						})
+						.attr("marker-end", function(d, i) { return "url(#" + i + ")"; });
 
 					chart.select(".x.axis").call(xAxis);
 				    chart.select(".y.axis").call(yAxis);
