@@ -424,15 +424,9 @@
 
 		//menampung elemen yang bisa di-pan
 		var svg1 = panCanvas.append('svg')
-<<<<<<< HEAD
-				.attr('height', height+385)
-				.attr('width', width+230);
-				
-=======
 			    .attr('height', height+230)
 			    .attr('width', width+385);
 			    
->>>>>>> e6d64e6b763f21e8af9f42679d62cfc883e369d9
 		svg1.append('g').attr('class', 'draggable');
 		
 		var canvas = d3.select('.chart');
@@ -520,11 +514,6 @@
 		// Fungsi untuk menggambar kembali tampilan sesuai dengan parameter yang dipilih
 		function redraw(dataString) {
 			var rlink = new Array();
-<<<<<<< HEAD
-			d3.selectAll(".lingkaran").remove();
-			d3.selectAll(".tes0.link").remove();
-=======
->>>>>>> e6d64e6b763f21e8af9f42679d62cfc883e369d9
 			d3.selectAll("circle").remove();
 			d3.selectAll("line").remove();
 			d3.selectAll(".label2").remove();
@@ -1025,8 +1014,6 @@
 					entering2.append("svg:circle")
 							.classed("node", true)
 							.attr("id", function(d){
-								console.log("d di distortion");
-								console.log(d);
 								if(d.id.length>1){return d.id.length;}
 							})					
 							.attr("r", function(d) { return r(d.id.length); })					

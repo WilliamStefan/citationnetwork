@@ -362,8 +362,8 @@
 		.attr('class','wrapper map')
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		 
-		// var parameter;   
-		// parameter="8,10,11,12,13,14,15,16,17,18,19";
+		var parameter;   
+		parameter="8,10,11,12,13,14,15,16,17,18,19";
 				 
 		var force = d3.layout.force();
 		var sumbuX;
@@ -575,15 +575,15 @@
 			.outerTickSize(0)
 			.orient("left");
 
-			svgFisheye.append("g")
-			.attr("class", "x axis")
-			.attr("transform", "translate(0, " + height + ")")
-			.call(xAxis);
+			// svgFisheye.append("g")
+			// .attr("class", "x axis")
+			// .attr("transform", "translate(0, " + height + ")")
+			// .call(xAxis);
 	 
-			svgFisheye.append("g")
-			.attr("class", "y axis")
-			.attr("transform", "translate(0, 0)")
-			.call(yAxis);
+			// svgFisheye.append("g")
+			// .attr("class", "y axis")
+			// .attr("transform", "translate(0, 0)")
+			// .call(yAxis);
 
 			///////////////////////////////////////////////////
 			// Persiapan membuat garis sumbu x dan y selesai //
@@ -744,7 +744,7 @@
 			 
 			xAxis = d3.svg.axis().scale(posisiX).outerTickSize(0).orient("bottom").tickFormat(function(d) {
 				if(d.length > minimum / 10) {
-					svgFisheye.selectAll(".x.axis").selectAll(".tick").each(function( index ) {
+					chart.selectAll(".x.axis").selectAll(".tick").each(function( index ) {
 						$(this).tipsy({ 
 							gravity: 'n', 
 							html: true,
@@ -762,7 +762,7 @@
  
 			yAxis = d3.svg.axis().scale(posisiY).outerTickSize(0).orient("left").tickFormat(function(d) {
 				if(d.length > 10) {
-					svgFisheye.selectAll(".y.axis").selectAll(".tick").each(function( index ) {
+					chart.selectAll(".y.axis").selectAll(".tick").each(function( index ) {
 						$(this).tipsy({ 
 							gravity: 'e', 
 							html: true,
@@ -779,10 +779,10 @@
 				}
 			});
 			
-			svgFisheye.selectAll("g.y.axis")
+			chart.selectAll("g.y.axis")
 			.call(yAxis);
 
-			svgFisheye.selectAll("g.x.axis")
+			chart.selectAll("g.x.axis")
 			.call(xAxis);
 			
 			var keyword = new Array(data.nodes.length);
@@ -1657,7 +1657,7 @@
 				canvasChart.select('.overviewmap').remove();
 				d3.select('#reset').style('visibility','hidden');
 				//respond to the mouse and distort where necessary
-				svgFisheye.select(".background").on("mousemove", function(){
+				wrapperInner.select(".background").on("mousemove", function(){
 					if(!d3.event.ctrlKey){	//if the ctrl key is not pressed
 					  var mouse = d3.mouse(this);
 				      posisiX.distortion(2).focus(mouse[0]);
@@ -1665,54 +1665,145 @@
 
 				      //redraw
 				      // Buat tag circle di dalam tag lingkaran dengan class nodeParent
-						// var node = elemParentEnter.append("circle")
-						// .attr("class", "nodeParent")
-						// .attr("id", function(d, i) {
-						// 	return "circleParent-" + i;  // id tiap circle
-						// 	// return "circle-" + d.id;
+
+						elemParentEnter.append("circle")
+						.attr("class", "nodeParent")
+						.attr("id", function(d, i) {
+							return "circleParent-" + i;  // id tiap circle
+							// return "circle-" + d.id;
+						})
+						.attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
+						.attr("cy", function(d, i) { return d.y;}) // Koordinat lingkaran pada sumbu y
+						.attr("r", function(d, i) {
+							// Mengatur jari-jari lingkaran
+							if(d.size.length == 1) {
+								if(d.size[0] == 1) {
+									return 15;
+								}
+							} else {
+								var realSize = 0;
+								var totalSize = 0;
+
+								for(var iterator = 0; iterator < d.size.length; iterator++) {
+									realSize += d.size[iterator];
+									totalSize += realSize;
+								}
+
+								if (realSize == 2) {
+									return 20;
+								} else if (realSize == 3) {
+									return 25;
+								} else if (realSize == 4) {
+									return 30;
+								}
+							}
+						 })
+						.style("fill", "FFC2AD");
+
+						elemParentEnter.append("text")
+						.attr("class", "labelParent")
+						.attr("font-family", "sans-serif") // Jenis font
+						.attr("font-size", "14px") // Ukuran font
+						.attr("text-anchor", "middle")
+						.attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
+						.attr("y", function(d, i) { return d.y + 5; }) // Koordinat label pada sumbu y
+						.text(function(d) {
+							// Isi label
+							var realSize = 0;
+
+							for(var iterator = 0; iterator < d.size.length; iterator++) {
+								realSize += d.size[iterator];
+							}
+
+							return realSize;
+						});
+
+						elemParentEnter.attr("transform", function(d, i) {
+							return "translate(" +
+										(posisiX(d.sumbu_x)+ (posisiX.rangeBand()/2))
+										
+								 + ", "+
+										(posisiY(d.sumbu_y)+ (posisiY.rangeBand()/2))
+										
+								 +")";
+						  });
+
+						// var link = svgFisheye.select('.draggable').selectAll("g.link").data(rlink)
+						// .enter().append("line")
+						// .attr("class", "link")
+						// .attr("x1", function(d) {
+						// 	if((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x))) {
+						// 		return posisiX(d.source.sumbu_x)+ (x.rangeBand() / 180) + posisiR(d.source.id.length); 
+						// 	}
+							 
+						// 	// Garis horizontal jika lingkaran asal ada di kiri target
+						// 	else if ((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x))) {
+						// 		return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180) - posisiR(d.source.id.length);
+						// 	}
+							 
+						// 	// Garis vertical
+						// 	else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
+						// 		return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180);
+						// 	}
+							 
+						// 	// Garis miring
+						// 	else {
+						// 		return hitungXAsal((posisiX(d.source.sumbu_x) + (x.rangeBand() / 180)),(posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)), (posisiX(d.target.sumbu_x) + (x.rangeBand() / 180)), (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180)), posisiR(d.source.id.length));
+						// 	}
 						// })
-						// .attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
-						// .attr("cy", function(d, i) { return d.y;}) // Koordinat lingkaran pada sumbu y
-						// .attr("r", function(d, i) {
-						// 	// Mengatur jari-jari lingkaran
-						// 	if(d.size.length == 1) {
-						// 		if(d.size[0] == 1) {
-						// 			return 15;
-						// 		}
-						// 	} else {
-						// 		var realSize = 0;
-						// 		var totalSize = 0;
-
-						// 		for(var iterator = 0; iterator < d.size.length; iterator++) {
-						// 			realSize += d.size[iterator];
-						// 			totalSize += realSize;
-
-						// 			console.log("realSize: " + realSize);
-						// 			console.log("totalSize: " + totalSize);
-						// 		}
-
-						// 		if (realSize == 2) {
-						// 			return 20;
-						// 		} else if (realSize == 3) {
-						// 			return 25;
-						// 		} else if (realSize == 4) {
-						// 			return 30;
-						// 		}
+						// .attr("y1", function(d) { 
+						// 	//garis horizontal
+						// 	if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
+						// 		return posisiY(d.source.sumbu_y) + (y.rangeBand() / 180);
 						// 	}
-						//  })
-						// .style("fill", function(d, i) {
-						// 	if(d.size.length == 1) {
-						// 		return "#6C9ECA";
-						// 	} else {
-						// 		if(d.children.length == 2) {
-						// 			return "#447DB1";
-						// 		} else if(d.children.length == 3) {
-						// 			return "#2868A2";
-						// 		} else if(d.children.length == 4) {
-						// 			return "#0F528E";
-						// 		} 
+							 
+						// 	//garis vertical dengan lingkaran asal ada di atas target
+						// 	else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
+						// 		return (posisiY(d.source.sumbu_y)+ (y.rangeBand() / 180) + posisiR(d.source.id.length));
 						// 	}
-						// });
+							 
+						// 	//garis vertical dengan lingkaran asal ada di bawah target
+						// 	else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
+						// 		return (posisiY(d.source.sumbu_y) + (y.rangeBand() / 180) - posisiR(d.source.id.length));
+						// 	}
+
+						// 	else {
+						// 		var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + x.rangeBand() / 180)-(posisiX(d.target.sumbu_x) + x.rangeBand() / 180)), 2) + Math.pow(((posisiY(d.source.sumbu_y)+y.rangeBand() / 180)-(posisiY(d.target.sumbu_y) + y.rangeBand() / 180)), 2));
+						// 		return (posisiY(d.source.sumbu_y) + y.rangeBand() / 180)-(((posisiY(d.source.sumbu_y) + y.rangeBand() / 180)-(posisiY(d.target.sumbu_y) + y.rangeBand() / 180)) * posisiR(d.source.id.length) / miring);
+						// 	}
+						// })
+						// // Sama seperti diatas, hanya untuk lingkaran target
+						// .attr("x2", function(d) {
+						// 	if((posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
+						// 		return posisiX(d.target.sumbu_x) + (x.rangeBand() / 180) - posisiR(d.target.id.length); 
+						// 	}
+						// 	else if ((posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
+						// 		return posisiX(d.target.sumbu_x) + (x.rangeBand() / 180) + posisiR(d.target.id.length); 
+						// 	}
+						// 	else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
+						// 		return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180);
+						// 	} else {
+						// 		return hitungXTujuan((posisiX(d.source.sumbu_x) + (x.rangeBand() / 180)), (posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)),(posisiX(d.target.sumbu_x) + (x.rangeBand() / 180)),(posisiY(d.target.sumbu_y) + (y.rangeBand() / 180)), posisiR(d.target.id.length));
+						// 	}   
+						// })
+						// .attr("y2", function(d) {
+						// 	if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
+						// 		return posisiY(d.target.sumbu_y) + (y.rangeBand() / 180);
+						// 	}
+						// 	else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
+						// 		return (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180) - posisiR(d.target.id.length));
+						// 	}
+						// 	else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
+						// 		return (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180) + posisiR(d.target.id.length));
+						// 	} else {
+						// 		var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + x.rangeBand() / 180) - (posisiX(d.target.sumbu_x) + x.rangeBand() / 180)), 2) + Math.pow(((posisiY(d.source.sumbu_y) + y.rangeBand() / 180) - (posisiY(d.target.sumbu_y) + y.rangeBand() / 180)), 2));
+						// 		return posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)-(((miring - posisiR(d.target.id.length)) * ((posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)) - (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180))) / miring));
+						// 	}
+						// })
+						// .attr("marker-end", function(d, i) { return "url(#" + i + ")"; });
+
+					chart.select(".x.axis").call(xAxis);
+				    chart.select(".y.axis").call(yAxis);
 					}
 				});
 			}
@@ -2206,6 +2297,7 @@
 			sumbuY = $("#sumbuY option:selected").text();
 			edge = $("#edge option:selected").text();
 			pan = $("#mode_pan option:selected").text();
+			zooming = $("#mode_zoom option:selected").text();
 			defaultPan=pan;
 			if(typeof(pan) != 'undefined')
 			{
