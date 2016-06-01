@@ -1,4 +1,4 @@
-f<?php /* @var $this SiteController */
+<?php /* @var $this SiteController */
 	$this->pageTitle=Yii::app()->name;
 ?>
 
@@ -330,20 +330,20 @@ f<?php /* @var $this SiteController */
 		width = 950 - margin.left - margin.right,
 		height = 510 - margin.top - margin.bottom;
 		
-		// if ($("#mode_pan option:selected").text()=='Linier'){
+		if ($("#mode_pan option:selected").text()=='Linier'){
 			var x = d3.scale.ordinal()
 			.rangeRoundBands([0, width], .1);
 	 
 			var y = d3.scale.ordinal()
 			.rangeRoundBands([height, 0], .1);
-		// }
-		// else{
+		}
+		else{
 			var x = d3.fisheye.ordinal()
 			.rangeRoundBands([0, width], .1);
 	 
 			var y = d3.fisheye.ordinal()
 			.rangeRoundBands([height, 0], .1);
-		// }
+		}
  
 		var xAxis = d3.svg.axis()
 		.scale(x)
@@ -359,6 +359,7 @@ f<?php /* @var $this SiteController */
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", 515)
 		.append("g")
+		.attr('class','wrapper map')
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		 
 		// var parameter;   
@@ -424,6 +425,7 @@ f<?php /* @var $this SiteController */
 			.append("g")
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", 515)
+			.attr('class','wrapper map')
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
  
 			var color = d3.scale.category20();
@@ -462,10 +464,10 @@ f<?php /* @var $this SiteController */
 		        .attr("transform", "translate(0,0)");
 
 		     panCanvas.append("rect")
-	        .attr("class", "background")
-	        .attr("width", width+385)
-	        .style('fill','none')
-	        .attr("height", height+230);
+		        .attr("class", "background")
+		        .attr("width", width+385)
+		        .style('fill','none')
+		        .attr("height", height+230);
 
 			//menampung elemen yang bisa di-pan
 			var svg1 = panCanvas.append('svg')
@@ -914,7 +916,7 @@ f<?php /* @var $this SiteController */
 			});
 
 			// Hover untuk node dengan jumlah data 1
-			var g1 = svgFisheye.selectAll("g.paperParent").data(data.nodes);
+			var g1 = svgFisheye.select(".draggable").selectAll("g.paperParent").data(data.nodes);
 
 			$("svg circle").each(function(d, i) {
 				if(g1[0][d].__data__.children.length == 1) {
@@ -1106,7 +1108,7 @@ f<?php /* @var $this SiteController */
 						.text(function(p, i) { return d.size[i] });
 
 						// Hover untuk node dengan jumlah data 1
-						var g2 = svgFisheye.selectAll("g.paperChild").data(dataChild);
+						var g2 = svgFisheye.select(".draggable").selectAll("g.paperChild").data(dataChild);
 
 						$("svg circle").each(function(p) {
 							$(g2[0][p]).tipsy({ 
@@ -1240,7 +1242,7 @@ f<?php /* @var $this SiteController */
 									.text("1");
 
 									// Hover untuk node dengan jumlah data 1
-									var g3 = svgFisheye.selectAll("g.paperGrandChild").data(dataGrandChild);
+									var g3 = svgFisheye.select(".draggable").selectAll("g.paperGrandChild").data(dataGrandChild);
 
 									$("svg circle").each(function(q, i) {
 										$(g3[0][q]).tipsy({ 
@@ -1649,6 +1651,70 @@ f<?php /* @var $this SiteController */
 					d3.select(".frame").transition().attr("transform", "translate(" + 0 + "," + 0 + ")");
 					canvasChart.select(".panCanvas").transition().attr("transform", "translate(" + 0 + "," + 0 + ")");
 				})
+			}
+			else{
+				svgFisheye.select('.background').on('mousedown.drag',null);
+				canvasChart.select('.overviewmap').remove();
+				d3.select('#reset').style('visibility','hidden');
+				//respond to the mouse and distort where necessary
+				svgFisheye.select(".background").on("mousemove", function(){
+					if(!d3.event.ctrlKey){	//if the ctrl key is not pressed
+					  var mouse = d3.mouse(this);
+				      posisiX.distortion(2).focus(mouse[0]);
+				      posisiY.distortion(2).focus(mouse[1]);
+
+				      //redraw
+				      // Buat tag circle di dalam tag lingkaran dengan class nodeParent
+						// var node = elemParentEnter.append("circle")
+						// .attr("class", "nodeParent")
+						// .attr("id", function(d, i) {
+						// 	return "circleParent-" + i;  // id tiap circle
+						// 	// return "circle-" + d.id;
+						// })
+						// .attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
+						// .attr("cy", function(d, i) { return d.y;}) // Koordinat lingkaran pada sumbu y
+						// .attr("r", function(d, i) {
+						// 	// Mengatur jari-jari lingkaran
+						// 	if(d.size.length == 1) {
+						// 		if(d.size[0] == 1) {
+						// 			return 15;
+						// 		}
+						// 	} else {
+						// 		var realSize = 0;
+						// 		var totalSize = 0;
+
+						// 		for(var iterator = 0; iterator < d.size.length; iterator++) {
+						// 			realSize += d.size[iterator];
+						// 			totalSize += realSize;
+
+						// 			console.log("realSize: " + realSize);
+						// 			console.log("totalSize: " + totalSize);
+						// 		}
+
+						// 		if (realSize == 2) {
+						// 			return 20;
+						// 		} else if (realSize == 3) {
+						// 			return 25;
+						// 		} else if (realSize == 4) {
+						// 			return 30;
+						// 		}
+						// 	}
+						//  })
+						// .style("fill", function(d, i) {
+						// 	if(d.size.length == 1) {
+						// 		return "#6C9ECA";
+						// 	} else {
+						// 		if(d.children.length == 2) {
+						// 			return "#447DB1";
+						// 		} else if(d.children.length == 3) {
+						// 			return "#2868A2";
+						// 		} else if(d.children.length == 4) {
+						// 			return "#0F528E";
+						// 		} 
+						// 	}
+						// });
+					}
+				});
 			}
 			/* PANNING WITH NAVIGATION WINDOW TECHNIQUE (OVERVIEW MAP) */	
 			function overviewmap(selection){
