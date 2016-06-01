@@ -713,9 +713,6 @@
 			.range([start, minimum / 2]);
 			 
 			xAxis = d3.svg.axis().scale(x).outerTickSize(0).orient("bottom").tickFormat(function(d) {
-				console.log("xAxis Ci Yuli:");
-				console.log(d);
-				console.log(minimum);
 				if(d.length > minimum / 10) {
 					chart.selectAll(".x.axis").selectAll(".tick").each(function( index ) {
 						$(this).tipsy({ 
@@ -734,8 +731,6 @@
 			});
  
 			yAxis = d3.svg.axis().scale(y).outerTickSize(0).orient("left").tickFormat(function(d) {
-				console.log("yAxis Ci Yuli:");
-				console.log(d);
 				if(d.length > 10) {
 					chart.selectAll(".y.axis").selectAll(".tick").each(function( index ) {
 						$(this).tipsy({ 
@@ -1019,6 +1014,8 @@
 			        entering2.append("svg:circle")
 							.classed("node", true)
 							.attr("id", function(d){
+								console.log("d di distortion");
+								console.log(d);
 								if(d.id.length>1){return d.id.length;}
 							})					
 							.attr("r", function(d) { return r(d.id.length); })					
@@ -1039,6 +1036,7 @@
 									
 							 +")";
 					  });
+					
 					//redraw link
 					link.attr("x1", function(d) {
 								//garis horizontal jika lingkaran asal ada di kanan target
