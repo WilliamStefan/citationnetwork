@@ -1031,6 +1031,28 @@
 						})
 						.text(function(p, i) { return d.size[i] });
 
+						nodeChild.attr("transform", function(d, i) {
+							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+							
+							return "translate(" +
+							(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
+							+ ", " +
+							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+							+ ")";
+						});
+						
+						labelChild.attr("transform", function(d, i) {
+							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+							
+							return "translate(" +
+							(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
+							+ ", " +
+							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+							+ ")";
+						});	
+
 						// Hover untuk node dengan jumlah data 1
 						var g2 = svgFisheye.select(".draggable").selectAll("g.paperChild").data(dataChild);
 
@@ -1615,7 +1637,30 @@
 
 							return realSize;
 						});
-						
+
+						d3.select(".paperChild").append("circle")
+						.attr("id", function(p, i) {
+							return "circleChild-" + i;  // id tiap circle
+						})
+						// .attr("cx", function(p) { return p.x; })
+						// .attr("cy", function(p) { return p.y; })
+						.attr("r", function(p, ii) { return 15; })
+						.style("fill", "#FFC2AD")
+						.style("stroke-width", "0px");
+				
+						d3.select(".paperChild").append("text")
+						.attr("class", "labelChild")
+						.attr("font-family", "sans-serif")
+						.attr("font-size", "14px")
+						.attr("text-anchor", "middle")
+						// .attr("x", function(p) {
+						// 	return p.x;
+						// })
+						// .attr("y", function(p) {
+						// 	return p.y + 5;
+						// })
+						.text(function(p, i) { return p.size[i] });
+
 						node.attr("transform", function(d, i) {
 							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
 							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
@@ -1637,6 +1682,28 @@
 							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
 							+ ")";
 						});	
+
+						// d3.select(".nodeChild").attr("transform", function(d, i) {
+						// 	d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+						// 	d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+							
+						// 	return "translate(" +
+						// 	(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
+						// 	+ ", " +
+						// 	(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+						// 	+ ")";
+						// });
+						
+						// d3.select(".labelChild").attr("transform", function(d, i) {
+						// 	d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+						// 	d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+							
+						// 	return "translate(" +
+						// 	(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
+						// 	+ ", " +
+						// 	(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+						// 	+ ")";
+						// });	
 
 						//redraw link
 						link.attr("x1", function(d) {
