@@ -385,11 +385,6 @@
 			var zoomLevel0 = true;
 			var zoomLevel1 = false;
 			var zoomLevel2 = false;
-			
-			var margin = { top: 10, right: 30, bottom: 40, left: 150 };
- 
-			var width = 950 - margin.left - margin.right;
-			var height = 510 - margin.top - margin.bottom;
  
 			// Untuk mempersiapkan layout
 			var force = d3.layout.force()
@@ -413,11 +408,11 @@
 			////////////////////
 
 			svgFisheye.append('rect')
-			    .attr('class', 'background')
-			    .attr('pointer-events', 'all')
-			    .style('cursor','move')
-			    .attr('fill', 'none')
-			    .attr('height', height);
+			.attr('class', 'background')
+			.attr('pointer-events', 'all')
+			.style('cursor','move')
+			.attr('fill', 'none')
+			.attr('height', height);
 
 			var wrapperInner = svgFisheye.append('g')
 			.attr('class','wrapper inner')
@@ -425,29 +420,29 @@
 			.attr("transform", "translate(" + 0 + "," + 0 + ")"); 
 
 			wrapperInner.append("rect")
-		        .attr("class", "background")
-		        .attr("width", width)
-		        .attr('pointer-events', 'all')
-		        .style('fill','none')
-		        .style('cursor','move')
-		        .attr("height", height);
+			.attr("class", "background")
+			.attr("width", width)
+			.attr('pointer-events', 'all')
+			.style('fill','none')
+			.style('cursor','move')
+			.attr("height", height);
 
 		    var panCanvas = wrapperInner.append("g")
-		        .attr("class", "panCanvas")
-		        .attr("width", width)
-		        .attr("height", height)
-		        .attr("transform", "translate(0,0)");
+			.attr("class", "panCanvas")
+			.attr("width", width)
+			.attr("height", height)
+			.attr("transform", "translate(0,0)");
 
 		     panCanvas.append("rect")
-		        .attr("class", "background")
-		        .attr("width", width+385)
-		        .style('fill','none')
-		        .attr("height", height+230);
+			.attr("class", "background")
+			.attr("width", width + 385)
+			.style('fill','none')
+			.attr("height", height + 230);
 
 			//menampung elemen yang bisa di-pan
 			var svg1 = panCanvas.append('svg')
-				    .attr('height', height+230)
-			    .attr('width', width+385);
+			.attr('height', height + 230)
+			.attr('width', width + 385);
 				    
 			svg1.append('g').attr('class', 'draggable');
 
@@ -456,99 +451,78 @@
 			var defs = canvasChart.append('defs');
 		
 			defs.append("clipPath")
-		        .attr("id", "wrapperClipPath")
-		        .attr("class", "wrapper clipPath")
-		        .append("rect")
-		        .attr("class", "background")
-		        .attr("width", width)
-		        .attr("height", height);
+			.attr("id", "wrapperClipPath")
+			.attr("class", "wrapper clipPath")
+			.append("rect")
+			.attr("class", "background")
+			.attr("width", width)
+			.attr("height", height);
 		            
 		    defs.append("clipPath")
-		        .attr("id", "overviewClipPath")
-		        .attr("class", "overview clipPath")
-		        .attr("width", width)
-		        .attr("height", height)
-		 		.append("rect")
-		        .attr("class", "background")
-		        .attr("width", width)
-		        .attr("height", height);
+			.attr("id", "overviewClipPath")
+			.attr("class", "overview clipPath")
+			.attr("width", width)
+			.attr("height", height)
+			.append("rect")
+			.attr("class", "background")
+			.attr("width", width)
+			.attr("height", height);
 		            
 		    var filter = defs.append("svg:filter")
-		        .attr("id", "overviewDropShadow")
-		        .attr("x", "-20%")
-		        .attr("y", "-20%")
-		        .attr("width", "150%")
-		        .attr("height", "150%");
+			.attr("id", "overviewDropShadow")
+			.attr("x", "-20%")
+			.attr("y", "-20%")
+			.attr("width", "150%")
+			.attr("height", "150%");
 
 		    filter.append("svg:feOffset")
-		        .attr("result", "offOut")
-		        .attr("in", "SourceGraphic")
-		        .attr("dx", "1")
-		        .attr("dy", "1");
+			.attr("result", "offOut")
+			.attr("in", "SourceGraphic")
+			.attr("dx", "1")
+			.attr("dy", "1");
 
 		    filter.append("svg:feColorMatrix")
-		        .attr("result", "matrixOut")
-		        .attr("in", "offOut")
-		        .attr("type", "matrix")
-		        .attr("values", "0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.5 0");
+			.attr("result", "matrixOut")
+			.attr("in", "offOut")
+			.attr("type", "matrix")
+			.attr("values", "0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.5 0");
 
 		    filter.append("svg:feGaussianBlur")
-		       .attr("result", "blurOut")
-		       .attr("in", "matrixOut")
-		       .attr("stdDeviation", "10");
+			.attr("result", "blurOut")
+			.attr("in", "matrixOut")
+			.attr("stdDeviation", "10");
 
 		    filter.append("svg:feBlend")
-		       .attr("in", "SourceGraphic")
-		       .attr("in2", "blurOut")
-		       .attr("mode", "normal");
-		    var overviewRadialFill = defs.append("radialGradient")
-		        .attr({
-		            id:"overviewGradient",
-		            gradientUnits:"userSpaceOnUse",
-		            cx:"500",
-		            cy:"500",
-		            r:"400",
-		            fx:"500",
-		            fy:"500"
-		        });
-		    overviewRadialFill.append("stop")
-		        .attr("offset", "0%")
-		        .attr("stop-color", "#FFFFFF");
-		    overviewRadialFill.append("stop")
-		        .attr("offset", "40%")
-		        .attr("stop-color", "#EEEEEE");
-		    overviewRadialFill.append("stop")
-		        .attr("offset", "100%")
-		        .attr("stop-color", "#E0E0E0");
+			.attr("in", "SourceGraphic")
+			.attr("in2", "blurOut")
+			.attr("mode", "normal");
+		    
+			var overviewRadialFill = defs.append("radialGradient")
+			.attr({
+				id:"overviewGradient",
+				gradientUnits:"userSpaceOnUse",
+				cx:"500",
+				cy:"500",
+				r:"400",
+				fx:"500",
+				fy:"500"
+			});
+		    
+			overviewRadialFill.append("stop")
+			.attr("offset", "0%")
+			.attr("stop-color", "#FFFFFF");
+		    
+			overviewRadialFill.append("stop")
+			.attr("offset", "40%")
+			.attr("stop-color", "#EEEEEE");
+		    
+			overviewRadialFill.append("stop")
+			.attr("offset", "100%")
+			.attr("stop-color", "#E0E0E0");
 
 			///////////////////////////////////////////
 			// Persiapan membuat garis sumbu x dan y //
 			///////////////////////////////////////////
-
-			if ($("#mode_pan option:selected").text()=='Linier'){
-				var x = d3.scale.ordinal()
-				.rangeRoundBands([0, width], .1);
-		 
-				var y = d3.scale.ordinal()
-				.rangeRoundBands([height, 0], .1);
-			}
-			else{
-				var x = d3.fisheye.ordinal()
-				.rangeRoundBands([0, width], .1);
-		 
-				var y = d3.fisheye.ordinal()
-				.rangeRoundBands([height, 0], .1);
-			}
-
-			var xAxis = d3.svg.axis()
-			.scale(x)
-			.outerTickSize(0)
-			.orient("bottom");
-	 
-			var yAxis = d3.svg.axis()
-			.scale(y)
-			.outerTickSize(0)
-			.orient("left");
 
 			// svgFisheye.append("g")
 			// .attr("class", "x axis")
@@ -620,7 +594,7 @@
 				if ($("#mode_pan option:selected").text()=='Linier'){
 					posisiX = d3.scale.ordinal()
 					.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
-					.rangeRoundBands([0, width+385], .1);
+					.rangeRoundBands([0, width + 385], .1);
 				}
 				else{
 					posisiX = d3.fisheye.ordinal()
@@ -637,7 +611,7 @@
 				}
  				if ($("#mode_pan option:selected").text()=='Linier'){
 					posisiY = d3.scale.ordinal()
-					.rangeRoundBands([height+230, 0], .1)
+					.rangeRoundBands([height + 230, 0], .1)
 					.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
 				}
 				else{
@@ -651,7 +625,7 @@
 				}
 				if ($("#mode_pan option:selected").text()=='Linier'){
 					posisiY = d3.scale.ordinal()
-					.rangeRoundBands([height+230, 0], .1)
+					.rangeRoundBands([height + 230, 0], .1)
 					.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
 				}
 				else{
@@ -754,31 +728,31 @@
 
 			// Ubah label pada sumbu X dan Y
 			if($("#sumbuY option:selected").text().indexOf(' ') >= 0) {
-				svgFisheye.append("text")
+				chart.append("text")
 				.attr("class", "sumbuYlabel")
 				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
 				.attr("transform", "translate(" + -115 + "," + ((height / 2) - 15) + ")")  // text is drawn off the screen top left, move down and out and rotate
 				.text($("#sumbuY option:selected").text().split(' ')[0]);
 
-				svgFisheye.append("text")
+				chart.append("text")
 				.attr("class", "sumbuYlabel")
 				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
 				.attr("transform", "translate(" + -115 + "," + (height / 2) + ")")  // text is drawn off the screen top left, move down and out and rotate
 				.text($("#sumbuY option:selected").text().split(' ')[1]);
 
-				svgFisheye.append("text")
+				chart.append("text")
 				.attr("class", "sumbuXlabel")
 				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
 				.attr("transform", "translate(" + (width / 2) + "," + (height + 45) + ")")  // centre below axis
 				.text($("#sumbuX option:selected").text());
 			} else {
-				svgFisheye.append("text")
+				chart.append("text")
 				.attr("class", "sumbuYlabel")
 				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
 				.attr("transform", "translate(" + -115 + "," + (height / 2) + ")")  // text is drawn off the screen top left, move down and out and rotate
 				.text($("#sumbuY option:selected").text());
  
-				svgFisheye.append("text")
+				chart.append("text")
 				.attr("class", "sumbuXlabel")
 				.attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
 				.attr("transform", "translate(" + (width / 2) + ","+(height + 45) + ")")  // centre below axis
@@ -814,8 +788,8 @@
 			.attr("id", function(d, i) {
 				return "circleParent-" + i;  // id tiap circle
 			})
-			.attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
-			.attr("cy", function(d, i) { return d.y; }) // Koordinat lingkaran pada sumbu y
+			// .attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
+			// .attr("cy", function(d, i) { return d.y; }) // Koordinat lingkaran pada sumbu y
 			.attr("r", function(d, i) {
 				// Mengatur jari-jari lingkaran
 				if(d.size.length == 1) {
@@ -846,8 +820,8 @@
 			.attr("font-family", "sans-serif") // Jenis font
 			.attr("font-size", "14px") // Ukuran font
 			.attr("text-anchor", "middle")
-			.attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
-			.attr("y", function(d, i) { return d.y + 5; }) // Koordinat label pada sumbu y
+			// .attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
+			// .attr("y", function(d, i) { return d.y + 5; }) // Koordinat label pada sumbu y
 			.text(function(d) {
 				// Isi label
 				var realSize = 0;
@@ -857,6 +831,14 @@
 				}
 
 				return realSize;
+			});
+			
+			elemParentEnter.attr("transform", function(d, i) {
+				return "translate(" +
+				(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
+				+ ", " +
+				(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+				+ ")";
 			});
 
 			// Hover untuk node dengan jumlah data 1
@@ -1427,71 +1409,71 @@
 				.attr("class", "link")
 				.attr("x1", function(d) {
 					if((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x))) {
-						return posisiX(d.source.sumbu_x)+ (x.rangeBand() / 180) + posisiR(d.source.id.length); 
+						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2) + posisiR(d.source.id.length); 
 					}
 					 
 					// Garis horizontal jika lingkaran asal ada di kiri target
 					else if ((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x))) {
-						return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180) - posisiR(d.source.id.length);
+						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2) - posisiR(d.source.id.length);
 					}
 					 
 					// Garis vertical
 					else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
-						return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180);
+						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2);
 					}
 					 
 					// Garis miring
 					else {
-						return hitungXAsal((posisiX(d.source.sumbu_x) + (x.rangeBand() / 180)),(posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)), (posisiX(d.target.sumbu_x) + (x.rangeBand() / 180)), (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180)), posisiR(d.source.id.length));
+						return hitungXAsal((posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2)),(posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)), (posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2)), (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2)), posisiR(d.source.id.length));
 					}
 				})
 				.attr("y1", function(d) { 
 					//garis horizontal
 					if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
-						return posisiY(d.source.sumbu_y) + (y.rangeBand() / 180);
+						return posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2);
 					}
 					 
 					//garis vertical dengan lingkaran asal ada di atas target
 					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
-						return (posisiY(d.source.sumbu_y)+ (y.rangeBand() / 180) + posisiR(d.source.id.length));
+						return (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2) + posisiR(d.source.id.length));
 					}
 					 
 					//garis vertical dengan lingkaran asal ada di bawah target
 					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
-						return (posisiY(d.source.sumbu_y) + (y.rangeBand() / 180) - posisiR(d.source.id.length));
+						return (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2) - posisiR(d.source.id.length));
 					}
 
 					else {
-						var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + x.rangeBand() / 180)-(posisiX(d.target.sumbu_x) + x.rangeBand() / 180)), 2) + Math.pow(((posisiY(d.source.sumbu_y)+y.rangeBand() / 180)-(posisiY(d.target.sumbu_y) + y.rangeBand() / 180)), 2));
-						return (posisiY(d.source.sumbu_y) + y.rangeBand() / 180)-(((posisiY(d.source.sumbu_y) + y.rangeBand() / 180)-(posisiY(d.target.sumbu_y) + y.rangeBand() / 180)) * posisiR(d.source.id.length) / miring);
+						var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + posisiX.rangeBand() / 2) - (posisiX(d.target.sumbu_x) + posisiX.rangeBand() / 2)), 2) + Math.pow(((posisiY(d.source.sumbu_y)+posisiY.rangeBand() / 2)-(posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)), 2));
+						return (posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (((posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)) * posisiR(d.source.id.length) / miring);
 					}
 				})
 				// Sama seperti diatas, hanya untuk lingkaran target
 				.attr("x2", function(d) {
 					if((posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
-						return posisiX(d.target.sumbu_x) + (x.rangeBand() / 180) - posisiR(d.target.id.length); 
+						return posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2) - posisiR(d.target.id.length); 
 					}
 					else if ((posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
-						return posisiX(d.target.sumbu_x) + (x.rangeBand() / 180) + posisiR(d.target.id.length); 
+						return posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2) + posisiR(d.target.id.length); 
 					}
 					else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
-						return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180);
+						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2);
 					} else {
-						return hitungXTujuan((posisiX(d.source.sumbu_x) + (x.rangeBand() / 180)), (posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)),(posisiX(d.target.sumbu_x) + (x.rangeBand() / 180)),(posisiY(d.target.sumbu_y) + (y.rangeBand() / 180)), posisiR(d.target.id.length));
+						return hitungXTujuan((posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2)), (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)),(posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2)),(posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2)), posisiR(d.target.id.length));
 					}   
 				})
 				.attr("y2", function(d) {
 					if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
-						return posisiY(d.target.sumbu_y) + (y.rangeBand() / 180);
+						return posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2);
 					}
 					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
-						return (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180) - posisiR(d.target.id.length));
+						return (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2) - posisiR(d.target.id.length));
 					}
 					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
-						return (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180) + posisiR(d.target.id.length));
+						return (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2) + posisiR(d.target.id.length));
 					} else {
-						var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + x.rangeBand() / 180) - (posisiX(d.target.sumbu_x) + x.rangeBand() / 180)), 2) + Math.pow(((posisiY(d.source.sumbu_y) + y.rangeBand() / 180) - (posisiY(d.target.sumbu_y) + y.rangeBand() / 180)), 2));
-						return posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)-(((miring - posisiR(d.target.id.length)) * ((posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)) - (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180))) / miring));
+						var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + posisiX.rangeBand() / 2) - (posisiX(d.target.sumbu_x) + posisiX.rangeBand() / 2)), 2) + Math.pow(((posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)), 2));
+						return posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)-(((miring - posisiR(d.target.id.length)) * ((posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)) - (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2))) / miring));
 					}
 				})
 				.attr("marker-end", function(d, i) { return "url(#" + i + ")"; });
@@ -1502,49 +1484,51 @@
 			//////////////////////////
 		
 			/* PANNING WITH DIRECT REPOSITIONING TECHNIQUE (GRAB AND DRAG) */
-			if ($("#mode_pan option:selected").text()=='Linier'){
-				svgFisheye.select('.background').on('mousemove',null);
+			if ($("#mode_pan option:selected").text() == 'Linier'){
+				svgFisheye.select('.background').on('mousemove', null);
 				d3.select('#reset').style('visibility','visible');
 				svgFisheye.append('rect')
-				    .attr('class', 'block')
-				    .attr('fill', 'white')
-				    .attr('height', 200)
-				    .attr('width', 201)
-				    .attr("transform", "translate(-200,460)");
+				.attr('class', 'block')
+				.attr('fill', 'white')
+				.attr('height', 200)
+				.attr('width', 201)
+				.attr("transform", "translate(-200,460)");
+				
 				svgFisheye.append('line')
-					.style('stroke','#000')
-					.style('shape-rendering','crispEdges')
-					.attr('x1',0).attr('y1',0)
-					.attr('x2',0).attr('y2',460);
+				.style('stroke','#000')
+				.style('shape-rendering','crispEdges')
+				.attr('x1', 0).attr('y1', 0)
+				.attr('x2', 0).attr('y2', 460);
+				
 				svgFisheye.append('line')
-					.style('stroke','#000')
-					.style('shape-rendering','crispEdges')
-					.attr('x1',0).attr('y1',460)
-					.attr('x2',800).attr('y2',460);
+				.style('stroke','#000')
+				.style('shape-rendering','crispEdges')
+				.attr('x1', 0).attr('y1', 460)
+				.attr('x2', 800).attr('y2', 460);
 				
 				var drag = d3.behavior.drag()
-					.on("drag", dragmove);
+				.on("drag", dragmove);
 
 				function dragmove(d) {
 					var translate = d3.transform(d3.select(".draggable").attr("transform")).translate;
 
-			                x = d3.event.dx + translate[0],
-			                y = d3.event.dy + translate[1];
+					x = d3.event.dx + translate[0],
+					y = d3.event.dy + translate[1];
 
-					  d3.select(".draggable").attr('transform', 'translate(' + (x) + ',' + (y) + ')');
-					  d3.select(".x").attr('transform', 'translate(' + (x) + ',' + height + ')');	
-					  d3.select(".y").attr('transform', 'translate(' + 0 + ',' + (y) + ')');
-					  // var transformTarget = getXYTranslate(panCanvas.attr("transform"));
-				      d3.select(".frame").attr("transform", "translate(" + (-x) + "," + (-y) + ")");
+					d3.select(".draggable").attr('transform', 'translate(' + (x) + ',' + (y) + ')');
+					d3.select(".x").attr('transform', 'translate(' + (x) + ',' + height + ')');	
+					d3.select(".y").attr('transform', 'translate(' + 0 + ',' + (y) + ')');
+					// var transformTarget = getXYTranslate(panCanvas.attr("transform"));
+					d3.select(".frame").attr("transform", "translate(" + (-x) + "," + (-y) + ")");
 				}
 				wrapperInner.select('.background').call(drag);
 
-				canvasChart.call(overviewmap); //call overview map
+				canvasChart.call(overviewmap); // Call overview map
 
-				d3.select("#reset").on('click', function(){
+				d3.select("#reset").on('click', function() {
 					svgFisheye.select('.draggable').transition()
 						.attr("transform", function(d,i){
-							return "translate(" + 0 + ", "+ 0 +")";
+							return "translate(" + 0 + ", " + 0 + ")";
 						})
 					d3.select(".x").transition().attr('transform', 'translate(' + 0 + ',' + height + ')');	
 					d3.select(".y").transition().attr('transform', 'translate(' + 0 + ',' + 0 + ')');
@@ -1552,28 +1536,27 @@
 					canvasChart.select(".panCanvas").transition().attr("transform", "translate(" + 0 + "," + 0 + ")");
 				})
 			}
-			else{
-				svgFisheye.select('.background').on('mousedown.drag',null);
+			else {
+				svgFisheye.select('.background').on('mousedown.drag', null);
 				canvasChart.select('.overviewmap').remove();
 				d3.select('#reset').style('visibility','hidden');
 				//respond to the mouse and distort where necessary
 				wrapperInner.select(".background").on("mousemove", function(){
 					if(!d3.event.ctrlKey){	//if the ctrl key is not pressed
-					  var mouse = d3.mouse(this);
-				      posisiX.distortion(2).focus(mouse[0]);
-				      posisiY.distortion(2).focus(mouse[1]);
+						var mouse = d3.mouse(this);
+						posisiX.distortion(2).focus(mouse[0]);
+						posisiY.distortion(2).focus(mouse[1]);
 
-				      //redraw
-				      // Buat tag circle di dalam tag lingkaran dengan class nodeParent
-
+						// Redraw nodes, labels, and links
+												
+						// Buat tag circle di dalam tag lingkaran dengan class nodeParent
 						elemParentEnter.append("circle")
 						.attr("class", "nodeParent")
 						.attr("id", function(d, i) {
 							return "circleParent-" + i;  // id tiap circle
-							// return "circle-" + d.id;
 						})
-						.attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
-						.attr("cy", function(d, i) { return d.y;}) // Koordinat lingkaran pada sumbu y
+						// .attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
+						// .attr("cy", function(d, i) { return d.y; }) // Koordinat lingkaran pada sumbu y
 						.attr("r", function(d, i) {
 							// Mengatur jari-jari lingkaran
 							if(d.size.length == 1) {
@@ -1605,8 +1588,8 @@
 						.attr("font-family", "sans-serif") // Jenis font
 						.attr("font-size", "14px") // Ukuran font
 						.attr("text-anchor", "middle")
-						.attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
-						.attr("y", function(d, i) { return d.y + 5; }) // Koordinat label pada sumbu y
+						// .attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
+						// .attr("y", function(d, i) { return d.y + 5; }) // Koordinat label pada sumbu y
 						.text(function(d) {
 							// Isi label
 							var realSize = 0;
@@ -1617,74 +1600,82 @@
 
 							return realSize;
 						});
+						
+						elemParentEnter.attr("transform", function(d, i) {
+							return "translate(" +
+							(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
+							+ ", " +
+							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+							+ ")";
+						});
 
 						link.attr("x1", function(d) {
 							if((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x))) {
-								return posisiX(d.source.sumbu_x)+ (x.rangeBand() / 180) + posisiR(d.source.id.length); 
+								return posisiX(d.source.sumbu_x)+ (posisiX.rangeBand() / 2) + posisiR(d.source.id.length); 
 							}
 							 
 							// Garis horizontal jika lingkaran asal ada di kiri target
 							else if ((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x))) {
-								return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180) - posisiR(d.source.id.length);
+								return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2) - posisiR(d.source.id.length);
 							}
 							 
 							// Garis vertical
 							else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
-								return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180);
+								return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2);
 							}
 							 
 							// Garis miring
 							else {
-								return hitungXAsal((posisiX(d.source.sumbu_x) + (x.rangeBand() / 180)),(posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)), (posisiX(d.target.sumbu_x) + (x.rangeBand() / 180)), (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180)), posisiR(d.source.id.length));
+								return hitungXAsal((posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2)),(posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)), (posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2)), (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2)), posisiR(d.source.id.length));
 							}
 						})
 						.attr("y1", function(d) { 
 							//garis horizontal
 							if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
-								return posisiY(d.source.sumbu_y) + (y.rangeBand() / 180);
+								return posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2);
 							}
 							 
 							//garis vertical dengan lingkaran asal ada di atas target
 							else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
-								return (posisiY(d.source.sumbu_y)+ (y.rangeBand() / 180) + posisiR(d.source.id.length));
+								return (posisiY(d.source.sumbu_y)+ (posisiY.rangeBand() / 2) + posisiR(d.source.id.length));
 							}
 							 
 							//garis vertical dengan lingkaran asal ada di bawah target
 							else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
-								return (posisiY(d.source.sumbu_y) + (y.rangeBand() / 180) - posisiR(d.source.id.length));
+								return (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2) - posisiR(d.source.id.length));
 							}
 
 							else {
-								var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + x.rangeBand() / 180)-(posisiX(d.target.sumbu_x) + x.rangeBand() / 180)), 2) + Math.pow(((posisiY(d.source.sumbu_y)+y.rangeBand() / 180)-(posisiY(d.target.sumbu_y) + y.rangeBand() / 180)), 2));
-								return (posisiY(d.source.sumbu_y) + y.rangeBand() / 180)-(((posisiY(d.source.sumbu_y) + y.rangeBand() / 180)-(posisiY(d.target.sumbu_y) + y.rangeBand() / 180)) * posisiR(d.source.id.length) / miring);
+								var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + posisiX.rangeBand() / 2) - (posisiX(d.target.sumbu_x) + posisiX.rangeBand() / 2)), 2) + Math.pow(((posisiY(d.source.sumbu_y)+posisiY.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)), 2));
+								return (posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (((posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)) * posisiR(d.source.id.length) / miring);
 							}
 						})
 						// Sama seperti diatas, hanya untuk lingkaran target
 						.attr("x2", function(d) {
 							if((posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
-								return posisiX(d.target.sumbu_x) + (x.rangeBand() / 180) - posisiR(d.target.id.length); 
+								return posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2) - posisiR(d.target.id.length); 
 							}
 							else if ((posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
-								return posisiX(d.target.sumbu_x) + (x.rangeBand() / 180) + posisiR(d.target.id.length); 
+								return posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2) + posisiR(d.target.id.length); 
 							}
 							else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
-								return posisiX(d.source.sumbu_x) + (x.rangeBand() / 180);
+								return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2);
 							} else {
-								return hitungXTujuan((posisiX(d.source.sumbu_x) + (x.rangeBand() / 180)), (posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)),(posisiX(d.target.sumbu_x) + (x.rangeBand() / 180)),(posisiY(d.target.sumbu_y) + (y.rangeBand() / 180)), posisiR(d.target.id.length));
+								return hitungXTujuan((posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2)), (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)),(posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2)),(posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2)), posisiR(d.target.id.length));
 							}   
 						})
 						.attr("y2", function(d) {
 							if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
-								return posisiY(d.target.sumbu_y) + (y.rangeBand() / 180);
+								return posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2);
 							}
 							else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
-								return (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180) - posisiR(d.target.id.length));
+								return (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2) - posisiR(d.target.id.length));
 							}
 							else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
-								return (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180) + posisiR(d.target.id.length));
+								return (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2) + posisiR(d.target.id.length));
 							} else {
-								var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + x.rangeBand() / 180) - (posisiX(d.target.sumbu_x) + x.rangeBand() / 180)), 2) + Math.pow(((posisiY(d.source.sumbu_y) + y.rangeBand() / 180) - (posisiY(d.target.sumbu_y) + y.rangeBand() / 180)), 2));
-								return posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)-(((miring - posisiR(d.target.id.length)) * ((posisiY(d.source.sumbu_y) + (y.rangeBand() / 180)) - (posisiY(d.target.sumbu_y) + (y.rangeBand() / 180))) / miring));
+								var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + posisiX.rangeBand() / 2) - (posisiX(d.target.sumbu_x) + posisiX.rangeBand() / 2)), 2) + Math.pow(((posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)), 2));
+								return posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2) - (((miring - posisiR(d.target.id.length)) * ((posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)) - (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2))) / miring));
 							}
 						})
 						.attr("marker-end", function(d, i) { return "url(#" + i + ")"; });
@@ -1695,47 +1686,50 @@
 				});
 			}
 			/* PANNING WITH NAVIGATION WINDOW TECHNIQUE (OVERVIEW MAP) */	
-			function overviewmap(selection){
+			function overviewmap(selection) {
 				var target = panCanvas,
-					overviewScale = 0.1,
-					scale = 1,
-					frameX,
-					frameY;
+				overviewScale = 0.1,
+				scale = 1,
+				frameX,
+				frameY;
+				
 				var base = selection;
-			    var container = selection.append("g")
-			        .attr("class", "overviewmap");
+				var container = selection.append("g")
+				.attr("class", "overviewmap");
 			       
 			    overviewmap.node = container.node();
 
 			 	var frame = container.append("g")
-			        .attr("class", "frame")
-			        .attr('transform','translate(0,0)');
+				.attr("class", "frame")
+				.attr('transform','translate(0,0)');
 
 			    frame.append("rect")
-			        .attr("class", "background")
-			        .attr("width", width)
-			        .attr("height", height)
-			        .attr("filter", "url(#overviewDropShadow)");
+				.attr("class", "background")
+				.attr("width", width)
+				.attr("height", height)
+				.attr("filter", "url(#overviewDropShadow)");
 			    	
 			    var drag = d3.behavior.drag()
-			        .on("dragstart.overviewmap", function() {
-			            var frameTranslate = getXYTranslate(frame.attr("transform"));
-			                frameX = frameTranslate[0];
-			                frameY = frameTranslate[1];
-			        })
-			        .on("drag.overviewmap", function() {
-			            d3.event.sourceEvent.stopImmediatePropagation();
-			                frameX += d3.event.dx;
-			                frameY += d3.event.dy;
-			                frame.attr("transform", "translate(" + frameX + "," + frameY + ")");
-			                var translate =  [(-frameX*scale),(-frameY*scale)];
-			                target.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
-			                d3.select('.x').attr('transform', 'translate(' + (-frameX*scale) + ',' + height + ')scale('+ scale +')');	
-					  		d3.select('.y').attr('transform', 'translate(' + 0 + ',' + (-frameY*scale) + ')scale('+ scale +')');
-			        });
+				.on("dragstart.overviewmap", function() {
+					var frameTranslate = getXYTranslate(frame.attr("transform"));
+					frameX = frameTranslate[0];
+					frameY = frameTranslate[1];
+				})
+				.on("drag.overviewmap", function() {
+					d3.event.sourceEvent.stopImmediatePropagation();
+						frameX += d3.event.dx;
+						frameY += d3.event.dy;
+						frame.attr("transform", "translate(" + frameX + "," + frameY + ")");
+						
+						var translate =  [(-frameX * scale), (-frameY * scale)];
+						target.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+						d3.select('.x').attr('transform', 'translate(' + (-frameX*scale) + ',' + height + ')scale('+ scale +')');	
+						d3.select('.y').attr('transform', 'translate(' + 0 + ',' + (-frameY*scale) + ')scale('+ scale +')');
+				});
 
 			    frame.call(drag);
-			    var render = function(){
+			    
+				var render = function() {
 			    	// scale = 1.75;
 			        container.attr("transform", "scale(" + overviewScale + ")");
 				    var node = target.node().cloneNode(true);
@@ -1743,10 +1737,10 @@
 				    base.selectAll(".overviewmap .panCanvas").remove();
 				    overviewmap.node.appendChild(node);
 				    var transformTarget = getXYTranslate(target.attr("transform"));
-				    frame.attr("transform", "translate(" + (-transformTarget[0]/scale) + "," + (-transformTarget[1]/scale) + ")")
+				    frame.attr("transform", "translate(" + (-transformTarget[0] / scale) + "," + (-transformTarget[1] / scale) + ")")
 				        .select(".background")
-				        .attr("width", width/scale)
-				        .attr("height", height/scale);
+				        .attr("width", width / scale)
+				        .attr("height", height / scale);
 				    frame.node().parentNode.appendChild(frame.node());
 				    d3.select(node).attr("transform", "translate(0,0)");
 			    };
@@ -1792,7 +1786,7 @@
 			if(!window.xmlhttp)
 				return;
 			window.xmlhttp.open('POST', 'index.php?r=metadataPenelitian/getData ', true);
-			var query = 'sumbuX=' + sbX + '&sumbuY=' + sbY + '&parameter=' + parameter + '&edge=' + edge + '&zooming=' + zooming +'&mode_pan='+pan;
+			var query = 'sumbuX=' + sbX + '&sumbuY=' + sbY + '&parameter=' + parameter + '&edge=' + edge + '&zooming=' + zooming + '&mode_pan=' + pan;
  
 			window.xmlhttp.onreadystatechange = function() {
 				if(window.xmlhttp.readyState == 4 && window.xmlhttp.status == 200) {
@@ -1816,7 +1810,7 @@
 			if(!window.xmlhttp)
 				return;
 			window.xmlhttp.open('POST', 'index.php?r=metadataPenelitian/getData ', true);
-			var query = 'sumbuX=' + sbX + '&sumbuY=' + sbY + '&parameter=' + parameter + '&edge=' + edge + '&zooming=' + zooming +'&mode_pan='+pan;
+			var query = 'sumbuX=' + sbX + '&sumbuY=' + sbY + '&parameter=' + parameter + '&edge=' + edge + '&zooming=' + zooming + '&mode_pan=' + pan;
 			
 			window.xmlhttp.onreadystatechange = function() {
 				if(window.xmlhttp.readyState == 4 && window.xmlhttp.status == 200) {
@@ -1930,7 +1924,6 @@
 				else {
 					getData(sumbuX, sumbuY, parameter, edge, zooming, pan);
 				}
-			
 			}
 		});
 
@@ -1998,7 +1991,7 @@
 				"paging": false,
 				"aaSorting": [],
  
-				"fnCreatedRow": function( nRow, aData, iDataIndex ) {
+				"fnCreatedRow": function(nRow, aData, iDataIndex) {
 					$(nRow).attr('id', aData['id']);
 				}
 			});
@@ -2016,7 +2009,7 @@
 				"scrollCollapse": true,
 				"paging": false,
 				"aaSorting": [],
-				"fnCreatedRow": function( nRow, aData, iDataIndex ) {
+				"fnCreatedRow": function(nRow, aData, iDataIndex) {
 					$(nRow).attr('id', aData['id']);
 				}
 			});
@@ -2235,14 +2228,14 @@
 					$('.sumbuXlabel').remove();
 					$('.sumbuYlabel').remove();
 					var total = $('#AddedPaper tbody tr').length;
-					SelectedId=$('#AddedPaper tbody tr').attr('id')+',';
+					SelectedId=$('#AddedPaper tbody tr').attr('id') + ',';
 					$('#AddedPaper tbody tr').each(function(index) {
 						if(index==0) {}
 						else {
 							if(index == total - 1) {
 								SelectedId = SelectedId+$(this).attr('id');
 							} else {
-								SelectedId = SelectedId+$(this).attr('id')+","; 
+								SelectedId = SelectedId+$(this).attr('id') + ","; 
 							}
 						}
 						$(this).css('background-color', '');
@@ -2318,8 +2311,9 @@
 					sumbuX = $("#sumbuX option:selected").text();
 					sumbuY = $("#sumbuY option:selected").text();
 					edge = $("#edge option:selected").text();
+					zooming = $("#mode_zoom option:selected").text();
 					pan = $("#mode_pan option:selected").text();
-					saveData(userID,SelectedId,sumbuX,sumbuY,edge, map_name, pan);
+					saveData(userID, SelectedId, sumbuX, sumbuY, edge, map_name, zooming, pan);
 					$( "#map_name" ).val('');
 				}
 			});
@@ -2333,12 +2327,12 @@
 			});
 		});
 
-		function saveData(userID, paperID, sumbuX, sumbuY, relation, map_name, pan) {
+		function saveData(userID, paperID, sumbuX, sumbuY, relation, map_name, zooming, pan) {
 			window.xmlhttp = getXmlHttpRequest();
 			if(!window.xmlhttp)
 				return;
 			window.xmlhttp.open('POST', 'index.php?r=metadataPenelitian/saveData ', true);
-			var query =  'userID=' + userID + '&paperID=' + paperID + '&sumbuX=' + sumbuX + '&sumbuY=' + sumbuY + '&relation=' + relation + '&map_name=' + map_name + '&mode_pan=' + pan;
+			var query =  'userID=' + userID + '&paperID=' + paperID + '&sumbuX=' + sumbuX + '&sumbuY=' + sumbuY + '&relation=' + relation + '&map_name=' + map_name + '&zooming=' + zooming + '&mode_pan=' + pan;
 
 			window.xmlhttp.onreadystatechange = function() {
 				if(window.xmlhttp.readyState == 4 && window.xmlhttp.status == 200) {
