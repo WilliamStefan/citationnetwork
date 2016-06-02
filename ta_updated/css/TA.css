@@ -403,6 +403,7 @@ border-radius:3px;
 .overviewmap .panCanvas .background{
     stroke: blue;
     stroke-width: 2px;
+    fill: #ffffff !important;
 }
 .overviewmap .frame .background {
     stroke: blue;

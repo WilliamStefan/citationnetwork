@@ -1185,6 +1185,28 @@
 									})
 									.text("1");
 
+									nodeGrandChild.attr("transform", function(d, i) {
+										d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+										d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+										
+										return "translate(" +
+										(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
+										+ ", " +
+										(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+										+ ")";
+									});
+									
+									labelGrandChild.attr("transform", function(d, i) {
+										d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+										d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+										
+										return "translate(" +
+										(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
+										+ ", " +
+										(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+										+ ")";
+									});	
+
 									// Hover untuk node dengan jumlah data 1
 									var g3 = svgFisheye.select(".draggable").selectAll("g.paperGrandChild").data(dataGrandChild);
 
@@ -1585,82 +1607,6 @@
 						posisiY.distortion(2).focus(mouse[1]);
 
 						// Redraw nodes, labels, and links
-												
-						// Buat tag circle di dalam tag lingkaran dengan class nodeParent
-						elemParentEnter.append("circle")
-						.attr("class", "nodeParent")
-						.attr("id", function(d, i) {
-							return "circleParent-" + i;  // id tiap circle
-						})
-
-						// .attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
-						// .attr("cy", function(d, i) { return d.y;}) // Koordinat lingkaran pada sumbu y
-						.attr("r", function(d, i) {
-							// Mengatur jari-jari lingkaran
-							if(d.size.length == 1) {
-								if(d.size[0] == 1) {
-									return 15;
-								}
-							} else {
-								var realSize = 0;
-
-								for(var iterator = 0; iterator < d.size.length; iterator++) {
-									realSize += d.size[iterator];
-								}
-
-								if (realSize == 2) {
-									return 20;
-								} else if (realSize == 3) {
-									return 25;
-								} else if (realSize == 4) {
-									return 30;
-								}
-							}
-						})
-						.style("fill", "#FFC2AD");
-
-						// Buat tag text di dalam tag lingkaran dengan class label
-					  	elemParentEnter.append("text")
-						.attr("class", "labelParent")
-						.attr("font-family", "sans-serif") // Jenis font
-						.attr("font-size", "14px") // Ukuran font
-						.attr("text-anchor", "middle")
-						// .attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
-						// .attr("y", function(d, i) { return d.y + 5; }) // Koordinat label pada sumbu y
-						.text(function(d) {
-							// Isi label
-							var realSize = 0;
-
-							for(var iterator = 0; iterator < d.size.length; iterator++) {
-								realSize += d.size[iterator];
-							}
-
-							return realSize;
-						});
-
-						d3.select(".paperChild").append("circle")
-						.attr("id", function(p, i) {
-							return "circleChild-" + i;  // id tiap circle
-						})
-						// .attr("cx", function(p) { return p.x; })
-						// .attr("cy", function(p) { return p.y; })
-						.attr("r", function(p, ii) { return 15; })
-						.style("fill", "#FFC2AD")
-						.style("stroke-width", "0px");
-				
-						d3.select(".paperChild").append("text")
-						.attr("class", "labelChild")
-						.attr("font-family", "sans-serif")
-						.attr("font-size", "14px")
-						.attr("text-anchor", "middle")
-						// .attr("x", function(p) {
-						// 	return p.x;
-						// })
-						// .attr("y", function(p) {
-						// 	return p.y + 5;
-						// })
-						.text(function(p, i) { return p.size[i] });
-
 						node.attr("transform", function(d, i) {
 							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
 							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));

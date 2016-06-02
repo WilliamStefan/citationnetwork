@@ -1185,8 +1185,6 @@
 				var target = panCanvas,
 					overviewScale = 0.1,
 					scale = 1,
-					zoom,
-					x = width+20, y=20,
 					frameX,
 					frameY;
 				var base = selection;
