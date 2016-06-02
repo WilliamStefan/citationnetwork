@@ -833,13 +833,27 @@
 				return realSize;
 			});
 			
-			elemParentEnter.attr("transform", function(d, i) {
+			node.attr("transform", function(d, i) {
+				d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+				d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+				
 				return "translate(" +
 				(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
 				+ ", " +
 				(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
 				+ ")";
 			});
+			
+			label.attr("transform", function(d, i) {
+				d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+				d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+				
+				return "translate(" +
+				(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
+				+ ", " +
+				(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+				+ ")";
+			});	
 
 			// Hover untuk node dengan jumlah data 1
 			var g1 = svgFisheye.select(".draggable").selectAll("g.paperParent").data(data.nodes);
@@ -1556,7 +1570,7 @@
 							return "circleParent-" + i;  // id tiap circle
 						})
 						// .attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
-						// .attr("cy", function(d, i) { return d.y; }) // Koordinat lingkaran pada sumbu y
+						// .attr("cy", function(d, i) { return d.y;}) // Koordinat lingkaran pada sumbu y
 						.attr("r", function(d, i) {
 							// Mengatur jari-jari lingkaran
 							if(d.size.length == 1) {
@@ -1601,13 +1615,27 @@
 							return realSize;
 						});
 						
-						elemParentEnter.attr("transform", function(d, i) {
+						node.attr("transform", function(d, i) {
+							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+							
 							return "translate(" +
 							(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
 							+ ", " +
 							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
 							+ ")";
 						});
+						
+						label.attr("transform", function(d, i) {
+							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+							
+							return "translate(" +
+							(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
+							+ ", " +
+							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+							+ ")";
+						});	
 
 						link.attr("x1", function(d) {
 							if((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x))) {
