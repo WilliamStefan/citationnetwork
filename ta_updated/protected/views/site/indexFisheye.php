@@ -301,21 +301,10 @@
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
 		<button id="reset" style="margin-left: 150px;" class="btn btn-info">Reset</button>
-		<!-- Container untuk zoom menggunakan breadcrumb pada level 0 -->
-		<!-- <p id="chart"> -->
-			<svg class="chart" id="chart"></svg>
-		<!-- </p> -->
+		<!-- Container untuk chart yang digunakan -->
+		<svg class="chart" id="chart"></svg>
 	</div>
 			
-	<!-- Container untuk zoom menggunakan breadcrumb pada level 1 dan level 2 -->
-	<svg class="svg" id="svg" widht="0" height="500" style="display:none;">
-		<!-- <g transform="translate(0,10)scale(1,1)" style="stroke-width: 1px;"> -->
-			<div id="circle_packing" style="position:absolute; z-index:1; margin-left:-700px; margin-top:25px; top:100px; display:none;">
-				<svg class="circle_packing" height="423" width="423"></svg>
-			</div>
-		<!-- </g> -->
-	</svg>
- 
 	<!-- Inisialisasi peta penelitian -->
 	<script id="scriptInit" type="text/javascript">
 		$('select[name^="sumbuX"] option[value="' + defaultX + '"]').attr("selected", "selected");
@@ -874,31 +863,24 @@
 			var g1 = svgFisheye.select(".draggable").selectAll("g.paperParent").data(data.nodes);
 
 			$("svg circle").each(function(d, i) {
-				if(g1[0][d].__data__.children.length == 1) {
-					$(g1[0][d]).tipsy({ 
-						gravity: 'w', 
-						html: true,
-						delayIn: 1000,
-						title: function() {				
+				$(g1[0][d]).tipsy({ 
+					gravity: 'w', 
+					html: true,
+					delayIn: 1000,
+					title: function() {
+						if(g1[0][d].__data__.children.length == 1) {
 							return "<span style=\"font-size:12px\">" + this.__data__.children[0].judul + "</span><br>Peneliti : " + this.__data__.children[0].peneliti;
-						}
-					});
-				} else {
-					$(g1[0][d]).tipsy({ 
-						gravity: 'w', 
-						html: true,
-						delayIn: 1000,
-						title: function() {
+						} else {
 							var realKeyword = "";
 
-							for(var iterator = 0; iterator < g1[0][d].__data__.keyword.length; iterator ++) {
-								realKeyword += g1[0][d].__data__.keyword[iterator];
-							}
-
-							return "<span style=\"font-size:12px\">" + realKeyword + "</span>";
+						for(var iterator = 0; iterator < g1[0][d].__data__.keyword.length; iterator ++) {
+							realKeyword += g1[0][d].__data__.keyword[iterator];
 						}
-					});
-				}
+
+						return "<span style=\"font-size:12px\">" + realKeyword + "</span>";
+						}
+					}
+				});
 			});
 
 			elemParentEnter.on("mouseover", function(d, i) {
@@ -1056,18 +1038,18 @@
 						// Hover untuk node dengan jumlah data 1
 						var g2 = svgFisheye.select(".draggable").selectAll("g.paperChild").data(dataChild);
 
-						$("svg circle").each(function(p) {
+						$("svg circle").each(function(p, i) {
 							$(g2[0][p]).tipsy({ 
 								gravity: 'w',
 								html: true,
 								delayIn: 1000,
 								title: function() {
-									var size = g2[0][p].__data__[0].length;
+									var size = Object.keys(g2[0][p].__data__).length;
 
-									if(size == null) {
+									if(size == 4) {
 										return "<span style=\"font-size:12px\">" + g2[0][p].__data__[0].judul + "</span><br>Peneliti : " + g2[0][p].__data__[0].peneliti;
-									} else {
-										return "<span style=\"font-size:12px\">" + g2[0][p].__data__[0].children[0].keyword + "</span>";
+									} else if(size > 4) {
+										return "<span style=\"font-size:12px\">" + g2[0][p].__data__[0].keyword + "</span>";
 									}
 								}
 							});
@@ -1139,10 +1121,8 @@
 									// Ubah warna paperChild
 									nodeChild.style("fill", "#DDDDDD");
 
-									console.log("p[0].children");
-									console.log(p[0].children);
-
-									var dataGrandChild = p[0].children;
+									// var dataGrandChild = p[0].children;
+									var dataGrandChild = p;
 
 									dataGrandChild.forEach(function(q, i) {
 										if(i == 0) {
