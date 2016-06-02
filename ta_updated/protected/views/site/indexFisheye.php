@@ -916,7 +916,7 @@
 			});
 
 			// Hover untuk node dengan jumlah data 1
-			var g1 = svgFisheye.select(".draggable").selectAll("g.paperParent").data(data.nodes);
+			var g1 = svgFisheye.selectAll("g.paperParent").data(data.nodes);
 
 			$("svg circle").each(function(d, i) {
 				if(g1[0][d].__data__.children.length == 1) {
@@ -1663,17 +1663,14 @@
 				      posisiX.distortion(2).focus(mouse[0]);
 				      posisiY.distortion(2).focus(mouse[1]);
 
-				      //redraw
-				      // Buat tag circle di dalam tag lingkaran dengan class nodeParent
-
-						elemParentEnter.append("circle")
+				      //redraw node
+				      	elemParentEnter.append("circle")
 						.attr("class", "nodeParent")
 						.attr("id", function(d, i) {
 							return "circleParent-" + i;  // id tiap circle
-							// return "circle-" + d.id;
 						})
 						.attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
-						.attr("cy", function(d, i) { return d.y;}) // Koordinat lingkaran pada sumbu y
+						.attr("cy", function(d, i) { return d.y; }) // Koordinat lingkaran pada sumbu y
 						.attr("r", function(d, i) {
 							// Mengatur jari-jari lingkaran
 							if(d.size.length == 1) {
@@ -1682,11 +1679,9 @@
 								}
 							} else {
 								var realSize = 0;
-								var totalSize = 0;
 
 								for(var iterator = 0; iterator < d.size.length; iterator++) {
 									realSize += d.size[iterator];
-									totalSize += realSize;
 								}
 
 								if (realSize == 2) {
@@ -1697,10 +1692,11 @@
 									return 30;
 								}
 							}
-						 })
-						.style("fill", "FFC2AD");
+						})
+						.style("fill", "#FFC2AD");
 
-						elemParentEnter.append("text")
+						// Buat tag text di dalam tag lingkaran dengan class label
+					  	elemParentEnter.append("text")
 						.attr("class", "labelParent")
 						.attr("font-family", "sans-serif") // Jenis font
 						.attr("font-size", "14px") // Ukuran font
@@ -1718,6 +1714,7 @@
 							return realSize;
 						});
 
+						//redraw link
 						link.attr("x1", function(d) {
 							if((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x))) {
 								return posisiX(d.source.sumbu_x)+ (x.rangeBand() / 180) + posisiR(d.source.id.length); 
