@@ -643,7 +643,7 @@
 			 
 			var start;
 			if((minimum / 2) < 15) {
-				alert("Data yang dimasukkan terlalu banyak! Kurangi data");
+				// alert("Data yang dimasukkan terlalu banyak! Kurangi data");
 				if(document.URL.indexOf("#") >= 0) {
 					var location = document.URL.split("#");
 					document.location.href = location[0] + '#AddPaper';
@@ -843,7 +843,7 @@
 				(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
 				+ ")";
 			});
-			
+			// console.log(node.attr("transform"));
 			label.attr("transform", function(d, i) {
 				d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
 				d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
@@ -1031,27 +1031,7 @@
 						})
 						.text(function(p, i) { return d.size[i] });
 
-						nodeChild.attr("transform", function(d, i) {
-							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
-							
-							return "translate(" +
-							(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
-							+ ", " +
-							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
-							+ ")";
-						});
-						
-						labelChild.attr("transform", function(d, i) {
-							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
-							
-							return "translate(" +
-							(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
-							+ ", " +
-							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
-							+ ")";
-						});	
+						// console.log(nodeChild.attr("transform"));
 
 						// Hover untuk node dengan jumlah data 1
 						var g2 = svgFisheye.select(".draggable").selectAll("g.paperChild").data(dataChild);
@@ -1184,28 +1164,6 @@
 										return q.y + 5;
 									})
 									.text("1");
-
-									nodeGrandChild.attr("transform", function(d, i) {
-										d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-										d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
-										
-										return "translate(" +
-										(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
-										+ ", " +
-										(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
-										+ ")";
-									});
-									
-									labelGrandChild.attr("transform", function(d, i) {
-										d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-										d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
-										
-										return "translate(" +
-										(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
-										+ ", " +
-										(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
-										+ ")";
-									});	
 
 									// Hover untuk node dengan jumlah data 1
 									var g3 = svgFisheye.select(".draggable").selectAll("g.paperGrandChild").data(dataGrandChild);
@@ -1540,25 +1498,32 @@
 			//////////////////////////
 			// Membuat link selesai //
 			//////////////////////////
-		
-			/* PANNING WITH DIRECT REPOSITIONING TECHNIQUE (GRAB AND DRAG) */
+
 			if ($("#mode_pan option:selected").text() == 'Linier'){
-				svgFisheye.select('.background').on('mousemove', null);
+				svgFisheye.call(grabAndDrag); // memanggil fungsi grabAndDrag jika mode pan=Linier
+			}
+			else {
+				svgFisheye.call(distortion); // memanggil fungsi distortion jika mode pan=Distorsi
+			}
+
+			/* PANNING WITH DIRECT REPOSITIONING TECHNIQUE (GRAB AND DRAG) */
+			function grabAndDrag(selection){
+				// svgFisheye.select('.background').on('mousemove', null);
 				d3.select('#reset').style('visibility','visible');
-				svgFisheye.append('rect')
+				selection.append('rect')
 				.attr('class', 'block')
 				.attr('fill', 'white')
 				.attr('height', 200)
 				.attr('width', 201)
 				.attr("transform", "translate(-200,460)");
 				
-				svgFisheye.append('line')
+				selection.append('line')
 				.style('stroke','#000')
 				.style('shape-rendering','crispEdges')
 				.attr('x1', 0).attr('y1', 0)
 				.attr('x2', 0).attr('y2', 460);
 				
-				svgFisheye.append('line')
+				selection.append('line')
 				.style('stroke','#000')
 				.style('shape-rendering','crispEdges')
 				.attr('x1', 0).attr('y1', 460)
@@ -1584,7 +1549,7 @@
 				canvasChart.call(overviewmap); // Call overview map
 
 				d3.select("#reset").on('click', function() {
-					svgFisheye.select('.draggable').transition()
+					selection.select('.draggable').transition()
 						.attr("transform", function(d,i){
 							return "translate(" + 0 + ", " + 0 + ")";
 						})
@@ -1594,15 +1559,23 @@
 					canvasChart.select(".panCanvas").transition().attr("transform", "translate(" + 0 + "," + 0 + ")");
 				})
 			}
-			else {
-				svgFisheye.select('.background').on('mousedown.drag', null);
+
+			/* PANNING WITH DISTORTION */
+			function distortion(selection){
+				// svgFisheye.select('.background').on('mousedown.drag', null);
 				canvasChart.select('.overviewmap').remove();
 				d3.select('#reset').style('visibility','hidden');
-				//respond to the mouse and distort where necessary
-				wrapperInner.select(".background").on("mousemove", function(){
-					if(!d3.event.ctrlKey){	//if the ctrl key is not pressed
 
-						var mouse = d3.mouse(this);
+				// wrapperInner.select(".background").on("mousemove.tooltip", function(d){
+				// 	svgFisheye.append("text")
+				// 	.text("Press Ctrl key to pan")
+				// 	.style("fill","blue")
+				// 	.attr("x",d3.mouse(this)[0]).attr("y",d3.mouse(this)[1]);
+				// });
+				//respond to the mouse and distort where necessary
+				wrapperInner.select(".background").on("mousemove", function(d,i){
+					var mouse = d3.mouse(this);
+					if(d3.event.ctrlKey){	//if the ctrl key is pressed
 						posisiX.distortion(2).focus(mouse[0]);
 						posisiY.distortion(2).focus(mouse[1]);
 
@@ -1627,29 +1600,7 @@
 							+ ", " +
 							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
 							+ ")";
-						});	
-
-						// d3.select(".nodeChild").attr("transform", function(d, i) {
-						// 	d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-						// 	d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
-							
-						// 	return "translate(" +
-						// 	(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
-						// 	+ ", " +
-						// 	(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
-						// 	+ ")";
-						// });
-						
-						// d3.select(".labelChild").attr("transform", function(d, i) {
-						// 	d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-						// 	d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
-							
-						// 	return "translate(" +
-						// 	(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
-						// 	+ ", " +
-						// 	(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
-						// 	+ ")";
-						// });	
+						});
 
 						//redraw link
 						link.attr("x1", function(d) {
@@ -2267,7 +2218,7 @@
 
 			$("#SaveButton").click(function() {
 				jumlahPaper = t.fnSettings().fnRecordsTotal();
-				if(jumlahPaper <= 21) {
+				// if(jumlahPaper <= 21) {
 					$('.sumbuXlabel').remove();
 					$('.sumbuYlabel').remove();
 					var total = $('#AddedPaper tbody tr').length;
@@ -2303,10 +2254,10 @@
 					jumlahPaper = t.fnSettings().fnRecordsTotal();
 					$("#jumlahPaper").text(jumlahPaper);
 					$("#Close").attr("href", "#close");
-				} else {
+				// } else {
 					//$('#SaveButton').attr('disabled','disabled');
-					alert("Jumlah paper melebihi 21. Kurangi paper");
-				}
+				// 	alert("Jumlah paper melebihi 21. Kurangi paper");
+				// }
 				d3.select('.frame').remove();
 			});
 		};
@@ -2405,7 +2356,7 @@
 	<a href="#x" class="overlay" id="AddPaper"></a>
 	<div class="popup">
 		<div class="content_popup">
-			<h5>Catatan : Jumlah paper yang dapat divisualisasikan maksimal <strong>21</strong> paper</h5>
+			<!-- <h5>Catatan : Jumlah paper yang dapat divisualisasikan maksimal <strong>21</strong> paper</h5> -->
 			<div class="LeftPopUp" style="float:left">
 				<h2>Unselected Paper</h2>
 				<!--<p>Please enter your login and password here</p>-->
