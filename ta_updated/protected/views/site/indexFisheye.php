@@ -10,7 +10,7 @@
 	var SelectedId;
 	var defaultZoom;
 	var defaultPan;
-	
+
 	<?php
 		if (!Yii::app()->user->isGuest)
 			echo ('userID='.Yii::app()->user->id.';');
@@ -643,7 +643,7 @@
 			 
 			var start;
 			if((minimum / 2) < 15) {
-				alert("Data yang dimasukkan terlalu banyak! Kurangi data");
+				// alert("Data yang dimasukkan terlalu banyak! Kurangi data");
 				if(document.URL.indexOf("#") >= 0) {
 					var location = document.URL.split("#");
 					document.location.href = location[0] + '#AddPaper';
@@ -843,7 +843,7 @@
 				(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
 				+ ")";
 			});
-			
+			// console.log(node.attr("transform"));
 			label.attr("transform", function(d, i) {
 				d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
 				d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
@@ -853,7 +853,7 @@
 				+ ", " +
 				(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
 				+ ")";
-			});
+			});	
 
 			// Hover untuk node dengan jumlah data 1
 			var g1 = svgFisheye.selectAll("g.paperParent").data(data.nodes);
@@ -963,7 +963,7 @@
 							});
 						}
 
-						else if(dataChild.length == 3) {
+						if(dataChild.length == 3) {
 							dataChild.forEach(function(p, i) {
 								if(i == 0) {
 									p.x = d.x - 75;
@@ -978,7 +978,7 @@
 							});
 						}
 
-						else if(dataChild.length == 4) {
+						if(dataChild.length == 4) {
 							dataChild.forEach(function(p, i) {
 								if(i == 0) {
 									p.x = d.x;
@@ -1013,7 +1013,7 @@
 						})
 						.attr("cx", function(p) { return p.x; })
 						.attr("cy", function(p) { return p.y; })
-						.attr("r", function(p, i) { return 15; })
+						.attr("r", function(p, ii) { return 15; })
 						.style("fill", "#FFC2AD")
 						.style("stroke-width", "0px");
 						// .call(force.drag);
@@ -1031,194 +1031,7 @@
 						})
 						.text(function(p, i) { return d.size[i] });
 
-						// nodeChild.attr("transform", function(p, i) {
-							// if(dataChild.length == 2) {
-								// if(i == 0) {
-									// p.x = d.x;
-									// p.y = d.y - 75;
-									
-									// var ret = "translate(" +
-									// p.x
-									// + ", " +
-									// p.y
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// } else if(i == 1) {
-									// p.x = d.x + 75;
-									// p.y = d.y;
-									
-									// var ret = "translate(" +
-									// p.x
-									// + ", " +
-									// p.y
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x + 75
-									// // + ", " +
-									// // d.y
-									// // + ")";
-								// } 
-							// }
-							// else if(dataChild.length == 3) {
-								// if(i == 0) {
-									// p.x = d.x;
-									// p.y = d.y - 75;
-									
-									// var ret = "translate(" +
-									// p.x
-									// + ", " +
-									// p.y - 75
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// } else if(i == 1) {
-									// p.x = d.x + 75;
-									// p.y = d.y;
-									
-									// var ret = "translate(" +
-									// p.x + 75
-									// + ", " +
-									// p.y
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// } else if(i == 2) {
-									// p.x = d.x;
-									// p.y = d.y + 75;
-									
-									// var ret = "translate(" +
-									// p.x
-									// + ", " +
-									// p.y + 75
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// }
-							// }
-							// else if(dataChild.length == 4) {
-								// if(i == 0) {
-									// p.x = d.x;
-									// p.y = d.y - 75;
-									
-									// var ret = "translate(" +
-									// p.x
-									// + ", " +
-									// p.y - 75
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// } else if(i == 1) {
-									// p.x = d.x + 75;
-									// p.y = d.y;
-									
-									// var ret = "translate(" +
-									// p.x + 75
-									// + ", " +
-									// p.y
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// } else if(i == 2) {
-									// p.x = d.x;
-									// p.y = d.y + 75;
-									
-									// var ret = "translate(" +
-									// p.x
-									// + ", " +
-									// p.y + 75
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// } else if(i == 3) {
-									// p.x = d.x - 75;
-									// p.y = d.y;
-									
-									// var ret = "translate(" +
-									// p.x + 75
-									// + ", " +
-									// p.y
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// }
-							// }
-						// });
-						
-						// arrayNodeChild = nodeChild;
-						// console.log("arrayNodeChild");
-						// console.log(arrayNodeChild);
-						
-						// labelChild.attr("transform", function(d, i) {
-							// d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-							// d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
-							
-							// return "translate(" +
-							// (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
-							// + ", " +
-							// (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
-							// + ")";
-						// });	
+						// console.log(nodeChild.attr("transform"));
 
 						// Hover untuk node dengan jumlah data 1
 						var g2 = svgFisheye.select(".draggable").selectAll("g.paperChild").data(dataChild);
@@ -1685,25 +1498,32 @@
 			//////////////////////////
 			// Membuat link selesai //
 			//////////////////////////
-		
-			/* PANNING WITH DIRECT REPOSITIONING TECHNIQUE (GRAB AND DRAG) */
+
 			if ($("#mode_pan option:selected").text() == 'Linier'){
-				svgFisheye.select('.background').on('mousemove', null);
+				svgFisheye.call(grabAndDrag); // memanggil fungsi grabAndDrag jika mode pan=Linier
+			}
+			else {
+				svgFisheye.call(distortion); // memanggil fungsi distortion jika mode pan=Distorsi
+			}
+
+			/* PANNING WITH DIRECT REPOSITIONING TECHNIQUE (GRAB AND DRAG) */
+			function grabAndDrag(selection){
+				// svgFisheye.select('.background').on('mousemove', null);
 				d3.select('#reset').style('visibility','visible');
-				svgFisheye.append('rect')
+				selection.append('rect')
 				.attr('class', 'block')
 				.attr('fill', 'white')
 				.attr('height', 200)
 				.attr('width', 201)
 				.attr("transform", "translate(-200,460)");
 				
-				svgFisheye.append('line')
+				selection.append('line')
 				.style('stroke','#000')
 				.style('shape-rendering','crispEdges')
 				.attr('x1', 0).attr('y1', 0)
 				.attr('x2', 0).attr('y2', 460);
 				
-				svgFisheye.append('line')
+				selection.append('line')
 				.style('stroke','#000')
 				.style('shape-rendering','crispEdges')
 				.attr('x1', 0).attr('y1', 460)
@@ -1729,7 +1549,7 @@
 				canvasChart.call(overviewmap); // Call overview map
 
 				d3.select("#reset").on('click', function() {
-					svgFisheye.select('.draggable').transition()
+					selection.select('.draggable').transition()
 						.attr("transform", function(d,i){
 							return "translate(" + 0 + ", " + 0 + ")";
 						})
@@ -1739,95 +1559,27 @@
 					canvasChart.select(".panCanvas").transition().attr("transform", "translate(" + 0 + "," + 0 + ")");
 				})
 			}
-			else {
-				svgFisheye.select('.background').on('mousedown.drag', null);
+
+			/* PANNING WITH DISTORTION */
+			function distortion(selection){
+				// svgFisheye.select('.background').on('mousedown.drag', null);
 				canvasChart.select('.overviewmap').remove();
 				d3.select('#reset').style('visibility','hidden');
-				//respond to the mouse and distort where necessary
-				wrapperInner.select(".background").on("mousemove", function() {
-					if(!d3.event.ctrlKey){	//if the ctrl key is not pressed
 
-						var mouse = d3.mouse(this);
+				// wrapperInner.select(".background").on("mousemove.tooltip", function(d){
+				// 	svgFisheye.append("text")
+				// 	.text("Press Ctrl key to pan")
+				// 	.style("fill","blue")
+				// 	.attr("x",d3.mouse(this)[0]).attr("y",d3.mouse(this)[1]);
+				// });
+				//respond to the mouse and distort where necessary
+				wrapperInner.select(".background").on("mousemove", function(d,i){
+					var mouse = d3.mouse(this);
+					if(d3.event.ctrlKey){	//if the ctrl key is pressed
 						posisiX.distortion(2).focus(mouse[0]);
 						posisiY.distortion(2).focus(mouse[1]);
 
 						// Redraw nodes, labels, and links
-												
-						// Buat tag circle di dalam tag lingkaran dengan class nodeParent
-						elemParentEnter.append("circle")
-						.attr("class", "nodeParent")
-						.attr("id", function(d, i) {
-							return "circleParent-" + i;  // id tiap circle
-						})
-
-						// .attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
-						// .attr("cy", function(d, i) { return d.y; }) // Koordinat lingkaran pada sumbu y
-						.attr("r", function(d, i) {
-							// Mengatur jari-jari lingkaran
-							if(d.size.length == 1) {
-								if(d.size[0] == 1) {
-									return 15;
-								}
-							} else {
-								var realSize = 0;
-
-								for(var iterator = 0; iterator < d.size.length; iterator++) {
-									realSize += d.size[iterator];
-								}
-
-								if (realSize == 2) {
-									return 20;
-								} else if (realSize == 3) {
-									return 25;
-								} else if (realSize == 4) {
-									return 30;
-								}
-							}
-						})
-						.style("fill", "#FFC2AD");
-
-						// Buat tag text di dalam tag lingkaran dengan class label
-					  	elemParentEnter.append("text")
-						.attr("class", "labelParent")
-						.attr("font-family", "sans-serif") // Jenis font
-						.attr("font-size", "14px") // Ukuran font
-						.attr("text-anchor", "middle")
-						// .attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
-						// .attr("y", function(d, i) { return d.y + 5; }) // Koordinat label pada sumbu y
-						.text(function(d) {
-							// Isi label
-							var realSize = 0;
-
-							for(var iterator = 0; iterator < d.size.length; iterator++) {
-								realSize += d.size[iterator];
-							}
-
-							return realSize;
-						});
-						
-						d3.select(".paperChild").append("circle")
-						.attr("id", function(p, i) {
-							return "circleChild-" + i;  // id tiap circle
-						})
-						// .attr("cx", function(p) { return p.x; })
-						// .attr("cy", function(p) { return p.y; })
-						.attr("r", function(p, i) { return 15; })
-						.style("fill", "#FFC2AD")
-						.style("stroke-width", "0px");
-				
-						d3.select(".paperChild").append("text")
-						.attr("class", "labelChild")
-						.attr("font-family", "sans-serif")
-						.attr("font-size", "14px")
-						.attr("text-anchor", "middle")
-						// .attr("x", function(p) {
-						// 	return p.x;
-						// })
-						// .attr("y", function(p) {
-						// 	return p.y + 5;
-						// })
-						.text(function(p, i) { return p.size[i] });	
-
 						node.attr("transform", function(d, i) {
 							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
 							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
@@ -1848,29 +1600,7 @@
 							+ ", " +
 							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
 							+ ")";
-						});					
-
-						// d3.select(".nodeChild").attr("transform", function(d, i) {
-							// d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-							// d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
-							
-							// return "translate(" +
-							// (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
-							// + ", " +
-							// (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
-							// + ")";
-						// });
-						
-						// d3.select(".labelChild").attr("transform", function(d, i) {
-							// d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-							// d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
-							
-							// return "translate(" +
-							// (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
-							// + ", " +
-							// (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
-							// + ")";
-						// });	
+						});
 
 						//redraw link
 						link.attr("x1", function(d) {
@@ -2488,7 +2218,7 @@
 
 			$("#SaveButton").click(function() {
 				jumlahPaper = t.fnSettings().fnRecordsTotal();
-				if(jumlahPaper <= 21) {
+				// if(jumlahPaper <= 21) {
 					$('.sumbuXlabel').remove();
 					$('.sumbuYlabel').remove();
 					var total = $('#AddedPaper tbody tr').length;
@@ -2524,10 +2254,10 @@
 					jumlahPaper = t.fnSettings().fnRecordsTotal();
 					$("#jumlahPaper").text(jumlahPaper);
 					$("#Close").attr("href", "#close");
-				} else {
+				// } else {
 					//$('#SaveButton').attr('disabled','disabled');
-					alert("Jumlah paper melebihi 21. Kurangi paper");
-				}
+				// 	alert("Jumlah paper melebihi 21. Kurangi paper");
+				// }
 				d3.select('.frame').remove();
 			});
 		};
@@ -2626,7 +2356,7 @@
 	<a href="#x" class="overlay" id="AddPaper"></a>
 	<div class="popup">
 		<div class="content_popup">
-			<h5>Catatan : Jumlah paper yang dapat divisualisasikan maksimal <strong>21</strong> paper</h5>
+			<!-- <h5>Catatan : Jumlah paper yang dapat divisualisasikan maksimal <strong>21</strong> paper</h5> -->
 			<div class="LeftPopUp" style="float:left">
 				<h2>Unselected Paper</h2>
 				<!--<p>Please enter your login and password here</p>-->

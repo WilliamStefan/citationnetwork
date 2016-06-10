@@ -691,7 +691,7 @@
 			 
 			var start;
 			if((minimum / 2) < 15) {
-				alert("Data yang dimasukkan terlalu banyak! Kurangi data");
+				// alert("Data yang dimasukkan terlalu banyak! Kurangi data");
 				if(document.URL.indexOf("#") >= 0) {
 					var location = document.URL.split("#");
 					document.location.href = location[0] + '#AddPaper';
@@ -1185,8 +1185,6 @@
 				var target = panCanvas,
 					overviewScale = 0.1,
 					scale = 1,
-					zoom,
-					x = width+20, y=20,
 					frameX,
 					frameY;
 				var base = selection;
@@ -1984,7 +1982,7 @@
 
 			$("#SaveButton").click(function() {
 				jumlahPaper = t.fnSettings().fnRecordsTotal();
-				if(jumlahPaper <= 21) {
+				// if(jumlahPaper <= 21) {
 					$('.sumbuXlabel').remove();
 					$('.sumbuYlabel').remove();
 					var total = $('#AddedPaper tbody tr').length;
@@ -2020,10 +2018,10 @@
 					jumlahPaper = t.fnSettings().fnRecordsTotal();
 					$("#jumlahPaper").text(jumlahPaper);
 					$("#Close").attr("href", "#close");
-				} else {
+				// } else {
 					//$('#SaveButton').attr('disabled','disabled');
-					alert("Jumlah paper melebihi 21. Kurangi paper");
-				}
+				// 	alert("Jumlah paper melebihi 21. Kurangi paper");
+				// }
 				d3.select('.frame').remove();
 			});
 		};
@@ -2241,7 +2239,7 @@
 	<a href="#x" class="overlay" id="AddPaper"></a>
 	<div class="popup">
 		<div class="content_popup">
-			<h5>Catatan : Jumlah paper yang dapat divisualisasikan maksimal <strong>21</strong> paper</h5>
+			<!-- <h5>Catatan : Jumlah paper yang dapat divisualisasikan maksimal <strong>21</strong> paper</h5> -->
 			<div class="LeftPopUp" style="float:left">
 				<h2>Unselected Paper</h2>
 				<!--<p>Please enter your login and password here</p>-->
