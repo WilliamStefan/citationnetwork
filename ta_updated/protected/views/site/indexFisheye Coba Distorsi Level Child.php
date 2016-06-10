@@ -11,6 +11,11 @@
 	var defaultZoom;
 	var defaultPan;
 	
+	var arrNodeChild = [];
+	var arrLabelChild = [];
+	var arrNodeGrandChild = [];
+	var arrLabelGrandChild = [];
+
 	<?php
 		if (!Yii::app()->user->isGuest)
 			echo ('userID='.Yii::app()->user->id.';');
@@ -963,7 +968,7 @@
 							});
 						}
 
-						else if(dataChild.length == 3) {
+						if(dataChild.length == 3) {
 							dataChild.forEach(function(p, i) {
 								if(i == 0) {
 									p.x = d.x - 75;
@@ -978,7 +983,7 @@
 							});
 						}
 
-						else if(dataChild.length == 4) {
+						if(dataChild.length == 4) {
 							dataChild.forEach(function(p, i) {
 								if(i == 0) {
 									p.x = d.x;
@@ -1011,8 +1016,8 @@
 						.attr("id", function(p, i) {
 							return "circleChild-" + i;  // id tiap circle
 						})
-						.attr("cx", function(p) { return p.x; })
-						.attr("cy", function(p) { return p.y; })
+						// .attr("cx", function(p) { return p.x; })
+						// .attr("cy", function(p) { return p.y; })
 						.attr("r", function(p, i) { return 15; })
 						.style("fill", "#FFC2AD")
 						.style("stroke-width", "0px");
@@ -1023,202 +1028,121 @@
 						.attr("font-family", "sans-serif")
 						.attr("font-size", "14px")
 						.attr("text-anchor", "middle")
-						.attr("x", function(p) {
-							return p.x;
-						})
-						.attr("y", function(p) {
-							return p.y + 5;
-						})
+						// .attr("x", function(p) {
+							// return p.x;
+						// })
+						// .attr("y", function(p) {
+							// return p.y + 5;
+						// })
 						.text(function(p, i) { return d.size[i] });
 
-						// nodeChild.attr("transform", function(p, i) {
-							// if(dataChild.length == 2) {
-								// if(i == 0) {
-									// p.x = d.x;
-									// p.y = d.y - 75;
+						nodeChild.attr("transform", function(p, i) {
+							if(dataChild.length == 2) {
+								if(i == 0) {
+									p.x = d.x;
+									p.y = d.y - 75;
 									
-									// var ret = "translate(" +
-									// p.x
-									// + ", " +
-									// p.y
-									// + ")";
+									return "translate(" +
+									d.x
+									+ ", " +
+									d.y - 75
+									+ ")";
+								} else if(i == 1) {
+									p.x = d.x + 75;
+									p.y = d.y;
 									
-									// console.log(ret);
-									// return ret;
+									return "translate(" +
+									d.x + 75
+									+ ", " +
+									d.y
+									+ ")";
+								} 
+							}
+							else if(dataChild.length == 3) {
+								if(i == 0) {
+									p.x = d.x;
+									p.y = d.y - 75;
 									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// } else if(i == 1) {
-									// p.x = d.x + 75;
-									// p.y = d.y;
+									return "translate(" +
+									d.x
+									+ ", " +
+									d.y - 75
+									+ ")";
+								} else if(i == 1) {
+									p.x = d.x + 75;
+									p.y = d.y;
 									
-									// var ret = "translate(" +
-									// p.x
-									// + ", " +
-									// p.y
-									// + ")";
+									return "translate(" +
+									d.x + 75
+									+ ", " +
+									d.y
+									+ ")";
+								} else if(i == 2) {
+									p.x = d.x;
+									p.y = d.y + 75;
 									
-									// console.log(ret);
-									// return ret;
+									return "translate(" +
+									d.x + 75
+									+ ", " +
+									d.y
+									+ ")";
+								}
+							}
+							else if(dataChild.length == 4) {
+								if(i == 0) {
+									p.x = d.x;
+									p.y = d.y - 75;
 									
-									// // return "translate(" +
-									// // d.x + 75
-									// // + ", " +
-									// // d.y
-									// // + ")";
-								// } 
-							// }
-							// else if(dataChild.length == 3) {
-								// if(i == 0) {
-									// p.x = d.x;
-									// p.y = d.y - 75;
+									return "translate(" +
+									d.x
+									+ ", " +
+									d.y - 75
+									+ ")";
+								} else if(i == 1) {
+									p.x = d.x + 75;
+									p.y = d.y;
 									
-									// var ret = "translate(" +
-									// p.x
-									// + ", " +
-									// p.y - 75
-									// + ")";
+									return "translate(" +
+									d.x + 75
+									+ ", " +
+									d.y
+									+ ")";
+								} else if(i == 2) {
+									p.x = d.x;
+									p.y = d.y + 75;
 									
-									// console.log(ret);
-									// return ret;
+									return "translate(" +
+									d.x + 75
+									+ ", " +
+									d.y
+									+ ")";
+								} else if(i == 3) {
+									p.x = d.x - 75;
+									p.y = d.y;
 									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// } else if(i == 1) {
-									// p.x = d.x + 75;
-									// p.y = d.y;
-									
-									// var ret = "translate(" +
-									// p.x + 75
-									// + ", " +
-									// p.y
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// } else if(i == 2) {
-									// p.x = d.x;
-									// p.y = d.y + 75;
-									
-									// var ret = "translate(" +
-									// p.x
-									// + ", " +
-									// p.y + 75
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// }
-							// }
-							// else if(dataChild.length == 4) {
-								// if(i == 0) {
-									// p.x = d.x;
-									// p.y = d.y - 75;
-									
-									// var ret = "translate(" +
-									// p.x
-									// + ", " +
-									// p.y - 75
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// } else if(i == 1) {
-									// p.x = d.x + 75;
-									// p.y = d.y;
-									
-									// var ret = "translate(" +
-									// p.x + 75
-									// + ", " +
-									// p.y
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// } else if(i == 2) {
-									// p.x = d.x;
-									// p.y = d.y + 75;
-									
-									// var ret = "translate(" +
-									// p.x
-									// + ", " +
-									// p.y + 75
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// } else if(i == 3) {
-									// p.x = d.x - 75;
-									// p.y = d.y;
-									
-									// var ret = "translate(" +
-									// p.x + 75
-									// + ", " +
-									// p.y
-									// + ")";
-									
-									// console.log(ret);
-									// return ret;
-									
-									// // return "translate(" +
-									// // d.x
-									// // + ", " +
-									// // d.y - 75
-									// // + ")";
-								// }
-							// }
-						// });
+									return "translate(" +
+									d.x + 75
+									+ ", " +
+									d.y
+									+ ")";
+								}
+							}
+						});
 						
-						// arrayNodeChild = nodeChild;
-						// console.log("arrayNodeChild");
-						// console.log(arrayNodeChild);
+						arrayNodeChild = nodeChild;
+						console.log("arrayNodeChild");
+						console.log(arrayNodeChild);
 						
-						// labelChild.attr("transform", function(d, i) {
-							// d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-							// d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+						labelChild.attr("transform", function(d, i) {
+							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
 							
-							// return "translate(" +
-							// (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
-							// + ", " +
-							// (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
-							// + ")";
-						// });	
+							return "translate(" +
+							(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
+							+ ", " +
+							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+							+ ")";
+						});	
 
 						// Hover untuk node dengan jumlah data 1
 						var g2 = svgFisheye.select(".draggable").selectAll("g.paperChild").data(dataChild);
@@ -1761,7 +1685,7 @@
 						})
 
 						// .attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
-						// .attr("cy", function(d, i) { return d.y; }) // Koordinat lingkaran pada sumbu y
+						// .attr("cy", function(d, i) { return d.y;}) // Koordinat lingkaran pada sumbu y
 						.attr("r", function(d, i) {
 							// Mengatur jari-jari lingkaran
 							if(d.size.length == 1) {
@@ -1804,7 +1728,7 @@
 
 							return realSize;
 						});
-						
+
 						d3.select(".paperChild").append("circle")
 						.attr("id", function(p, i) {
 							return "circleChild-" + i;  // id tiap circle
@@ -1826,7 +1750,7 @@
 						// .attr("y", function(p) {
 						// 	return p.y + 5;
 						// })
-						.text(function(p, i) { return p.size[i] });	
+						.text(function(p, i) { return p.size[i] });
 
 						node.attr("transform", function(d, i) {
 							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
@@ -1848,29 +1772,29 @@
 							+ ", " +
 							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
 							+ ")";
-						});					
+						});	
 
-						// d3.select(".nodeChild").attr("transform", function(d, i) {
-							// d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-							// d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+						d3.select(".nodeChild").attr("transform", function(d, i) {
+							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
 							
-							// return "translate(" +
-							// (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
-							// + ", " +
-							// (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
-							// + ")";
-						// });
+							return "translate(" +
+							(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
+							+ ", " +
+							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+							+ ")";
+						});
 						
-						// d3.select(".labelChild").attr("transform", function(d, i) {
-							// d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-							// d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+						d3.select(".labelChild").attr("transform", function(d, i) {
+							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
 							
-							// return "translate(" +
-							// (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
-							// + ", " +
-							// (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
-							// + ")";
-						// });	
+							return "translate(" +
+							(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
+							+ ", " +
+							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+							+ ")";
+						});	
 
 						//redraw link
 						link.attr("x1", function(d) {
