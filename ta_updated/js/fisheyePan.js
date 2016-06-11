@@ -4,7 +4,7 @@
       return d3_fisheye_scale(scaleType(), 3, 0);
     },
     ordinal: function() {
-        return d3_fisheye_scale_ordinal(d3.scale.ordinal(), 3, 0);
+        return d3_fisheye_scale_ordinal(d3.scale.ordinal(), 2, 0);
     },
     circular: function() {
       var radius = 200,
@@ -99,6 +99,7 @@
 
             if (m == 0) m = max - min;
             var factor = (left ? -1 : 1) * m * (d + 1) / (d + (m / Math.abs(x - a)));
+            // console.log(factor);
             return factor + a;
         };
 
