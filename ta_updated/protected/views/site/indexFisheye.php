@@ -12,7 +12,7 @@
 	var defaultPan;
 
 	<?php
-		if (!Yii::app()->user->isGuest)
+		if(!Yii::app()->user->isGuest)
 			echo ('userID='.Yii::app()->user->id.';');
 		else
 			echo 'userID="";';
@@ -25,7 +25,9 @@
 
 		if(isset(Yii::app()->session['IdPaper'])) {
 			// echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
-			echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,67,68,69,70,71";');
+			echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71";');
+			// 67 - 71 menjadi 5 data (1, 1, 1, 1, 1)
+			// 11, 54 - 56 menjadi 4 data (1, 1, 2)
 		} else {
 			echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
 			// echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,67,68,69,70,71";');
@@ -65,13 +67,8 @@
 <!-- Script ini digunakan untuk mendapatkan nilai-nilai default -->
 <script>
 	var a = "<?php echo Yii::app()->request->getParam('r');?>".split("/");
-	console.log("a");
-	console.log(a);
 
 	if(typeof a[2] === "undefined" || a.length == 2) {
-		console.log("Masuk if");
-		console.log("SelectedId");
-		console.log(SelectedId);
 		defaultParameter = SelectedId;
 	} else {
 		console.log("Masuk else");
@@ -327,7 +324,7 @@
 		width = 950 - margin.left - margin.right,
 		height = 510 - margin.top - margin.bottom;
 		
-		if ($("#mode_pan option:selected").text()=='Linier'){
+		if($("#mode_pan option:selected").text()=='Linier'){
 			var x = d3.scale.ordinal()
 			.rangeRoundBands([0, width], .1);
 	 
@@ -576,13 +573,13 @@
 			// Sorting angka
 			
 			// Fungsi apabila dipilih parameter pada sumbu x dengan nilai "Tahun Publikasi"
-			if ($("#sumbuX option:selected").text() == 'Tahun Publikasi') {
+			if($("#sumbuX option:selected").text() == 'Tahun Publikasi') {
 				// data.nodes = data.nodes;
 				// var i;
 				for(var i = 0; i < data.nodes.length; i++) {
 					data.nodes[i].sumbu_x = parseInt(data.nodes[i].sumbu_x);
 				}
- 				if ($("#mode_pan option:selected").text() == 'Linier'){
+ 				if($("#mode_pan option:selected").text() == 'Linier'){
 					posisiX = d3.scale.ordinal()          
 					.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
 					.rangeRoundBands([0, width+385], .1);
@@ -599,7 +596,7 @@
 				for(i = 0; i < data.nodes.length; i++) {
 					data.nodes[i].sumbu_x = data.nodes[i].sumbu_x.charAt(0).toUpperCase() + data.nodes[i].sumbu_x.slice(1);
 				}
-				if ($("#mode_pan option:selected").text() == 'Linier'){
+				if($("#mode_pan option:selected").text() == 'Linier'){
 					posisiX = d3.scale.ordinal()
 					.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
 					.rangeRoundBands([0, width + 385], .1);
@@ -612,12 +609,12 @@
 			}
 			
 			// Fungsi apabila dipilih parameter pada sumbu y dengan nilai "Tahun Publikasi"
-			if ($("#sumbuY option:selected").text() == 'Tahun Publikasi') {
+			if($("#sumbuY option:selected").text() == 'Tahun Publikasi') {
 				// Ubah angka string menjadi angka numeric
 				for(var i = 0; i < data.nodes.length; i++) {
 					data.nodes[i].sumbu_y = parseInt(data.nodes[i].sumbu_y);
 				}
- 				if ($("#mode_pan option:selected").text() == 'Linier'){
+ 				if($("#mode_pan option:selected").text() == 'Linier'){
 					posisiY = d3.scale.ordinal()
 					.rangeRoundBands([height + 230, 0], .1)
 					.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
@@ -631,7 +628,7 @@
 				for(i = 0; i < data.nodes.length; i++) {
 					data.nodes[i].sumbu_y = data.nodes[i].sumbu_y.charAt(0).toUpperCase() + data.nodes[i].sumbu_y.slice(1);
 				}
-				if ($("#mode_pan option:selected").text() == 'Linier'){
+				if($("#mode_pan option:selected").text() == 'Linier'){
 					posisiY = d3.scale.ordinal()
 					.rangeRoundBands([height + 230, 0], .1)
 					.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
@@ -811,14 +808,20 @@
 						realSize += d.size[iterator];
 					}
 
-					if (realSize == 2) {
+					if(realSize == 2) {
+						return 17.5;
+					} else if(realSize == 3) {
 						return 20;
-					} else if (realSize == 3) {
+					} else if(realSize == 4) {
+						return 22.5;
+					} else if(realSize == 5) {
 						return 25;
-					} else if (realSize == 4) {
+					} else if(realSize == 6) {
+						return 27.5;
+					} else if(realSize == 7) {
 						return 30;
-					} else if (realSize == 5) {
-						return 35;
+					} else if(realSize == 8) {
+						return 32.5;
 					}
 				}
 			})
@@ -856,12 +859,12 @@
 			// console.log(node.attr("transform"));
 			label.attr("transform", function(d, i) {
 				d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-				d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2)) + 10;
+				d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2) + 5);
 				
 				return "translate(" +
 				(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
 				+ ", " +
-				(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2)) + 10
+				(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2) + 5)
 				+ ")";
 			});	
 
@@ -894,7 +897,7 @@
 
 				// Fisheye untuk setiap node
 				node.each(function(d) { d.fisheye = fisheye(d); })
-				.attr("r", function(d) { return d.fisheye.z * 15 });
+				.attr("r", function(d) { return d.fisheye.z * 22.5 });
 				
 				// Fisheye untuk setiap label
 				label.each(function(d) { d.fisheye = fisheye(d); })
@@ -947,7 +950,7 @@
 				} else { // d.children.length > 1
 					// Periksa apakah boolean bernilai true / false untuk menentukan zoom level mana yang dipakai
 					// Menonaktifkan zoom pada level 0 dan mengaktifkan zoom pada level 1
-					if (zoomLevel0 == true) {
+					if(zoomLevel0 == true) {
 						elemParentEnter.on("mouseover", function(d, i) {});
 
 						var clickedParent = "circleParent-" + i;
@@ -960,6 +963,9 @@
 						zoomLevel2 = false;
 
 						var dataChild = getChildrenWithGrouping(d);
+										
+						console.log("dataChild");
+						console.log(dataChild);
 
 						if(dataChild.length == 2) {
 							dataChild.forEach(function(p, i) {
@@ -967,8 +973,8 @@
 									p.x = d.x;
 									p.y = d.y - 75;
 								} else if(i == 1) {
-									p.x = d.x + (75 * 0.5 * 1.4);
-									p.y = d.y - (75 * 0.5 * 1.4);
+									p.x = d.x + (75 * 0.7);
+									p.y = d.y - (75 * 0.7);
 								}
 							});
 						}
@@ -976,14 +982,14 @@
 						if(dataChild.length == 3) {
 							dataChild.forEach(function(p, i) {
 								if(i == 0) {
-									p.x = d.x - 75;
-									p.y = d.y;
+									p.x = d.x - (75 * 0.7);
+									p.y = d.y + (75 * 0.7);
 								} else if(i == 1) {
 									p.x = d.x;
-									p.y = d.y - 75;
+									p.y = d.y + 75;
 								} else if(i == 2) {
-									p.x = d.x + 75;
-									p.y = d.y;
+									p.x = d.x + (75 * 0.7);
+									p.y = d.y + (75 * 0.7);
 								}
 							});
 						}
@@ -991,16 +997,16 @@
 						if(dataChild.length == 4) {
 							dataChild.forEach(function(p, i) {
 								if(i == 0) {
+									p.x = d.x - (75 * 0.7);
+									p.y = d.y - (75 * 0.7);
+								} else if(i == 1) {
 									p.x = d.x;
 									p.y = d.y - 75;
-								} else if(i == 1) {
-									p.x = d.x + 75;
-									p.y = d.y;
 								} else if(i == 2) {
-									p.x = d.x;
-									p.y = d.y + 75;
+									p.x = d.x + (75 * 0.7);
+									p.y = d.y - (75 * 0.7);
 								} else if(i == 3) {
-									p.x = d.x - 75;
+									p.x = d.x + 75;
 									p.y = d.y;
 								}
 							});
@@ -1012,14 +1018,14 @@
 									p.x = d.x + 75;
 									p.y = d.y;
 								} else if(i == 1) {
-									p.x = d.x + (75 * 0.5 * 1.4);
-									p.y = d.y + (75 * 0.5 * 1.4);
+									p.x = d.x + (75 * 0.7);
+									p.y = d.y + (75 * 0.7);
 								} else if(i == 2) {
 									p.x = d.x;
 									p.y = d.y + 75;
 								} else if(i == 3) {
-									p.x = d.x - (75 * 0.5 * 1.4);
-									p.y = d.y + (75 * 0.5 * 1.4);
+									p.x = d.x - (75 * 0.7);
+									p.y = d.y + (75 * 0.7);
 								} else if(i == 4) {
 									p.x = d.x - 75;
 									p.y = d.y;
@@ -1044,7 +1050,24 @@
 						})
 						.attr("cx", function(p) { return p.x; })
 						.attr("cy", function(p) { return p.y; })
-						.attr("r", function(p, ii) { return 15; })
+						.attr("r", function(p, i) {
+							if(d.size[i] == 1) {
+								return 15;
+							}
+							else if(d.size[i] == 2) {
+								return 17.5;
+							} else if(d.size[i] == 3) {
+								return 20;
+							} else if(d.size[i] == 4) {
+								return 22.5;
+							} else if(d.size[i] == 5) {
+								return 25;
+							} else if(d.size[i] == 6) {
+								return 27.5;
+							} else if(d.size[i] == 7) {
+								return 30;
+							}
+						})
 						.style("fill", "#FFC2AD")
 						.style("stroke-width", "0px");
 						// .call(force.drag);
@@ -1132,37 +1155,98 @@
 								});
 							} else {
 								if(zoomLevel1 == true) {
-									zoomLevel0 = false;
-									zoomLevel1 = false;
-									zoomLevel2 = true;
-
 									elemParentEnter.on("mouseover", function(d, i) {});
 									elemChildEnter.on("mouseover", function(p, i) {});
-
+									
 									var clickedChild = "circleChild-" + i;
 
 									var circleChild = document.getElementById(clickedChild);
 									circleChild.classList.add("circleStroke2");
+									
+									zoomLevel0 = false;
+									zoomLevel1 = false;
+									zoomLevel2 = true;
+									
+									var dataGrandChild = p;
+									
+									console.log("dataGrandChild");
+									console.log(dataGrandChild);
+									
+									console.log("dataGrandChild.length");
+									console.log(dataGrandChild.length);
+									
+									var realSize = dataGrandChild.length - 1;
+									
+									// if(dataGrandChild[realSize] == null) {
+										// if(realSize == 2) {
+											// dataGrandChild.forEach(function(q, i) {
+												// if(i == 0) {
+													// q.x = p.x;
+													// q.y = p.y - 75;
+												// } else if(i == 1) {
+													// q.x = p.x + (75 * 0.7);
+													// q.y = p.y - (75 * 0.7);
+												// }
+											// });
+										// }
 
+										// if(realSize == 3) {
+											// console.log("p");
+											// console.log(p);
+											
+											// console.log("p.x");
+											// console.log(p.x);
+											
+											// console.log("p.y");
+											// console.log(p.y);
+													
+											// dataGrandChild.forEach(function(q, i) {
+												// if(i == 0) {
+													// q.x = p.x - (75 * 0.7);
+													// q.y = p.y - (75 * 0.7);
+												// } else if(i == 1) {
+													// q.x = p.x;
+													// q.y = p.y - 75;
+												// } else if(i == 2) {
+													// q.x = p.x + (75 * 0.7);
+													// q.y = p.y - (75 * 0.7);
+												// }
+											// });
+										// }
+									// }
+									
+									if(dataGrandChild.length == 2) {
+											dataGrandChild.forEach(function(q, i) {
+												if(i == 0) {
+													q.x = p.x;
+													q.y = p.y - 75;
+												} else if(i == 1) {
+													q.x = p.x + (75 * 0.7);
+													q.y = p.y - (75 * 0.7);
+												}
+											});
+										}
+
+										if(dataGrandChild.length == 3) {
+											dataGrandChild.forEach(function(q, i) {
+												if(i == 0) {
+													q.x = p.x - 75;
+													q.y = p.y;
+												} else if(i == 1) {
+													q.x = p.x - (75 * 0.7);
+													q.y = p.y +(75 * 0.7);
+												} else if(i == 2) {
+													q.x = p.x;
+													q.y = p.y + 75;
+												}
+											});
+										}
+									
 									// Ubah warna paperParent
 									node.style("fill", "#DDDDDD");
 
 									// Ubah warna paperChild
 									nodeChild.style("fill", "#DDDDDD");
-
-									// var dataGrandChild = p[0].children;
-									var dataGrandChild = p;
-
-									dataGrandChild.forEach(function(q, i) {
-										if(i == 0) {
-											q.x = p.x;
-											q.y = p.y - 75;
-										}
-										else if (i == 1) {
-											q.x = p.x + 75;
-											q.y = p.y;
-										}
-									});
 
 									var elemGrandChild = svgFisheye.select(".draggable").selectAll("g.circle")
 									.data(dataGrandChild);
@@ -1311,7 +1395,7 @@
 
 							// Fisheye untuk setiap node
 							node.each(function(d) { d.fisheye = fisheye(d); })
-							.attr("r", function(d) { return d.fisheye.z * 15});
+							.attr("r", function(d) { return d.fisheye.z * 22.5});
 
 							// Fisheye untuk setiap label
 							label.each(function(d) { d.fisheye = fisheye(d); })
