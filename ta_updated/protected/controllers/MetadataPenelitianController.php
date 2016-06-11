@@ -173,8 +173,8 @@ class MetadataPenelitianController extends Controller
 	
 	public function actionGetData()
 	{
-		$parameter=$_POST['parameter'];
-		$edge=$_POST['edge'];
+		$parameter = $_POST['parameter'];
+		$edge = $_POST['edge'];
 		
 		Yii::app()->session['Edge'] = $edge;
 		Yii::app()->session['sbX'] = $_POST['sumbuX'];
@@ -236,7 +236,7 @@ class MetadataPenelitianController extends Controller
 			$dbCommand = Yii::app()->db->createCommand($sql);
 			$data = $dbCommand->queryAll();
 			
-			//ambil data penelitian tanpa id
+			// Ambil data penelitian tanpa id
 			$sql = "SELECT ".$sumbuX.",".$sumbuY.",keyword FROM data_penelitian";
 			$dbCommand = Yii::app()->db->createCommand($sql);
 			$data2 = $dbCommand->queryAll();
@@ -247,7 +247,7 @@ class MetadataPenelitianController extends Controller
 			$dbCommand = Yii::app()->db->createCommand($sql);
 			$data = $dbCommand->queryAll();
 			
-			//ambil data penelitian tanpa id
+			// Ambil data penelitian tanpa id
 			$sql = "SELECT ".$sumbuX.",".$sumbuY.",keyword FROM data_penelitian where id in (".$parameter.")";
 			$dbCommand = Yii::app()->db->createCommand($sql);
 			$data2 = $dbCommand->queryAll();
@@ -264,7 +264,7 @@ class MetadataPenelitianController extends Controller
 		$tmp = array ();
 		$tmp2 = array ();
 		
-		// Buat data penelitian yang sudah diambil menjadi unik --> masukkann ke tmp
+		// Buat data penelitian yang sudah diambil menjadi unik --> masukkan ke tmp
 		foreach ($data2 as $row) 
 			if (!in_array($row,$tmp)) array_push($tmp,$row);
 		
@@ -284,17 +284,17 @@ class MetadataPenelitianController extends Controller
 		// Masukkan id dan r pada tmp sesuai data sebenarnya (data)
 		for ($i = 0; $i < count($tmp); $i++) {
 			for ($j = 0; $j < count($data); $j++) {				
-				if(($tmp[$i][''.$sumbuX.'']==$data[$j][''.$sumbuX.'']) && ($tmp[$i][''.$sumbuY.'']==$data[$j][''.$sumbuY.'']))
+				if(($tmp[$i][''.$sumbuX.''] == $data[$j][''.$sumbuX.'']) && ($tmp[$i][''.$sumbuY.''] == $data[$j][''.$sumbuY.'']))
 				{
 					//$tmp[$i]['r']+=1;
-					array_push($tmp[$i]['id'],$data[$j]['id']);
-					array_push($tmp[$i]['keyword'],$data[$j]['keyword']);
+					array_push($tmp[$i]['id'], $data[$j]['id']);
+					array_push($tmp[$i]['keyword'], $data[$j]['keyword']);
 				}				
 			}
 		}
 		
 		foreach ($tmp as $row) 
-			if (!in_array($row,$tmp2)) array_push($tmp2,$row);
+			if (!in_array($row, $tmp2)) array_push($tmp2, $row);
 		
 		
 		// Ganti nama sumbu menjadi 'sumbu x'
@@ -306,7 +306,7 @@ class MetadataPenelitianController extends Controller
 		}
 		
 		// Array untuk menyimpan child dan parent
-		$tmp3=array();
+		$tmp3 = array();
 		for ($i = 0; $i < count($tmp2); $i++) {
 			if(count($tmp2[$i]['id']) > 1) {
 				for ($j = 0; $j < count($tmp2[$i]['id']); $j++) {
@@ -339,14 +339,16 @@ class MetadataPenelitianController extends Controller
 				$tmp2[$i]['size'] = [1, 2];
 			} else if(count($tmp2[$i]['children']) == 4) {
 				$tmp2[$i]['size'] = [2, 2];
+			} else if(count($tmp2[$i]['children']) == 5) {
+				$tmp2[$i]['size'] = [1, 1, 1, 1, 1];
 			}
 		}
 		
-		$data3=array();
+		$data3 = array();
 		
 		// Untuk membuat citation
-		$data3['nodes']=$tmp2;
-		$data3['links']=array();
+		$data3['nodes'] = $tmp2;
+		$data3['links'] = array();
 		
 		for ($i = 0; $i < count($edgeData); $i++) {
 		/*
@@ -358,9 +360,9 @@ class MetadataPenelitianController extends Controller
 					{
 						if($tmp2[$i]['citation']==$tmp2[$j]['id'][$k])
 						{	*/						
-							$data3['links'][$i]['source']=$edgeData[$i]['id_paper_1'];
-							$data3['links'][$i]['target']=$edgeData[$i]['id_paper_2'];
-							$data3['links'][$i]['value']=1;
+							$data3['links'][$i]['source'] = $edgeData[$i]['id_paper_1'];
+							$data3['links'][$i]['target'] = $edgeData[$i]['id_paper_2'];
+							$data3['links'][$i]['value'] = 1;
 							/*break;
 						}						
 					}					

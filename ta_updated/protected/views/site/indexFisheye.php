@@ -24,9 +24,11 @@
 		}
 
 		if(isset(Yii::app()->session['IdPaper'])) {
-			echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
+			// echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
+			echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,67,68,69,70,71";');
 		} else {
-			echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19";');
+			echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
+			// echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,67,68,69,70,71";');
 		}
 
 		if(isset(Yii::app()->session['Edge'])) {
@@ -63,10 +65,16 @@
 <!-- Script ini digunakan untuk mendapatkan nilai-nilai default -->
 <script>
 	var a = "<?php echo Yii::app()->request->getParam('r');?>".split("/");
+	console.log("a");
+	console.log(a);
 
-	if(typeof a[2] === "undefined" || a.length==2) {
+	if(typeof a[2] === "undefined" || a.length == 2) {
+		console.log("Masuk if");
+		console.log("SelectedId");
+		console.log(SelectedId);
 		defaultParameter = SelectedId;
 	} else {
+		console.log("Masuk else");
 		defaultX = a[2];
 		defaultY = a[3];
 		defaultParameter = a[4];
@@ -352,7 +360,7 @@
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		 
 		var parameter;   
-		parameter="8,10,11,12,13,14,15,16,17,18,19";
+		parameter="8,10,11,12,13,14,15,16,17,18,19,67,68,69,70,71";
 				 
 		var force = d3.layout.force();
 		var sumbuX;
@@ -574,7 +582,7 @@
 				for(var i = 0; i < data.nodes.length; i++) {
 					data.nodes[i].sumbu_x = parseInt(data.nodes[i].sumbu_x);
 				}
- 				if ($("#mode_pan option:selected").text()=='Linier'){
+ 				if ($("#mode_pan option:selected").text() == 'Linier'){
 					posisiX = d3.scale.ordinal()          
 					.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
 					.rangeRoundBands([0, width+385], .1);
@@ -591,7 +599,7 @@
 				for(i = 0; i < data.nodes.length; i++) {
 					data.nodes[i].sumbu_x = data.nodes[i].sumbu_x.charAt(0).toUpperCase() + data.nodes[i].sumbu_x.slice(1);
 				}
-				if ($("#mode_pan option:selected").text()=='Linier'){
+				if ($("#mode_pan option:selected").text() == 'Linier'){
 					posisiX = d3.scale.ordinal()
 					.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_x, b.sumbu_x)}).map(function(d) { return d.sumbu_x; }))
 					.rangeRoundBands([0, width + 385], .1);
@@ -609,7 +617,7 @@
 				for(var i = 0; i < data.nodes.length; i++) {
 					data.nodes[i].sumbu_y = parseInt(data.nodes[i].sumbu_y);
 				}
- 				if ($("#mode_pan option:selected").text()=='Linier'){
+ 				if ($("#mode_pan option:selected").text() == 'Linier'){
 					posisiY = d3.scale.ordinal()
 					.rangeRoundBands([height + 230, 0], .1)
 					.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
@@ -623,7 +631,7 @@
 				for(i = 0; i < data.nodes.length; i++) {
 					data.nodes[i].sumbu_y = data.nodes[i].sumbu_y.charAt(0).toUpperCase() + data.nodes[i].sumbu_y.slice(1);
 				}
-				if ($("#mode_pan option:selected").text()=='Linier'){
+				if ($("#mode_pan option:selected").text() == 'Linier'){
 					posisiY = d3.scale.ordinal()
 					.rangeRoundBands([height + 230, 0], .1)
 					.domain(data.nodes.sort(function(a, b) { return d3.ascending(a.sumbu_y, b.sumbu_y)}).map(function(d) { return d.sumbu_y; }));
@@ -809,6 +817,8 @@
 						return 25;
 					} else if (realSize == 4) {
 						return 30;
+					} else if (realSize == 5) {
+						return 35;
 					}
 				}
 			})
@@ -846,12 +856,12 @@
 			// console.log(node.attr("transform"));
 			label.attr("transform", function(d, i) {
 				d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-				d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+				d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2)) + 10;
 				
 				return "translate(" +
 				(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
 				+ ", " +
-				(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+				(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2)) + 10
 				+ ")";
 			});	
 
@@ -957,8 +967,8 @@
 									p.x = d.x;
 									p.y = d.y - 75;
 								} else if(i == 1) {
-									p.x = d.x + 75;
-									p.y = d.y;
+									p.x = d.x + (75 * 0.5 * 1.4);
+									p.y = d.y - (75 * 0.5 * 1.4);
 								}
 							});
 						}
@@ -990,6 +1000,27 @@
 									p.x = d.x;
 									p.y = d.y + 75;
 								} else if(i == 3) {
+									p.x = d.x - 75;
+									p.y = d.y;
+								}
+							});
+						}
+						
+						if(dataChild.length == 5) {
+							dataChild.forEach(function(p, i) {
+								if(i == 0) {
+									p.x = d.x + 75;
+									p.y = d.y;
+								} else if(i == 1) {
+									p.x = d.x + (75 * 0.5 * 1.4);
+									p.y = d.y + (75 * 0.5 * 1.4);
+								} else if(i == 2) {
+									p.x = d.x;
+									p.y = d.y + 75;
+								} else if(i == 3) {
+									p.x = d.x - (75 * 0.5 * 1.4);
+									p.y = d.y + (75 * 0.5 * 1.4);
+								} else if(i == 4) {
 									p.x = d.x - 75;
 									p.y = d.y;
 								}
@@ -1593,12 +1624,12 @@
 						
 						label.attr("transform", function(d, i) {
 							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2)) + 10;
 							
 							return "translate(" +
 							(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
 							+ ", " +
-							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
+							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2)) + 10
 							+ ")";
 						});
 
@@ -2224,7 +2255,7 @@
 					var total = $('#AddedPaper tbody tr').length;
 					SelectedId=$('#AddedPaper tbody tr').attr('id') + ',';
 					$('#AddedPaper tbody tr').each(function(index) {
-						if(index==0) {}
+						if(index == 0) {}
 						else {
 							if(index == total - 1) {
 								SelectedId = SelectedId+$(this).attr('id');
