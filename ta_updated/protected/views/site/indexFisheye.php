@@ -667,7 +667,7 @@
 					start = minimum / 2;
 				}
 			}
-			 
+			
 			var posisiR = d3.scale.linear()
 			.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) { return d.id.length; }))])
 			.range([start, minimum / 2]);
@@ -1597,18 +1597,26 @@
 				canvasChart.select('.overviewmap').remove();
 				d3.select('#reset').style('visibility','hidden');
 
-				// wrapperInner.select(".background").on("mousemove.tooltip", function(d){
-				// 	svgFisheye.append("text")
-				// 	.text("Press Ctrl key to pan")
-				// 	.style("fill","blue")
-				// 	.attr("x",d3.mouse(this)[0]).attr("y",d3.mouse(this)[1]);
-				// });
 				//respond to the mouse and distort where necessary
 				wrapperInner.select(".background").on("mousemove", function(d,i){
-					var mouse = d3.mouse(this);
+			
 					if(d3.event.ctrlKey){	//if the ctrl key is pressed
+						// div.style("display","none");
+						var mouse = d3.mouse(this);
 						posisiX.distortion(2).focus(mouse[0]);
 						posisiY.distortion(2).focus(mouse[1]);
+						// posisiR.distortion(2);
+
+						// Menutup zoom
+						d3.select(".paperChild").remove();
+						d3.select(".paperGrandChild").remove();
+
+						// Menghilangkan border
+						circleParent = document.getElementsByClassName("circleStroke");
+						d3.select(circleParent).remove();
+
+						// Mengembalikan warna paper parent
+						node.style("fill", "#FFC2AD"); 
 
 						// Redraw nodes, labels, and links
 						node.attr("transform", function(d, i) {
@@ -1710,6 +1718,7 @@
 					}
 				});
 			}
+
 			/* PANNING WITH NAVIGATION WINDOW TECHNIQUE (OVERVIEW MAP) */	
 			function overviewmap(selection) {
 				var target = panCanvas,

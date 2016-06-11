@@ -1005,7 +1005,7 @@
 				d3.select('#reset').style('visibility','hidden');
 				//respond to the mouse and distort where necessary
 				chart.select(".background").on("mousemove", function(){
-				if(!d3.event.ctrlKey){	//if the ctrl key is not pressed
+				if(d3.event.ctrlKey){	//if the ctrl key is not pressed
 					var mouse = d3.mouse(this);
 					x.distortion(2).focus(mouse[0]);
 					y.distortion(2).focus(mouse[1]);
