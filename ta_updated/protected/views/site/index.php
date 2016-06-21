@@ -175,13 +175,13 @@
 				});
 				
 				// Memulai help
-				// intro.start();
-				/*
+				intro.start();
+				
 				$(".introjs-button introjs-nextbutton").click(function(){
 					intro.setOption('doneLabel', 'Lihat zooming').start().oncomplete(function() {
 						$( "#3" ).trigger( "click" );
 					});
-				});*/
+				});
 			}
 			
 			if(userID == "") {
@@ -707,10 +707,10 @@
 					start = minimum / 2;
 				}
 			}
-			 
+			
 			var r = d3.scale.linear()
-			.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) { return d.id.length; }))])
-			.range([start, minimum / 2]);
+				.domain([d3.min(data.nodes.map(function(d) {return d.id.length; })), d3.max(data.nodes.map(function(d) { return d.id.length; }))])
+				.range([start, minimum / 2]);
 			 
 			xAxis = d3.svg.axis().scale(x).outerTickSize(0).orient("bottom").tickFormat(function(d) {
 				if(d.length > minimum / 10) {

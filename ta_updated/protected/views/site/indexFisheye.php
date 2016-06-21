@@ -380,39 +380,15 @@
 		.attr("class", "y axis")
 		.attr("transform", "translate(0,0)")
 		.call(yAxis);
- 
-		// Fungsi untuk menggambar kembali tampilan sesuai dengan parameter yang dipilih
-		function redraw(dataString) {
-			//////////////////////
-			// Variabel William //
-			//////////////////////
-			
-			var zoomLevel0 = true;
-			var zoomLevel1 = false;
-			var zoomLevel2 = false;
- 
-			// Untuk mempersiapkan layout
-			var force = d3.layout.force()
-			.charge(-240)
-			.linkDistance(40)
-			.size([width, height]);
- 
-			// Ambil kelas .chart lalu buat tag g dengan atribut width dan height di dalamnya
-			var svgFisheye = d3.select(".chart")
+
+		var svgFisheye = d3.select(".chart")
 			.append("g")
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", 515)
 			.attr('class','wrapper map')
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
- 
-			var fisheye = d3.fisheye.circular()
-			.radius(100);
-
-			////////////////////
-			// Variabel Riska //
-			////////////////////
-
-			svgFisheye.append('rect')
+ 		
+ 		svgFisheye.append('rect')
 			.attr('class', 'background')
 			.attr('pointer-events', 'all')
 			.style('cursor','move')
@@ -524,20 +500,32 @@
 			overviewRadialFill.append("stop")
 			.attr("offset", "100%")
 			.attr("stop-color", "#E0E0E0");
-
-			///////////////////////////////////////////
-			// Persiapan membuat garis sumbu x dan y //
-			///////////////////////////////////////////
-
-			// svgFisheye.append("g")
-			// .attr("class", "x axis")
-			// .attr("transform", "translate(0, " + height + ")")
-			// .call(xAxis);
-	 
-			// svgFisheye.append("g")
-			// .attr("class", "y axis")
-			// .attr("transform", "translate(0, 0)")
-			// .call(yAxis);
+		// Fungsi untuk menggambar kembali tampilan sesuai dengan parameter yang dipilih
+		function redraw(dataString) {
+			//////////////////////
+			// Variabel William //
+			//////////////////////
+			
+			var zoomLevel0 = true;
+			var zoomLevel1 = false;
+			var zoomLevel2 = false;
+ 
+			// Untuk mempersiapkan layout
+			var force = d3.layout.force()
+			.charge(-240)
+			.linkDistance(40)
+			.size([width, height]);
+ 
+			// Ambil kelas .chart lalu buat tag g dengan atribut width dan height di dalamnya
+			// var svgFisheye = d3.select(".chart")
+			// .append("g")
+			// .attr("width", width + margin.left + margin.right)
+			// .attr("height", 515)
+			// .attr('class','wrapper map')
+			// .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+ 
+			var fisheye = d3.fisheye.circular()
+			.radius(100);
 
 			///////////////////////////////////////////////////
 			// Persiapan membuat garis sumbu x dan y selesai //
@@ -1625,6 +1613,8 @@
 			function grabAndDrag(selection){
 				// svgFisheye.select('.background').on('mousemove', null);
 				d3.select('#reset').style('visibility','visible');
+				selection.select(".textInfo").remove();
+
 				selection.append('rect')
 				.attr('class', 'block')
 				.attr('fill', 'white')
@@ -1656,7 +1646,6 @@
 					d3.select(".draggable").attr('transform', 'translate(' + (x) + ',' + (y) + ')');
 					d3.select(".x").attr('transform', 'translate(' + (x) + ',' + height + ')');	
 					d3.select(".y").attr('transform', 'translate(' + 0 + ',' + (y) + ')');
-					// var transformTarget = getXYTranslate(panCanvas.attr("transform"));
 					d3.select(".frame").attr("transform", "translate(" + (-x) + "," + (-y) + ")");
 				}
 				wrapperInner.select('.background').call(drag);
@@ -1677,15 +1666,18 @@
 
 			/* PANNING WITH DISTORTION */
 			function distortion(selection){
-				// svgFisheye.select('.background').on('mousedown.drag', null);
+				wrapperInner.select('.background').on('mousedown.drag', null);
 				canvasChart.select('.overviewmap').remove();
 				d3.select('#reset').style('visibility','hidden');
-
+				
+				selection.append("text")
+					.attr("class","textInfo")
+					.text("* Press Ctrl Key To Pan")
+					.attr("transform","translate(10,0)")
+					.style("fill","#46b8da");
 				//respond to the mouse and distort where necessary
 				wrapperInner.select(".background").on("mousemove", function(d,i){
-			
 					if(d3.event.ctrlKey){	//if the ctrl key is pressed
-						// div.style("display","none");
 						var mouse = d3.mouse(this);
 						posisiX.distortion(2).focus(mouse[0]);
 						posisiY.distortion(2).focus(mouse[1]);
@@ -2383,6 +2375,7 @@
 				// 	alert("Jumlah paper melebihi 21. Kurangi paper");
 				// }
 				d3.select('.frame').remove();
+				canvasChart.select('.overviewmap').remove();
 			});
 		};
 
