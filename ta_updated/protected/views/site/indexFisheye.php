@@ -24,13 +24,13 @@
 		}
 
 		if(isset(Yii::app()->session['IdPaper'])) {
-			// echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
-			echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71";');
+			echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
+			// echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71";');
 			// 67 - 71 menjadi 5 data (1, 1, 1, 1, 1)
 			// 11, 54 - 56 menjadi 4 data (1, 1, 2)
 		} else {
-			echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
-			// echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,67,68,69,70,71";');
+			// echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
+			echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,67,68,69,70,71";');
 		}
 
 		if(isset(Yii::app()->session['Edge'])) {
@@ -885,7 +885,14 @@
 
 				// Fisheye untuk setiap node
 				node.each(function(d) { d.fisheye = fisheye(d); })
-				.attr("r", function(d) { return d.fisheye.z * 22.5 });
+				.attr("r", function(d) {
+					// if(d.r <= 15) {
+						// return d.fisheye.z * 15;
+					// }
+					// else if(d.r > 15) {
+						return d.fisheye.z * 17;
+					// }
+				});
 				
 				// Fisheye untuk setiap label
 				label.each(function(d) { d.fisheye = fisheye(d); })
@@ -1676,7 +1683,7 @@
 					.attr("transform","translate(10,0)")
 					.style("fill","#46b8da");
 				//respond to the mouse and distort where necessary
-				wrapperInner.select(".background").on("mousemove", function(d,i){
+				wrapperInner.select(".background").on("mousemove", function(d, i){
 					if(d3.event.ctrlKey){	//if the ctrl key is pressed
 						var mouse = d3.mouse(this);
 						posisiX.distortion(2).focus(mouse[0]);
@@ -1688,8 +1695,15 @@
 						d3.select(".paperGrandChild").remove();
 
 						// Menghilangkan border
-						circleParent = document.getElementsByClassName("circleStroke");
-						d3.select(circleParent).remove();
+						var circleParent = document.getElementsByClassName("circleStroke");
+
+						if(circleParent[0] != null) {
+							circleParent[0].classList.remove("circleStroke");
+						}
+
+						zoomLevel0 = true;
+						zoomLevel1 = false;
+						zoomLevel2 = false;
 
 						// Mengembalikan warna paper parent
 						node.style("fill", "#FFC2AD"); 
