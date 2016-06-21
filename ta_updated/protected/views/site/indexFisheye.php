@@ -25,12 +25,15 @@
 
 		if(isset(Yii::app()->session['IdPaper'])) {
 			echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
+			// echo ('SelectedId="7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";');
 			// echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71";');
 			// 67 - 71 menjadi 5 data (1, 1, 1, 1, 1)
-			// 11, 54 - 56 menjadi 4 data (1, 1, 2)
+			// 11, 54 - 56, 158, 159, 160 menjadi 7 data (1, 1, 1, 1, 1, 1, 1) 
+			// 72, 157, 168, 170, 174, 175 menjadi 6 data (1, 1, 1, 3)
 		} else {
 			// echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
-			echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,67,68,69,70,71";');
+			echo ('SelectedId="7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";');
+			// echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,67,68,69,70,71";');
 		}
 
 		if(isset(Yii::app()->session['Edge'])) {
@@ -357,7 +360,7 @@
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		 
 		var parameter;   
-		parameter="8,10,11,12,13,14,15,16,17,18,19,67,68,69,70,71";
+		parameter="7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";
 				 
 		var force = d3.layout.force();
 		var sumbuX;
@@ -890,7 +893,7 @@
 						// return d.fisheye.z * 15;
 					// }
 					// else if(d.r > 15) {
-						return d.fisheye.z * 17;
+						return d.fisheye.z * 20;
 					// }
 				});
 				
@@ -975,55 +978,59 @@
 						}
 
 						if(dataChild.length == 3) {
-							dataChild.forEach(function(p, i) {
-								if(i == 0) {
-									p.x = d.x - (75 * 0.7);
-									p.y = d.y + (75 * 0.7);
-								} else if(i == 1) {
-									p.x = d.x;
-									p.y = d.y + 75;
-								} else if(i == 2) {
-									p.x = d.x + (75 * 0.7);
-									p.y = d.y + (75 * 0.7);
-								}
-							});
-						}
-
-						if(dataChild.length == 4) {
-							dataChild.forEach(function(p, i) {
-								if(i == 0) {
-									p.x = d.x - (75 * 0.7);
-									p.y = d.y - (75 * 0.7);
-								} else if(i == 1) {
-									p.x = d.x;
-									p.y = d.y - 75;
-								} else if(i == 2) {
-									p.x = d.x + (75 * 0.7);
-									p.y = d.y - (75 * 0.7);
-								} else if(i == 3) {
-									p.x = d.x + 75;
-									p.y = d.y;
-								}
-							});
+							// Data divisualisasikan di dekat sumbu Y yang di kiri
+							if(d.x <= 50) {
+								dataChild.forEach(function(p, i) {
+									if(i == 0) {
+										p.x = d.x;
+										p.y = d.y - 75;
+									} else if(i == 1) {
+										p.x = d.x + (75 * 0.7);
+										p.y = d.y - (75 * 0.7);
+									} else if(i == 2) {
+										p.x = d.x + 75;
+										p.y = d.y;
+									}
+								});
+							} else {
+								dataChild.forEach(function(p, i) {
+									if(i == 0) {
+										p.x = d.x - (75 * 0.7);
+										p.y = d.y + (75 * 0.7);
+									} else if(i == 1) {
+										p.x = d.x;
+										p.y = d.y + 75;
+									} else if(i == 2) {
+										p.x = d.x + (75 * 0.7);
+										p.y = d.y + (75 * 0.7);
+									}
+								});
+							}
 						}
 						
-						if(dataChild.length == 5) {
+						if(dataChild.length == 7) {
 							dataChild.forEach(function(p, i) {
 								if(i == 0) {
-									p.x = d.x + 75;
-									p.y = d.y;
-								} else if(i == 1) {
-									p.x = d.x + (75 * 0.7);
-									p.y = d.y + (75 * 0.7);
-								} else if(i == 2) {
-									p.x = d.x;
-									p.y = d.y + 75;
-								} else if(i == 3) {
 									p.x = d.x - (75 * 0.7);
 									p.y = d.y + (75 * 0.7);
-								} else if(i == 4) {
+								} else if(i == 1) {
 									p.x = d.x - 75;
 									p.y = d.y;
+								} else if(i == 2) {
+									p.x = d.x - (75 * 0.7);
+									p.y = d.y - (75 * 0.7);
+								} else if(i == 3) {
+									p.x = d.x;
+									p.y = d.y - 75;
+								} else if(i == 4) {
+									p.x = d.x + (75 * 0.7);
+									p.y = d.y - (75 * 0.7);
+								} else if(i == 5) {
+									p.x = d.x + 75;
+									p.y = d.y;
+								} else if(i == 6) {
+									p.x = d.x + (75 * 0.7);
+									p.y = d.y + (75 * 0.7);
 								}
 							});
 						}
@@ -1229,11 +1236,43 @@
 													q.y = p.y;
 												} else if(i == 1) {
 													q.x = p.x - (75 * 0.7);
-													q.y = p.y +(75 * 0.7);
+													q.y = p.y + (75 * 0.7);
 												} else if(i == 2) {
 													q.x = p.x;
 													q.y = p.y + 75;
 												}
+											});
+										}
+										
+										if(dataGrandChild.length == 4) {
+											dataGrandChild.forEach(function(q, i) {
+												if(i == 0) {
+													q.x = p.x;
+													q.y = p.y - 75;
+												} else if(i == 1) {
+													q.x = p.x + (75 * 0.7);
+													q.y = p.y - (75 * 0.7);
+												} else if(i == 2) {
+													q.x = p.x + 75;
+													q.y = p.y;
+												} else if(i == 3) {
+													q.x = p.x + 75;
+													q.y = p.y + (75 * 0.7);
+												}
+												
+												// if(i == 0) {
+													// q.x = p.x - (75 * 0.7);
+													// q.y = p.y - 75;
+												// } else if(i == 1) {
+													// q.x = p.x;
+													// q.y = p.y - 75;
+												// } else if(i == 2) {
+													// q.x = p.x + (75 * 0.7);
+													// q.y = p.y - (75 * 0.7);
+												// } else if(i == 3) {
+													// q.x = p.x + 75;
+													// q.y = p.y;
+												// }
 											});
 										}
 									
@@ -1390,7 +1429,7 @@
 
 							// Fisheye untuk setiap node
 							node.each(function(d) { d.fisheye = fisheye(d); })
-							.attr("r", function(d) { return d.fisheye.z * 22.5});
+							.attr("r", function(d) { return d.fisheye.z * 21});
 
 							// Fisheye untuk setiap label
 							label.each(function(d) { d.fisheye = fisheye(d); })

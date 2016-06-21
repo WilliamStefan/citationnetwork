@@ -341,6 +341,12 @@ class MetadataPenelitianController extends Controller
 				$tmp2[$i]['size'] = [1, 1, 1, 1];
 			} else if(count($tmp2[$i]['children']) == 5) {
 				$tmp2[$i]['size'] = [3, 1, 1];
+			} else if(count($tmp2[$i]['children']) == 6) {
+				$tmp2[$i]['size'] = [1, 4, 1];
+			} else if(count($tmp2[$i]['children']) == 7) {
+				$tmp2[$i]['size'] = [1, 1, 1, 1, 1, 1, 1];
+			} else if(count($tmp2[$i]['children']) == 8) {
+				$tmp2[$i]['size'] = [3, 1, 1];
 			}
 		}
 		
