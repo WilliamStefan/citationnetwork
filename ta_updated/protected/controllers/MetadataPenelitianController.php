@@ -330,6 +330,7 @@ class MetadataPenelitianController extends Controller
 			}
 		}
 
+		// Masukkan algoritma pengelompokkan data di sini
 		for ($i = 0; $i < count($tmp2); $i++) {
 			if(count($tmp2[$i]['children']) == 1) {
 				$tmp2[$i]['size'] = [1];

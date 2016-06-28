@@ -304,7 +304,7 @@
 	<div class="left-content" style="width:80%">
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
-		<button id="reset" style="margin-left: 150px;" class="btn btn-info">Reset</button>
+		<button id="reset" style="margin-left: 150px;" class="btn btn-info">Reset pan</button>
 		<!-- Container untuk zoom menggunakan breadcrumb pada level 0 -->
 		<!-- <p id="chart"> -->
 			<svg class="chart" id="chart"></svg>
