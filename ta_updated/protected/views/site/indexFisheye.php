@@ -25,7 +25,6 @@
 		}
 
 		if(isset(Yii::app()->session['IdPaper'])) {
-
 			echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
 			// echo ('SelectedId="7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";');
 			// echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71";');
@@ -1549,12 +1548,13 @@
 						}
 					}
 				})
-				.style("fill", "#FFC2AD");
+				.style("fill", "#3B5998");
 
 				// Buat tag text di dalam tag lingkaran dengan class label
 				var label = elemParentEnter.append("text")
 				.attr("class", "labelParent")
 				.attr("font-family", "sans-serif") // Jenis font
+				.style("fill", "white") // Warna font
 				.attr("font-size", "14px") // Ukuran font
 				.attr("text-anchor", "middle")
 				// .attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
@@ -1569,6 +1569,16 @@
 
 					return realSize;
 				});
+				
+				$('.labelParent').hover(
+					function() {
+						$(this).attr("font-size", "30px") // Ukuran font
+					},
+					
+					function() {
+						$(this).attr("font-size", "14px") // Ukuran font
+					}
+				);
 			}
 			else{	// Mode pan = Distorsi
 				// Mengatur jari-jari lingkaran dan ukuran text pada saat mode pan distorsi
@@ -1583,12 +1593,12 @@
 					var xFeye, yFeye, a, b;
 					xFeye = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
 					yFeye = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
-					a = Math.abs(rmax-(Math.abs(60-xFeye)/rmax));
-					b = Math.abs(rmax-(Math.abs(60-yFeye)/rmax));
-					if (a<b) {return a; }
+					a = Math.abs(rmax - (Math.abs(60 - xFeye) / rmax));
+					b = Math.abs(rmax - (Math.abs(60 - yFeye) / rmax));
+					if (a < b) {return a; }
 					else { return b; }				
 				})
-				.style("fill", "#FFC2AD");
+				.style("fill", "#3B5998");
 
 				// Buat tag text di dalam tag lingkaran dengan class label
 				var label = elemParentEnter.append("text")
@@ -1600,10 +1610,10 @@
 					var xFeye, yFeye, a, b, r;
 					xFeye = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
 					yFeye = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
-					a = Math.abs(rmax-(Math.abs(150-xFeye)/rmax));
-					b = Math.abs(rmax-(Math.abs(150-yFeye)/rmax));
-					if (a<b) { r=a; }
-					else { r=b; }
+					a = Math.abs(rmax - (Math.abs(150 - xFeye) / rmax));
+					b = Math.abs(rmax - (Math.abs(150 - yFeye) / rmax));
+					if (a < b) { r = a; }
+					else { r = b; }
 
 					//ukuran font text relatif terhadap jari-jari lingkaran
 					return Math.abs(fontmax-(r+8));
@@ -2751,7 +2761,7 @@
 						zoomLevel2 = false;
 
 						// Mengembalikan warna paper parent
-						node.style("fill", "#FFC2AD"); 
+						node.style("fill", "#3B5998"); 
 
 						// Redraw nodes, labels, and links
 						node.attr("transform", function(d, i) {
