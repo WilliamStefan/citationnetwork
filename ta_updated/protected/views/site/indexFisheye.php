@@ -24,13 +24,13 @@
 		}
 
 		if(isset(Yii::app()->session['IdPaper'])) {
-			echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
-			// echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71";');
+			// echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
+			echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71";');
 			// 67 - 71 menjadi 5 data (1, 1, 1, 1, 1)
 			// 11, 54 - 56 menjadi 4 data (1, 1, 2)
 		} else {
-			// echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
-			echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,67,68,69,70,71";');
+			echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
+			// echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71";');
 		}
 
 		if(isset(Yii::app()->session['Edge'])) {
@@ -357,7 +357,7 @@
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		 
 		var parameter;   
-		parameter="8,10,11,12,13,14,15,16,17,18,19,67,68,69,70,71";
+		parameter="8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71";
 				 
 		var force = d3.layout.force();
 		var sumbuX;
@@ -775,65 +775,117 @@
 				+ (posisiY.rangeBand() / 2);
 			});
 
-			// Buat tag circle di dalam tag lingkaran dengan class nodeParent
-			var node = elemParentEnter.append("circle")
-			.attr("class", "nodeParent")
-			.attr("id", function(d, i) {
-				return "circleParent-" + i;  // id tiap circle
-			})
-			// .attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
-			// .attr("cy", function(d, i) { return d.y; }) // Koordinat lingkaran pada sumbu y
-			.attr("r", function(d, i) {
-				// Mengatur jari-jari lingkaran
-				if(d.size.length == 1) {
-					if(d.size[0] == 1) {
-						return 15;
+			if($("#mode_pan option:selected").text() == 'Linier'){
+				// Buat tag circle di dalam tag lingkaran dengan class nodeParent
+				var node = elemParentEnter.append("circle")
+				.attr("class", "nodeParent")
+				.attr("id", function(d, i) {
+					return "circleParent-" + i;  // id tiap circle
+				})
+				// .attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
+				// .attr("cy", function(d, i) { return d.y; }) // Koordinat lingkaran pada sumbu y
+				.attr("r", function(d, i) {
+					// Mengatur jari-jari lingkaran
+					if(d.size.length == 1) {
+						if(d.size[0] == 1) {
+							return 15;
+						}
+					} else {
+						var realSize = 0;
+
+						for(var iterator = 0; iterator < d.size.length; iterator++) {
+							realSize += d.size[iterator];
+						}
+
+						if(realSize == 2) {
+							return 17.5;
+						} else if(realSize == 3) {
+							return 20;
+						} else if(realSize == 4) {
+							return 22.5;
+						} else if(realSize == 5) {
+							return 25;
+						} else if(realSize == 6) {
+							return 27.5;
+						} else if(realSize == 7) {
+							return 30;
+						} else if(realSize == 8) {
+							return 32.5;
+						}
 					}
-				} else {
+				})
+				.style("fill", "#FFC2AD");
+
+				// Buat tag text di dalam tag lingkaran dengan class label
+				var label = elemParentEnter.append("text")
+				.attr("class", "labelParent")
+				.attr("font-family", "sans-serif") // Jenis font
+				.attr("font-size", "14px") // Ukuran font
+				.attr("text-anchor", "middle")
+				// .attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
+				// .attr("y", function(d, i) { return d.y + 5; }) // Koordinat label pada sumbu y
+				.text(function(d) {
+					// Isi label
 					var realSize = 0;
 
 					for(var iterator = 0; iterator < d.size.length; iterator++) {
 						realSize += d.size[iterator];
 					}
 
-					if(realSize == 2) {
-						return 17.5;
-					} else if(realSize == 3) {
-						return 20;
-					} else if(realSize == 4) {
-						return 22.5;
-					} else if(realSize == 5) {
-						return 25;
-					} else if(realSize == 6) {
-						return 27.5;
-					} else if(realSize == 7) {
-						return 30;
-					} else if(realSize == 8) {
-						return 32.5;
+					return realSize;
+				});
+			}
+			else{	// Mode pan = Distorsi
+				// Mengatur jari-jari lingkaran dan ukuran text pada saat mode pan distorsi
+				var node = elemParentEnter.append("circle")
+				.attr("class", "nodeParent")
+				.attr("id", function(d, i) {
+					return "circleParent-" + i;  // id tiap circle
+				})
+				.attr("r", function(d) {
+					// Mengatur jari-jari lingkaran
+					var rmax = 30;
+					var xFeye, yFeye, a, b;
+					xFeye = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+					yFeye = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+					a = Math.abs(rmax-(Math.abs(60-xFeye)/rmax));
+					b = Math.abs(rmax-(Math.abs(60-yFeye)/rmax));
+					if (a<b) {return a; }
+					else { return b; }				
+				})
+				.style("fill", "#FFC2AD");
+
+				// Buat tag text di dalam tag lingkaran dengan class label
+				var label = elemParentEnter.append("text")
+				.attr("class", "labelParent")
+				.attr("font-family", "sans-serif") // Jenis font
+				.attr("font-size",function(d){
+					//jari-jari pada fisheye view
+					var rmax = 30, fontmax = 14;
+					var xFeye, yFeye, a, b, r;
+					xFeye = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+					yFeye = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+					a = Math.abs(rmax-(Math.abs(150-xFeye)/rmax));
+					b = Math.abs(rmax-(Math.abs(150-yFeye)/rmax));
+					if (a<b) { r=a; }
+					else { r=b; }
+
+					//ukuran font text relatif terhadap jari-jari lingkaran
+					return Math.abs(fontmax-(r+8));
+				}) // Ukuran font
+				.attr("text-anchor", "middle")
+				.text(function(d) {
+					// Isi label
+					var realSize = 0;
+
+					for(var iterator = 0; iterator < d.size.length; iterator++) {
+						realSize += d.size[iterator];
 					}
-				}
-			})
-			.style("fill", "#FFC2AD");
 
-			// Buat tag text di dalam tag lingkaran dengan class label
-			var label = elemParentEnter.append("text")
-			.attr("class", "labelParent")
-			.attr("font-family", "sans-serif") // Jenis font
-			.attr("font-size", "14px") // Ukuran font
-			.attr("text-anchor", "middle")
-			// .attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
-			// .attr("y", function(d, i) { return d.y + 5; }) // Koordinat label pada sumbu y
-			.text(function(d) {
-				// Isi label
-				var realSize = 0;
+					return realSize;
+				});
+			}
 
-				for(var iterator = 0; iterator < d.size.length; iterator++) {
-					realSize += d.size[iterator];
-				}
-
-				return realSize;
-			});
-			
 			node.attr("transform", function(d, i) {
 				d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
 				d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
@@ -1659,6 +1711,7 @@
 
 				canvasChart.call(overviewmap); // Call overview map
 
+				//mengembalikan peta pada posisi awal jika tombol reset ditekan 
 				d3.select("#reset").on('click', function() {
 					selection.select('.draggable').transition()
 						.attr("transform", function(d,i){
@@ -1673,23 +1726,33 @@
 
 			/* PANNING WITH DISTORTION */
 			function distortion(selection){
-				wrapperInner.select('.background').on('mousedown.drag', null);
-				canvasChart.select('.overviewmap').remove();
-				d3.select('#reset').style('visibility','hidden');
-				
+
 				selection.append("text")
 					.attr("class","textInfo")
 					.text("* Press Ctrl Key To Pan")
 					.attr("transform","translate(10,0)")
-					.style("fill","#46b8da");
-				//respond to the mouse and distort where necessary
+					.style("fill","blue");
+					// .style("fill","#46b8da");
+
+				wrapperInner.select('.background').on('mousedown.drag', null);
+				canvasChart.select('.overviewmap').remove();
+				d3.select('#reset').style('visibility','hidden');
+				//posisi awal peta 
+				d3.select('.draggable').transition()
+					.attr("transform", function(d,i){
+					return "translate(" + 0 + ", " + 0 + ")";
+				})
+				d3.select(".x").transition().attr('transform', 'translate(' + 0 + ',' + height + ')');	
+				d3.select(".y").transition().attr('transform', 'translate(' + 0 + ',' + 0 + ')');
+
+				//merespon gerakan mouse dan memberi efek distorsi
 				wrapperInner.select(".background").on("mousemove", function(d, i){
-					if(d3.event.ctrlKey){	//if the ctrl key is pressed
+					if(d3.event.ctrlKey){	//jika tombol Ctrl ditekan
 						var mouse = d3.mouse(this);
 						posisiX.distortion(2).focus(mouse[0]);
 						posisiY.distortion(2).focus(mouse[1]);
 						// posisiR.distortion(2);
-
+					
 						// Menutup zoom
 						d3.select(".paperChild").remove();
 						d3.select(".paperGrandChild").remove();
@@ -1719,15 +1782,41 @@
 							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
 							+ ")";
 						});
-						
+
+						node.attr("r",function(d){
+							var rmax = 30;
+							var xFeye, yFeye, a, b;
+							xFeye = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+							yFeye = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+							a = Math.abs(rmax-(Math.abs(mouse[0]-xFeye)/rmax));
+							b = Math.abs(rmax-(Math.abs(mouse[1]-yFeye)/rmax));
+							if (a<b) {return a; }
+							else { return b; }
+						});
+
+						elemParentEnter.select("text").attr("font-size",function(d){
+							//jari-jari pada fisheye view
+							var rmax = 30, fontmax = 14;
+							var xFeye, yFeye, a, b, r;
+							xFeye = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+							yFeye = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+							a = Math.abs(rmax-(Math.abs(mouse[0]-xFeye)/rmax));
+							b = Math.abs(rmax-(Math.abs(mouse[1]-yFeye)/rmax));
+							if (a<b) { r=a; }
+							else { r=b; }
+
+							//ukuran font text relatif terhadap jari-jari lingkaran
+							return Math.abs(fontmax-(r+8));
+						});
+
 						label.attr("transform", function(d, i) {
 							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2)) + 10;
+							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2) + 5);
 							
 							return "translate(" +
 							(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
 							+ ", " +
-							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2)) + 10
+							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2) + 5)
 							+ ")";
 						});
 
@@ -1805,7 +1894,7 @@
 
 					chart.select(".x.axis").call(xAxis);
 				    chart.select(".y.axis").call(yAxis);
-					}
+					} 
 				});
 			}
 

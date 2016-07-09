@@ -99,7 +99,6 @@
 
             if (m == 0) m = max - min;
             var factor = (left ? -1 : 1) * m * (d + 1) / (d + (m / Math.abs(x - a)));
-            // console.log(factor);
             return factor + a;
         };
 
@@ -112,6 +111,7 @@
             d = +_;
             return fisheye;
         };
+
 
         fisheye.focus = function (_) {
             if (!arguments.length) return a;
