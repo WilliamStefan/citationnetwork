@@ -1549,7 +1549,7 @@
 						}
 					}
 				})
-				.style("fill", "#FFC2AD");
+				.style("fill", "#3B5998");
 
 				// Buat tag text di dalam tag lingkaran dengan class label
 				var label = elemParentEnter.append("text")
@@ -1557,6 +1557,7 @@
 				.attr("font-family", "sans-serif") // Jenis font
 				.attr("font-size", "14px") // Ukuran font
 				.attr("text-anchor", "middle")
+				.style("fill", "white") // Warna font
 				// .attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
 				// .attr("y", function(d, i) { return d.y + 5; }) // Koordinat label pada sumbu y
 				.text(function(d) {
@@ -1588,12 +1589,13 @@
 					if (a<b) {return a; }
 					else { return b; }				
 				})
-				.style("fill", "#FFC2AD");
+				.style("fill", "#3B5998");
 
 				// Buat tag text di dalam tag lingkaran dengan class label
 				var label = elemParentEnter.append("text")
 				.attr("class", "labelParent")
 				.attr("font-family", "sans-serif") // Jenis font
+				.style("fill", "white") // Warna font
 				.attr("font-size",function(d){
 					//jari-jari pada fisheye view
 					var rmax = 30, fontmax = 14;
@@ -2751,7 +2753,7 @@
 						zoomLevel2 = false;
 
 						// Mengembalikan warna paper parent
-						node.style("fill", "#FFC2AD"); 
+						node.style("fill", "#3B5998"); 
 
 						// Redraw nodes, labels, and links
 						node.attr("transform", function(d, i) {
@@ -2772,6 +2774,7 @@
 							yFeye = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
 							a = Math.abs(rmax-(Math.abs(mouse[0]-xFeye)/rmax));
 							b = Math.abs(rmax-(Math.abs(mouse[1]-yFeye)/rmax));
+							console.log(a,b);
 							if (a<b) {return a; }
 							else { return b; }
 						});

@@ -1055,6 +1055,7 @@
 			function grabAndDrag(selection){
 				selection.select('.background').on('mousemove',null);
 				d3.select('#reset').style('visibility','visible');
+				d3.select('.textInfo').remove();
 				selection.append('rect')
 					.attr('class', 'block')
 					.attr('fill', 'white')
