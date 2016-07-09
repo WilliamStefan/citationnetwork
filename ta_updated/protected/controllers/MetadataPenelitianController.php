@@ -330,6 +330,7 @@ class MetadataPenelitianController extends Controller
 			}
 		}
 
+		// Masukkan algoritma pengelompokkan data di sini
 		for ($i = 0; $i < count($tmp2); $i++) {
 			if(count($tmp2[$i]['children']) == 1) {
 				$tmp2[$i]['size'] = [1];
@@ -341,6 +342,14 @@ class MetadataPenelitianController extends Controller
 				$tmp2[$i]['size'] = [1, 1, 1, 1];
 			} else if(count($tmp2[$i]['children']) == 5) {
 				$tmp2[$i]['size'] = [3, 1, 1];
+			} else if(count($tmp2[$i]['children']) == 6) {
+				$tmp2[$i]['size'] = [1, 4, 1];
+			} else if(count($tmp2[$i]['children']) == 7) {
+				$tmp2[$i]['size'] = [1, 1, 1, 1, 1, 1, 1];
+			} else if(count($tmp2[$i]['children']) == 8) {
+				$tmp2[$i]['size'] = [3, 1, 1];
+			} else if(count($tmp2[$i]['children']) > 8) {
+				$tmp2[$i]['size'] = [intval(floor((count($tmp2[$i]['children']) / 8))), intval(floor((count($tmp2[$i]['children']) / 8))), intval(floor((count($tmp2[$i]['children']) / 8))), intval(floor((count($tmp2[$i]['children']) / 8))), intval(floor((count($tmp2[$i]['children']) / 8))), intval(floor((count($tmp2[$i]['children']) / 8))), intval(floor((count($tmp2[$i]['children']) / 8))), (count($tmp2[$i]['children']) % 8)];
 			}
 		}
 		
