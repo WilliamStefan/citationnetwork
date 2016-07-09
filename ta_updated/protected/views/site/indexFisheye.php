@@ -1555,7 +1555,33 @@
 				.attr("class", "labelParent")
 				.attr("font-family", "sans-serif") // Jenis font
 				.style("fill", "white") // Warna font
-				.attr("font-size", "14px") // Ukuran font
+					// Ukuran font
+				.attr("font-size", function(d, i) {
+					// Isi label
+					var realSize = 0;
+
+					for(var iterator = 0; iterator < d.size.length; iterator++) {
+						realSize += d.size[iterator];
+					}
+					
+					if(realSize == 1) {
+						return "14px";
+					} else if(realSize == 2) {
+						return "15px";
+					} else if(realSize == 3) {
+						return "16px";
+					} else if(realSize == 4) {
+						return "17px";
+					} else if(realSize == 5) {
+						return "18px";
+					} else if(realSize == 6) {
+						return "19px";
+					} else if(realSize == 7) {
+						return "20px";
+					} else if(realSize == 8) {
+						return "21px";
+					}
+				})
 				.attr("text-anchor", "middle")
 				.style("fill", "white") // Warna font
 				// .attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
