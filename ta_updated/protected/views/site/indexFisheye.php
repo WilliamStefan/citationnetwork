@@ -2728,9 +2728,9 @@
 					.style("fill","blue");
 					// .style("fill","#46b8da");
 
-				wrapperInner.select('.background').on('mousedown.drag', null);
-				canvasChart.select('.overviewmap').remove();
-				d3.select('#reset').style('visibility','hidden');
+				wrapperInner.select('.background').on('mousedown.drag', null);	
+				canvasChart.select('.overviewmap').remove();	//menghilangkan overview map
+				d3.select('#reset').style('visibility','hidden');	//menghilangkan tombol reset
 				//posisi awal peta 
 				d3.select('.draggable').transition()
 					.attr("transform", function(d,i){
@@ -2896,7 +2896,7 @@
 			/* PANNING WITH NAVIGATION WINDOW TECHNIQUE (OVERVIEW MAP) */	
 			function overviewmap(selection) {
 				var target = panCanvas,
-				overviewScale = 0.1,
+				overviewScale = 0.095,
 				scale = 1,
 				frameX,
 				frameY;
@@ -2939,7 +2939,7 @@
 			    
 				var render = function() {
 			    	// scale = 1.75;
-			        container.attr("transform", "scale(" + overviewScale + ")");
+			        container.attr("transform", "scale(" + overviewScale + ")translate(0,100)");
 				    var node = target.node().cloneNode(true);
 				    node.removeAttribute("id");
 				    base.selectAll(".overviewmap .panCanvas").remove();
