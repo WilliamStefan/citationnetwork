@@ -2747,6 +2747,10 @@
 						.attr("transform", function(d,i){
 							return "translate(" + 0 + ", " + 0 + ")";
 						})
+						
+					globalX = 0;
+					globalY = 0;
+						
 					d3.select(".x").transition().attr('transform', 'translate(' + 0 + ',' + height + ')');	
 					d3.select(".y").transition().attr('transform', 'translate(' + 0 + ',' + 0 + ')');
 					d3.select(".frame").transition().attr("transform", "translate(" + 0 + "," + 0 + ")");
