@@ -1597,13 +1597,13 @@
 					return realSize;
 				});
 				
-				$('.labelParent').hover(
+				$('.paperParent').hover(
 					function() {
-						$(this).attr("font-size", "30px") // Ukuran font
+						jQuery(this).children('text').css("font-size", "30px") // Ukuran font
 					},
 					
 					function() {
-						$(this).attr("font-size", "14px") // Ukuran font
+						jQuery(this).children('text').css("font-size", "14px") // Ukuran font
 					}
 				);
 			}
@@ -2001,13 +2001,13 @@
 						})
 						.text(function(p, i) { return d.size[i] });
 						
-						$('.labelChild').hover(
+						$('.paperChild').hover(
 							function() {
-								$(this).attr("font-size", "30px") // Ukuran font
+								jQuery(this).children('text').css("font-size", "30px") // Ukuran font
 							},
 							
 							function() {
-								$(this).attr("font-size", "14px") // Ukuran font
+								jQuery(this).children('text').css("font-size", "14px") // Ukuran font
 							}
 						);
 
@@ -2288,13 +2288,13 @@
 									})
 									.text("1");
 									
-									$('.labelGrandChild').hover(
+									$('.paperGrandChild').hover(
 										function() {
-											$(this).attr("font-size", "30px") // Ukuran font
+											jQuery(this).children('text').css("font-size", "30px") // Ukuran font
 										},
 										
 										function() {
-											$(this).attr("font-size", "14px") // Ukuran font
+											jQuery(this).children('text').css("font-size", "14px") // Ukuran font
 										}
 									);
 
@@ -2420,6 +2420,16 @@
 
 						circleParent = document.getElementsByClassName("circleStroke");
 						circleParent[0].classList.remove("circleStroke");
+						
+						$('.paperParent').hover(
+							function() {
+								jQuery(this).children('text').css("font-size", "30px") // Ukuran font
+							},
+							
+							function() {
+								jQuery(this).children('text').css("font-size", "14px") // Ukuran font
+							}
+						);
 
 						elemParentEnter.on("mouseover", function(d) {
 							$(".paperChild").remove();
@@ -2428,7 +2438,7 @@
 							node.style("fill", "#3B5998")
 							.style("opacity", 1);
 							
-							label.style("opacity", 1);
+							label.style("opacity", 1);		
 
 							fisheye.focus(d3.mouse(this));
 
@@ -2808,14 +2818,14 @@
 							var xFeye, yFeye, a, b;
 							xFeye = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
 							yFeye = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
-							a = Math.abs(rmax-(Math.abs(mouse[0]-xFeye)/rmax));
-							b = Math.abs(rmax-(Math.abs(mouse[1]-yFeye)/rmax));
-							console.log(a,b);
-							if (a<b) {return a; }
+							a = Math.abs(rmax - (Math.abs(mouse[0] - xFeye) / rmax));
+							b = Math.abs(rmax - (Math.abs(mouse[1] - yFeye) / rmax));
+							console.log(a, b);
+							if (a < b) {return a; }
 							else { return b; }
 						});
 
-						elemParentEnter.select("text").attr("font-size",function(d){
+						elemParentEnter.select("text").attr("font-size", function(d){
 							//jari-jari pada fisheye view
 							var rmax = 30, fontmax = 14;
 							var xFeye, yFeye, a, b, r;
