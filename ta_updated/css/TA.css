@@ -402,13 +402,13 @@ border-radius:3px;
 }
 .overviewmap .panCanvas .background{
     stroke: blue;
-    stroke-width: 2px;
+    stroke-width: 3px;
     fill: #ffffff !important;
 }
 .overviewmap .frame .background {
-    stroke: blue;
-    stroke-width: 1px;
-    fill-opacity: 0.2;
+    stroke: #42CACA;
+    stroke-width: 3px;
+    fill-opacity: 0.15;
     fill: #ffffff;
     fill: url(#overviewGradient);
     filter: url(#overviewDropShadow);

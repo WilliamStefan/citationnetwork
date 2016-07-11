@@ -1266,7 +1266,7 @@
 			/* PANNING WITH NAVIGATION WINDOW TECHNIQUE (OVERVIEW MAP) */	
 			function overviewmap(selection){
 				var target = panCanvas,
-					overviewScale = 0.1,
+					overviewScale = 0.095,
 					scale = 1,
 					frameX,
 					frameY;
@@ -1306,7 +1306,7 @@
 				frame.call(drag);
 				var render = function(){
 					// scale = 1.75;
-					container.attr("transform", "scale(" + overviewScale + ")");
+					container.attr("transform", "scale(" + overviewScale + ")translate(0,100)");
 					var node = target.node().cloneNode(true);
 					node.removeAttribute("id");
 					base.selectAll(".overviewmap .panCanvas").remove();
