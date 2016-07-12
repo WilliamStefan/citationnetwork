@@ -69,7 +69,7 @@
 </script>
 
 <script type="text/javascript">
-	function posisiFinalXChild(jumlahGroup, sourcex, i, finalX, finalY) {
+	function posisiFinalX(jumlahGroup, sourcex, i, finalX, finalY) {
 		var miring = 75 * 0.7;
 
 		if(jumlahGroup == 2) {
@@ -431,7 +431,7 @@
 		}
 	}
 
-	function posisiFinalYChild(jumlahGroup, sourcey, i, finalX, finalY) {
+	function posisiFinalY(jumlahGroup, sourcey, i, finalX, finalY) {
 		var miring = 75 * 0.7;
 
 		if(jumlahGroup == 2) {
@@ -595,7 +595,7 @@
 				if(i == 0) {
 					return sourcey - 75;
 				} else if(i == 1) {
-					return sourcey + miring;
+					return sourcey - miring;
 				} else if(i == 2) {
 					return sourcey;
 				}
@@ -793,729 +793,38 @@
 		}
 	}
 	
-		function posisiFinalXGrandChild(jumlahGroup, sourcex, i, finalXChild, finalYChild) {
-		var miring = 75 * 0.7;
-
-		if(jumlahGroup == 2) {
-			// Kiri atas
-			if(finalXChild <= 50 && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcex + 75;
-				} else if(i == 1) {
-					return sourcex + miring;
-				}
-			}
-			// Atas
-			else if((finalXChild >= 50 && finalXChild <= 700) && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcex + miring;
-				} else if(i == 1) {
-					return sourcex;
-				}
-			}
-			// Kanan atas
-			else if(finalXChild >= 700 && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex - miring;
-				}
-			}
-			// Kanan
-			else if(finalXChild >= 350 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcex - miring;
-				} else if(i == 1) {
-					return sourcex - 75;
-				}
-			}
-			// Kanan bawah
-			else if(finalXChild >= 700 && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcex - 75;
-				} else if(i == 1) {
-					return sourcex - miring;
-				}
-			}
-			// Bawah
-			else if((finalXChild >= 50 && finalXChild <= 700) && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcex - miring;
-				} else if(i == 1) {
-					return sourcex;
-				}
-			}
-			// Kiri bawah
-			else if(finalXChild <= 50 && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				}
-			}
-			// Kiri
-			else if(finalXChild <= 50 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcex + miring;
-				} else if(i == 1) {
-					return sourcex + 75;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 3) {
-			// Kiri atas
-			if(finalXChild <= 50 && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcex + 75;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex;
-				}
-			}
-			// Atas
-			else if((finalXChild >= 50 && finalXChild <= 700) && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcex + miring;
-				} else if(i == 1) {
-					return sourcex;
-				} else if(i == 2) {
-					return sourcex - miring;
-				}
-			}
-			// Kanan atas
-			else if(finalXChild >= 700 && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex - miring;
-				} else if(i == 2) {
-					return sourcex - 75;
-				}
-			}
-			// Kanan
-			else if(finalXChild >= 350 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcex - miring;
-				} else if(i == 1) {
-					return sourcex - 75;
-				} else if(i == 2) {
-					return sourcex - miring;
-				}
-			}
-			// Kanan bawah
-			else if(finalXChild >= 700 && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcex - 75;
-				} else if(i == 1) {
-					return sourcex - miring;
-				} else if(i == 2) {
-					return sourcex;
-				}
-			}
-			// Bawah
-			else if((finalXChild >= 50 && finalXChild <= 700) && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcex - miring;
-				} else if(i == 1) {
-					return sourcex;
-				} else if(i == 2) {
-					return sourcex + miring;
-				}
-			}
-			// Kiri bawah
-			else if(finalXChild <= 50 && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex + 75;
-				}
-			}
-			// Kiri
-			else if(finalXChild <= 50 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcex + miring;
-				} else if(i == 1) {
-					return sourcex + 75;
-				} else if(i == 2) {
-					return sourcex + miring;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex + 75;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 4) {
-			// Atas
-			if((finalXChild >= 50 && finalXChild <= 700) && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcex + 75;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex;
-				} else if(i == 3) {
-					return sourcex - miring;
-				}
-			}
-			// Kanan
-			else if(finalXChild >= 350 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex - miring;
-				} else if(i == 2) {
-					return sourcex - 75;
-				} else if(i == 3) {
-					return sourcex - miring;
-				}
-			}
-			// Bawah
-			else if((finalXChild >= 50 && finalXChild <= 700) && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcex - 75;
-				} else if(i == 1) {
-					return sourcex - miring;
-				} else if(i == 2) {
-					return sourcex;
-				} else if(i == 3) {
-					return sourcex + miring;
-				}
-			}
-			// Kiri
-			else if(finalXChild <= 50 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex + 75;
-				} else if(i == 3) {
-					return sourcex + miring;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex + 75;
-				} else if(i == 3) {
-					return sourcex + miring;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 5) {
-			// Atas
-			if((finalXChild >= 50 && finalXChild <= 700) && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcex + 75;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex;
-				} else if(i == 3) {
-					return sourcex - miring;
-				} else if(i == 4) {
-					return sourcex - 75;
-				}
-			}
-			// Kanan
-			else if(finalXChild >= 350 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex - miring;
-				} else if(i == 2) {
-					return sourcex - 75;
-				} else if(i == 3) {
-					return sourcex - miring;
-				} else if(i == 4) {
-					return sourcex;
-				}
-			}
-			// Bawah
-			else if((finalXChild >= 50 && finalXChild <= 700) && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcex - 75;
-				} else if(i == 1) {
-					return sourcex - miring;
-				} else if(i == 2) {
-					return sourcex;
-				} else if(i == 3) {
-					return sourcex + miring;
-				} else if(i == 4) {
-					return sourcex + 75;
-				}
-			}
-			// Kiri
-			else if(finalXChild <= 50 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex + 75;
-				} else if(i == 3) {
-					return sourcex + miring;
-				} else if(i == 4) {
-					return sourcex;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex + 75;
-				} else if(i == 3) {
-					return sourcex + miring;
-				} else if(i == 4) {
-					return sourcex;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 6) {
-			if(i == 0) {
-				return sourcex;
-			} else if(i == 1) {
-				return sourcex + miring;
-			} else if(i == 2) {
-				return sourcex + 75;
-			} else if(i == 3) {
-				return sourcex + miring;
-			} else if(i == 4) {
-				return sourcex;
-			} else if(i == 5) {
-				return sourcex - miring;
-			}
-		}
-
-		if(jumlahGroup == 7) {
-			if(i == 0) {
-				return sourcex;
-			} else if(i == 1) {
-				return sourcex + miring;
-			} else if(i == 2) {
-				return sourcex + 75;
-			} else if(i == 3) {
-				return sourcex + miring;
-			} else if(i == 4) {
-				return sourcex;
-			} else if(i == 5) {
-				return sourcex - miring;
-			} else if(i == 6) {
-				return sourcex - 75;
-			}
-		}
-		
-		if(jumlahGroup == 8) {
-			if(i == 0) {
-				return sourcex;
-			} else if(i == 1) {
-				return sourcex + miring;
-			} else if(i == 2) {
-				return sourcex + 75;
-			} else if(i == 3) {
-				return sourcex + miring;
-			} else if(i == 4) {
-				return sourcex;
-			} else if(i == 5) {
-				return sourcex - miring;
-			} else if(i == 6) {
-				return sourcex - 75;
-			} else if(i == 7) {
-				return sourcex - miring
+	function highlight(element) {
+		console.log("element");
+		console.log(element);
+		// var lingkarans = document.getElementsByClassName("nodeParent");
+		var lingkarans = document.getElementsByTagName("circle");
+		for(var i = 0; i < lingkarans.length; i++) {			
+			if(lingkarans[i] == element) {
+				console.log("lingkarans[i]");
+				console.log(lingkarans[i]);
+				// $(lingkarans[i]).addClass("biggerNode");
+				$(lingkarans[i]).attr("class", "nodeParent biggerNode");
+			} else {
+				// $(lingkarans[i]).addClass("smallerNode");
+				$(lingkarans[i]).attr("class", "nodeParent smallerNode");
 			}
 		}
 	}
 	
-		function posisiFinalYGrandChild(jumlahGroup, sourcey, i, finalXChild, finalYChild) {
-		var miring = 75 * 0.7;
-
-		if(jumlahGroup == 2) {
-			// Kiri atas
-			if(finalXChild <= 50 && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey + miring;
-				}
-			}
-			// Atas
-			else if((finalXChild >= 50 && finalXChild <= 700) && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcey + miring;
-				} else if(i == 1) {
-					return sourcey + 75;
-				}
-			}
-			// Kanan atas
-			else if(finalXChild >= 700 && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcey + 75;
-				} else if(i == 1) {
-					return sourcey + miring;
-				}
-			}
-			// Kanan
-			else if(finalXChild >= 350 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcey + miring;
-				} else if(i == 1) {
-					return sourcey;
-				}
-			}
-			// Kanan bawah
-			else if(finalXChild >= 700 && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey - miring;
-				}
-			}
-			// Bawah
-			else if((finalXChild >= 50 && finalXChild <= 700) && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcey - miring;
-				} else if(i == 1) {
-					return sourcey - 75;
-				}
-			}
-			// Kiri bawah
-			else if(finalXChild <= 50 && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				}
-			}
-			// Kiri
-			else if(finalXChild <= 50 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcey - miring;
-				} else if(i == 1) {
-					return sourcey;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 3) {
-			// Kiri atas
-			if(finalXChild <= 50 && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey + miring;
-				} else if(i == 2) {
-					return sourcey + 75;
-				}
-			}
-			// Atas
-			else if((finalXChild >= 50 && finalXChild <= 700) && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcey + miring;
-				} else if(i == 1) {
-					return sourcey + 75;
-				} else if(i == 2) {
-					return sourcey + miring;
-				}
-			}
-			// Kanan atas
-			else if(finalXChild >= 700 && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcey + 75;
-				} else if(i == 1) {
-					return sourcey + miring;
-				} else if(i == 2) {
-					return sourcey;
-				}
-			}
-			// Kanan
-			else if(finalXChild >= 350 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcey + miring;
-				} else if(i == 1) {
-					return sourcey;
-				} else if(i == 2) {
-					return sourcey - miring;
-				}
-			}
-			// Kanan bawah
-			else if(finalXChild >= 700 && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey - 75;
-				}
-			}
-			// Bawah
-			else if((finalXChild >= 50 && finalXChild <= 700) && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcey - miring;
-				} else if(i == 1) {
-					return sourcey - 75;
-				} else if(i == 2) {
-					return sourcey - miring;
-				}
-			}
-			// Kiri bawah
-			else if(finalXChild <= 50 && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey;
-				}
-			}
-			// Kiri
-			else if(finalXChild <= 50 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcey - miring;
-				} else if(i == 1) {
-					return sourcey;
-				} else if(i == 2) {
-					return sourcey + miring;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 4) {
-			// Atas
-			if((finalXChild >= 50 && finalXChild <= 700) && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey + miring;
-				} else if(i == 2) {
-					return sourcey + 75;
-				} else if(i == 3) {
-					return sourcey + miring;
-				}
-			}
-			// Kanan
-			else if(finalXChild >= 350 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcey + 75;
-				} else if(i == 1) {
-					return sourcey + miring;
-				} else if(i == 2) {
-					return sourcey;
-				} else if(i == 3) {
-					return sourcey - miring;
-				}
-			}
-			// Bawah
-			else if((finalXChild >= 50 && finalXChild <= 700) && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey - 75;
-				} else if(i == 3) {
-					return sourcey - miring;
-				}
-			}
-			// Kiri
-			else if(finalXChild <= 50 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey;
-				} else if(i == 3) {
-					return sourcey + miring;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey;
-				} else if(i == 3) {
-					return sourcey + miring;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 5) {
-			// Atas
-			if((finalXChild >= 50 && finalXChild <= 700) && finalYChild <= 50) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey + miring;
-				} else if(i == 2) {
-					return sourcey + 75;
-				} else if(i == 3) {
-					return sourcey + miring;
-				} else if(i == 4) {
-					return sourcey;
-				}
-			}
-			// Kanan
-			else if(finalXChild >= 350 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcey + 75;
-				} else if(i == 1) {
-					return sourcey + miring;
-				} else if(i == 2) {
-					return sourcey;
-				} else if(i == 3) {
-					return sourcey - miring;
-				} else if(i == 4) {
-					return sourcey - 75;
-				}
-			}
-			// Bawah
-			else if((finalXChild >= 50 && finalXChild <= 700) && finalYChild >= 400) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey - 75;
-				} else if(i == 3) {
-					return sourcey - miring;
-				} else if(i == 4) {
-					return sourcey;
-				}
-			}
-			// Kiri
-			else if(finalXChild <= 50 && (finalYChild >= 50 && finalYChild <= 400)) {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey;
-				} else if(i == 3) {
-					return sourcey + miring;
-				} else if(i == 4) {
-					return sourcey + 75;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey;
-				} else if(i == 3) {
-					return sourcey + miring;
-				} else if(i == 4) {
-					return sourcey + 75;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 6) {
-			if(i == 0) {
-				return sourcey - 75;
-			} else if(i == 1) {
-				return sourcey - miring;
-			} else if(i == 2) {
-				return sourcey;
-			} else if(i == 3) {
-				return sourcey + miring;
-			} else if(i == 4) {
-				return sourcey + 75;
-			} else if(i == 5) {
-				return sourcey + miring;
-			}
-		}
-		
-		if(jumlahGroup == 7) {
-			if(i == 0) {
-				return sourcey - 75;
-			} else if(i == 1) {
-				return sourcey - miring;
-			} else if(i == 2) {
-				return sourcey;
-			} else if(i == 3) {
-				return sourcey + miring;
-			} else if(i == 4) {
-				return sourcey + 75;
-			} else if(i == 5) {
-				return sourcey + miring;
-			} else if(i == 6) {
-				return sourcey;
-			}
-		}
-		
-		if(jumlahGroup == 8) {
-			if(i == 0) {
-				return sourcey - 75;
-			} else if(i == 1) {
-				return sourcey - miring;
-			} else if(i == 2) {
-				return sourcey;
-			} else if(i == 3) {
-				return sourcey + miring;
-			} else if(i == 4) {
-				return sourcey + 75;
-			} else if(i == 5) {
-				return sourcey + miring;
-			} else if(i == 6) {
-				return sourcey;
-			} else if(i == 7) {
-				return sourcey - miring
+	function unhighlight(element) {
+		console.log("element");
+		console.log(element);
+		var lingkarans = document.getElementsByClassName("nodeParent");
+		for(var i = 0; i < lingkarans.length; i++) {			
+			if(lingkarans[i] == element) {
+				console.log("lingkarans[i]");
+				console.log(lingkarans[i]);
+				// $(lingkarans[i]).addClass("biggerNode");
+				$(lingkarans[i]).attr("class", "nodeParent");
 			}
 		}
 	}
+	
 </script>
 
 <!-- Script ini digunakan untuk mendapatkan nilai-nilai default -->
@@ -1525,7 +834,6 @@
 	if(typeof a[2] === "undefined" || a.length == 2) {
 		defaultParameter = SelectedId;
 	} else {
-		console.log("Masuk else");
 		defaultX = a[2];
 		defaultY = a[3];
 		defaultParameter = a[4];
@@ -1813,7 +1121,11 @@
 		var parameter;   
 		parameter="7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";
 				 
-		var force = d3.layout.force();
+		var force = d3.layout.force()
+		.charge(-240)
+		.linkDistance(40)
+		.size([width, height]);
+		
 		var sumbuX;
 		var sumbuY;
 		var pack = d3.layout.pack().padding(2).size([200,200]).value(function(d) {
@@ -1848,6 +1160,8 @@
 		.style('cursor','move')
 		.attr('fill', 'none')
 		.attr('height', height);
+		
+		var jariJari = 0;
 		
 		var globalX = 0;
 		var globalY = 0;
@@ -1968,12 +1282,6 @@
 			var zoomLevel0 = true;
 			var zoomLevel1 = false;
 			var zoomLevel2 = false;
- 
-			// Untuk mempersiapkan layout
-			var force = d3.layout.force()
-			.charge(-240)
-			.linkDistance(40)
-			.size([width, height]);
  
 			// Ambil kelas .chart lalu buat tag g dengan atribut width dan height di dalamnya
 			// var svgFisheye = d3.select(".chart")
@@ -2173,7 +1481,7 @@
 			var keyword = new Array(data.nodes.length);
 			for(i = 0; i < data.nodes.length; i++) {
 				keyword[i] = new Array();
-				keyword[i] = data.nodes[i].keyword[0].replace(/ /g,"\n");;
+				keyword[i] = data.nodes[i].keyword[0].replace(/ /g,"\n");
 				data.nodes[i].keyword = [];
 				$.merge(data.nodes[i].keyword, keyword[i]);
 			}
@@ -2227,95 +1535,172 @@
 			.append("g")
 			.attr("class", "paperParent");
 			
-			data.nodes.forEach(function(d, i) {
+			data.nodes.forEach(function(d) {
 				d.x = posisiX(d.sumbu_x)
 				+ (posisiX.rangeBand() / 2);
 				d.y = posisiY(d.sumbu_y)
 				+ (posisiY.rangeBand() / 2);
 			});
 
-			// Buat tag circle di dalam tag lingkaran dengan class nodeParent
-			var node = elemParentEnter.append("circle")
-			.attr("class", "nodeParent")
-			.attr("id", function(d, i) {
-				return "circleParent-" + i;  // id tiap circle
-			})
-			.attr("r", function(d, i) {
-				// Mengatur jari-jari lingkaran
-				if(d.size.length == 1) {
-					if(d.size[0] == 1) {
-						return 15;
+			if($("#mode_pan option:selected").text() == 'Linier'){
+				// Buat tag circle di dalam tag lingkaran dengan class nodeParent
+				var node = elemParentEnter.append("circle")
+				.attr("class", "nodeParent")
+				.attr("id", function(d, i) {
+					return "circleParent-" + i;  // id tiap circle
+				})
+				.attr("r", function(d, i) {
+					// Mengatur jari-jari lingkaran
+					if(d.size.length == 1) {
+						if(d.size[0] == 1) {
+							return 15;
+						}
+					} else {
+						var realSize = 0;
+
+						for(var iterator = 0; iterator < d.size.length; iterator++) {
+							realSize += d.size[iterator];
+						}
+
+						if(realSize == 2) {
+							return 17.5;
+						} else if(realSize == 3) {
+							return 20;
+						} else if(realSize == 4) {
+							return 22.5;
+						} else if(realSize == 5) {
+							return 25;
+						} else if(realSize == 6) {
+							return 27.5;
+						} else if(realSize == 7) {
+							return 30;
+						} else if(realSize == 8) {
+							return 32.5;
+						}
 					}
-				} else {
+				})
+				.style("fill", "#3B5998");
+
+				// Buat tag text di dalam tag lingkaran dengan class label
+				var label = elemParentEnter.append("text")
+				.attr("class", "labelParent")
+				.attr("font-family", "sans-serif") // Jenis font
+				.style("fill", "white") // Warna font
+					// Ukuran font
+				.attr("font-size", function(d, i) {
+					// Isi label
+					var realSize = 0;
+
+					for(var iterator = 0; iterator < d.size.length; iterator++) {
+						realSize += d.size[iterator];
+					}
+					
+					if(realSize == 1) {
+						return "14px";
+					} else if(realSize == 2) {
+						return "15px";
+					} else if(realSize == 3) {
+						return "16px";
+					} else if(realSize == 4) {
+						return "17px";
+					} else if(realSize == 5) {
+						return "18px";
+					} else if(realSize == 6) {
+						return "19px";
+					} else if(realSize == 7) {
+						return "20px";
+					} else if(realSize == 8) {
+						return "21px";
+					}
+				})
+				.attr("text-anchor", "middle")
+				.style("fill", "white") // Warna font
+				.text(function(d) {
+					// Isi label
 					var realSize = 0;
 
 					for(var iterator = 0; iterator < d.size.length; iterator++) {
 						realSize += d.size[iterator];
 					}
 
-					if(realSize == 2) {
-						return 17.5;
-					} else if(realSize == 3) {
-						return 20;
-					} else if(realSize == 4) {
-						return 22.5;
-					} else if(realSize == 5) {
-						return 25;
-					} else if(realSize == 6) {
-						return 27.5;
-					} else if(realSize == 7) {
-						return 30;
-					} else if(realSize == 8) {
-						return 32.5;
-					}
-				}
-			})
-			.style("fill", "#3B5998");
-
-			// Buat tag text di dalam tag lingkaran dengan class label
-			var label = elemParentEnter.append("text")
-			.attr("class", "labelParent")
-			.attr("font-family", "sans-serif") // Jenis font
-			.style("fill", "white") // Warna font
-			// Ukuran font
-			.attr("font-size", function(d, i) {
-				// Isi label
-				var realSize = 0;
-
-				for(var iterator = 0; iterator < d.size.length; iterator++) {
-					realSize += d.size[iterator];
-				}
+					return realSize;
+				});
 				
-				if(realSize == 1) {
-					return "14px";
-				} else if(realSize == 2) {
-					return "15px";
-				} else if(realSize == 3) {
-					return "16px";
-				} else if(realSize == 4) {
-					return "17px";
-				} else if(realSize == 5) {
-					return "18px";
-				} else if(realSize == 6) {
-					return "19px";
-				} else if(realSize == 7) {
-					return "20px";
-				} else if(realSize == 8) {
-					return "21px";
-				}
-			})
-			.attr("text-anchor", "middle")
-			.text(function(d) {
-				// Isi label
-				var realSize = 0;
+				$('.paperParent').hover(
+					function() {						
+						$(this).children('text').attr("class", "labelParent zoomLabel");
+						// jariJari = $(this).children('circle').attr("r");
+						// $(this).children('circle').attr("r", "35");
+						
+						$(this).children('circle').attr("class", "nodeParent bigger");
+						// $(this).children('circle').not(".nodeParent.bigger").attr("class", "nodeParent smaller");
+						
+						$(".nodeParent").not(".bigger").attr("class", "nodeParent smaller");
+						
+						$('.nodeParent.bigger').attr("r", "35");
+						$('.nodeParent.smaller').attr("r", "12.5");
+					},
+					
+					function() {
+						$(this).children('text').attr("class", "labelParent");
+						$(this).children('circle').attr("class", "nodeParent");
+						
+						$(this).children('circle').attr("class", "nodeParent");
+					}
+				);
+			}
+			else{	// Mode pan = Distorsi
+				// Mengatur jari-jari lingkaran dan ukuran text pada saat mode pan distorsi
+				var node = elemParentEnter.append("circle")
+				.attr("class", "nodeParent")
+				.attr("id", function(d, i) {
+					return "circleParent-" + i;  // id tiap circle
+				})
+				.attr("r", function(d) {
+					// Mengatur jari-jari lingkaran
+					var rmax = 30;
+					var xFeye, yFeye, a, b;
+					xFeye = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+					yFeye = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+					a = Math.abs(rmax - (Math.abs(60 - xFeye) / rmax));
+					b = Math.abs(rmax - (Math.abs(60 - yFeye) / rmax));
+					if (a < b) {return a; }
+					else { return b; }				
+				})
+				.style("fill", "#3B5998");
 
-				for(var iterator = 0; iterator < d.size.length; iterator++) {
-					realSize += d.size[iterator];
-				}
+				// Buat tag text di dalam tag lingkaran dengan class label
+				var label = elemParentEnter.append("text")
+				.attr("class", "labelParent")
+				.attr("font-family", "sans-serif") // Jenis font
+				.style("fill", "white") // Warna font
+				.attr("font-size",function(d){
+					//jari-jari pada fisheye view
+					var rmax = 30, fontmax = 14;
+					var xFeye, yFeye, a, b, r;
+					xFeye = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+					yFeye = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+					a = Math.abs(rmax - (Math.abs(150 - xFeye) / rmax));
+					b = Math.abs(rmax - (Math.abs(150 - yFeye) / rmax));
+					if (a < b) { r = a; }
+					else { r = b; }
 
-				return realSize;
-			});
-			
+					//ukuran font text relatif terhadap jari-jari lingkaran
+					return Math.abs(fontmax-(r+8));
+				}) // Ukuran font
+				.attr("text-anchor", "middle")
+				.text(function(d) {
+					// Isi label
+					var realSize = 0;
+
+					for(var iterator = 0; iterator < d.size.length; iterator++) {
+						realSize += d.size[iterator];
+					}
+
+					return realSize;
+				});
+			}
+
 			node.attr("transform", function(d, i) {
 				d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
 				d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
@@ -2327,7 +1712,7 @@
 				+ ")";
 			});
 			
-			label.attr("transform", function(d, i) {
+			label.attr("transform", function(d) {
 				d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
 				d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2) + 5);
 				
@@ -2341,7 +1726,7 @@
 			// Hover untuk node dengan jumlah data 1
 			var g1 = svgFisheye.selectAll("g.paperParent").data(data.nodes);
 
-			$("svg circle").each(function(d, i) {
+			$("svg circle").each(function(d) {
 				$(g1[0][d]).tipsy({ 
 					gravity: 'w', 
 					html: true,
@@ -2362,36 +1747,27 @@
 				});
 			});
 			
-			$('.labelParent').hover(
-				function() {
-					$(this).attr("font-size", "30px") // Ukuran font
-				},
-				
-				function() {
-					$(this).attr("font-size", "14px") // Ukuran font
-				}
-			);
-						
-			elemParentEnter.on("mouseover", function(d, i) {
-				fisheye.focus(d3.mouse(this));
+			if($("#mode_pan option:selected").text() == 'Linier') {
+				// svgFisheye.on("mousemove", function() {
+					// fisheye.focus(d3.mouse(this));
 
-				// Fisheye untuk setiap node
-				node.each(function(d) { d.fisheye = fisheye(d); })
-				.attr("r", function(d) {
-					// if(d.r <= 15) {
-						// return d.fisheye.z * 15;
-					// }
-					// else if(d.r > 15) {
+					// // Fisheye untuk setiap node
+					// node.each(function(d) { d.fisheye = fisheye(d); })
+					// .attr("r", function(d) {
+						// return d.fisheye.z * 20;
+					// });
+				// });
+			} else {
+				elemParentEnter.on("mousemove", function() {
+					fisheye.focus(d3.mouse(this));
+
+					// Fisheye untuk setiap node
+					node.each(function(d) { d.fisheye = fisheye(d); })
+					.attr("r", function(d) {
 						return d.fisheye.z * 20;
-					// }
+					});
 				});
-
-				// Fisheye untuk setiap garis
-				// link.attr("x1", function(d) { return d.source.fisheye.x; })
-				// .attr("y1", function(d) { return d.source.fisheye.y; })
-				// .attr("x2", function(d) { return d.target.fisheye.x; })
-				// .attr("y2", function(d) { return d.target.fisheye.y; });
-			});
+			}
 
 			elemParentEnter.on("click", function(d, i) {
 				if(d.children.length == 1) {
@@ -2436,13 +1812,8 @@
 					if(zoomLevel0 == true) {
 						var finalX = globalX + d.x;
 						var finalY = globalY + d.y;
-						
-						console.log("finalX");
-						console.log(finalX);
-						console.log("finalY");
-						console.log(finalY);
 
-						elemParentEnter.on("mouseover", function(d, i) {});
+						svgFisheye.on("mousemove", function() {});
 
 						var clickedParent = "circleParent-" + i;
 
@@ -2458,11 +1829,11 @@
 						if(dataChild.length == 2) {
 							dataChild.forEach(function(p, i) {
 								if(i == 0) {
-									p.x = posisiFinalXChild(2, d.x, 0, finalX, finalY);
-									p.y = posisiFinalYChild(2, d.y, 0, finalX, finalY);
+									p.x = posisiFinalX(2, d.x, 0, finalX, finalY);
+									p.y = posisiFinalY(2, d.y, 0, finalX, finalY);
 								} else if(i == 1) {
-									p.x = posisiFinalXChild(2, d.x, 1, finalX, finalY);
-									p.y = posisiFinalYChild(2, d.y, 1, finalX, finalY);
+									p.x = posisiFinalX(2, d.x, 1, finalX, finalY);
+									p.y = posisiFinalY(2, d.y, 1, finalX, finalY);
 								}
 							});
 						}
@@ -2470,14 +1841,14 @@
 						if(dataChild.length == 3) {
 							dataChild.forEach(function(p, i) {
 								if(i == 0) {
-									p.x = posisiFinalXChild(3, d.x, 0, finalX, finalY);
-									p.y = posisiFinalYChild(3, d.y, 0, finalX, finalY);
+									p.x = posisiFinalX(3, d.x, 0, finalX, finalY);
+									p.y = posisiFinalY(3, d.y, 0, finalX, finalY);
 								} else if(i == 1) {
-									p.x = posisiFinalXChild(3, d.x, 1, finalX, finalY);
-									p.y = posisiFinalYChild(3, d.y, 1, finalX, finalY);
+									p.x = posisiFinalX(3, d.x, 1, finalX, finalY);
+									p.y = posisiFinalY(3, d.y, 1, finalX, finalY);
 								} else if(i == 2) {
-									p.x = posisiFinalXChild(3, d.x, 2, finalX, finalY);
-									p.y = posisiFinalYChild(3, d.y, 2, finalX, finalY);
+									p.x = posisiFinalX(3, d.x, 2, finalX, finalY);
+									p.y = posisiFinalY(3, d.y, 2, finalX, finalY);
 								}
 							});
 						}
@@ -2485,17 +1856,17 @@
 						if(dataChild.length == 4) {
 							dataChild.forEach(function(p, i) {
 								if(i == 0) {
-									p.x = posisiFinalXChild(4, d.x, 0, finalX, finalY);
-									p.y = posisiFinalYChild(4, d.y, 0, finalX, finalY);
+									p.x = posisiFinalX(4, d.x, 0, finalX, finalY);
+									p.y = posisiFinalY(4, d.y, 0, finalX, finalY);
 								} else if(i == 1) {
-									p.x = posisiFinalXChild(4, d.x, 1, finalX, finalY);
-									p.y = posisiFinalYChild(4, d.y, 1, finalX, finalY);
+									p.x = posisiFinalX(4, d.x, 1, finalX, finalY);
+									p.y = posisiFinalY(4, d.y, 1, finalX, finalY);
 								} else if(i == 2) {
-									p.x = posisiFinalXChild(4, d.x, 2, finalX, finalY);
-									p.y = posisiFinalYChild(4, d.y, 2, finalX, finalY);
+									p.x = posisiFinalX(4, d.x, 2, finalX, finalY);
+									p.y = posisiFinalY(4, d.y, 2, finalX, finalY);
 								} else if(i == 3) {
-									p.x = posisiFinalXChild(4, d.x, 3, finalX, finalY);
-									p.y = posisiFinalYChild(4, d.y, 3, finalX, finalY);
+									p.x = posisiFinalX(4, d.x, 3, finalX, finalY);
+									p.y = posisiFinalY(4, d.y, 3, finalX, finalY);
 								}
 							});
 						}
@@ -2503,20 +1874,20 @@
 						if(dataChild.length == 5) {
 							dataChild.forEach(function(p, i) {
 								if(i == 0) {
-									p.x = posisiFinalXChild(5, d.x, 0, finalX, finalY);
-									p.y = posisiFinalYChild(5, d.y, 0, finalX, finalY);
+									p.x = posisiFinalX(5, d.x, 0, finalX, finalY);
+									p.y = posisiFinalY(5, d.y, 0, finalX, finalY);
 								} else if(i == 1) {
-									p.x = posisiFinalXChild(5, d.x, 1, finalX, finalY);
-									p.y = posisiFinalYChild(5, d.y, 1, finalX, finalY);
+									p.x = posisiFinalX(5, d.x, 1, finalX, finalY);
+									p.y = posisiFinalY(5, d.y, 1, finalX, finalY);
 								} else if(i == 2) {
-									p.x = posisiFinalXChild(5, d.x, 2, finalX, finalY);
-									p.y = posisiFinalYChild(5, d.y, 2, finalX, finalY);
+									p.x = posisiFinalX(5, d.x, 2, finalX, finalY);
+									p.y = posisiFinalY(5, d.y, 2, finalX, finalY);
 								} else if(i == 3) {
-									p.x = posisiFinalXChild(5, d.x, 3, finalX, finalY);
-									p.y = posisiFinalYChild(5, d.y, 3, finalX, finalY);
+									p.x = posisiFinalX(5, d.x, 3, finalX, finalY);
+									p.y = posisiFinalY(5, d.y, 3, finalX, finalY);
 								} else if(i == 4) {
-									p.x = posisiFinalXChild(5, d.x, 4, finalX, finalY);
-									p.y = posisiFinalYChild(5, d.y, 4, finalX, finalY);
+									p.x = posisiFinalX(5, d.x, 4, finalX, finalY);
+									p.y = posisiFinalY(5, d.y, 4, finalX, finalY);
 								}
 							});
 						}
@@ -2524,23 +1895,23 @@
 						if(dataChild.length == 6) {
 							dataChild.forEach(function(p, i) {
 								if(i == 0) {
-									p.x = posisiFinalXChild(6, d.x, 0, finalX, finalY);
-									p.y = posisiFinalYChild(6, d.y, 0, finalX, finalY);
+									p.x = posisiFinalX(6, d.x, 0, finalX, finalY);
+									p.y = posisiFinalY(6, d.y, 0, finalX, finalY);
 								} else if(i == 1) {
-									p.x = posisiFinalXChild(6, d.x, 1, finalX, finalY);
-									p.y = posisiFinalYChild(6, d.y, 1, finalX, finalY);
+									p.x = posisiFinalX(6, d.x, 1, finalX, finalY);
+									p.y = posisiFinalY(6, d.y, 1, finalX, finalY);
 								} else if(i == 2) {
-									p.x = posisiFinalXChild(6, d.x, 2, finalX, finalY);
-									p.y = posisiFinalYChild(6, d.y, 2, finalX, finalY);
+									p.x = posisiFinalX(6, d.x, 2, finalX, finalY);
+									p.y = posisiFinalY(6, d.y, 2, finalX, finalY);
 								} else if(i == 3) {
-									p.x = posisiFinalXChild(6, d.x, 3, finalX, finalY);
-									p.y = posisiFinalYChild(6, d.y, 3, finalX, finalY);
+									p.x = posisiFinalX(6, d.x, 3, finalX, finalY);
+									p.y = posisiFinalY(6, d.y, 3, finalX, finalY);
 								} else if(i == 4) {
-									p.x = posisiFinalXChild(6, d.x, 4, finalX, finalY);
-									p.y = posisiFinalYChild(6, d.y, 4, finalX, finalY);
+									p.x = posisiFinalX(6, d.x, 4, finalX, finalY);
+									p.y = posisiFinalY(6, d.y, 4, finalX, finalY);
 								} else if(i == 5) {
-									p.x = posisiFinalXChild(6, d.x, 5, finalX, finalY);
-									p.y = posisiFinalYChild(6, d.y, 5, finalX, finalY);
+									p.x = posisiFinalX(6, d.x, 5, finalX, finalY);
+									p.y = posisiFinalY(6, d.y, 5, finalX, finalY);
 								}
 							});
 						}
@@ -2548,26 +1919,26 @@
 						if(dataChild.length == 7) {
 							dataChild.forEach(function(p, i) {
 								if(i == 0) {
-									p.x = posisiFinalXChild(7, d.x, 0, finalX, finalY);
-									p.y = posisiFinalYChild(7, d.y, 0, finalX, finalY);
+									p.x = posisiFinalX(7, d.x, 0, finalX, finalY);
+									p.y = posisiFinalY(7, d.y, 0, finalX, finalY);
 								} else if(i == 1) {
-									p.x = posisiFinalXChild(7, d.x, 1, finalX, finalY);
-									p.y = posisiFinalYChild(7, d.y, 1, finalX, finalY);
+									p.x = posisiFinalX(7, d.x, 1, finalX, finalY);
+									p.y = posisiFinalY(7, d.y, 1, finalX, finalY);
 								} else if(i == 2) {
-									p.x = posisiFinalXChild(7, d.x, 2, finalX, finalY);
-									p.y = posisiFinalYChild(7, d.y, 2, finalX, finalY);
+									p.x = posisiFinalX(7, d.x, 2, finalX, finalY);
+									p.y = posisiFinalY(7, d.y, 2, finalX, finalY);
 								} else if(i == 3) {
-									p.x = posisiFinalXChild(7, d.x, 3, finalX, finalY);
-									p.y = posisiFinalYChild(7, d.y, 3, finalX, finalY);
+									p.x = posisiFinalX(7, d.x, 3, finalX, finalY);
+									p.y = posisiFinalY(7, d.y, 3, finalX, finalY);
 								} else if(i == 4) {
-									p.x = posisiFinalXChild(7, d.x, 4, finalX, finalY);
-									p.y = posisiFinalYChild(7, d.y, 4, finalX, finalY);
+									p.x = posisiFinalX(7, d.x, 4, finalX, finalY);
+									p.y = posisiFinalY(7, d.y, 4, finalX, finalY);
 								} else if(i == 5) {
-									p.x = posisiFinalXChild(7, d.x, 5, finalX, finalY);
-									p.y = posisiFinalYChild(7, d.y, 5, finalX, finalY);
+									p.x = posisiFinalX(7, d.x, 5, finalX, finalY);
+									p.y = posisiFinalY(7, d.y, 5, finalX, finalY);
 								} else if(i == 6) {
-									p.x = posisiFinalXChild(7, d.x, 6, finalX, finalY);
-									p.y = posisiFinalYChild(7, d.y, 6, finalX, finalY);
+									p.x = posisiFinalX(7, d.x, 6, finalX, finalY);
+									p.y = posisiFinalY(7, d.y, 6, finalX, finalY);
 								}
 							});
 						}
@@ -2575,39 +1946,39 @@
 						if(dataChild.length == 8) {
 							dataChild.forEach(function(p, i) {
 								if(i == 0) {
-									p.x = posisiFinalXChild(8, d.x, 0, finalX, finalY);
-									p.y = posisiFinalYChild(8, d.y, 0, finalX, finalY);
+									p.x = posisiFinalX(8, d.x, 0, finalX, finalY);
+									p.y = posisiFinalY(8, d.y, 0, finalX, finalY);
 								} else if(i == 1) {
-									p.x = posisiFinalXChild(8, d.x, 1, finalX, finalY);
-									p.y = posisiFinalYChild(8, d.y, 1, finalX, finalY);
+									p.x = posisiFinalX(8, d.x, 1, finalX, finalY);
+									p.y = posisiFinalY(8, d.y, 1, finalX, finalY);
 								} else if(i == 2) {
-									p.x = posisiFinalXChild(8, d.x, 2, finalX, finalY);
-									p.y = posisiFinalYChild(8, d.y, 2, finalX, finalY);
+									p.x = posisiFinalX(8, d.x, 2, finalX, finalY);
+									p.y = posisiFinalY(8, d.y, 2, finalX, finalY);
 								} else if(i == 3) {
-									p.x = posisiFinalXChild(8, d.x, 3, finalX, finalY);
-									p.y = posisiFinalYChild(8, d.y, 3, finalX, finalY);
+									p.x = posisiFinalX(8, d.x, 3, finalX, finalY);
+									p.y = posisiFinalY(8, d.y, 3, finalX, finalY);
 								} else if(i == 4) {
-									p.x = posisiFinalXChild(8, d.x, 4, finalX, finalY);
-									p.y = posisiFinalYChild(8, d.y, 4, finalX, finalY);
+									p.x = posisiFinalX(8, d.x, 4, finalX, finalY);
+									p.y = posisiFinalY(8, d.y, 4, finalX, finalY);
 								} else if(i == 5) {
-									p.x = posisiFinalXChild(8, d.x, 5, finalX, finalY);
-									p.y = posisiFinalYChild(8, d.y, 5, finalX, finalY);
+									p.x = posisiFinalX(8, d.x, 5, finalX, finalY);
+									p.y = posisiFinalY(8, d.y, 5, finalX, finalY);
 								} else if(i == 6) {
-									p.x = posisiFinalXChild(8, d.x, 6, finalX, finalY);
-									p.y = posisiFinalYChild(8, d.y, 6, finalX, finalY);
+									p.x = posisiFinalX(8, d.x, 6, finalX, finalY);
+									p.y = posisiFinalY(8, d.y, 6, finalX, finalY);
 								} else if(i == 7) {
-									p.x = posisiFinalXChild(8, d.x, 7, finalX, finalY);
-									p.y = posisiFinalYChild(8, d.y, 7, finalX, finalY);
-								}								
+									p.x = posisiFinalX(8, d.x, 7, finalX, finalY);
+									p.y = posisiFinalY(8, d.y, 7, finalX, finalY);
+								}
 							});
 						}
 						
 						// Ubah warna paperParent
 						node.style("fill", "#DDDDDD")
-						.style("opacity", 0.5);
+						.style("opacity", 0.75);
 						
 						// Ubah warna labelParent
-						label.style("opacity", 0.5);
+						label.style("opacity", 0.75);
 
 						var elemChild = svgFisheye.select(".draggable").selectAll("g.circle")
 						.data(dataChild);
@@ -2677,11 +2048,21 @@
 							return p.y + 5;
 						})
 						.text(function(p, i) { return d.size[i] });
+						
+						$('.paperChild').hover(
+							function() {
+								jQuery(this).children('text').css("font-size", "30px") // Ukuran font
+							},
+							
+							function() {
+								jQuery(this).children('text').css("font-size", "14px") // Ukuran font
+							}
+						);
 
 						// Hover untuk node dengan jumlah data 1
 						var g2 = svgFisheye.select(".draggable").selectAll("g.paperChild").data(dataChild);
 
-						$("svg circle").each(function(p, i) {
+						$("svg circle").each(function(p) {
 							$(g2[0][p]).tipsy({ 
 								gravity: 'w',
 								html: true,
@@ -2698,23 +2079,23 @@
 							});
 						});
 						
-						$('.labelChild').hover(
-							function() {
-								$(this).attr("font-size", "30px") // Ukuran font
-							},
-							
-							function() {
-								$(this).attr("font-size", "14px") // Ukuran font
-							}
-						);
+						if($("#mode_pan option:selected").text() == 'Linier') {
+							svgFisheye.on("mousemove", function() {
+								fisheye.focus(d3.mouse(this));
 
-						elemChildEnter.on("mouseover", function(p) {
-							fisheye.focus(d3.mouse(this));
+								// Fisheye untuk setiap node
+								nodeChild.each(function(p) { p.fisheye = fisheye(p); })
+								.attr("r", function(p) { return p.fisheye.z * 15; });
+							});
+						} else {
+							elemChildEnter.on("mousemove", function() {
+								fisheye.focus(d3.mouse(this));
 
-							// Fisheye untuk setiap node
-							nodeChild.each(function(p) { p.fisheye = fisheye(p); })
-							.attr("r", function(p) { return p.fisheye.z * 15; });
-						});
+								// Fisheye untuk setiap node
+								nodeChild.each(function(p) { p.fisheye = fisheye(p); })
+								.attr("r", function(p) { return p.fisheye.z * 15; });
+							});
+						}
 
 						elemChildEnter.on("click", function(p, i) {
 							if(d.size[i] == 1) {
@@ -2754,14 +2135,9 @@
 								if(zoomLevel1 == true) {
 									var finalXChild = globalX + p.x;
 									var finalYChild = globalY + p.y;
-									
-									console.log("finalXchild");
-									console.log(finalXChild);
-									console.log("finalYchild");
-									console.log(finalYChild);
-									
-									elemParentEnter.on("mouseover", function(d, i) {});
-									elemChildEnter.on("mouseover", function(p, i) {});
+																		
+									svgFisheye.on("mousemove", function() {});
+									svgFisheye.on("mousemove", function() {});
 									
 									var clickedChild = "circleChild-" + i;
 
@@ -2779,11 +2155,11 @@
 									if(dataGrandChild.length == 2) {
 										dataGrandChild.forEach(function(q, i) {
 											if(i == 0) {
-												q.x = posisiFinalXChild(2, p.x, 0, finalXChild, finalYChild);
-												q.y = posisiFinalYChild(2, p.y, 0, finalXChild, finalYChild);
+												q.x = posisiFinalX(2, p.x, 0, finalXChild, finalYChild);
+												q.y = posisiFinalY(2, p.y, 0, finalXChild, finalYChild);
 											} else if(i == 1) {
-												q.x = posisiFinalXChild(2, p.x, 1, finalXChild, finalYChild);
-												q.y = posisiFinalYChild(2, p.y, 1, finalXChild, finalYChild);
+												q.x = posisiFinalX(2, p.x, 1, finalXChild, finalYChild);
+												q.y = posisiFinalY(2, p.y, 1, finalXChild, finalYChild);
 											}
 										});
 									}
@@ -2791,14 +2167,14 @@
 									if(dataGrandChild.length == 3) {
 										dataGrandChild.forEach(function(q, i) {
 											if(i == 0) {
-												q.x = posisiFinalXChild(3, p.x, 0, finalXChild, finalYChild);
-												q.y = posisiFinalYChild(3, p.y, 0, finalXChild, finalYChild);
+												q.x = posisiFinalX(3, p.x, 0, finalXChild, finalYChild);
+												q.y = posisiFinalY(3, p.y, 0, finalXChild, finalYChild);
 											} else if(i == 1) {
-												q.x = posisiFinalXChild(3, p.x, 1, finalXChild, finalYChild);
-												q.y = posisiFinalYChild(3, p.y, 1, finalXChild, finalYChild);
+												q.x = posisiFinalX(3, p.x, 1, finalXChild, finalYChild);
+												q.y = posisiFinalY(3, p.y, 1, finalXChild, finalYChild);
 											} else if(i == 2) {
-												q.x = posisiFinalXChild(3, p.x, 2, finalXChild, finalYChild);
-												q.y = posisiFinalYChild(3, p.y, 2, finalXChild, finalYChild);
+												q.x = posisiFinalX(3, p.x, 2, finalXChild, finalYChild);
+												q.y = posisiFinalY(3, p.y, 2, finalXChild, finalYChild);
 											}
 										});
 									}
@@ -2806,17 +2182,17 @@
 									if(dataGrandChild.length == 4) {
 										dataGrandChild.forEach(function(q, i) {
 											if(i == 0) {
-												q.x = posisiFinalXChild(4, p.x, 0, finalXChild, finalYChild);
-												q.y = posisiFinalYChild(4, p.y, 0, finalXChild, finalYChild);
+												q.x = posisiFinalX(4, p.x, 0, finalXChild, finalYChild);
+												q.y = posisiFinalY(4, p.y, 0, finalXChild, finalYChild);
 											} else if(i == 1) {
-												q.x = posisiFinalXChild(4, p.x, 1, finalXChild, finalYChild);
-												q.y = posisiFinalYChild(4, p.y, 1, finalXChild, finalYChild);
+												q.x = posisiFinalX(4, p.x, 1, finalXChild, finalYChild);
+												q.y = posisiFinalY(4, p.y, 1, finalXChild, finalYChild);
 											} else if(i == 2) {
-												q.x = posisiFinalXChild(4, p.x, 2, finalXChild, finalYChild);
-												q.y = posisiFinalYChild(4, p.y, 2, finalXChild, finalYChild);
+												q.x = posisiFinalX(4, p.x, 2, finalXChild, finalYChild);
+												q.y = posisiFinalY(4, p.y, 2, finalXChild, finalYChild);
 											} else if(i == 3) {
-												q.x = posisiFinalXChild(4, p.x, 3, finalXChild, finalYChild);
-												q.y = posisiFinalYChild(4, p.y, 3, finalXChild, finalYChild);
+												q.x = posisiFinalX(4, p.x, 3, finalXChild, finalYChild);
+												q.y = posisiFinalY(4, p.y, 3, finalXChild, finalYChild);
 											}
 										});
 									}
@@ -2824,20 +2200,20 @@
 									if(dataGrandChild.length == 5) {
 										dataGrandChild.forEach(function(q, i) {
 											if(i == 0) {
-												q.x = posisiFinalXChild(5, p.x, 0, finalXChild, finalYChild);
-												q.y = posisiFinalYChild(5, p.y, 0, finalXChild, finalYChild);
+												q.x = posisiFinalX(5, p.x, 0, finalXChild, finalYChild);
+												q.y = posisiFinalY(5, p.y, 0, finalXChild, finalYChild);
 											} else if(i == 1) {
-												q.x = posisiFinalXChild(5, p.x, 1, finalXChild, finalYChild);
-												q.y = posisiFinalYChild(5, p.y, 1, finalXChild, finalYChild);
+												q.x = posisiFinalX(5, p.x, 1, finalXChild, finalYChild);
+												q.y = posisiFinalY(5, p.y, 1, finalXChild, finalYChild);
 											} else if(i == 2) {
-												q.x = posisiFinalXChild(5, p.x, 2, finalXChild, finalYChild);
-												q.y = posisiFinalYChild(5, p.y, 2, finalXChild, finalYChild);
+												q.x = posisiFinalX(5, p.x, 2, finalXChild, finalYChild);
+												q.y = posisiFinalY(5, p.y, 2, finalXChild, finalYChild);
 											} else if(i == 3) {
-												q.x = posisiFinalXChild(5, p.x, 3, finalXChild, finalYChild);
-												q.y = posisiFinalYChild(5, p.y, 3, finalXChild, finalYChild);
+												q.x = posisiFinalX(5, p.x, 3, finalXChild, finalYChild);
+												q.y = posisiFinalY(5, p.y, 3, finalXChild, finalYChild);
 											} else if(i == 4) {
-												q.x = posisiFinalXChild(5, p.x, 4, finalXChild, finalYChild);
-												q.y = posisiFinalYChild(5, p.y, 4, finalXChild, finalYChild);
+												q.x = posisiFinalX(5, p.x, 4, finalXChild, finalYChild);
+												q.y = posisiFinalY(5, p.y, 4, finalXChild, finalYChild);
 											}
 										});
 									}
@@ -2845,23 +2221,23 @@
 									if(dataGrandChild.length == 6) {
 										dataGrandChild.forEach(function(q, i) {
 											if(i == 0) {
-												q.x = posisifinalXChild(6, p.x, 0, finalXChild, finalYChild);
-												q.y = posisifinalYChild(6, p.y, 0, finalXChild, finalYChild);
+												q.x = posisifinalX(6, p.x, 0, finalXChild, finalYChild);
+												q.y = posisifinalY(6, p.y, 0, finalXChild, finalYChild);
 											} else if(i == 1) {
-												q.x = posisifinalXChild(6, p.x, 1, finalXChild, finalYChild);
-												q.y = posisifinalYChild(6, p.y, 1, finalXChild, finalYChild);
+												q.x = posisifinalX(6, p.x, 1, finalXChild, finalYChild);
+												q.y = posisifinalY(6, p.y, 1, finalXChild, finalYChild);
 											} else if(i == 2) {
-												q.x = posisifinalXChild(6, p.x, 2, finalXChild, finalYChild);
-												q.y = posisifinalYChild(6, p.y, 2, finalXChild, finalYChild);
+												q.x = posisifinalX(6, p.x, 2, finalXChild, finalYChild);
+												q.y = posisifinalY(6, p.y, 2, finalXChild, finalYChild);
 											} else if(i == 3) {
-												q.x = posisifinalXChild(6, p.x, 3, finalXChild, finalYChild);
-												q.y = posisifinalYChild(6, p.y, 3, finalXChild, finalYChild);
+												q.x = posisifinalX(6, p.x, 3, finalXChild, finalYChild);
+												q.y = posisifinalY(6, p.y, 3, finalXChild, finalYChild);
 											} else if(i == 4) {
-												q.x = posisifinalXChild(6, p.x, 4, finalXChild, finalYChild);
-												q.y = posisifinalYChild(6, p.y, 4, finalXChild, finalYChild);
+												q.x = posisifinalX(6, p.x, 4, finalXChild, finalYChild);
+												q.y = posisifinalY(6, p.y, 4, finalXChild, finalYChild);
 											} else if(i == 5) {
-												q.x = posisifinalXChild(6, p.x, 5, finalXChild, finalYChild);
-												q.y = posisifinalYChild(6, p.y, 5, finalXChild, finalYChild);
+												q.x = posisifinalX(6, p.x, 5, finalXChild, finalYChild);
+												q.y = posisifinalY(6, p.y, 5, finalXChild, finalYChild);
 											}
 										});
 									}
@@ -2869,26 +2245,26 @@
 									if(dataGrandChild.length == 7) {
 										dataGrandChild.forEach(function(q, i) {
 											if(i == 0) {
-												q.x = posisifinalXChild(7, p.x, 0, finalXChild, finalYChild);
-												q.y = posisifinalYChild(7, p.y, 0, finalXChild, finalYChild);
+												q.x = posisifinalX(7, p.x, 0, finalXChild, finalYChild);
+												q.y = posisifinalY(7, p.y, 0, finalXChild, finalYChild);
 											} else if(i == 1) {
-												q.x = posisifinalXChild(7, p.x, 1, finalXChild, finalYChild);
-												q.y = posisifinalYChild(7, p.y, 1, finalXChild, finalYChild);
+												q.x = posisifinalX(7, p.x, 1, finalXChild, finalYChild);
+												q.y = posisifinalY(7, p.y, 1, finalXChild, finalYChild);
 											} else if(i == 2) {
-												q.x = posisifinalXChild(7, p.x, 2, finalXChild, finalYChild);
-												q.y = posisifinalYChild(7, p.y, 2, finalXChild, finalYChild);
+												q.x = posisifinalX(7, p.x, 2, finalXChild, finalYChild);
+												q.y = posisifinalY(7, p.y, 2, finalXChild, finalYChild);
 											} else if(i == 3) {
-												q.x = posisifinalXChild(7, p.x, 3, finalXChild, finalYChild);
-												q.y = posisifinalYChild(7, p.y, 3, finalXChild, finalYChild);
+												q.x = posisifinalX(7, p.x, 3, finalXChild, finalYChild);
+												q.y = posisifinalY(7, p.y, 3, finalXChild, finalYChild);
 											} else if(i == 4) {
-												q.x = posisifinalXChild(7, p.x, 4, finalXChild, finalYChild);
-												q.y = posisifinalYChild(7, p.y, 4, finalXChild, finalYChild);
+												q.x = posisifinalX(7, p.x, 4, finalXChild, finalYChild);
+												q.y = posisifinalY(7, p.y, 4, finalXChild, finalYChild);
 											} else if(i == 5) {
-												q.x = posisifinalXChild(7, p.x, 5, finalXChild, finalYChild);
-												q.y = posisifinalYChild(7, p.y, 5, finalXChild, finalYChild);
+												q.x = posisifinalX(7, p.x, 5, finalXChild, finalYChild);
+												q.y = posisifinalY(7, p.y, 5, finalXChild, finalYChild);
 											} else if(i == 6) {
-												q.x = posisifinalXChild(7, p.x, 6, finalXChild, finalYChild);
-												q.y = posisifinalYChild(7, p.y, 6, finalXChild, finalYChild);
+												q.x = posisifinalX(7, p.x, 6, finalXChild, finalYChild);
+												q.y = posisifinalY(7, p.y, 6, finalXChild, finalYChild);
 											}
 										});
 									}
@@ -2896,29 +2272,29 @@
 									if(dataGrandChild.length == 8) {
 										dataGrandChild.forEach(function(q, i) {
 											if(i == 0) {
-												q.x = posisifinalXChild(8, p.x, 0, finalXChild, finalYChild);
-												q.y = posisifinalYChild(8, p.y, 0, finalXChild, finalYChild);
+												q.x = posisifinalX(8, p.x, 0, finalXChild, finalYChild);
+												q.y = posisifinalY(8, p.y, 0, finalXChild, finalYChild);
 											} else if(i == 1) {
-												q.x = posisifinalXChild(8, p.x, 1, finalXChild, finalYChild);
-												q.y = posisifinalYChild(8, p.y, 1, finalXChild, finalYChild);
+												q.x = posisifinalX(8, p.x, 1, finalXChild, finalYChild);
+												q.y = posisifinalY(8, p.y, 1, finalXChild, finalYChild);
 											} else if(i == 2) {
-												q.x = posisifinalXChild(8, p.x, 2, finalXChild, finalYChild);
-												q.y = posisifinalYChild(8, p.y, 2, finalXChild, finalYChild);
+												q.x = posisifinalX(8, p.x, 2, finalXChild, finalYChild);
+												q.y = posisifinalY(8, p.y, 2, finalXChild, finalYChild);
 											} else if(i == 3) {
-												q.x = posisifinalXChild(8, p.x, 3, finalXChild, finalYChild);
-												q.y = posisifinalYChild(8, p.y, 3, finalXChild, finalYChild);
+												q.x = posisifinalX(8, p.x, 3, finalXChild, finalYChild);
+												q.y = posisifinalY(8, p.y, 3, finalXChild, finalYChild);
 											} else if(i == 4) {
-												q.x = posisifinalXChild(8, p.x, 4, finalXChild, finalYChild);
-												q.y = posisifinalYChild(8, p.y, 4, finalXChild, finalYChild);
+												q.x = posisifinalX(8, p.x, 4, finalXChild, finalYChild);
+												q.y = posisifinalY(8, p.y, 4, finalXChild, finalYChild);
 											} else if(i == 5) {
-												q.x = posisifinalXChild(8, p.x, 5, finalXChild, finalYChild);
-												q.y = posisifinalYChild(8, p.y, 5, finalXChild, finalYChild);
+												q.x = posisifinalX(8, p.x, 5, finalXChild, finalYChild);
+												q.y = posisifinalY(8, p.y, 5, finalXChild, finalYChild);
 											} else if(i == 6) {
-												q.x = posisifinalXChild(8, p.x, 6, finalXChild, finalYChild);
-												q.y = posisifinalYChild(8, p.y, 6, finalXChild, finalYChild);
+												q.x = posisifinalX(8, p.x, 6, finalXChild, finalYChild);
+												q.y = posisifinalY(8, p.y, 6, finalXChild, finalYChild);
 											} else if(i == 7) {
-												q.x = posisifinalXChild(8, p.x, 7, finalXChild, finalYChild);
-												q.y = posisifinalYChild(8, p.y, 7, finalXChild, finalYChild);
+												q.x = posisifinalX(8, p.x, 7, finalXChild, finalYChild);
+												q.y = posisifinalY(8, p.y, 7, finalXChild, finalYChild);
 											}
 										});
 									}
@@ -2949,9 +2325,9 @@
 									.attr("id", function(q, i) {
 										return "circleGrandChild-" + i;  // id tiap circle
 									})
-									.attr("cx", function(q, i) { return q.x; })
-									.attr("cy", function(q, i) { return q.y; })
-									.attr("r", function(q, i) { return 15; })
+									.attr("cx", function(q) { return q.x; })
+									.attr("cy", function(q) { return q.y; })
+									.attr("r", function(q) { return 15; })
 									.style("fill", "#3B5998")
 									.style("stroke-width", "0px");
 									// .call(force.drag);
@@ -2962,18 +2338,28 @@
 									.style("fill", "white") // Warna font
 									.attr("font-size", "14px") // Ukuran font
 									.attr("text-anchor", "middle")
-									.attr("x", function(q, i) {
+									.attr("x", function(q) {
 										return q.x;
 									})
-									.attr("y", function(q, i) {
+									.attr("y", function(q) {
 										return q.y + 5;
 									})
 									.text("1");
+									
+									$('.paperGrandChild').hover(
+										function() {
+											jQuery(this).children('text').css("font-size", "30px") // Ukuran font
+										},
+										
+										function() {
+											jQuery(this).children('text').css("font-size", "14px") // Ukuran font
+										}
+									);
 
 									// Hover untuk node dengan jumlah data 1
 									var g3 = svgFisheye.select(".draggable").selectAll("g.paperGrandChild").data(dataGrandChild);
 
-									$("svg circle").each(function(q, i) {
+									$("svg circle").each(function(q) {
 										$(g3[0][q]).tipsy({ 
 											gravity: 'w', 
 											gravity: 'w', 
@@ -2985,25 +2371,25 @@
 										});
 									});
 									
-									$('.labelGrandChild').hover(
-										function() {
-											$(this).attr("font-size", "30px") // Ukuran font
-										},
-										
-										function() {
-											$(this).attr("font-size", "14px") // Ukuran font
-										}
-									);
+									if($("#mode_pan option:selected").text() == 'Linier') {
+										svgFisheye.on("mousemove", function() {
+											fisheye.focus(d3.mouse(this));
 
-									elemGrandChildEnter.on("mouseover", function(q, i) {
-										fisheye.focus(d3.mouse(this));
+											// Fisheye untuk setiap node
+											nodeGrandChild.each(function(q) { q.fisheye = fisheye(q); })
+											.attr("r", function(q) { return q.fisheye.z * 15; });
+										});
+									} else {
+										elemGrandChildEnter.on("mousemove", function() {
+											fisheye.focus(d3.mouse(this));
 
-										// Fisheye untuk setiap node
-										nodeGrandChild.each(function(q) { q.fisheye = fisheye(q); })
-										.attr("r", function(q) { return q.fisheye.z * 15; });
-									});
+											// Fisheye untuk setiap node
+											nodeGrandChild.each(function(q) { q.fisheye = fisheye(q); })
+											.attr("r", function(q) { return q.fisheye.z * 15; });
+										});										
+									}
 
-									elemGrandChildEnter.on("click", function(q, i) {
+									elemGrandChildEnter.on("click", function(q) {
 										// if(q.length == 1) {
 											if(document.URL.indexOf("#") >= 0) {
 												var location = document.URL.split("#");
@@ -3046,20 +2432,23 @@
 
 								// Menonaktifkan zoom pada level 2 dan mengaktifkan zoom pada level 1
 								else if(zoomLevel1 == false) {
+									zoomLevel0 = false;
+									zoomLevel1 = true;
+									zoomLevel2 = false;
+									
+									$(".paperGrandChild").remove();
 
 									circleChild = document.getElementsByClassName("circleStroke2");
 									circleChild[0].classList.remove("circleStroke2");
 									
-									elemChildEnter.on("mouseover", function(p, i) {
-										$(".paperGrandChild").remove();
+									node.style("fill", "#DDDDDD");
 
-										node.style("fill", "#DDDDDD");
-
-										nodeChild.style("fill", "#3B5998")
-										.style("opacity", 1);
-										
-										labelChild.style("opacity", 1);
-
+									nodeChild.style("fill", "#3B5998")
+									.style("opacity", 1);
+									
+									labelChild.style("opacity", 1);
+																		
+									svgFisheye.on("mousemove", function() {
 										fisheye.focus(d3.mouse(this));
 
 										// Fisheye untuk setiap node
@@ -3088,10 +2477,6 @@
 											}
 										})
 									});
-
-									zoomLevel0 = false;
-									zoomLevel1 = true;
-									zoomLevel2 = false;
 								}
 							}
 						});
@@ -3099,19 +2484,32 @@
 
 					// Menonaktifkan zoom pada level 1 dan mengaktifkan zoom pada level 0
 					else if (zoomLevel0 == false) {
+						zoomLevel0 = true;
+						zoomLevel1 = false;
+						zoomLevel2 = false;
+						
+						$(".paperChild").remove();
+						$(".paperGrandChild").remove();
 
 						circleParent = document.getElementsByClassName("circleStroke");
 						circleParent[0].classList.remove("circleStroke");
-
-						elemParentEnter.on("mouseover", function(d, i) {
-							$(".paperChild").remove();
-							$(".paperGrandChild").remove();
-
-							node.style("fill", "#3B5998")
-							.style("opacity", 1);;
+						
+						node.style("fill", "#3B5998")
+						.style("opacity", 1);
+						
+						label.style("opacity", 1);		
+						
+						$('.paperParent').hover(
+							function() {
+								jQuery(this).children('text').css("font-size", "30px") // Ukuran font
+							},
 							
-							label.style("opacity", 1);
+							function() {
+								jQuery(this).children('text').css("font-size", "14px") // Ukuran font
+							}
+						);
 
+						svgFisheye.on("mousemove", function() {
 							fisheye.focus(d3.mouse(this));
 
 							// Fisheye untuk setiap node
@@ -3120,7 +2518,7 @@
 
 							// Fisheye untuk setiap label
 							label.each(function(d) { d.fisheye = fisheye(d); })
-							.attr("font-size", function(d, i) {
+							.attr("font-size", function(d) {
 								// Isi label
 								var realSize = 0;
 
@@ -3153,10 +2551,6 @@
 							// .attr("x2", function(d) { return d.target.fisheye.x; })
 							// .attr("y2", function(d) { return d.target.fisheye.y; });
 						});
-
-						zoomLevel0 = true;
-						zoomLevel1 = false;
-						zoomLevel2 = false;
 					}
 				}
 			});
@@ -3361,17 +2755,17 @@
 			//////////////////////////
 
 			if ($("#mode_pan option:selected").text() == 'Linier'){
-				svgFisheye.call(grabAndDrag); // memanggil fungsi grabAndDrag jika mode pan=Linier
+				svgFisheye.call(grabAndDrag); // memanggil fungsi grabAndDrag jika mode pan == Linier
 			}
 			else {
-				svgFisheye.call(distortion); // memanggil fungsi distortion jika mode pan=Distorsi
+				svgFisheye.call(distortion); // memanggil fungsi distortion jika mode pan == Distorsi
 			}
 
 			/* PANNING WITH DIRECT REPOSITIONING TECHNIQUE (GRAB AND DRAG) */
 			function grabAndDrag(selection){
 				// svgFisheye.select('.background').on('mousemove', null);
 				d3.select('#reset').style('visibility','visible');
-				selection.select(".textInfo").remove();
+				d3.select(".textInfo").remove();
 
 				selection.append('rect')
 				.attr('class', 'block')
@@ -3413,11 +2807,16 @@
 
 				canvasChart.call(overviewmap); // Call overview map
 
+				//mengembalikan peta pada posisi awal jika tombol reset ditekan 
 				d3.select("#reset").on('click', function() {
 					selection.select('.draggable').transition()
-						.attr("transform", function(d,i){
+						.attr("transform", function(d, i){
 							return "translate(" + 0 + ", " + 0 + ")";
 						})
+						
+					globalX = 0;
+					globalY = 0;
+						
 					d3.select(".x").transition().attr('transform', 'translate(' + 0 + ',' + height + ')');	
 					d3.select(".y").transition().attr('transform', 'translate(' + 0 + ',' + 0 + ')');
 					d3.select(".frame").transition().attr("transform", "translate(" + 0 + "," + 0 + ")");
@@ -3427,23 +2826,33 @@
 
 			/* PANNING WITH DISTORTION */
 			function distortion(selection){
-				wrapperInner.select('.background').on('mousedown.drag', null);
-				canvasChart.select('.overviewmap').remove();
-				d3.select('#reset').style('visibility','hidden');
-				
+
 				selection.append("text")
 					.attr("class","textInfo")
-					.text("* Press Ctrl Key To Pan")
+					.text("* Press Ctrl Key + Move The Mouse Cursor To Pan")
 					.attr("transform","translate(10,0)")
-					.style("fill","#46b8da");
-				//respond to the mouse and distort where necessary
+					.style("fill","blue");
+					// .style("fill","#46b8da");
+
+				wrapperInner.select('.background').on('mousedown.drag', null);	
+				canvasChart.select('.overviewmap').remove(); // Menghilangkan overview map
+				d3.select('#reset').style('visibility','hidden'); // Menghilangkan tombol reset
+				// Posisi awal peta 
+				d3.select('.draggable').transition()
+					.attr("transform", function(d,i){
+					return "translate(" + 0 + ", " + 0 + ")";
+				})
+				d3.select(".x").transition().attr('transform', 'translate(' + 0 + ',' + height + ')');	
+				d3.select(".y").transition().attr('transform', 'translate(' + 0 + ',' + 0 + ')');
+
+				// Merespon gerakan mouse dan memberi efek distorsi
 				wrapperInner.select(".background").on("mousemove", function(d, i){
-					if(d3.event.ctrlKey){	//if the ctrl key is pressed
+					if(d3.event.ctrlKey){ // Jika tombol Ctrl ditekan maka panning akan aktif
 						var mouse = d3.mouse(this);
 						posisiX.distortion(2).focus(mouse[0]);
 						posisiY.distortion(2).focus(mouse[1]);
 						// posisiR.distortion(2);
-
+					
 						// Menutup zoom
 						d3.select(".paperChild").remove();
 						d3.select(".paperGrandChild").remove();
@@ -3460,7 +2869,7 @@
 						zoomLevel2 = false;
 
 						// Mengembalikan warna paper parent
-						node.style("fill", "#FFC2AD"); 
+						node.style("fill", "#3B5998"); 
 
 						// Redraw nodes, labels, and links
 						node.attr("transform", function(d, i) {
@@ -3473,15 +2882,41 @@
 							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2))
 							+ ")";
 						});
-						
+
+						node.attr("r",function(d){
+							var rmax = 30;
+							var xFeye, yFeye, a, b;
+							xFeye = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+							yFeye = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+							a = Math.abs(rmax - (Math.abs(mouse[0] - xFeye) / rmax));
+							b = Math.abs(rmax - (Math.abs(mouse[1] - yFeye) / rmax));
+							if (a < b) { return a; }
+							else { return b; }
+						});
+
+						elemParentEnter.select("text").attr("font-size", function(d){
+							//jari-jari pada fisheye view
+							var rmax = 30, fontmax = 14;
+							var xFeye, yFeye, a, b, r;
+							xFeye = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
+							yFeye = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
+							a = Math.abs(rmax - (Math.abs(mouse[0] - xFeye) / rmax));
+							b = Math.abs(rmax - (Math.abs(mouse[1] - yFeye) / rmax));
+							if (a < b) { r = a; }
+							else { r = b; }
+
+							//ukuran font text relatif terhadap jari-jari lingkaran
+							return Math.abs(fontmax - (r + 8));
+						});
+
 						label.attr("transform", function(d, i) {
 							d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
-							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2)) + 10;
+							d.y = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2) + 5);
 							
 							return "translate(" +
 							(posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2))
 							+ ", " +
-							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2)) + 10
+							(posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2) + 5)
 							+ ")";
 						});
 
@@ -3559,14 +2994,14 @@
 
 					chart.select(".x.axis").call(xAxis);
 				    chart.select(".y.axis").call(yAxis);
-					}
+					} 
 				});
 			}
 
 			/* PANNING WITH NAVIGATION WINDOW TECHNIQUE (OVERVIEW MAP) */	
 			function overviewmap(selection) {
 				var target = panCanvas,
-				overviewScale = 0.1,
+				overviewScale = 0.095,
 				scale = 1,
 				frameX,
 				frameY;
@@ -3597,19 +3032,23 @@
 					d3.event.sourceEvent.stopImmediatePropagation();
 						frameX += d3.event.dx;
 						frameY += d3.event.dy;
+						
+						globalX = -frameX * scale;
+						globalY = -frameY * scale;
+						
 						frame.attr("transform", "translate(" + frameX + "," + frameY + ")");
 						
 						var translate =  [(-frameX * scale), (-frameY * scale)];
 						target.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
-						d3.select('.x').attr('transform', 'translate(' + (-frameX*scale) + ',' + height + ')scale('+ scale +')');	
-						d3.select('.y').attr('transform', 'translate(' + 0 + ',' + (-frameY*scale) + ')scale('+ scale +')');
+						d3.select('.x').attr('transform', 'translate(' + (-frameX * scale) + ',' + height + ')scale('+ scale +')');	
+						d3.select('.y').attr('transform', 'translate(' + 0 + ',' + (-frameY * scale) + ')scale('+ scale +')');
 				});
 
 			    frame.call(drag);
 			    
 				var render = function() {
 			    	// scale = 1.75;
-			        container.attr("transform", "scale(" + overviewScale + ")");
+			        container.attr("transform", "scale(" + overviewScale + ")translate(0,100)");
 				    var node = target.node().cloneNode(true);
 				    node.removeAttribute("id");
 				    base.selectAll(".overviewmap .panCanvas").remove();
