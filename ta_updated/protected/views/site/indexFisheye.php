@@ -2785,10 +2785,10 @@
 			function distortion(selection){
 
 				selection.append("text")
-					.attr("class", "textInfo")
-					.text("* Press Ctrl Key To Pan")
-					.attr("transform", "translate(10,0)")
-					.style("fill", "blue");
+					.attr("class","textInfo")
+					.text("* Press Ctrl Key + Move The Mouse Cursor To Pan")
+					.attr("transform","translate(10,0)")
+					.style("fill","blue");
 					// .style("fill","#46b8da");
 
 				wrapperInner.select('.background').on('mousedown.drag', null);	
