@@ -1002,7 +1002,7 @@
 			<div class="row">
 			  <div class="col-md-8 dropdown">
 			  	<?php
-					echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye', 'Breadcrumbs' => 'Breadcrumbs'), array(
+					echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye + Semantic', 'Breadcrumbs' => 'Breadcrumbs'), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
 						'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
@@ -3186,10 +3186,10 @@
 			defaultZooming = zooming;
 			pan = $("#mode_pan option:selected").text();
 
-			if(zooming == "Fisheye") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+			if(zooming == "Fisheye + Semantic") {
+				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
@@ -3721,7 +3721,7 @@
 		<a class="close" href="#close" id="closeDetail"></a>
 	</div>
 
-	<!-- popup help for zooming -->
+	<!-- Popup help for zooming -->
 	<a href="#helpZoom" class="overlay" id="helpZooming"></a>
 	<div class="popup" style ="width:800px;">
 		<h2>Mode Zoom</h2>
@@ -3731,7 +3731,7 @@
 		<a class="close" href="#close" id="closeHelpZoom"></a>
 	</div>
 
-	<!-- popup help for panning -->
+	<!-- Popup help for panning -->
 	<a href="#helpPan" class="overlay" id="helpPanning"></a>
 	<div class="popup" style ="width:800px;">
 		<h2>Mode Pan</h2>

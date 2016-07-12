@@ -159,6 +159,10 @@
 							intro: "<b style=\"font-size:20px\">Ubah Relasi</b><br/><br/>Ubah relasi visualisasi (panah)<br/> Relasinya sebagai berikut : " + data,
 							position: 'top'
 						},
+						{	element: '#mode_zoom',
+							intro: "<b style=\"font-size:20px\">Ubah Mode Pan</b><br/><br/>Ubah mode zoom<br/> Breadcrumbs atau Fisheye + Semantic",
+							position: 'top'
+						},
 						{
 							element: '#mode_pan',
 							intro: "<b style=\"font-size:20px\">Ubah Mode Pan</b><br/><br/>Ubah mode pan<br/> Linier atau Distorsi",
@@ -171,10 +175,13 @@
 							intro: "<b style=\"font-size:20px\">Zoom Data</b><br/><br/>Angka pada lingkaran menunjukkan <b>jumlah paper</b> pada suatu kordinat. Untuk data yang <b>lebih dari satu</b>, pengguna dapat melakukan <b>zoom</b> data dengan melakukan <b>klik pada lingkaran</b>. Zoom bertujuan untuk melihat informasi yang terkadung dengan lebih rinci."         
 						},
 						{
-							intro: "<b style=\"font-size:20px\">Pengelompokan Data</b><br/><br/>Jika dilakukan zoom data, akan ditampilkan lingkaran berupa pengelompokan dari data yang sebelumnya dipilih. Warna <b>pink muda</b> menunjukkan <b>data tunggal</b>, warna <b>pink tua</b> menunjukkan <b>pengelompokan data</b> yang jika dipilih, pengguna dapat melihat <b>isi</b> dari pengelompokan data tersebut"
+							intro: "<b style=\"font-size:20px\">Pengelompokan Data</b><br/><br/>Jika dilakukan zoom data, akan ditampilkan lingkaran berupa pengelompokan dari data yang sebelumnya dipilih. Pada mode zoom <b>Breadcrumbs</b>, pengelompokan <b>view baru</b>. Pada mode zoom <b>Fisheye + Semantic</b> pengelompokan ditampilkan pada <b>view yang sama</b> untuk efisiensi"
 						},
 						{
-							intro: "<b style=\"font-size:20px\">Navigasi Level</b><br/><br/><img id=\"home\" src=\"<?php echo Yii::app()->request->baseUrl; ?>/images/breadcrumb.png\" height=\"30\" style=\"float:left;margin-right:10px;margin-bottom:10px\"></img>Untuk kembali ke data sebelumnya pengguna dapat melakukan klik pada <b><i>breadcrumb</i></b>. Untuk kembali ke peta penelitian, pengguna dapat melakukan klik pada <b>icon rumah (home)</b>"
+							intro: "<b style=\"font-size:20px\">Navigasi Level Breadcrumbs</b><br/><br/><img id=\"home\" src=\"<?php echo Yii::app()->request->baseUrl; ?>/images/breadcrumb.png\" height=\"30\" style=\"float:left;margin-right:10px;margin-bottom:10px\"></img>Untuk kembali ke data sebelumnya pengguna dapat melakukan klik pada <b><i>breadcrumb</i></b>. Untuk kembali ke peta penelitian, pengguna dapat melakukan klik pada <b>icon rumah (home)</b>"
+						},
+						{
+							intro: "<b style=\"font-size:20px\">Navigasi Level Fisheye + Semantic</b><br/><br/>Untuk kembali ke data sebelumnya pengguna dapat melakukan klik pada <b>lingkaran yang baru saja dipilih sebelumnya</b> (ditandai dengan adanya border).</b>"
 						}
 					]
 				});
@@ -275,7 +282,7 @@
 			<div class="sub-heading">Mode Zoom</div>
 			<div class="dropdown">
 				<?php
-					echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye', 'Breadcrumbs' => 'Breadcrumbs'), array(
+					echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye + Semantic', 'Breadcrumbs' => 'Breadcrumbs'), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
 						'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
@@ -1740,10 +1747,10 @@
 			zooming = $("#mode_zoom option:selected").text();
 			pan = $("#mode_pan option:selected").text();
 
-			if(zooming == "Fisheye") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+			if(zooming == "Fisheye + Semantic") {
+				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
