@@ -3728,7 +3728,7 @@
 
 	<!-- popup help for zooming -->
 	<a href="#helpZoom" class="overlay" id="helpZooming"></a>
-	<div class="popup" style ="width:800px;">
+	<div class="popup" style ="width:600px;">
 		<h2>Mode Zoom</h2>
 		<div id="popup-content">
 			Tulis konten disini
@@ -3738,7 +3738,7 @@
 
 	<!-- popup help for panning -->
 	<a href="#helpPan" class="overlay" id="helpPanning"></a>
-	<div class="popup" style ="width:800px;">
+	<div class="popup" style ="width:600px;">
 		<h2>Mode Pan</h2>
 		<div id="popup-content">
 			wkwkwkwwkk
