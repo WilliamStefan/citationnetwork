@@ -7,3 +7,7 @@
 	stroke: #BBBBBB;
 	stroke-width: 3px !important;
 }
+
+.zoomLabel {
+	font-size: 30px !important;
+}

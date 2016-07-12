@@ -1259,7 +1259,8 @@
 			// .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
  
 			var fisheye = d3.fisheye.circular()
-			.radius(100);
+			.radius(100)
+			.distortion(2);
 
 			///////////////////////////////////////////////////
 			// Persiapan membuat garis sumbu x dan y selesai //
@@ -1516,8 +1517,6 @@
 				.attr("id", function(d, i) {
 					return "circleParent-" + i;  // id tiap circle
 				})
-				// .attr("cx", function(d, i) { return d.x; }) // Koordinat lingkaran pada sumbu x
-				// .attr("cy", function(d, i) { return d.y; }) // Koordinat lingkaran pada sumbu y
 				.attr("r", function(d, i) {
 					// Mengatur jari-jari lingkaran
 					if(d.size.length == 1) {
@@ -1584,8 +1583,6 @@
 				})
 				.attr("text-anchor", "middle")
 				.style("fill", "white") // Warna font
-				// .attr("x", function(d, i) { return d.x; }) // Koordinat label pada sumbu x
-				// .attr("y", function(d, i) { return d.y + 5; }) // Koordinat label pada sumbu y
 				.text(function(d) {
 					// Isi label
 					var realSize = 0;
@@ -1599,11 +1596,13 @@
 				
 				$('.paperParent').hover(
 					function() {
-						jQuery(this).children('text').css("font-size", "30px") // Ukuran font
+						$(this).children('text').attr("class", "labelParent zoomLabel");
+						// jQuery(this).children('text').css("font-size", "30px") // Ukuran font
 					},
 					
 					function() {
-						jQuery(this).children('text').css("font-size", "14px") // Ukuran font
+						$(this).children('text').attr("class", "labelParent");
+						// jQuery(this).children('text').css("font-size", "14px") // Ukuran font
 					}
 				);
 			}
@@ -1704,22 +1703,28 @@
 					}
 				});
 			});
-						
-			elemParentEnter.on("mouseover", function(d) {
-				fisheye.focus(d3.mouse(this));
+			
+			if($("#mode_pan option:selected").text() == 'Linier') {
+				svgFisheye.on("mousemove", function() {
+					fisheye.focus(d3.mouse(this));
 
-				// Fisheye untuk setiap node
-				node.each(function(d) { d.fisheye = fisheye(d); })
-				.attr("r", function(d) {
+					// Fisheye untuk setiap node
+					node.each(function(d) { d.fisheye = fisheye(d); })
+					.attr("r", function(d) {
 						return d.fisheye.z * 20;
+					});
 				});
+			} else {
+				elemParentEnter.on("mousemove", function() {
+					fisheye.focus(d3.mouse(this));
 
-				// Fisheye untuk setiap garis
-				// link.attr("x1", function(d) { return d.source.fisheye.x; })
-				// .attr("y1", function(d) { return d.source.fisheye.y; })
-				// .attr("x2", function(d) { return d.target.fisheye.x; })
-				// .attr("y2", function(d) { return d.target.fisheye.y; });
-			});
+					// Fisheye untuk setiap node
+					node.each(function(d) { d.fisheye = fisheye(d); })
+					.attr("r", function(d) {
+						return d.fisheye.z * 20;
+					});
+				});
+			}
 
 			elemParentEnter.on("click", function(d, i) {
 				if(d.children.length == 1) {
@@ -1765,7 +1770,7 @@
 						var finalX = globalX + d.x;
 						var finalY = globalY + d.y;
 
-						elemParentEnter.on("mouseover", function(d) {});
+						svgFisheye.on("mousemove", function() {});
 
 						var clickedParent = "circleParent-" + i;
 
@@ -1927,10 +1932,10 @@
 						
 						// Ubah warna paperParent
 						node.style("fill", "#DDDDDD")
-						.style("opacity", 0.5);
+						.style("opacity", 0.75);
 						
 						// Ubah warna labelParent
-						label.style("opacity", 0.5);
+						label.style("opacity", 0.75);
 
 						var elemChild = svgFisheye.select(".draggable").selectAll("g.circle")
 						.data(dataChild);
@@ -2030,14 +2035,24 @@
 								}
 							});
 						});
+						
+						if($("#mode_pan option:selected").text() == 'Linier') {
+							svgFisheye.on("mousemove", function() {
+								fisheye.focus(d3.mouse(this));
 
-						elemChildEnter.on("mouseover", function(p) {
-							fisheye.focus(d3.mouse(this));
+								// Fisheye untuk setiap node
+								nodeChild.each(function(p) { p.fisheye = fisheye(p); })
+								.attr("r", function(p) { return p.fisheye.z * 15; });
+							});
+						} else {
+							elemChildEnter.on("mousemove", function() {
+								fisheye.focus(d3.mouse(this));
 
-							// Fisheye untuk setiap node
-							nodeChild.each(function(p) { p.fisheye = fisheye(p); })
-							.attr("r", function(p) { return p.fisheye.z * 15; });
-						});
+								// Fisheye untuk setiap node
+								nodeChild.each(function(p) { p.fisheye = fisheye(p); })
+								.attr("r", function(p) { return p.fisheye.z * 15; });
+							});
+						}
 
 						elemChildEnter.on("click", function(p, i) {
 							if(d.size[i] == 1) {
@@ -2078,8 +2093,8 @@
 									var finalXChild = globalX + p.x;
 									var finalYChild = globalY + p.y;
 																		
-									elemParentEnter.on("mouseover", function(d) {});
-									elemChildEnter.on("mouseover", function(p) {});
+									svgFisheye.on("mousemove", function() {});
+									svgFisheye.on("mousemove", function() {});
 									
 									var clickedChild = "circleChild-" + i;
 
@@ -2312,14 +2327,24 @@
 											}
 										});
 									});
+									
+									if($("#mode_pan option:selected").text() == 'Linier') {
+										svgFisheye.on("mousemove", function() {
+											fisheye.focus(d3.mouse(this));
 
-									elemGrandChildEnter.on("mouseover", function(q) {
-										fisheye.focus(d3.mouse(this));
+											// Fisheye untuk setiap node
+											nodeGrandChild.each(function(q) { q.fisheye = fisheye(q); })
+											.attr("r", function(q) { return q.fisheye.z * 15; });
+										});
+									} else {
+										elemGrandChildEnter.on("mousemove", function() {
+											fisheye.focus(d3.mouse(this));
 
-										// Fisheye untuk setiap node
-										nodeGrandChild.each(function(q) { q.fisheye = fisheye(q); })
-										.attr("r", function(q) { return q.fisheye.z * 15; });
-									});
+											// Fisheye untuk setiap node
+											nodeGrandChild.each(function(q) { q.fisheye = fisheye(q); })
+											.attr("r", function(q) { return q.fisheye.z * 15; });
+										});										
+									}
 
 									elemGrandChildEnter.on("click", function(q) {
 										// if(q.length == 1) {
@@ -2364,20 +2389,23 @@
 
 								// Menonaktifkan zoom pada level 2 dan mengaktifkan zoom pada level 1
 								else if(zoomLevel1 == false) {
+									zoomLevel0 = false;
+									zoomLevel1 = true;
+									zoomLevel2 = false;
+									
+									$(".paperGrandChild").remove();
 
 									circleChild = document.getElementsByClassName("circleStroke2");
 									circleChild[0].classList.remove("circleStroke2");
+									
+									node.style("fill", "#DDDDDD");
+
+									nodeChild.style("fill", "#3B5998")
+									.style("opacity", 1);
+									
+									labelChild.style("opacity", 1);
 																		
-									elemChildEnter.on("mouseover", function(p) {
-										$(".paperGrandChild").remove();
-
-										node.style("fill", "#DDDDDD");
-
-										nodeChild.style("fill", "#3B5998")
-										.style("opacity", 1);
-										
-										labelChild.style("opacity", 1);
-
+									svgFisheye.on("mousemove", function() {
 										fisheye.focus(d3.mouse(this));
 
 										// Fisheye untuk setiap node
@@ -2406,10 +2434,6 @@
 											}
 										})
 									});
-
-									zoomLevel0 = false;
-									zoomLevel1 = true;
-									zoomLevel2 = false;
 								}
 							}
 						});
@@ -2417,9 +2441,20 @@
 
 					// Menonaktifkan zoom pada level 1 dan mengaktifkan zoom pada level 0
 					else if (zoomLevel0 == false) {
+						zoomLevel0 = true;
+						zoomLevel1 = false;
+						zoomLevel2 = false;
+						
+						$(".paperChild").remove();
+						$(".paperGrandChild").remove();
 
 						circleParent = document.getElementsByClassName("circleStroke");
 						circleParent[0].classList.remove("circleStroke");
+						
+						node.style("fill", "#3B5998")
+						.style("opacity", 1);
+						
+						label.style("opacity", 1);		
 						
 						$('.paperParent').hover(
 							function() {
@@ -2431,15 +2466,7 @@
 							}
 						);
 
-						elemParentEnter.on("mouseover", function(d) {
-							$(".paperChild").remove();
-							$(".paperGrandChild").remove();
-
-							node.style("fill", "#3B5998")
-							.style("opacity", 1);
-							
-							label.style("opacity", 1);		
-
+						svgFisheye.on("mousemove", function() {
 							fisheye.focus(d3.mouse(this));
 
 							// Fisheye untuk setiap node
@@ -2481,10 +2508,6 @@
 							// .attr("x2", function(d) { return d.target.fisheye.x; })
 							// .attr("y2", function(d) { return d.target.fisheye.y; });
 						});
-
-						zoomLevel0 = true;
-						zoomLevel1 = false;
-						zoomLevel2 = false;
 					}
 				}
 			});
@@ -2689,17 +2712,17 @@
 			//////////////////////////
 
 			if ($("#mode_pan option:selected").text() == 'Linier'){
-				svgFisheye.call(grabAndDrag); // memanggil fungsi grabAndDrag jika mode pan=Linier
+				svgFisheye.call(grabAndDrag); // memanggil fungsi grabAndDrag jika mode pan == Linier
 			}
 			else {
-				svgFisheye.call(distortion); // memanggil fungsi distortion jika mode pan=Distorsi
+				svgFisheye.call(distortion); // memanggil fungsi distortion jika mode pan == Distorsi
 			}
 
 			/* PANNING WITH DIRECT REPOSITIONING TECHNIQUE (GRAB AND DRAG) */
 			function grabAndDrag(selection){
 				// svgFisheye.select('.background').on('mousemove', null);
 				d3.select('#reset').style('visibility','visible');
-				selection.select(".textInfo").remove();
+				d3.select(".textInfo").remove();
 
 				selection.append('rect')
 				.attr('class', 'block')
@@ -2744,7 +2767,7 @@
 				//mengembalikan peta pada posisi awal jika tombol reset ditekan 
 				d3.select("#reset").on('click', function() {
 					selection.select('.draggable').transition()
-						.attr("transform", function(d,i){
+						.attr("transform", function(d, i){
 							return "translate(" + 0 + ", " + 0 + ")";
 						})
 						
@@ -2762,16 +2785,16 @@
 			function distortion(selection){
 
 				selection.append("text")
-					.attr("class","textInfo")
+					.attr("class", "textInfo")
 					.text("* Press Ctrl Key To Pan")
-					.attr("transform","translate(10,0)")
-					.style("fill","blue");
+					.attr("transform", "translate(10,0)")
+					.style("fill", "blue");
 					// .style("fill","#46b8da");
 
 				wrapperInner.select('.background').on('mousedown.drag', null);	
-				canvasChart.select('.overviewmap').remove();	//menghilangkan overview map
-				d3.select('#reset').style('visibility','hidden');	//menghilangkan tombol reset
-				//posisi awal peta 
+				canvasChart.select('.overviewmap').remove(); // Menghilangkan overview map
+				d3.select('#reset').style('visibility','hidden'); // Menghilangkan tombol reset
+				// Posisi awal peta 
 				d3.select('.draggable').transition()
 					.attr("transform", function(d,i){
 					return "translate(" + 0 + ", " + 0 + ")";
@@ -2779,9 +2802,9 @@
 				d3.select(".x").transition().attr('transform', 'translate(' + 0 + ',' + height + ')');	
 				d3.select(".y").transition().attr('transform', 'translate(' + 0 + ',' + 0 + ')');
 
-				//merespon gerakan mouse dan memberi efek distorsi
+				// Merespon gerakan mouse dan memberi efek distorsi
 				wrapperInner.select(".background").on("mousemove", function(d, i){
-					if(d3.event.ctrlKey){	//jika tombol Ctrl ditekan
+					if(d3.event.ctrlKey){ // Jika tombol Ctrl ditekan maka panning akan aktif
 						var mouse = d3.mouse(this);
 						posisiX.distortion(2).focus(mouse[0]);
 						posisiY.distortion(2).focus(mouse[1]);
@@ -2824,8 +2847,7 @@
 							yFeye = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
 							a = Math.abs(rmax - (Math.abs(mouse[0] - xFeye) / rmax));
 							b = Math.abs(rmax - (Math.abs(mouse[1] - yFeye) / rmax));
-							console.log(a, b);
-							if (a < b) {return a; }
+							if (a < b) { return a; }
 							else { return b; }
 						});
 
@@ -2835,13 +2857,13 @@
 							var xFeye, yFeye, a, b, r;
 							xFeye = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
 							yFeye = (posisiY(d.sumbu_y) + (posisiY.rangeBand() / 2));
-							a = Math.abs(rmax-(Math.abs(mouse[0]-xFeye)/rmax));
-							b = Math.abs(rmax-(Math.abs(mouse[1]-yFeye)/rmax));
-							if (a<b) { r=a; }
-							else { r=b; }
+							a = Math.abs(rmax - (Math.abs(mouse[0] - xFeye) / rmax));
+							b = Math.abs(rmax - (Math.abs(mouse[1] - yFeye) / rmax));
+							if (a < b) { r = a; }
+							else { r = b; }
 
 							//ukuran font text relatif terhadap jari-jari lingkaran
-							return Math.abs(fontmax-(r+8));
+							return Math.abs(fontmax - (r + 8));
 						});
 
 						label.attr("transform", function(d, i) {
@@ -2967,12 +2989,16 @@
 					d3.event.sourceEvent.stopImmediatePropagation();
 						frameX += d3.event.dx;
 						frameY += d3.event.dy;
+						
+						globalX = -frameX * scale;
+						globalY = -frameY * scale;
+						
 						frame.attr("transform", "translate(" + frameX + "," + frameY + ")");
 						
 						var translate =  [(-frameX * scale), (-frameY * scale)];
 						target.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
-						d3.select('.x').attr('transform', 'translate(' + (-frameX*scale) + ',' + height + ')scale('+ scale +')');	
-						d3.select('.y').attr('transform', 'translate(' + 0 + ',' + (-frameY*scale) + ')scale('+ scale +')');
+						d3.select('.x').attr('transform', 'translate(' + (-frameX * scale) + ',' + height + ')scale('+ scale +')');	
+						d3.select('.y').attr('transform', 'translate(' + 0 + ',' + (-frameY * scale) + ')scale('+ scale +')');
 				});
 
 			    frame.call(drag);
