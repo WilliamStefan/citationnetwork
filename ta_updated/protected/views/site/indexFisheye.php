@@ -2699,7 +2699,7 @@
 			function grabAndDrag(selection){
 				// svgFisheye.select('.background').on('mousemove', null);
 				d3.select('#reset').style('visibility','visible');
-				selection.select(".textInfo").remove();
+				d3.select(".textInfo").remove();
 
 				selection.append('rect')
 				.attr('class', 'block')
@@ -2763,7 +2763,7 @@
 
 				selection.append("text")
 					.attr("class","textInfo")
-					.text("* Press Ctrl Key To Pan")
+					.text("* Press Ctrl Key + Move The Mouse Cursor To Pan")
 					.attr("transform","translate(10,0)")
 					.style("fill","blue");
 					// .style("fill","#46b8da");
