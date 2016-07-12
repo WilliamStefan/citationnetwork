@@ -999,8 +999,9 @@
 		<!-- Fitur untuk mengubah parameter zooming -->
 		<div id="zooming" class="sub-right-content">
 			<div class="sub-heading">Mode Zoom</div>
-			<div class="dropdown">
-				<?php
+			<div class="row">
+			  <div class="col-md-8 dropdown">
+			  	<?php
 					echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye', 'Breadcrumbs' => 'Breadcrumbs'), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
@@ -1009,14 +1010,22 @@
 						'data'=>array('mode_zoom' => 'js:this.value', 'zoomSelected'=>'js:$(\'#mode_zoom\').val()')
 					), 
 					'class'=>'dropdown-style'));
-				?> 
+				?>  
+			  </div>
+			  <div class="col-md-4">
+			  	<a href="#helpZooming">
+					<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+				</a>
+			  </div>
 			</div>
 		</div>
 
+		<!-- Fitur untuk mengubah mode panning -->
 		<div id="pan" class="sub-right-content">
 			<div class="sub-heading">Mode Pan</div>
-			<div class="dropdown">
-				<?php
+			<div class="row">
+			  <div class="col-md-8 dropdown">
+			  	<?php
 					echo CHtml::dropDownList('mode_pan','',array('Distorsi' => 'Distorsi','Linier' => 'Linier'),array(
 					'ajax' => array(
 						'type'=>'POST', //request type
@@ -1026,6 +1035,12 @@
 					), 
 					'class'=>'dropdown-style'));
 				?> 
+			  </div>
+			  <div class="col-md-4">
+			  	<a href="#helpPanning">
+					<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+				</a>
+			  </div>
 			</div>
 		  </div>
 	</div>
@@ -3626,6 +3641,16 @@
 			window.xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 			window.xmlhttp.send(query);
 		}
+
+		d3.select(".glyphicon glyphicon-question-sign").on("click",function(){
+			if(document.URL.indexOf("#") >= 0) {
+				var location = document.URL.split("#");
+				document.location.href = location[0] + '#helpPanning';
+			} else {
+				document.location.href = document.URL + '#helpPanning';
+			}
+		});
+		
 	</script>
 
 	<!-- popup form #1 -->
@@ -3694,5 +3719,25 @@
 			</div>
 		</div>
 		<a class="close" href="#close" id="closeDetail"></a>
+	</div>
+
+	<!-- popup help for zooming -->
+	<a href="#helpZoom" class="overlay" id="helpZooming"></a>
+	<div class="popup" style ="width:800px;">
+		<h2>Mode Zoom</h2>
+		<div id="popup-content">
+			Tulis konten disini
+		</div>
+		<a class="close" href="#close" id="closeHelpZoom"></a>
+	</div>
+
+	<!-- popup help for panning -->
+	<a href="#helpPan" class="overlay" id="helpPanning"></a>
+	<div class="popup" style ="width:800px;">
+		<h2>Mode Pan</h2>
+		<div id="popup-content">
+			wkwkwkwwkk
+		</div>
+		<a class="close" href="#close" id="closeHelpPan"></a>
 	</div>
 </body>
