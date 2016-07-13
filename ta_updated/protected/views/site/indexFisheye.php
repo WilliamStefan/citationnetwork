@@ -1530,6 +1530,205 @@
 			// Membuat garis pada sumbu x dan y selesai //
 			//////////////////////////////////////////////
 			
+			////////////////////////////////////////
+			// Membuat representasi paper selesai //
+			////////////////////////////////////////
+ 
+			//////////////////
+			// Membuat link //
+			//////////////////
+
+			// Hitung x asal
+			function hitungXAsal(sourcex, sourcey, targetx, targety, r) {
+				var miring = Math.sqrt(Math.pow((targetx - sourcex), 2) + Math.pow((targety - sourcey), 2));
+				return ((targetx * r - sourcex * r + miring * sourcex) / miring);
+			}
+			 
+			// Hitung x tujuan
+			function hitungXTujuan(sourcex, sourcey, targetx, targety, r) {
+				var miring = Math.sqrt(Math.pow((sourcex - targetx), 2) + Math.pow((sourcey - targety), 2));
+				return ((targetx * miring - targetx * r - sourcex * miring + sourcex * r) / miring) + sourcex;
+			}
+
+			// Setting data untuk link, source dan targetnya ud data node
+			var rlink = new Array();
+			if(data.links.length != 0) {
+				var counter_rlink;
+				counter_rlink = 0;
+				var rlinks = new Array(data.links.length);
+				for(var i = 0; i < data.links.length; i++) {
+					var j, k, l, m;
+					j = 0; k = 0;
+					 
+					var sudah_ketemu; sudah_ketemu = 0;
+					while(data.nodes.length > j && !sudah_ketemu) {
+						if(data.nodes[j].id.length == 1 && data.links[i].source != data.nodes[j].id[0]) {
+							j++;                
+						}
+						else if(data.nodes[j].id.length == 1 && data.links[i].source == data.nodes[j].id[0]) {
+							sudah_ketemu = 1;
+						}
+						else {
+							l = 0;
+							 
+							while(data.nodes[j].id.length > l && data.links[i].source != data.nodes[j].id[l]) { // 3>0 && 1!=1
+								l++;
+							}
+ 
+							if(data.nodes[j].id.length < l || data.links[i].source != data.nodes[j].id[l]) {
+								j++;
+							}
+							else if (data.nodes[j].id.length > l && data.links[i].source == data.nodes[j].id[l]) {
+								sudah_ketemu = 1;
+							}
+						}
+					}
+					 
+					sudah_ketemu = 0;
+					 
+					while(data.nodes.length > k && !sudah_ketemu) {
+						// console.log(data.nodes[k]);
+						if(data.nodes[k].id.length == 1 && data.links[i].target != data.nodes[k].id[0]) {
+							k++;
+						}
+						else if (data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id[0]) {
+							sudah_ketemu = 1;
+						}
+						 
+						else {
+							m = 0;
+							 
+							while(data.nodes[k].id.length > m && data.links[i].target != data.nodes[k].id[m]) {
+								m++;
+							}
+							 
+							if(data.nodes[k].id.length < m || data.links[i].target != data.nodes[k].id[m]) {
+								k++;
+							}
+							else if(data.nodes[k].id.length > m && data.links[i].target == data.nodes[k].id[m]) {
+								sudah_ketemu = 1;
+							}
+						}
+					}
+					 
+					// Untuk melist semua kemungkinan apakah source dan target berada dalam 1 level atau tidak
+					if(j < data.nodes.length && k < data.nodes.length && ((data.nodes[j].id.length == 1 && data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id && data.links[i].source == data.nodes[j].id) || (data.nodes[j].id.length > 1 && data.nodes[k].id.length > 1 && data.links[i].target == data.nodes[k].id[m] && data.links[i].source == data.nodes[j].id[l]) || (data.nodes[j].id.length == 1 && data.nodes[k].id.length > 1 && data.links[i].target == data.nodes[k].id[m] && data.links[i].source == data.nodes[j].id) ||(data.nodes[j].id.length > 1 && data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id && data.links[i].source ==data.nodes[j].id[l]))) {
+						 
+						rlink[counter_rlink] = new Array();
+						rlink[counter_rlink].source = data.nodes[j];
+						 
+						rlink[counter_rlink].target = data.nodes[k];
+						counter_rlink++;
+					} else {}
+				}
+			}
+
+			// Panah dan garis hanya akan dibuat jika linknya ada
+			if(rlink.length != 0) {
+				// Untuk membuat panah
+				var marker = svgFisheye.select('.draggable').selectAll("g.marker").data(data.links)
+					.enter().append("marker")
+					.attr("id", function(d, i) { return i; })
+					.attr("viewBox", "0 -5 10 10")
+					.attr("refX", function(d) {
+						if((posisiY(d.target.value) == posisiY(d.source.value)) && (posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x))) {}
+						 
+						if(posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) {
+							return 10;
+						} else {
+							return 10;
+						}           
+					})
+					.attr("refY", 0)
+					.attr("markerWidth", 6)
+					.attr("markerHeight", 6)
+					.attr("orient", "auto")
+					.append("svg:path")
+					.attr("d", "M0,-5L10,0L0,5")
+					.attr("fill", "none")
+					.attr("stroke", "black");
+				 
+				// (X1, Y1) koordinat asal
+				// (X2, Y2) koordinat tujuan						 
+				var link = svgFisheye.select('.draggable').selectAll("g.link").data(rlink)
+				.enter().append("line")
+				.attr("class", "link")
+				.attr("x1", function(d) {
+					if((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x))) {
+						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2) + posisiR(d.source.id.length); 
+					}
+					 
+					// Garis horizontal jika lingkaran asal ada di kiri target
+					else if ((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x))) {
+						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2) - posisiR(d.source.id.length);
+					}
+					 
+					// Garis vertical
+					else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
+						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2);
+					}
+					 
+					// Garis miring
+					else {
+						return hitungXAsal((posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2)),(posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)), (posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2)), (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2)), posisiR(d.source.id.length));
+					}
+				})
+				.attr("y1", function(d) { 
+					//garis horizontal
+					if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
+						return posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2);
+					}
+					 
+					//garis vertical dengan lingkaran asal ada di atas target
+					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
+						return (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2) + posisiR(d.source.id.length));
+					}
+					 
+					//garis vertical dengan lingkaran asal ada di bawah target
+					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
+						return (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2) - posisiR(d.source.id.length));
+					}
+
+					else {
+						var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + posisiX.rangeBand() / 2) - (posisiX(d.target.sumbu_x) + posisiX.rangeBand() / 2)), 2) + Math.pow(((posisiY(d.source.sumbu_y)+posisiY.rangeBand() / 2)-(posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)), 2));
+						return (posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (((posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)) * posisiR(d.source.id.length) / miring);
+					}
+				})
+				// Sama seperti diatas, hanya untuk lingkaran target
+				.attr("x2", function(d) {
+					if((posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
+						return posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2) - posisiR(d.target.id.length); 
+					}
+					else if ((posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
+						return posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2) + posisiR(d.target.id.length); 
+					}
+					else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
+						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2);
+					} else {
+						return hitungXTujuan((posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2)), (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)),(posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2)),(posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2)), posisiR(d.target.id.length));
+					}   
+				})
+				.attr("y2", function(d) {
+					if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
+						return posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2);
+					}
+					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
+						return (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2) - posisiR(d.target.id.length));
+					}
+					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
+						return (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2) + posisiR(d.target.id.length));
+					} else {
+						var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + posisiX.rangeBand() / 2) - (posisiX(d.target.sumbu_x) + posisiX.rangeBand() / 2)), 2) + Math.pow(((posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)), 2));
+						return posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)-(((miring - posisiR(d.target.id.length)) * ((posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)) - (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2))) / miring));
+					}
+				})
+				.attr("marker-end", function(d, i) { return "url(#" + i + ")"; });
+			}
+
+			//////////////////////////
+			// Membuat link selesai //
+			//////////////////////////
+			
 			////////////////////////////////
 			// Membuat representasi paper //
 			////////////////////////////////
@@ -1973,7 +2172,10 @@
 						
 						// Ubah warna labelParent
 						label.style("opacity", 0.75);
-
+						
+						// Ubah warna link
+						link.style("opacity", 0.3);
+						
 						var elemChild = svgFisheye.select(".draggable").selectAll("g.circle")
 						.data(dataChild);
 
@@ -2297,17 +2499,17 @@
 									
 									// Ubah warna paperParent
 									node.style("fill", "#DDDDDD")
-									.style("opacity", 0.5);
+									.style("opacity", 0.75);
 									
 									// Ubah warna labelParent
-									label.style("opacity", 0.5);
+									label.style("opacity", 0.75);
 
 									// Ubah warna paperChild
 									nodeChild.style("fill", "#DDDDDD")
-									.style("opacity", 0.5);
+									.style("opacity", 0.75);
 
 									// Ubah warna labelChild
-									labelChild.style("opacity", 0.5);
+									labelChild.style("opacity", 0.75);
 									
 									var elemGrandChild = svgFisheye.select(".draggable").selectAll("g.circle")
 									.data(dataGrandChild);
@@ -2490,10 +2692,15 @@
 						circleParent = document.getElementsByClassName("circleStroke");
 						circleParent[0].classList.remove("circleStroke");
 						
+						// Ubah warna paperParent
 						node.style("fill", "#3B5998")
 						.style("opacity", 1);
 						
-						label.style("opacity", 1);		
+						// Ubah warna labelParent
+						label.style("opacity", 1);
+						
+						// Ubah warna link
+						link.style("opacity", 1);
 						
 						$('.paperParent').hover(
 							function() {
@@ -2521,205 +2728,6 @@
 					}
 				}
 			});
-			
-			////////////////////////////////////////
-			// Membuat representasi paper selesai //
-			////////////////////////////////////////
- 
-			//////////////////
-			// Membuat link //
-			//////////////////
-
-			// Hitung x asal
-			function hitungXAsal(sourcex, sourcey, targetx, targety, r) {
-				var miring = Math.sqrt(Math.pow((targetx - sourcex), 2) + Math.pow((targety - sourcey), 2));
-				return ((targetx * r - sourcex * r + miring * sourcex) / miring);
-			}
-			 
-			// Hitung x tujuan
-			function hitungXTujuan(sourcex, sourcey, targetx, targety, r) {
-				var miring = Math.sqrt(Math.pow((sourcex - targetx), 2) + Math.pow((sourcey - targety), 2));
-				return ((targetx * miring - targetx * r - sourcex * miring + sourcex * r) / miring) + sourcex;
-			}
-
-			// Setting data untuk link, source dan targetnya ud data node
-			var rlink = new Array();
-			if(data.links.length != 0) {
-				var counter_rlink;
-				counter_rlink = 0;
-				var rlinks = new Array(data.links.length);
-				for(var i = 0; i < data.links.length; i++) {
-					var j, k, l, m;
-					j = 0; k = 0;
-					 
-					var sudah_ketemu; sudah_ketemu = 0;
-					while(data.nodes.length > j && !sudah_ketemu) {
-						if(data.nodes[j].id.length == 1 && data.links[i].source != data.nodes[j].id[0]) {
-							j++;                
-						}
-						else if(data.nodes[j].id.length == 1 && data.links[i].source == data.nodes[j].id[0]) {
-							sudah_ketemu = 1;
-						}
-						else {
-							l = 0;
-							 
-							while(data.nodes[j].id.length > l && data.links[i].source != data.nodes[j].id[l]) { // 3>0 && 1!=1
-								l++;
-							}
- 
-							if(data.nodes[j].id.length < l || data.links[i].source != data.nodes[j].id[l]) {
-								j++;
-							}
-							else if (data.nodes[j].id.length > l && data.links[i].source == data.nodes[j].id[l]) {
-								sudah_ketemu = 1;
-							}
-						}
-					}
-					 
-					sudah_ketemu = 0;
-					 
-					while(data.nodes.length > k && !sudah_ketemu) {
-						// console.log(data.nodes[k]);
-						if(data.nodes[k].id.length == 1 && data.links[i].target != data.nodes[k].id[0]) {
-							k++;
-						}
-						else if (data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id[0]) {
-							sudah_ketemu = 1;
-						}
-						 
-						else {
-							m = 0;
-							 
-							while(data.nodes[k].id.length > m && data.links[i].target != data.nodes[k].id[m]) {
-								m++;
-							}
-							 
-							if(data.nodes[k].id.length < m || data.links[i].target != data.nodes[k].id[m]) {
-								k++;
-							}
-							else if(data.nodes[k].id.length > m && data.links[i].target == data.nodes[k].id[m]) {
-								sudah_ketemu = 1;
-							}
-						}
-					}
-					 
-					// Untuk melist semua kemungkinan apakah source dan target berada dalam 1 level atau tidak
-					if(j < data.nodes.length && k < data.nodes.length && ((data.nodes[j].id.length == 1 && data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id && data.links[i].source == data.nodes[j].id) || (data.nodes[j].id.length > 1 && data.nodes[k].id.length > 1 && data.links[i].target == data.nodes[k].id[m] && data.links[i].source == data.nodes[j].id[l]) || (data.nodes[j].id.length == 1 && data.nodes[k].id.length > 1 && data.links[i].target == data.nodes[k].id[m] && data.links[i].source == data.nodes[j].id) ||(data.nodes[j].id.length > 1 && data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id && data.links[i].source ==data.nodes[j].id[l]))) {
-						 
-						rlink[counter_rlink] = new Array();
-						rlink[counter_rlink].source = data.nodes[j];
-						 
-						rlink[counter_rlink].target = data.nodes[k];
-						counter_rlink++;
-					} else {}
-				}
-			}
-
-			// Panah dan garis hanya akan dibuat jika linknya ada
-			if(rlink.length != 0) {
-				// Untuk membuat panah
-				var marker = svgFisheye.select('.draggable').selectAll("g.marker").data(data.links)
-					.enter().append("marker")
-					.attr("id", function(d, i) { return i; })
-					.attr("viewBox", "0 -5 10 10")
-					.attr("refX", function(d) {
-						if((posisiY(d.target.value) == posisiY(d.source.value)) && (posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x))) {}
-						 
-						if(posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) {
-							return 10;
-						} else {
-							return 10;
-						}           
-					})
-					.attr("refY", 0)
-					.attr("markerWidth", 6)
-					.attr("markerHeight", 6)
-					.attr("orient", "auto")
-					.append("svg:path")
-					.attr("d", "M0,-5L10,0L0,5")
-					.attr("fill", "none")
-					.attr("stroke", "black");
-				 
-				// (X1, Y1) koordinat asal
-				// (X2, Y2) koordinat tujuan						 
-				var link = svgFisheye.select('.draggable').selectAll("g.link").data(rlink)
-				.enter().append("line")
-				.attr("class", "link")
-				.attr("x1", function(d) {
-					if((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x))) {
-						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2) + posisiR(d.source.id.length); 
-					}
-					 
-					// Garis horizontal jika lingkaran asal ada di kiri target
-					else if ((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x))) {
-						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2) - posisiR(d.source.id.length);
-					}
-					 
-					// Garis vertical
-					else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
-						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2);
-					}
-					 
-					// Garis miring
-					else {
-						return hitungXAsal((posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2)),(posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)), (posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2)), (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2)), posisiR(d.source.id.length));
-					}
-				})
-				.attr("y1", function(d) { 
-					//garis horizontal
-					if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
-						return posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2);
-					}
-					 
-					//garis vertical dengan lingkaran asal ada di atas target
-					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
-						return (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2) + posisiR(d.source.id.length));
-					}
-					 
-					//garis vertical dengan lingkaran asal ada di bawah target
-					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
-						return (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2) - posisiR(d.source.id.length));
-					}
-
-					else {
-						var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + posisiX.rangeBand() / 2) - (posisiX(d.target.sumbu_x) + posisiX.rangeBand() / 2)), 2) + Math.pow(((posisiY(d.source.sumbu_y)+posisiY.rangeBand() / 2)-(posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)), 2));
-						return (posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (((posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)) * posisiR(d.source.id.length) / miring);
-					}
-				})
-				// Sama seperti diatas, hanya untuk lingkaran target
-				.attr("x2", function(d) {
-					if((posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
-						return posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2) - posisiR(d.target.id.length); 
-					}
-					else if ((posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
-						return posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2) + posisiR(d.target.id.length); 
-					}
-					else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
-						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2);
-					} else {
-						return hitungXTujuan((posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2)), (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)),(posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2)),(posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2)), posisiR(d.target.id.length));
-					}   
-				})
-				.attr("y2", function(d) {
-					if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
-						return posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2);
-					}
-					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
-						return (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2) - posisiR(d.target.id.length));
-					}
-					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
-						return (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2) + posisiR(d.target.id.length));
-					} else {
-						var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + posisiX.rangeBand() / 2) - (posisiX(d.target.sumbu_x) + posisiX.rangeBand() / 2)), 2) + Math.pow(((posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)), 2));
-						return posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)-(((miring - posisiR(d.target.id.length)) * ((posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)) - (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2))) / miring));
-					}
-				})
-				.attr("marker-end", function(d, i) { return "url(#" + i + ")"; });
-			}
-
-			//////////////////////////
-			// Membuat link selesai //
-			//////////////////////////
 
 			if ($("#mode_pan option:selected").text() == 'Linier'){
 				svgFisheye.call(grabAndDrag); // memanggil fungsi grabAndDrag jika mode pan == Linier
