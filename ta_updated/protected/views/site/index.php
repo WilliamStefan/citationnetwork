@@ -1132,14 +1132,14 @@
 				function dragmove(d) {
 					var translate = d3.transform(d3.select(".draggable").attr("transform")).translate;
 
-							x = d3.event.dx + translate[0],
-							y = d3.event.dy + translate[1];
+							delta_x = d3.event.dx + translate[0],
+							delta_y = d3.event.dy + translate[1];
 
-					  d3.select(".draggable").attr('transform', 'translate(' + (x) + ',' + (y) + ')');
-					  d3.select(".x").attr('transform', 'translate(' + (x) + ',' + height + ')');	
-					  d3.select(".y").attr('transform', 'translate(' + 0 + ',' + (y) + ')');
+					  d3.select(".draggable").attr('transform', 'translate(' + (delta_x) + ',' + (delta_y) + ')');
+					  d3.select(".x").attr('transform', 'translate(' + (delta_x) + ',' + height + ')');	
+					  d3.select(".y").attr('transform', 'translate(' + 0 + ',' + (delta_y) + ')');
 					  // var transformTarget = getXYTranslate(panCanvas.attr("transform"));
-					  d3.select(".frame").attr("transform", "translate(" + (-x) + "," + (-y) + ")");
+					  d3.select(".frame").attr("transform", "translate(" + (-delta_x) + "," + (-delta_y) + ")");
 				}
 				selection.select('.background').call(drag);
 
