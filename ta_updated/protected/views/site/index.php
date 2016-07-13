@@ -206,108 +206,142 @@
 		<!-- Fitur untuk mengubah parameter pada sumbu x dan sumbu y -->
 		<div class="sub-right-content" data-step="3" data-intro="Ubah sumbu X dan sumbu Y visualisasi">
 			<!-- Header untuk menampilkan parameter yang dapat diubah -->
-			<div class="sub-heading">Ubah Parameter</div>
-			 
-			<!-- Sumbu X -->
-			<div>Sumbu X</div>
-			<div class="dropdown">
-				<?php
-					echo CHtml::dropDownList('sumbuX', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Tahun Publikasi\''), 'deskripsi', 'deskripsi'), array(
-					'ajax' => array(
-						'type'=>'POST', //request type
-						'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
-						//Style: CController::createUrl('currentController/methodToCall')
-						'update'=>'#sumbuY', //selector to update
-						//'data'=>'js:javascript statement' 
-						//leave out the data key to pass all form values through
-						'data'=>array('sumbuX' => 'js:this.value','sumbuYselected' => 'js:$(\'#sumbuY\').val()')
-						/*
-						'success' => "js:function(data)
-						{
-						alert(data);
-					}",*/
-					), 'class'=>'dropdown-style'));
-				?>
+			<div class="row">
+				<div class="col-md-8">
+					<div class="sub-heading">Ubah Parameter</div>
+				 
+					<!-- Sumbu X -->
+					<div>Sumbu X</div>
+					<div class="dropdown">
+						<?php
+							echo CHtml::dropDownList('sumbuX', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Tahun Publikasi\''), 'deskripsi', 'deskripsi'), array(
+							'ajax' => array(
+								'type'=>'POST', //request type
+								'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
+								//Style: CController::createUrl('currentController/methodToCall')
+								'update'=>'#sumbuY', //selector to update
+								//'data'=>'js:javascript statement' 
+								//leave out the data key to pass all form values through
+								'data'=>array('sumbuX' => 'js:this.value','sumbuYselected' => 'js:$(\'#sumbuY\').val()')
+								/*
+								'success' => "js:function(data)
+								{
+								alert(data);
+							}",*/
+							), 'class'=>'dropdown-style'));
+						?>
+					</div>
+				</div>
+			  <div class="col-md-4"></div>
 			</div>
  
 			<!-- Sumbu Y -->
-			Sumbu Y
-			<div class="dropdown">
-					<?php
-						echo CHtml::dropDownList('sumbuY', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Domain Data\''), 'deskripsi', 'deskripsi'), array(
-						'ajax' => array(
-							'type'=>'POST', //request type
-							'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
-							//Style: CController::createUrl('currentController/methodToCall')
-							'update'=>'#sumbuX', //selector to update
-							//'data'=>'js:javascript statement' 
-							//leave out the data key to pass all form values through
-							'data'=>array('sumbuY' => 'js:this.value','sumbuXselected' => 'js:$(\'#sumbuX\').val()')
-							/*
-							'success' => "js:function(data)
-							{
-							alert(data);
-						}",*/
-						), 'class'=>'dropdown-style'));
-					?>
+			
+			<div class="row">
+				<div class="col-md-8">
+					Sumbu Y
+					<div class="dropdown">
+							<?php
+								echo CHtml::dropDownList('sumbuY', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Domain Data\''), 'deskripsi', 'deskripsi'), array(
+								'ajax' => array(
+									'type'=>'POST', //request type
+									'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
+									//Style: CController::createUrl('currentController/methodToCall')
+									'update'=>'#sumbuX', //selector to update
+									//'data'=>'js:javascript statement' 
+									//leave out the data key to pass all form values through
+									'data'=>array('sumbuY' => 'js:this.value','sumbuXselected' => 'js:$(\'#sumbuX\').val()')
+									/*
+									'success' => "js:function(data)
+									{
+									alert(data);
+								}",*/
+								), 'class'=>'dropdown-style'));
+							?>
+					</div>
+				</div>
+			  <div class="col-md-4"></div>
 			</div>
 		</div>
  
 		<!-- Fitur untuk mengubah parameter relasi -->
 		<div id="relation" class="sub-right-content" data-step="4">
-			<div class="sub-heading">Ubah Relasi</div>
-			<div class="dropdown">
-				<?php
-					echo CHtml::dropDownList('edge', '', Chtml::listData(MetadataRelasi::model()->findAll(),'deskripsi', 'deskripsi'), array(
-					'ajax' => array(
-						'type'=>'POST', //request type
-						'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
-						//Style: CController::createUrl('currentController/methodToCall')
-						'update'=>'#edge', //selector to update
-						//'data'=>'js:javascript statement' 
-						//leave out the data key to pass all form values through
-						'data'=>array('edge' => 'js:this.value','edgeSelected' => 'js:$(\'#edge\').val()')
-						/*
-						'success' => "js:function(data)
-						{
-						alert(data);
-					}",*/
-					), 'class'=>'dropdown-style'));
-				?>
+			<div class="row">
+				<div class="col-md-8">
+					<div class="sub-heading">Ubah Relasi</div>
+					<div class="dropdown">
+						<?php
+							echo CHtml::dropDownList('edge', '', Chtml::listData(MetadataRelasi::model()->findAll(),'deskripsi', 'deskripsi'), array(
+							'ajax' => array(
+								'type'=>'POST', //request type
+								'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
+								//Style: CController::createUrl('currentController/methodToCall')
+								'update'=>'#edge', //selector to update
+								//'data'=>'js:javascript statement' 
+								//leave out the data key to pass all form values through
+								'data'=>array('edge' => 'js:this.value','edgeSelected' => 'js:$(\'#edge\').val()')
+								/*
+								'success' => "js:function(data)
+								{
+								alert(data);
+							}",*/
+							), 'class'=>'dropdown-style'));
+						?>
+					</div>
+				</div>
+			  <div class="col-md-4"></div>
 			</div>
 		</div>
 
-		<!-- Fitur untuk mengubah parameter zooming -->
+		<!-- Fitur untuk mengubah mode zooming -->
 		<div id="zooming" class="sub-right-content">
-			<div class="sub-heading">Mode Zoom</div>
-			<div class="dropdown">
-				<?php
-					echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye + Semantic', 'Breadcrumbs' => 'Breadcrumbs'), array(
-					'ajax' => array(
-						'type'=>'POST', //request type
-						'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
-						'update' => '#mode_zoom',
-						'data'=>array('mode_zoom' => 'js:this.value', 'zoomSelected'=>'js:$(\'#mode_zoom\').val()')
-					), 
-					'class'=>'dropdown-style'));
-				?> 
+			<div class="row">
+				<div class="col-md-8">
+					<div class="sub-heading">Mode Zoom</div>
+					<div class="dropdown">
+					<?php
+						echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye + Semantic', 'Breadcrumbs' => 'Breadcrumbs'), array(
+						'ajax' => array(
+							'type'=>'POST', //request type
+							'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
+							'update' => '#mode_zoom',
+							'data'=>array('mode_zoom' => 'js:this.value', 'zoomSelected'=>'js:$(\'#mode_zoom\').val()')
+						), 
+						'class'=>'dropdown-style'));
+					?> 
+					</div> 
+				</div>
+				<div class="col-md-4">
+					<a href="#helpZooming">
+						<span class="glyphicon glyphicon-question-sign" style="margin-top:15px;" aria-hidden="true"></span>
+					</a>
+				</div>
 			</div>
 		</div>
 
+		<!-- Fitur untuk mengubah mode panning -->
 		<div id="pan" class="sub-right-content">
-			<div class="sub-heading">Mode Pan</div>
-			<div class="dropdown">
-				<?php
-					
-					echo CHtml::dropDownList('mode_pan','',array('Distorsi' => 'Distorsi','Linier' => 'Linier'),array(
-					'ajax' => array(
-					'type'=>'POST', //request type
-					'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
-					'update' => '#mode_pan',
-					'data'=>array('mode_pan' => 'js:this.value','panSelected'=>'js:$(\'#mode_pan\').val()')
-					), 
-					'class'=>'dropdown-style'));
-				?> 
+			<div class="row">
+				<div class="col-md-8">
+					<div class="sub-heading">Mode Pan</div>
+					<div class="dropdown">
+					<?php
+						echo CHtml::dropDownList('mode_pan','',array('Distorsi' => 'Distorsi','Linier' => 'Linier'),array(
+						'ajax' => array(
+							'type'=>'POST', //request type
+							'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
+							'update' => '#mode_pan',
+							'data'=>array('mode_pan' => 'js:this.value','panSelected'=>'js:$(\'#mode_pan\').val()')
+						), 
+						'class'=>'dropdown-style'));
+					?> 
+					</div>
+				</div>
+				<div class="col-md-4">
+					<a href="#helpPanning">
+						<span class="glyphicon glyphicon-question-sign" style="margin-top:15px;" aria-hidden="true"></span>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -2391,5 +2425,49 @@
 			</div>
 		</div>
 		<a class="close" href="#close" id="closeDetail"></a>
+	</div>
+	
+	<!-- Popup help for zooming -->
+	<a href="#helpZoom" class="overlay" id="helpZooming"></a>
+	<div class="popup" style ="width:600px;">
+		<h2>Mode Zoom</h2>
+		<div id="popup-content">
+			Tombol ini digunakan untuk mengubah mode zooming pada peta penelitian<br><br>
+			Pada kedua mode tersebut:<br>
+			1. pada lingkaran dengan jumlah data <b>1</b> akan ditampilkan <b>popup</b> yang berisi <b>detail rinci penelitian</b><br>
+			2. pada lingkaran dengan jumlah data <b>lebih dari 1</b> akan ditampilkan <b>lingkaran baru</b> yang telah dikelompokan <br>
+			<br>
+			<b>Navigasi Breadcrumbs</b><br>
+				Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
+				<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
+				Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
+				Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
+			<br>
+			<b>Navigasi Fisheye + Semantic</b><br>
+				Pada mode Fisheye + Semantic, lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
+				Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya (ditandai dengan adanya border</b> atau <br>
+				<b>klik pada lingkaran lain dengan jumlah data lebih dari 1</b>
+		</div>
+		<a class="close" href="#close" id="closeHelpZoom"></a>
+	</div>
+
+	<!-- Popup help for panning -->
+	<a href="#helpPan" class="overlay" id="helpPanning"></a>
+	<div class="popup" style ="width:600px;">
+		<h2>Mode Pan</h2>
+		<div id="popup-content">
+			Tombol ini digunakan untuk mengubah mode panning pada peta penelitian<br><br>
+			<b>1. Linier</b><br>
+				Pada mode pan ini, Anda dapat melakukan panning dengan cara: <br>
+				- klik area tertentu pada peta penelitian, dan kemudian menggesernya ke arah yang Anda inginkan. <b>Atau</b><br>
+				- menggeser kotak kecil di dalam overview map yang tersedia di pojok kiri atas.<br><br>
+				Setelah melakukan panning, Anda dapat mengembalikan peta pada posisi semula dengan menekan tombol "Reset Pan".<br><br>
+			<b>2. Distorsi</b><br>
+				Pada mode pan ini, Anda dapat melakukan panning dengan cara menekan <b>tombol Ctrl</b> pada keyboard 
+				dan <b>menggerakkan kursor mouse</b> pada area peta atau lingkaran tertentu untuk menjadi fokus Anda.<br>
+				Lingkaran yang menjadi fokus akan diberi ruang dan ukuran yang lebih besar dibandingkan lingkaran lainnya.
+				Semakin jauh suatu lingkaran dari titik fokus, maka ukuran lingkaran tersebut akan semakin mengecil (distorsi).<br><br>
+		</div>
+		<a class="close" href="#close" id="closeHelpPan"></a>
 	</div>
 </body>
