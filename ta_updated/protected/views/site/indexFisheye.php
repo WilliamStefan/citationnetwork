@@ -98,7 +98,7 @@
 				}
 			}
 			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
+			else if(finalX >= 600 && (finalY >= 50 && finalY <= 400)) {
 				if(i == 0) {
 					return sourcex - miring;
 				} else if(i == 1) {
@@ -179,7 +179,7 @@
 				}
 			}
 			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
+			else if(finalX >= 600 && (finalY >= 50 && finalY <= 400)) {
 				if(i == 0) {
 					return sourcex - miring;
 				} else if(i == 1) {
@@ -254,7 +254,7 @@
 				}
 			}
 			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
+			else if(finalX >= 600 && (finalY >= 50 && finalY <= 400)) {
 				if(i == 0) {
 					return sourcex;
 				} else if(i == 1) {
@@ -319,7 +319,7 @@
 				}
 			}
 			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
+			else if(finalX >= 600 && (finalY >= 50 && finalY <= 400)) {
 				if(i == 0) {
 					return sourcex;
 				} else if(i == 1) {
@@ -460,7 +460,7 @@
 				}
 			}
 			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
+			else if(finalX >= 600 && (finalY >= 50 && finalY <= 400)) {
 				if(i == 0) {
 					return sourcey + miring;
 				} else if(i == 1) {
@@ -541,7 +541,7 @@
 				}
 			}
 			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
+			else if(finalX >= 600 && (finalY >= 50 && finalY <= 400)) {
 				if(i == 0) {
 					return sourcey + miring;
 				} else if(i == 1) {
@@ -616,7 +616,7 @@
 				}
 			}
 			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
+			else if(finalX >= 600 && (finalY >= 50 && finalY <= 400)) {
 				if(i == 0) {
 					return sourcey + 75;
 				} else if(i == 1) {
@@ -681,7 +681,7 @@
 				}
 			}
 			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
+			else if(finalX >= 600 && (finalY >= 50 && finalY <= 400)) {
 				if(i == 0) {
 					return sourcey + 75;
 				} else if(i == 1) {
