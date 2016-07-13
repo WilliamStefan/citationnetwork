@@ -23,11 +23,11 @@
 		}
 
 		if(isset(Yii::app()->session['IdPaper'])) {
-			// echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
-			echo ('SelectedId=""7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175"";');
+			echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
+			// echo ('SelectedId="7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";');
 		} else {
 			echo ('SelectedId=""7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175"";');
-			echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
+			// echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
 		}
 
 		if(isset(Yii::app()->session['Edge'])) {
