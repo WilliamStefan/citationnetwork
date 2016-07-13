@@ -112,7 +112,7 @@
 		<!-- Header untuk menampilkan jumlah paper -->
 		<label style="width:100px">Jumlah Paper</label>
 		<label style="width:13px">:</label>
-		<div id="jumlahPaper" style="float:right; font-weight:bold;"></div>
+		<div id="jumlahPaper" style="float:right; margin-right:34px; font-weight:bold;"></div>
  
 		<br/>
 		<br/>
@@ -350,7 +350,7 @@
 	<div class="left-content" style="width:80%">
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
-		<button id="reset" style="margin-left: 150px;" class="btn btn-info">Reset pan</button>
+		<button id="reset" style="margin-left: 150px;" class="btn btn-info">Reset Pan</button>
 		<!-- Container untuk zoom menggunakan breadcrumb pada level 0 -->
 		<!-- <p id="chart"> -->
 			<svg class="chart" id="chart"></svg>
@@ -467,6 +467,13 @@
 			.attr("width", width+385)
 			.style('fill','none')
 			.attr("height", height+230);
+
+		d3.select('.chart').append('rect')
+			.attr('class', 'block')
+			.attr('fill', 'white')
+			.attr('height', 100)
+			.attr('width', 60)
+			.attr("transform", "translate(920,460)");
 
 		//menampung elemen yang bisa di-pan
 		var svg1 = panCanvas.append('svg')
@@ -864,13 +871,14 @@
 				return "circle-" + i;
 			})
 			.attr("r", function(d) { return r(d.id.length); })
-			.style("fill", "#FFC2AD");
+			.style("fill", "#3B5998");
  
 			entering2.append("svg:text")
 			.classed("label2", true)
 			.attr("dy", function(d){return d.id.length + 3 + "px";})
 			.text(function(d) {return d.id.length;})
-			.attr("font-size", "14px");
+			.attr("font-size", "14px")
+			.style("fill","white");
  		}
  		else{
  			entering2.append("svg:circle")
@@ -890,10 +898,11 @@
 				if (a<b) {return a; }
 				else { return b; }
 			})
-			.style("fill", "#FFC2AD");
+			.style("fill", "#3B5998");
  
 			entering2.append("svg:text")
 			.classed("label2", true)
+			.style("fill","white")
 			.attr("dy", function(d){return d.id.length + 3 + "px";})
 			.text(function(d) {return d.id.length;})
 			.attr("font-size", function(d){
@@ -1149,7 +1158,7 @@
 			function distortion(selection){
 				selection.append("text")
 					.attr("class","textInfo")
-					.text("* Press Ctrl Key + Move The Mouse Cursor To Pan")
+					.text("* Press Ctrl Key + Move The Cursor To Pan")
 					.attr("transform","translate(10,0)")
 					.style("fill","blue");
 
@@ -1460,11 +1469,13 @@
 			.append("g")
 			.attr("class","g_circle")
 			.attr("transform", "translate(" + 220 + "," + 220 + ")");
+
+			d3.select('#reset').style('visibility','hidden');
  
 			circle2 = circle_packing.selectAll("circle").data(nodes2)
 			.enter().append("circle")
 			.attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-			.style("fill", function(d) { if(d.children && d.parent) { return "#F2A9A2"; } else if(!d.parent) { return null; } else {return "#FFC2AD"; }})
+			.style("fill", function(d) { if(d.children && d.parent) { return "#224389"; } else if(!d.parent) { return null; } else {return "#3B5998"; }})
 			.style("stroke", function(d) { if(!d.parent) { return "white"; }})
 			.style("display", function(d) { if (d.parent === focus) { return "inline"; } else { return d.parent === data2 ? null : "none"; }})
 			// .style("fill-opacity", function(d){if(!d.parent){return "white";} else if(d.children){ return opacity(d.depth);}})
@@ -1518,6 +1529,7 @@
 			.data(nodes2)
 			.enter().append("text")
 			.attr("class", "label2")
+			.style("fill","white")
 			.style("fill-opacity", function(d) { return d.parent === data2 ? 1 : 0; })
 			.style("display", function(d) {if (d.parent === focus) { return "inline" } else {return d.parent === data2 ? null : "none"; }})
 			.text(function(d) { return d.name; });
@@ -1622,6 +1634,10 @@
 		}
  
 		$("#home").click(function(){
+			if ($("#mode_pan option:selected").text() == 'Linier'){
+				d3.select("#reset").style("visibility","visible");
+			}
+			else{ d3.select("#reset").style("visibility","hidden"); }
 			counter = 0;
 			d3.select(".graph").remove();
 			d3.select("#trail").remove();
@@ -1782,9 +1798,9 @@
 			pan = $("#mode_pan option:selected").text();
 
 			if(zooming == "Fisheye + Semantic") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
@@ -2439,7 +2455,7 @@
 			<br>
 			<b>Navigasi Breadcrumbs</b><br>
 				Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
-				<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
+				<img id="home" src="http://localhost/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
 				Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
 				Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
 			<br>

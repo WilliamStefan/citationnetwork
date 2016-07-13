@@ -926,22 +926,50 @@
 		<div class="sub-right-content" data-step="3" data-intro="Ubah sumbu X dan sumbu Y visualisasi">
 			<!-- Header untuk menampilkan parameter yang dapat diubah -->
 			<div class="row">
-				<div class="col-md-8">
-					<div class="sub-heading">Ubah Parameter</div>
-				 
-					<!-- Sumbu X -->
-					<div>Sumbu X</div>
-					<div class="dropdown">
+			  <div class="col-md-8">
+			  	<div class="sub-heading">Ubah Parameter</div>
+			 
+				<!-- Sumbu X -->
+				<div>Sumbu X</div>
+				<div class="dropdown">
+					<?php
+						echo CHtml::dropDownList('sumbuX', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Tahun Publikasi\''), 'deskripsi', 'deskripsi'), array(
+						'ajax' => array(
+							'type'=>'POST', //request type
+							'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
+							//Style: CController::createUrl('currentController/methodToCall')
+							'update'=>'#sumbuY', //selector to update
+							//'data'=>'js:javascript statement' 
+							//leave out the data key to pass all form values through
+							'data'=>array('sumbuX' => 'js:this.value','sumbuYselected' => 'js:$(\'#sumbuY\').val()')
+							/*
+							'success' => "js:function(data)
+							{
+							alert(data);
+						}",*/
+						), 'class'=>'dropdown-style'));
+					?>
+				</div>
+			  </div>
+			  <div class="col-md-4"></div>
+			</div>
+ 
+			<!-- Sumbu Y -->
+			
+			<div class="row">
+			  <div class="col-md-8">
+			  	Sumbu Y
+				<div class="dropdown">
 						<?php
-							echo CHtml::dropDownList('sumbuX', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Tahun Publikasi\''), 'deskripsi', 'deskripsi'), array(
+							echo CHtml::dropDownList('sumbuY', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Domain Data\''), 'deskripsi', 'deskripsi'), array(
 							'ajax' => array(
 								'type'=>'POST', //request type
 								'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
 								//Style: CController::createUrl('currentController/methodToCall')
-								'update'=>'#sumbuY', //selector to update
+								'update'=>'#sumbuX', //selector to update
 								//'data'=>'js:javascript statement' 
 								//leave out the data key to pass all form values through
-								'data'=>array('sumbuX' => 'js:this.value','sumbuYselected' => 'js:$(\'#sumbuY\').val()')
+								'data'=>array('sumbuY' => 'js:this.value','sumbuXselected' => 'js:$(\'#sumbuX\').val()')
 								/*
 								'success' => "js:function(data)
 								{
@@ -949,36 +977,8 @@
 							}",*/
 							), 'class'=>'dropdown-style'));
 						?>
-					</div>
 				</div>
-			  <div class="col-md-4"></div>
-			</div>
- 
-			<!-- Sumbu Y -->
-			
-			<div class="row">
-				<div class="col-md-8">
-					Sumbu Y
-					<div class="dropdown">
-							<?php
-								echo CHtml::dropDownList('sumbuY', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Domain Data\''), 'deskripsi', 'deskripsi'), array(
-								'ajax' => array(
-									'type'=>'POST', //request type
-									'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
-									//Style: CController::createUrl('currentController/methodToCall')
-									'update'=>'#sumbuX', //selector to update
-									//'data'=>'js:javascript statement' 
-									//leave out the data key to pass all form values through
-									'data'=>array('sumbuY' => 'js:this.value','sumbuXselected' => 'js:$(\'#sumbuX\').val()')
-									/*
-									'success' => "js:function(data)
-									{
-									alert(data);
-								}",*/
-								), 'class'=>'dropdown-style'));
-							?>
-					</div>
-				</div>
+			  </div>
 			  <div class="col-md-4"></div>
 			</div>
 		</div>
@@ -986,83 +986,83 @@
 		<!-- Fitur untuk mengubah parameter relasi -->
 		<div id="relation" class="sub-right-content" data-step="4">
 			<div class="row">
-				<div class="col-md-8">
-					<div class="sub-heading">Ubah Relasi</div>
-					<div class="dropdown">
-						<?php
-							echo CHtml::dropDownList('edge', '', Chtml::listData(MetadataRelasi::model()->findAll(),'deskripsi', 'deskripsi'), array(
-							'ajax' => array(
-								'type'=>'POST', //request type
-								'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
-								//Style: CController::createUrl('currentController/methodToCall')
-								'update'=>'#edge', //selector to update
-								//'data'=>'js:javascript statement' 
-								//leave out the data key to pass all form values through
-								'data'=>array('edge' => 'js:this.value','edgeSelected' => 'js:$(\'#edge\').val()')
-								/*
-								'success' => "js:function(data)
-								{
-								alert(data);
-							}",*/
-							), 'class'=>'dropdown-style'));
-						?>
-					</div>
+			  <div class="col-md-8">
+			  	<div class="sub-heading">Ubah Relasi</div>
+				<div class="dropdown">
+					<?php
+						echo CHtml::dropDownList('edge', '', Chtml::listData(MetadataRelasi::model()->findAll(),'deskripsi', 'deskripsi'), array(
+						'ajax' => array(
+							'type'=>'POST', //request type
+							'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
+							//Style: CController::createUrl('currentController/methodToCall')
+							'update'=>'#edge', //selector to update
+							//'data'=>'js:javascript statement' 
+							//leave out the data key to pass all form values through
+							'data'=>array('edge' => 'js:this.value','edgeSelected' => 'js:$(\'#edge\').val()')
+							/*
+							'success' => "js:function(data)
+							{
+							alert(data);
+						}",*/
+						), 'class'=>'dropdown-style'));
+					?>
 				</div>
+			  </div>
 			  <div class="col-md-4"></div>
 			</div>
 		</div>
 
-		<!-- Fitur untuk mengubah mode zooming -->
+		<!-- Fitur untuk mengubah parameter zooming -->
 		<div id="zooming" class="sub-right-content">
 			<div class="row">
-				<div class="col-md-8">
-					<div class="sub-heading">Mode Zoom</div>
-					<div class="dropdown">
-					<?php
-						echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye + Semantic', 'Breadcrumbs' => 'Breadcrumbs'), array(
-						'ajax' => array(
-							'type'=>'POST', //request type
-							'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
-							'update' => '#mode_zoom',
-							'data'=>array('mode_zoom' => 'js:this.value', 'zoomSelected'=>'js:$(\'#mode_zoom\').val()')
-						), 
-						'class'=>'dropdown-style'));
-					?> 
-					</div> 
-				</div>
-				<div class="col-md-4">
-					<a href="#helpZooming">
-						<span class="glyphicon glyphicon-question-sign" style="margin-top:15px;" aria-hidden="true"></span>
-					</a>
-				</div>
+			  <div class="col-md-8">
+			  	<div class="sub-heading">Mode Zoom</div>
+			  	<div class="dropdown">
+			  	<?php
+					echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye', 'Breadcrumbs' => 'Breadcrumbs'), array(
+					'ajax' => array(
+						'type'=>'POST', //request type
+						'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
+						'update' => '#mode_zoom',
+						'data'=>array('mode_zoom' => 'js:this.value', 'zoomSelected'=>'js:$(\'#mode_zoom\').val()')
+					), 
+					'class'=>'dropdown-style'));
+				?> 
+				</div> 
+			  </div>
+			  <div class="col-md-4">
+			  	<a href="#helpZooming">
+					<span class="glyphicon glyphicon-question-sign" style="margin-top:15px;" aria-hidden="true"></span>
+				</a>
+			  </div>
 			</div>
 		</div>
 
 		<!-- Fitur untuk mengubah mode panning -->
 		<div id="pan" class="sub-right-content">
 			<div class="row">
-				<div class="col-md-8">
-					<div class="sub-heading">Mode Pan</div>
-					<div class="dropdown">
-					<?php
-						echo CHtml::dropDownList('mode_pan','',array('Distorsi' => 'Distorsi','Linier' => 'Linier'),array(
-						'ajax' => array(
-							'type'=>'POST', //request type
-							'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
-							'update' => '#mode_pan',
-							'data'=>array('mode_pan' => 'js:this.value','panSelected'=>'js:$(\'#mode_pan\').val()')
-						), 
-						'class'=>'dropdown-style'));
-					?> 
-					</div>
+			  <div class="col-md-8">
+			  	<div class="sub-heading">Mode Pan</div>
+			  	<div class="dropdown">
+			  	<?php
+					echo CHtml::dropDownList('mode_pan','',array('Distorsi' => 'Distorsi','Linier' => 'Linier'),array(
+					'ajax' => array(
+						'type'=>'POST', //request type
+						'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
+						'update' => '#mode_pan',
+						'data'=>array('mode_pan' => 'js:this.value','panSelected'=>'js:$(\'#mode_pan\').val()')
+					), 
+					'class'=>'dropdown-style'));
+				?> 
 				</div>
-				<div class="col-md-4">
-					<a href="#helpPanning">
-						<span class="glyphicon glyphicon-question-sign" style="margin-top:15px;" aria-hidden="true"></span>
-					</a>
-				</div>
+			  </div>
+			  <div class="col-md-4">
+			  	<a href="#helpPanning">
+					<span class="glyphicon glyphicon-question-sign" style="margin-top:15px;" aria-hidden="true"></span>
+				</a>
+			  </div>
 			</div>
-		</div>
+		  </div>
 	</div>
  
 	<!-- Tampilan di sebelah kiri, yaitu peta penelitian -->
@@ -1123,11 +1123,7 @@
 		var parameter;   
 		parameter="7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";
 				 
-		var force = d3.layout.force()
-		.charge(-240)
-		.linkDistance(40)
-		.size([width, height]);
-		
+		var force = d3.layout.force();
 		var sumbuX;
 		var sumbuY;
 		var pack = d3.layout.pack().padding(2).size([200,200]).value(function(d) {
@@ -1290,6 +1286,12 @@
 			var zoomLevel1 = false;
 			var zoomLevel2 = false;
  
+			// Untuk mempersiapkan layout
+			var force = d3.layout.force()
+			.charge(-240)
+			.linkDistance(40)
+			.size([width, height]);
+ 
 			// Ambil kelas .chart lalu buat tag g dengan atribut width dan height di dalamnya
 			// var svgFisheye = d3.select(".chart")
 			// .append("g")
@@ -1299,7 +1301,8 @@
 			// .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
  
 			var fisheye = d3.fisheye.circular()
-			.radius(100);
+			.radius(100)
+			.distortion(2);
 
 			///////////////////////////////////////////////////
 			// Persiapan membuat garis sumbu x dan y selesai //
@@ -1530,205 +1533,6 @@
 			// Membuat garis pada sumbu x dan y selesai //
 			//////////////////////////////////////////////
 			
-			////////////////////////////////////////
-			// Membuat representasi paper selesai //
-			////////////////////////////////////////
- 
-			//////////////////
-			// Membuat link //
-			//////////////////
-
-			// Hitung x asal
-			function hitungXAsal(sourcex, sourcey, targetx, targety, r) {
-				var miring = Math.sqrt(Math.pow((targetx - sourcex), 2) + Math.pow((targety - sourcey), 2));
-				return ((targetx * r - sourcex * r + miring * sourcex) / miring);
-			}
-			 
-			// Hitung x tujuan
-			function hitungXTujuan(sourcex, sourcey, targetx, targety, r) {
-				var miring = Math.sqrt(Math.pow((sourcex - targetx), 2) + Math.pow((sourcey - targety), 2));
-				return ((targetx * miring - targetx * r - sourcex * miring + sourcex * r) / miring) + sourcex;
-			}
-
-			// Setting data untuk link, source dan targetnya ud data node
-			var rlink = new Array();
-			if(data.links.length != 0) {
-				var counter_rlink;
-				counter_rlink = 0;
-				var rlinks = new Array(data.links.length);
-				for(var i = 0; i < data.links.length; i++) {
-					var j, k, l, m;
-					j = 0; k = 0;
-					 
-					var sudah_ketemu; sudah_ketemu = 0;
-					while(data.nodes.length > j && !sudah_ketemu) {
-						if(data.nodes[j].id.length == 1 && data.links[i].source != data.nodes[j].id[0]) {
-							j++;                
-						}
-						else if(data.nodes[j].id.length == 1 && data.links[i].source == data.nodes[j].id[0]) {
-							sudah_ketemu = 1;
-						}
-						else {
-							l = 0;
-							 
-							while(data.nodes[j].id.length > l && data.links[i].source != data.nodes[j].id[l]) { // 3>0 && 1!=1
-								l++;
-							}
- 
-							if(data.nodes[j].id.length < l || data.links[i].source != data.nodes[j].id[l]) {
-								j++;
-							}
-							else if (data.nodes[j].id.length > l && data.links[i].source == data.nodes[j].id[l]) {
-								sudah_ketemu = 1;
-							}
-						}
-					}
-					 
-					sudah_ketemu = 0;
-					 
-					while(data.nodes.length > k && !sudah_ketemu) {
-						// console.log(data.nodes[k]);
-						if(data.nodes[k].id.length == 1 && data.links[i].target != data.nodes[k].id[0]) {
-							k++;
-						}
-						else if (data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id[0]) {
-							sudah_ketemu = 1;
-						}
-						 
-						else {
-							m = 0;
-							 
-							while(data.nodes[k].id.length > m && data.links[i].target != data.nodes[k].id[m]) {
-								m++;
-							}
-							 
-							if(data.nodes[k].id.length < m || data.links[i].target != data.nodes[k].id[m]) {
-								k++;
-							}
-							else if(data.nodes[k].id.length > m && data.links[i].target == data.nodes[k].id[m]) {
-								sudah_ketemu = 1;
-							}
-						}
-					}
-					 
-					// Untuk melist semua kemungkinan apakah source dan target berada dalam 1 level atau tidak
-					if(j < data.nodes.length && k < data.nodes.length && ((data.nodes[j].id.length == 1 && data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id && data.links[i].source == data.nodes[j].id) || (data.nodes[j].id.length > 1 && data.nodes[k].id.length > 1 && data.links[i].target == data.nodes[k].id[m] && data.links[i].source == data.nodes[j].id[l]) || (data.nodes[j].id.length == 1 && data.nodes[k].id.length > 1 && data.links[i].target == data.nodes[k].id[m] && data.links[i].source == data.nodes[j].id) ||(data.nodes[j].id.length > 1 && data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id && data.links[i].source ==data.nodes[j].id[l]))) {
-						 
-						rlink[counter_rlink] = new Array();
-						rlink[counter_rlink].source = data.nodes[j];
-						 
-						rlink[counter_rlink].target = data.nodes[k];
-						counter_rlink++;
-					} else {}
-				}
-			}
-
-			// Panah dan garis hanya akan dibuat jika linknya ada
-			if(rlink.length != 0) {
-				// Untuk membuat panah
-				var marker = svgFisheye.select('.draggable').selectAll("g.marker").data(data.links)
-					.enter().append("marker")
-					.attr("id", function(d, i) { return i; })
-					.attr("viewBox", "0 -5 10 10")
-					.attr("refX", function(d) {
-						if((posisiY(d.target.value) == posisiY(d.source.value)) && (posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x))) {}
-						 
-						if(posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) {
-							return 10;
-						} else {
-							return 10;
-						}           
-					})
-					.attr("refY", 0)
-					.attr("markerWidth", 6)
-					.attr("markerHeight", 6)
-					.attr("orient", "auto")
-					.append("svg:path")
-					.attr("d", "M0,-5L10,0L0,5")
-					.attr("fill", "none")
-					.attr("stroke", "black");
-				 
-				// (X1, Y1) koordinat asal
-				// (X2, Y2) koordinat tujuan						 
-				var link = svgFisheye.select('.draggable').selectAll("g.link").data(rlink)
-				.enter().append("line")
-				.attr("class", "link")
-				.attr("x1", function(d) {
-					if((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x))) {
-						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2) + posisiR(d.source.id.length); 
-					}
-					 
-					// Garis horizontal jika lingkaran asal ada di kiri target
-					else if ((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x))) {
-						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2) - posisiR(d.source.id.length);
-					}
-					 
-					// Garis vertical
-					else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
-						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2);
-					}
-					 
-					// Garis miring
-					else {
-						return hitungXAsal((posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2)),(posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)), (posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2)), (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2)), posisiR(d.source.id.length));
-					}
-				})
-				.attr("y1", function(d) { 
-					//garis horizontal
-					if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
-						return posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2);
-					}
-					 
-					//garis vertical dengan lingkaran asal ada di atas target
-					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
-						return (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2) + posisiR(d.source.id.length));
-					}
-					 
-					//garis vertical dengan lingkaran asal ada di bawah target
-					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
-						return (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2) - posisiR(d.source.id.length));
-					}
-
-					else {
-						var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + posisiX.rangeBand() / 2) - (posisiX(d.target.sumbu_x) + posisiX.rangeBand() / 2)), 2) + Math.pow(((posisiY(d.source.sumbu_y)+posisiY.rangeBand() / 2)-(posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)), 2));
-						return (posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (((posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)) * posisiR(d.source.id.length) / miring);
-					}
-				})
-				// Sama seperti diatas, hanya untuk lingkaran target
-				.attr("x2", function(d) {
-					if((posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
-						return posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2) - posisiR(d.target.id.length); 
-					}
-					else if ((posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
-						return posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2) + posisiR(d.target.id.length); 
-					}
-					else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
-						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2);
-					} else {
-						return hitungXTujuan((posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2)), (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)),(posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2)),(posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2)), posisiR(d.target.id.length));
-					}   
-				})
-				.attr("y2", function(d) {
-					if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
-						return posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2);
-					}
-					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
-						return (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2) - posisiR(d.target.id.length));
-					}
-					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
-						return (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2) + posisiR(d.target.id.length));
-					} else {
-						var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + posisiX.rangeBand() / 2) - (posisiX(d.target.sumbu_x) + posisiX.rangeBand() / 2)), 2) + Math.pow(((posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)), 2));
-						return posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)-(((miring - posisiR(d.target.id.length)) * ((posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)) - (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2))) / miring));
-					}
-				})
-				.attr("marker-end", function(d, i) { return "url(#" + i + ")"; });
-			}
-
-			//////////////////////////
-			// Membuat link selesai //
-			//////////////////////////
-			
 			////////////////////////////////
 			// Membuat representasi paper //
 			////////////////////////////////
@@ -1780,7 +1584,7 @@
 							return 27.5;
 						} else if(realSize == 7) {
 							return 30;
-						} else if(realSize >= 8) {
+						} else if(realSize == 8) {
 							return 32.5;
 						}
 					}
@@ -1815,7 +1619,7 @@
 						return "19px";
 					} else if(realSize == 7) {
 						return "20px";
-					} else if(realSize >= 8) {
+					} else if(realSize == 8) {
 						return "21px";
 					}
 				})
@@ -1835,10 +1639,12 @@
 				$('.paperParent').hover(
 					function() {
 						$(this).children('text').attr("class", "labelParent zoomLabel");
+						// jQuery(this).children('text').css("font-size", "30px") // Ukuran font
 					},
 					
 					function() {
 						$(this).children('text').attr("class", "labelParent");
+						// jQuery(this).children('text').css("font-size", "14px") // Ukuran font
 					}
 				);
 			}
@@ -2172,10 +1978,7 @@
 						
 						// Ubah warna labelParent
 						label.style("opacity", 0.75);
-						
-						// Ubah warna link
-						link.style("opacity", 0.3);
-						
+
 						var elemChild = svgFisheye.select(".draggable").selectAll("g.circle")
 						.data(dataChild);
 
@@ -2206,8 +2009,6 @@
 								return 27.5;
 							} else if(d.size[i] == 7) {
 								return 30;
-							} else if(d.size[i] >= 8) {
-								return 32.5;
 							}
 						})
 						.style("fill", "#3B5998")
@@ -2234,7 +2035,7 @@
 								return "19px";
 							} else if(d.size[i] == 7) {
 								return "20px";
-							} else if(d.size[i] >= 8) {
+							} else if(d.size[i] == 8) {
 								return "21px";
 							}
 						})
@@ -2499,17 +2300,17 @@
 									
 									// Ubah warna paperParent
 									node.style("fill", "#DDDDDD")
-									.style("opacity", 0.75);
+									.style("opacity", 0.5);
 									
 									// Ubah warna labelParent
-									label.style("opacity", 0.75);
+									label.style("opacity", 0.5);
 
 									// Ubah warna paperChild
 									nodeChild.style("fill", "#DDDDDD")
-									.style("opacity", 0.75);
+									.style("opacity", 0.5);
 
 									// Ubah warna labelChild
-									labelChild.style("opacity", 0.75);
+									labelChild.style("opacity", 0.5);
 									
 									var elemGrandChild = svgFisheye.select(".draggable").selectAll("g.circle")
 									.data(dataGrandChild);
@@ -2692,15 +2493,10 @@
 						circleParent = document.getElementsByClassName("circleStroke");
 						circleParent[0].classList.remove("circleStroke");
 						
-						// Ubah warna paperParent
 						node.style("fill", "#3B5998")
 						.style("opacity", 1);
 						
-						// Ubah warna labelParent
-						label.style("opacity", 1);
-						
-						// Ubah warna link
-						link.style("opacity", 1);
+						label.style("opacity", 1);		
 						
 						$('.paperParent').hover(
 							function() {
@@ -2719,6 +2515,35 @@
 							node.each(function(d) { d.fisheye = fisheye(d); })
 							.attr("r", function(d) { return d.fisheye.z * 21});
 
+							// Fisheye untuk setiap label
+							label.each(function(d) { d.fisheye = fisheye(d); })
+							.attr("font-size", function(d) {
+								// Isi label
+								var realSize = 0;
+
+								for(var iterator = 0; iterator < d.size.length; iterator++) {
+									realSize += d.size[iterator];
+								}
+								
+								if(realSize == 1) {
+									return "14px";
+								} else if(realSize == 2) {
+									return "15px";
+								} else if(realSize == 3) {
+									return "16px";
+								} else if(realSize == 4) {
+									return "17px";
+								} else if(realSize == 5) {
+									return "18px";
+								} else if(realSize == 6) {
+									return "19px";
+								} else if(realSize == 7) {
+									return "20px";
+								} else if(realSize == 8) {
+									return "21px";
+								}
+							})
+
 							// Fisheye untuk setiap garis
 							// link.attr("x1", function(d) { return d.source.fisheye.x; })
 							// .attr("y1", function(d) { return d.source.fisheye.y; })
@@ -2728,6 +2553,205 @@
 					}
 				}
 			});
+			
+			////////////////////////////////////////
+			// Membuat representasi paper selesai //
+			////////////////////////////////////////
+ 
+			//////////////////
+			// Membuat link //
+			//////////////////
+
+			// Hitung x asal
+			function hitungXAsal(sourcex, sourcey, targetx, targety, r) {
+				var miring = Math.sqrt(Math.pow((targetx - sourcex), 2) + Math.pow((targety - sourcey), 2));
+				return ((targetx * r - sourcex * r + miring * sourcex) / miring);
+			}
+			 
+			// Hitung x tujuan
+			function hitungXTujuan(sourcex, sourcey, targetx, targety, r) {
+				var miring = Math.sqrt(Math.pow((sourcex - targetx), 2) + Math.pow((sourcey - targety), 2));
+				return ((targetx * miring - targetx * r - sourcex * miring + sourcex * r) / miring) + sourcex;
+			}
+
+			// Setting data untuk link, source dan targetnya ud data node
+			var rlink = new Array();
+			if(data.links.length != 0) {
+				var counter_rlink;
+				counter_rlink = 0;
+				var rlinks = new Array(data.links.length);
+				for(var i = 0; i < data.links.length; i++) {
+					var j, k, l, m;
+					j = 0; k = 0;
+					 
+					var sudah_ketemu; sudah_ketemu = 0;
+					while(data.nodes.length > j && !sudah_ketemu) {
+						if(data.nodes[j].id.length == 1 && data.links[i].source != data.nodes[j].id[0]) {
+							j++;                
+						}
+						else if(data.nodes[j].id.length == 1 && data.links[i].source == data.nodes[j].id[0]) {
+							sudah_ketemu = 1;
+						}
+						else {
+							l = 0;
+							 
+							while(data.nodes[j].id.length > l && data.links[i].source != data.nodes[j].id[l]) { // 3>0 && 1!=1
+								l++;
+							}
+ 
+							if(data.nodes[j].id.length < l || data.links[i].source != data.nodes[j].id[l]) {
+								j++;
+							}
+							else if (data.nodes[j].id.length > l && data.links[i].source == data.nodes[j].id[l]) {
+								sudah_ketemu = 1;
+							}
+						}
+					}
+					 
+					sudah_ketemu = 0;
+					 
+					while(data.nodes.length > k && !sudah_ketemu) {
+						// console.log(data.nodes[k]);
+						if(data.nodes[k].id.length == 1 && data.links[i].target != data.nodes[k].id[0]) {
+							k++;
+						}
+						else if (data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id[0]) {
+							sudah_ketemu = 1;
+						}
+						 
+						else {
+							m = 0;
+							 
+							while(data.nodes[k].id.length > m && data.links[i].target != data.nodes[k].id[m]) {
+								m++;
+							}
+							 
+							if(data.nodes[k].id.length < m || data.links[i].target != data.nodes[k].id[m]) {
+								k++;
+							}
+							else if(data.nodes[k].id.length > m && data.links[i].target == data.nodes[k].id[m]) {
+								sudah_ketemu = 1;
+							}
+						}
+					}
+					 
+					// Untuk melist semua kemungkinan apakah source dan target berada dalam 1 level atau tidak
+					if(j < data.nodes.length && k < data.nodes.length && ((data.nodes[j].id.length == 1 && data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id && data.links[i].source == data.nodes[j].id) || (data.nodes[j].id.length > 1 && data.nodes[k].id.length > 1 && data.links[i].target == data.nodes[k].id[m] && data.links[i].source == data.nodes[j].id[l]) || (data.nodes[j].id.length == 1 && data.nodes[k].id.length > 1 && data.links[i].target == data.nodes[k].id[m] && data.links[i].source == data.nodes[j].id) ||(data.nodes[j].id.length > 1 && data.nodes[k].id.length == 1 && data.links[i].target == data.nodes[k].id && data.links[i].source ==data.nodes[j].id[l]))) {
+						 
+						rlink[counter_rlink] = new Array();
+						rlink[counter_rlink].source = data.nodes[j];
+						 
+						rlink[counter_rlink].target = data.nodes[k];
+						counter_rlink++;
+					} else {}
+				}
+			}
+
+			// Panah dan garis hanya akan dibuat jika linknya ada
+			if(rlink.length != 0) {
+				// Untuk membuat panah
+				var marker = svgFisheye.select('.draggable').selectAll("g.marker").data(data.links)
+					.enter().append("marker")
+					.attr("id", function(d, i) { return i; })
+					.attr("viewBox", "0 -5 10 10")
+					.attr("refX", function(d) {
+						if((posisiY(d.target.value) == posisiY(d.source.value)) && (posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x))) {}
+						 
+						if(posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) {
+							return 10;
+						} else {
+							return 10;
+						}           
+					})
+					.attr("refY", 0)
+					.attr("markerWidth", 6)
+					.attr("markerHeight", 6)
+					.attr("orient", "auto")
+					.append("svg:path")
+					.attr("d", "M0,-5L10,0L0,5")
+					.attr("fill", "none")
+					.attr("stroke", "black");
+				 
+				// (X1, Y1) koordinat asal
+				// (X2, Y2) koordinat tujuan						 
+				var link = svgFisheye.select('.draggable').selectAll("g.link").data(rlink)
+				.enter().append("line")
+				.attr("class", "link")
+				.attr("x1", function(d) {
+					if((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x))) {
+						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2) + posisiR(d.source.id.length); 
+					}
+					 
+					// Garis horizontal jika lingkaran asal ada di kiri target
+					else if ((posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) && (posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x))) {
+						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2) - posisiR(d.source.id.length);
+					}
+					 
+					// Garis vertical
+					else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
+						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2);
+					}
+					 
+					// Garis miring
+					else {
+						return hitungXAsal((posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2)),(posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)), (posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2)), (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2)), posisiR(d.source.id.length));
+					}
+				})
+				.attr("y1", function(d) { 
+					//garis horizontal
+					if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
+						return posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2);
+					}
+					 
+					//garis vertical dengan lingkaran asal ada di atas target
+					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
+						return (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2) + posisiR(d.source.id.length));
+					}
+					 
+					//garis vertical dengan lingkaran asal ada di bawah target
+					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
+						return (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2) - posisiR(d.source.id.length));
+					}
+
+					else {
+						var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + posisiX.rangeBand() / 2) - (posisiX(d.target.sumbu_x) + posisiX.rangeBand() / 2)), 2) + Math.pow(((posisiY(d.source.sumbu_y)+posisiY.rangeBand() / 2)-(posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)), 2));
+						return (posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (((posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)) * posisiR(d.source.id.length) / miring);
+					}
+				})
+				// Sama seperti diatas, hanya untuk lingkaran target
+				.attr("x2", function(d) {
+					if((posisiX(d.target.sumbu_x) > posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
+						return posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2) - posisiR(d.target.id.length); 
+					}
+					else if ((posisiX(d.target.sumbu_x) < posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y))) {
+						return posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2) + posisiR(d.target.id.length); 
+					}
+					else if(posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) {
+						return posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2);
+					} else {
+						return hitungXTujuan((posisiX(d.source.sumbu_x) + (posisiX.rangeBand() / 2)), (posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)),(posisiX(d.target.sumbu_x) + (posisiX.rangeBand() / 2)),(posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2)), posisiR(d.target.id.length));
+					}   
+				})
+				.attr("y2", function(d) {
+					if(posisiY(d.target.sumbu_y) == posisiY(d.source.sumbu_y)) {
+						return posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2);
+					}
+					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) > posisiY(d.source.sumbu_y))) {
+						return (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2) - posisiR(d.target.id.length));
+					}
+					else if((posisiX(d.target.sumbu_x) == posisiX(d.source.sumbu_x)) && (posisiY(d.target.sumbu_y) < posisiY(d.source.sumbu_y))) {
+						return (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2) + posisiR(d.target.id.length));
+					} else {
+						var miring = Math.sqrt(Math.pow(((posisiX(d.source.sumbu_x) + posisiX.rangeBand() / 2) - (posisiX(d.target.sumbu_x) + posisiX.rangeBand() / 2)), 2) + Math.pow(((posisiY(d.source.sumbu_y) + posisiY.rangeBand() / 2) - (posisiY(d.target.sumbu_y) + posisiY.rangeBand() / 2)), 2));
+						return posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)-(((miring - posisiR(d.target.id.length)) * ((posisiY(d.source.sumbu_y) + (posisiY.rangeBand() / 2)) - (posisiY(d.target.sumbu_y) + (posisiY.rangeBand() / 2))) / miring));
+					}
+				})
+				.attr("marker-end", function(d, i) { return "url(#" + i + ")"; });
+			}
+
+			//////////////////////////
+			// Membuat link selesai //
+			//////////////////////////
 
 			if ($("#mode_pan option:selected").text() == 'Linier'){
 				svgFisheye.call(grabAndDrag); // memanggil fungsi grabAndDrag jika mode pan == Linier
@@ -2804,7 +2828,7 @@
 
 				selection.append("text")
 					.attr("class","textInfo")
-					.text("* Press Ctrl Key + Move The Mouse Cursor To Pan")
+					.text("* Press Ctrl Key + Move The Cursor To Pan")
 					.attr("transform","translate(10,0)")
 					.style("fill","blue");
 					// .style("fill","#46b8da");
@@ -3194,10 +3218,10 @@
 			defaultZooming = zooming;
 			pan = $("#mode_pan option:selected").text();
 
-			if(zooming == "Fisheye + Semantic") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+			if(zooming == "Fisheye") {
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
@@ -3729,31 +3753,17 @@
 		<a class="close" href="#close" id="closeDetail"></a>
 	</div>
 
-	<!-- Popup help for zooming -->
+	<!-- popup help for zooming -->
 	<a href="#helpZoom" class="overlay" id="helpZooming"></a>
 	<div class="popup" style ="width:600px;">
 		<h2>Mode Zoom</h2>
 		<div id="popup-content">
-			Tombol ini digunakan untuk mengubah mode zooming pada peta penelitian<br><br>
-			Pada kedua mode tersebut:<br>
-			1. pada lingkaran dengan jumlah data <b>1</b> akan ditampilkan <b>popup</b> yang berisi <b>detail rinci penelitian</b><br>
-			2. pada lingkaran dengan jumlah data <b>lebih dari 1</b> akan ditampilkan <b>lingkaran baru</b> yang telah dikelompokan <br>
-			<br>
-			<b>Navigasi Breadcrumbs</b><br>
-				Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
-				<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
-				Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
-				Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
-			<br>
-			<b>Navigasi Fisheye + Semantic</b><br>
-				Pada mode Fisheye + Semantic, lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
-				Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya (ditandai dengan adanya border</b> atau <br>
-				<b>klik pada lingkaran lain dengan jumlah data lebih dari 1</b>
+			Tulis konten disini
 		</div>
 		<a class="close" href="#close" id="closeHelpZoom"></a>
 	</div>
 
-	<!-- Popup help for panning -->
+	<!-- popup help for panning -->
 	<a href="#helpPan" class="overlay" id="helpPanning"></a>
 	<div class="popup" style ="width:600px;">
 		<h2>Mode Pan</h2>
@@ -3766,7 +3776,7 @@
 				Setelah melakukan panning, Anda dapat mengembalikan peta pada posisi semula dengan menekan tombol "Reset Pan".<br><br>
 			<b>2. Distorsi</b><br>
 				Pada mode pan ini, Anda dapat melakukan panning dengan cara menekan <b>tombol Ctrl</b> pada keyboard 
-				dan <b>menggerakkan kursor mouse</b> pada area peta atau lingkaran tertentu untuk menjadi fokus Anda.<br>
+				dan <b>menggerakkan kursor</b> pada area peta atau lingkaran tertentu untuk menjadi fokus Anda.<br>
 				Lingkaran yang menjadi fokus akan diberi ruang dan ukuran yang lebih besar dibandingkan lingkaran lainnya.
 				Semakin jauh suatu lingkaran dari titik fokus, maka ukuran lingkaran tersebut akan semakin mengecil (distorsi).<br><br>
 		</div>
