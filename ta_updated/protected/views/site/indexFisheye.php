@@ -3726,7 +3726,21 @@
 	<div class="popup" style ="width:600px;">
 		<h2>Mode Zoom</h2>
 		<div id="popup-content">
-			Tulis konten disini
+			Tombol ini digunakan untuk mengubah mode zooming pada peta penelitian<br><br>
+			Pada kedua mode tersebut:<br>
+			1. pada lingkaran dengan jumlah data <b>1</b> akan ditampilkan <b>popup</b> yang berisi <b>detail rinci penelitian</b><br>
+			2. pada lingkaran dengan jumlah data <b>lebih dari 1</b> akan ditampilkan <b>lingkaran baru</b> yang telah dikelompokan <br>
+			<br>
+			<b>Navigasi Breadcrumbs</b><br>
+				Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
+				<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
+				Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
+				Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
+			<br>
+			<b>Navigasi Fisheye + Semantic</b><br>
+				Pada mode Fisheye + Semantic, lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
+				Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya (ditandai dengan adanya border</b> atau <br>
+				<b>klik pada lingkaran lain dengan jumlah data lebih dari 1</b>
 		</div>
 		<a class="close" href="#close" id="closeHelpZoom"></a>
 	</div>
