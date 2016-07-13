@@ -1618,31 +1618,8 @@
 
 					return realSize;
 				});
-				
-				$('.paperParent').hover(
-					function() {
-						if(zoomLevel0 == true) {
-							// Ubah ukuran label
-							$(this).children('text').attr("class", "labelParent zoomLabel");
-							
-							// Ubah ukuran lingkaran
-							jariJari = $(this).children('circle').attr("r");
-							$(this).children('circle').attr("r", "35");							
-						}
-					},
-					
-					function() {
-						if(zoomLevel0 == true) {
-							// Kembalikan ukuran label
-							$(this).children('text').attr("class", "labelParent");
-							
-							// Kembalikan ukuran lingkaran
-							$(this).children('circle').attr("r", jariJari);
-						}
-					}
-				);
 			}
-			else{	// Mode pan = Distorsi
+			else {	// Mode pan = Distorsi
 				// Mengatur jari-jari lingkaran dan ukuran text pada saat mode pan distorsi
 				var node = elemParentEnter.append("circle")
 				.attr("class", "nodeParent")
@@ -1693,6 +1670,29 @@
 					return realSize;
 				});
 			}
+			
+			$('.paperParent').hover(
+				function() {
+					if(zoomLevel0 == true) {
+						// Ubah ukuran label
+						$(this).children('text').attr("class", "labelParent zoomLabel");
+						
+						// Ubah ukuran lingkaran
+						jariJari = $(this).children('circle').attr("r");
+						$(this).children('circle').attr("r", "35");							
+					}
+				},
+				
+				function() {
+					if(zoomLevel0 == true) {
+						// Kembalikan ukuran label
+						$(this).children('text').attr("class", "labelParent");
+						
+						// Kembalikan ukuran lingkaran
+						$(this).children('circle').attr("r", jariJari);
+					}
+				}
+			);
 
 			node.attr("transform", function(d, i) {
 				d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
@@ -1743,15 +1743,7 @@
 			if($("#mode_pan option:selected").text() == 'Linier') {
 				// do nothing
 			} else {
-				elemParentEnter.on("mousemove", function() {
-					fisheye.focus(d3.mouse(this));
-
-					// Fisheye untuk setiap node
-					node.each(function(d) { d.fisheye = fisheye(d); })
-					.attr("r", function(d) {
-						return d.fisheye.z * 20;
-					});
-				});
+				// do nothing
 			}
 
 			elemParentEnter.on("click", function(d, i) {

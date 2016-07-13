@@ -2321,8 +2321,10 @@
 			g.attr("transform", function(d, i) {
 				return "translate(" + i * (b.w + b.s) + ", 10)";
 			})
-			.attr("class",function(d,i){if(nodeArray.length-1==i){return "not_click_breadcrumb"}else{return "click_breadcrumb"}})
-			.on("click", function(d, i) {if(nodeArray.length-1==i){}else{ zoom(nodes2[i]);updateBreadcrumbs(getAncestors(d))}});
+			.attr("class",function(d, i){if(nodeArray.length-1==i){return "not_click_breadcrumb"}else{return "click_breadcrumb"}})
+			.on("click", function(d, i) {if(nodeArray.length-1==i){}else{ zoom(nodes2[i]);
+		
+			updateBreadcrumbs(getAncestors(d))}});
 			 
 			// Remove exiting nodes.
 			g.exit().remove();
