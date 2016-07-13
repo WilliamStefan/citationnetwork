@@ -413,7 +413,8 @@
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		 
 		var parameter;   
-		parameter="8,10,11,12,13,14,15,16,17,18,19";
+		// parameter = "8,10,11,12,13,14,15,16,17,18,19";
+		parameter = "7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";
 				 
 		var force = d3.layout.force();
 		var sumbuX;
@@ -965,7 +966,7 @@
 			})
 		
 			// Untuk hover paper pada level 0 dengan jumlah paper 1
-			$("svg.circle").each(function(d, i) {
+			$("svg circle").each(function(d, i) {				
 				if(g1[0][d].__data__.children.length == 1) {
 					$(g1[0][d]).tipsy({ 
 						gravity: 'w', 
@@ -976,7 +977,7 @@
 						}
 					});
 				}
-			});
+			}); 
  
 			// Panah dan garis hanya akan dibuat jika linknya ada
 			if(rlink.length != 0) {
@@ -1188,7 +1189,6 @@
 						yFeye = (y(d.sumbu_y) + (y.rangeBand() / 2));
 						a = Math.abs(rmax-(Math.abs(mouse[0]-xFeye)/rmax));
 						b = Math.abs(rmax-(Math.abs(mouse[1]-yFeye)/rmax));
-						console.log(a, b);
 						if (a<b) {return a; }
 						else { return b; }
 					});
@@ -1519,8 +1519,73 @@
 			.enter().append("text")
 			.attr("class", "label2")
 			.style("fill-opacity", function(d) { return d.parent === data2 ? 1 : 0; })
-			.style("display", function(d) {if (d.parent === focus) { return "inline" } else {return d.parent === data2 ? null : "none"; }})
-			.text(function(d) { return d.name; });
+			// .style("display", function(d) {if (d.parent === focus) { return "inline" } else {return d.parent === data2 ? null : "none"; }})
+			.style("word-wrap", "break-word")
+			.style("width", "10em")
+			.text(function(d) {
+				var text = String(d.name).split(" ");
+				var retText;
+				for(var i = 0; i < text.length; i++) {
+					if (text[i] != "") {
+						retText += text[i];
+						retText += "\n";
+					}
+				}
+				
+				console.log(retText);
+				
+				return retText;
+				// return d.name;
+			});
+			
+			// text2 = circle_packing.selectAll("text")
+			// .data(nodes2)
+			// .enter().append("foreignObject")
+			// .attr("x", function(d) {
+				// console.log("circle2");
+				// console.log(d3.transform(circle2.attr("transform")).translate[0]);
+				
+				// console.log("circle_packing");
+				// console.log(d3.transform(circle_packing.attr("transform")).translate[0]);
+				
+				// var finalx = d3.transform(circle2.attr("transform")).translate[0] + d3.transform(circle_packing.attr("transform")).translate[0];
+				// return finalx;
+			// })
+			// .attr("y", function(d) {
+				// console.log("circle2");
+				// console.log(d3.transform(circle2.attr("transform")).translate[0]);
+				
+				// console.log("circle_packing");
+				// console.log(d3.transform(circle_packing.attr("transform")).translate[0]);
+
+				// var finaly = d3.transform(circle2.attr("transform")).translate[1] + d3.transform(circle_packing.attr("transform")).translate[1];
+				// return finaly;
+			// })
+			// .attr("width", "100")
+			// .attr("height", "100")
+			// .style("word-wrap", "break-word")
+			// .style("width", "10em")
+			// .append("xhtml")
+			// .attr("class", "label2")
+			// // .style("fill-opacity", function(d) { return d.parent === data2 ? 1 : 0; })
+			// // .style("display", function(d) {if (d.parent === focus) { return "inline" } else {return d.parent === data2 ? null : "none"; }})
+			// .text(function(d) {
+				// // var text = String(d.name).split(" ");
+				// // var retText;
+				// // for(var i = 0; i < text.length; i++) {
+					// // if (text[i] != "") {
+						// // retText += text[i];
+						// // retText += "\n";
+					// // }
+				// // }
+				
+				// // console.log(retText);
+				
+				// // return retText;
+				// return d.name;
+			// })
+			// .attr('style', 'text-align:center; padding:10px; margin:10px;');
+			
 			node2 = circle_packing.selectAll("circle,text");
 			zoomTo([data2.x, data2.y, 52.28]);
 			 

@@ -1121,7 +1121,7 @@
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		 
 		var parameter;   
-		parameter="7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";
+		parameter = "7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";
 				 
 		var force = d3.layout.force()
 		.charge(-240)
@@ -1163,6 +1163,7 @@
 		.attr('fill', 'none')
 		.attr('height', height);
 		
+		var jariJari = 0;
 		var globalX = 0;
 		var globalY = 0;
 		var posisiMiring = 75 * 0.7;
@@ -1282,21 +1283,9 @@
 			
 		// Fungsi untuk menggambar kembali tampilan sesuai dengan parameter yang dipilih
 		function redraw(dataString) {
-			//////////////////////
-			// Variabel William //
-			//////////////////////
-			
 			var zoomLevel0 = true;
 			var zoomLevel1 = false;
 			var zoomLevel2 = false;
- 
-			// Ambil kelas .chart lalu buat tag g dengan atribut width dan height di dalamnya
-			// var svgFisheye = d3.select(".chart")
-			// .append("g")
-			// .attr("width", width + margin.left + margin.right)
-			// .attr("height", 515)
-			// .attr('class','wrapper map')
-			// .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
  
 			var fisheye = d3.fisheye.circular()
 			.radius(100);
@@ -1834,11 +1823,24 @@
 				
 				$('.paperParent').hover(
 					function() {
-						$(this).children('text').attr("class", "labelParent zoomLabel");
+						if(zoomLevel0 == true) {
+							// Ubah ukuran label
+							$(this).children('text').attr("class", "labelParent zoomLabel");
+							
+							// Ubah ukuran lingkaran
+							jariJari = $(this).children('circle').attr("r");
+							$(this).children('circle').attr("r", "35");							
+						}
 					},
 					
 					function() {
-						$(this).children('text').attr("class", "labelParent");
+						if(zoomLevel0 == true) {
+							// Kembalikan ukuran label
+							$(this).children('text').attr("class", "labelParent");
+							
+							// Kembalikan ukuran lingkaran
+							$(this).children('circle').attr("r", jariJari);
+						}
 					}
 				);
 			}
@@ -1941,15 +1943,7 @@
 			});
 			
 			if($("#mode_pan option:selected").text() == 'Linier') {
-				svgFisheye.on("mousemove", function() {
-					fisheye.focus(d3.mouse(this));
-
-					// Fisheye untuk setiap node
-					node.each(function(d) { d.fisheye = fisheye(d); })
-					.attr("r", function(d) {
-						return d.fisheye.z * 20;
-					});
-				});
+				// do nothing
 			} else {
 				elemParentEnter.on("mousemove", function() {
 					fisheye.focus(d3.mouse(this));
@@ -2005,8 +1999,6 @@
 					if(zoomLevel0 == true) {
 						var finalX = globalX + d.x;
 						var finalY = globalY + d.y;
-
-						svgFisheye.on("mousemove", function() {});
 
 						var clickedParent = "circleParent-" + i;
 
@@ -2249,11 +2241,13 @@
 						
 						$('.paperChild').hover(
 							function() {
-								jQuery(this).children('text').css("font-size", "30px") // Ukuran font
+								// Ubah ukuran label
+								$(this).children('text').attr("class", "labelChild zoomLabel");
 							},
 							
 							function() {
-								jQuery(this).children('text').css("font-size", "14px") // Ukuran font
+								// Kembalikan ukuran label
+								$(this).children('text').attr("class", "labelChild");
 							}
 						);
 
@@ -2278,7 +2272,7 @@
 						});
 						
 						if($("#mode_pan option:selected").text() == 'Linier') {
-							svgFisheye.on("mousemove", function() {
+							elemChildEnter.on("mousemove", function() {
 								fisheye.focus(d3.mouse(this));
 
 								// Fisheye untuk setiap node
@@ -2334,8 +2328,7 @@
 									var finalXChild = globalX + p.x;
 									var finalYChild = globalY + p.y;
 																		
-									svgFisheye.on("mousemove", function() {});
-									svgFisheye.on("mousemove", function() {});
+									elemChildEnter.on("mousemove", function() {});
 									
 									var clickedChild = "circleChild-" + i;
 
@@ -2546,11 +2539,13 @@
 									
 									$('.paperGrandChild').hover(
 										function() {
-											jQuery(this).children('text').css("font-size", "30px") // Ukuran font
+											// Ubah ukuran label
+											$(this).children('text').attr("class", "labelGrandChild zoomLabel");
 										},
 										
 										function() {
-											jQuery(this).children('text').css("font-size", "14px") // Ukuran font
+											// Kembalikan ukuran label
+											$(this).children('text').attr("class", "labelGrandChild");
 										}
 									);
 
@@ -2570,7 +2565,7 @@
 									});
 									
 									if($("#mode_pan option:selected").text() == 'Linier') {
-										svgFisheye.on("mousemove", function() {
+										elemGrandChildEnter.on("mousemove", function() {
 											fisheye.focus(d3.mouse(this));
 
 											// Fisheye untuk setiap node
@@ -2646,7 +2641,7 @@
 									
 									labelChild.style("opacity", 1);
 																		
-									svgFisheye.on("mousemove", function() {
+									elemChildEnter.on("mousemove", function() {
 										fisheye.focus(d3.mouse(this));
 
 										// Fisheye untuk setiap node
@@ -2711,20 +2706,6 @@
 								jQuery(this).children('text').css("font-size", "14px") // Ukuran font
 							}
 						);
-
-						svgFisheye.on("mousemove", function() {
-							fisheye.focus(d3.mouse(this));
-
-							// Fisheye untuk setiap node
-							node.each(function(d) { d.fisheye = fisheye(d); })
-							.attr("r", function(d) { return d.fisheye.z * 21});
-
-							// Fisheye untuk setiap garis
-							// link.attr("x1", function(d) { return d.source.fisheye.x; })
-							// .attr("y1", function(d) { return d.source.fisheye.y; })
-							// .attr("x2", function(d) { return d.target.fisheye.x; })
-							// .attr("y2", function(d) { return d.target.fisheye.y; });
-						});
 					}
 				}
 			});
