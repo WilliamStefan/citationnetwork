@@ -1554,7 +1554,7 @@
 							return 27.5;
 						} else if(realSize == 7) {
 							return 30;
-						} else if(realSize == 8) {
+						} else if(realSize >= 8) {
 							return 32.5;
 						}
 					}
@@ -1589,7 +1589,7 @@
 						return "19px";
 					} else if(realSize == 7) {
 						return "20px";
-					} else if(realSize == 8) {
+					} else if(realSize >= 8) {
 						return "21px";
 					}
 				})
@@ -1977,6 +1977,8 @@
 								return 27.5;
 							} else if(d.size[i] == 7) {
 								return 30;
+							} else if(d.size[i] >= 8) {
+								return 32.5;
 							}
 						})
 						.style("fill", "#3B5998")
@@ -2003,7 +2005,7 @@
 								return "19px";
 							} else if(d.size[i] == 7) {
 								return "20px";
-							} else if(d.size[i] == 8) {
+							} else if(d.size[i] >= 8) {
 								return "21px";
 							}
 						})
@@ -2482,35 +2484,6 @@
 							// Fisheye untuk setiap node
 							node.each(function(d) { d.fisheye = fisheye(d); })
 							.attr("r", function(d) { return d.fisheye.z * 21});
-
-							// Fisheye untuk setiap label
-							label.each(function(d) { d.fisheye = fisheye(d); })
-							.attr("font-size", function(d) {
-								// Isi label
-								var realSize = 0;
-
-								for(var iterator = 0; iterator < d.size.length; iterator++) {
-									realSize += d.size[iterator];
-								}
-								
-								if(realSize == 1) {
-									return "14px";
-								} else if(realSize == 2) {
-									return "15px";
-								} else if(realSize == 3) {
-									return "16px";
-								} else if(realSize == 4) {
-									return "17px";
-								} else if(realSize == 5) {
-									return "18px";
-								} else if(realSize == 6) {
-									return "19px";
-								} else if(realSize == 7) {
-									return "20px";
-								} else if(realSize == 8) {
-									return "21px";
-								}
-							})
 
 							// Fisheye untuk setiap garis
 							// link.attr("x1", function(d) { return d.source.fisheye.x; })
