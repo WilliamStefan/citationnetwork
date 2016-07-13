@@ -2764,7 +2764,7 @@
 
 				selection.append("text")
 					.attr("class","textInfo")
-					.text("* Press Ctrl Key + Move The Cursor To Pan")
+					.text("Press Ctrl Key + Move The Cursor To Pan")
 					.attr("transform","translate(10,0)")
 					.style("fill","blue");
 					// .style("fill","#46b8da");
