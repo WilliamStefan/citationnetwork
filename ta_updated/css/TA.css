@@ -13,7 +13,7 @@
 	border-radius:4px 4px 4px 4px;
 	box-shadow:none;
 	position:relative;
-	padding: 0px 15px 15px 15px;
+	/*padding: 0px 15px 15px 15px;*/
 }
 
 .axis text {
@@ -295,6 +295,7 @@ div#popup-content li{
 {
 	margin-top:30px;
 	margin-bottom:10px;
+  margin-left: 14px;
 	//padding-top:20px;
 }
 .sub-heading
