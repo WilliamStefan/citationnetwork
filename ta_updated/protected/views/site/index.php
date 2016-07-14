@@ -26,7 +26,7 @@
 			echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
 			// echo ('SelectedId="7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";');
 		} else {
-			echo ('SelectedId=""7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175"";');
+			echo ('SelectedId="7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";');
 			// echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
 		}
 
@@ -352,7 +352,7 @@
 	<div class="left-content" style="width:80%">
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
-		<button id="reset" style="margin-left: 150px;" class="btn btn-info">Reset Pan</button>
+		<button id="reset" style="width:110px;" class="btn btn-info">Reset Pan</button>
 		<!-- Container untuk zoom menggunakan breadcrumb pada level 0 -->
 		<!-- <p id="chart"> -->
 			<svg class="chart" id="chart"></svg>
@@ -1161,7 +1161,7 @@
 			function distortion(selection){
 				selection.append("text")
 					.attr("class","textInfo")
-					.text("* Press Ctrl Key + Move The Cursor To Pan")
+					.text("Press Ctrl Key + Move The Cursor To Pan")
 					.attr("transform","translate(10,0)")
 					.style("fill","blue");
 
@@ -1865,9 +1865,9 @@
 			pan = $("#mode_pan option:selected").text();
 
 			if(zooming == "Fisheye + Semantic") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
@@ -2322,7 +2322,7 @@
 				return "translate(" + i * (b.w + b.s) + ", 10)";
 			})
 			.attr("class",function(d, i){if(nodeArray.length-1==i){return "not_click_breadcrumb"}else{return "click_breadcrumb"}})
-			.on("click", function(d, i) {if(nodeArray.length-1==i){}else{ zoom(nodes2[i]);
+			.on("click", function(d, i) {if(nodeArray.length-1==i){ entering.style("fill","#ddd"); }else{ zoom(nodes2[i]);
 		
 			updateBreadcrumbs(getAncestors(d))}});
 			 
@@ -2524,7 +2524,7 @@
 			<br>
 			<b>Navigasi Breadcrumbs</b><br>
 				Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
-				<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
+				<img id="home" src="http://localhost/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
 				Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
 				Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
 			<br>

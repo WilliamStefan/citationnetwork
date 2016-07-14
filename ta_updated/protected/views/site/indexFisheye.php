@@ -1069,7 +1069,7 @@
 	<div class="left-content" style="width:80%">
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
-		<button id="reset" style="margin-left: 150px;" class="btn btn-info">Reset Pan</button>
+		<button id="reset" style="width:110px;" class="btn btn-info">Reset Pan</button>
 		<!-- Container untuk chart yang digunakan -->
 		<svg class="chart" id="chart"></svg>
 	</div>
@@ -1955,6 +1955,9 @@
 						// Ubah warna labelParent
 						label.style("opacity", 0.75);
 
+						// Ubah warna link
+						link.style("opacity", 0.3);
+
 						var elemChild = svgFisheye.select(".draggable").selectAll("g.circle")
 						.data(dataChild);
 
@@ -2472,10 +2475,15 @@
 						circleParent = document.getElementsByClassName("circleStroke");
 						circleParent[0].classList.remove("circleStroke");
 						
+						// Ubah warna node
 						node.style("fill", "#3B5998")
 						.style("opacity", 1);
 						
-						label.style("opacity", 1);		
+						// Ubah warna label
+						label.style("opacity", 1);
+
+						// Ubah warna link
+						link.style("opacity", 1);
 						
 						$('.paperParent').hover(
 							function() {
@@ -2764,7 +2772,7 @@
 
 				selection.append("text")
 					.attr("class","textInfo")
-					.text("* Press Ctrl Key + Move The Cursor To Pan")
+					.text("Press Ctrl Key + Move The Cursor To Pan")
 					.attr("transform","translate(10,0)")
 					.style("fill","blue");
 					// .style("fill","#46b8da");
@@ -3155,9 +3163,9 @@
 			pan = $("#mode_pan option:selected").text();
 
 			if(zooming == "Fisheye") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
@@ -3701,7 +3709,7 @@
 			<br>
 			<b>Navigasi Breadcrumbs</b><br>
 				Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
-				<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
+				<img id="home" src="http://localhost/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
 				Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
 				Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
 			<br>
