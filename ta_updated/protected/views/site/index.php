@@ -189,7 +189,7 @@
 				});
 				
 				// Memulai help
-				intro.start();
+				// intro.start();
 				
 				$(".introjs-button introjs-nextbutton").click(function(){
 					intro.setOption('doneLabel', 'Lihat zooming').start().oncomplete(function() {
