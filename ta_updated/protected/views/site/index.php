@@ -1865,9 +1865,9 @@
 			pan = $("#mode_pan option:selected").text();
 
 			if(zooming == "Fisheye + Semantic") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
@@ -2512,7 +2512,7 @@
 		<a class="close" href="#close" id="closeDetail"></a>
 	</div>
 	
-	<!-- Popup help for zooming -->
+	<!-- Pop-up help for zooming -->
 	<a href="#helpZoom" class="overlay" id="helpZooming"></a>
 	<div class="popup" style ="width:600px;">
 		<h2>Mode Zoom</h2>
@@ -2523,35 +2523,37 @@
 			2. lingkaran dengan jumlah data <b>lebih dari 1</b> akan ditampilkan <b>lingkaran baru</b> yang telah dikelompokan <br>
 			<br>
 			<b>Navigasi Breadcrumbs</b><br>
-				Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
-				<img id="home" src="http://localhost/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
-				Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
-				Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
+			Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
+			<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
+			Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
+			Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
 			<br>
 			<b>Navigasi Fisheye + Semantic</b><br>
-				Pada mode Fisheye + Semantic, lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
-				Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya (ditandai dengan adanya border</b> atau <br>
-				<b>klik pada lingkaran lain dengan jumlah data lebih dari 1</b>
+			Pada mode Fisheye + Semantic, lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
+			Fisheye zoom diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran
+			Semantic zoom diaktifkan dengan cara melakukan klik pada data tidak tunggal
+			Untuk <b>kembali ke data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya (ditandai dengan adanya border</b> atau <br>
+			<b>klik pada lingkaran lain dengan jumlah data lebih dari 1</b>
 		</div>
 		<a class="close" href="#close" id="closeHelpZoom"></a>
 	</div>
 
-	<!-- Popup help for panning -->
+	<!-- Pop-up help for panning -->
 	<a href="#helpPan" class="overlay" id="helpPanning"></a>
 	<div class="popup" style ="width:600px;">
 		<h2>Mode Pan</h2>
 		<div id="popup-content">
 			Tombol ini digunakan untuk mengubah mode panning pada peta penelitian<br><br>
 			<b>1. Linier</b><br>
-				Pada mode pan ini, Anda dapat melakukan panning dengan cara: <br>
-				- klik area tertentu pada peta penelitian, dan kemudian menggesernya ke arah yang Anda inginkan. <b>Atau</b><br>
-				- menggeser kotak kecil di dalam overview map yang tersedia di pojok kiri atas.<br><br>
-				Setelah melakukan panning, Anda dapat mengembalikan peta pada posisi semula dengan menekan tombol "Reset Pan".<br><br>
+			Pada mode pan ini, Anda dapat melakukan panning dengan cara: <br>
+			- klik area tertentu pada peta penelitian, dan kemudian menggesernya ke arah yang Anda inginkan. <b>Atau</b><br>
+			- menggeser kotak kecil di dalam overview map yang tersedia di pojok kiri atas.<br><br>
+			Setelah melakukan panning, Anda dapat mengembalikan peta pada posisi semula dengan menekan tombol "Reset Pan".<br><br>
 			<b>2. Distorsi</b><br>
-				Pada mode pan ini, Anda dapat melakukan panning dengan cara menekan <b>tombol Ctrl</b> pada keyboard 
-				dan <b>menggerakkan kursor mouse</b> pada area peta atau lingkaran tertentu untuk menjadi fokus Anda.<br>
-				Lingkaran yang menjadi fokus akan diberi ruang dan ukuran yang lebih besar dibandingkan lingkaran lainnya.
-				Semakin jauh suatu lingkaran dari titik fokus, maka ukuran lingkaran tersebut akan semakin mengecil (distorsi).<br><br>
+			Pada mode pan ini, Anda dapat melakukan panning dengan cara menekan <b>tombol Ctrl</b> pada keyboard 
+			dan <b>menggerakkan kursor</b> pada area peta atau lingkaran tertentu untuk menjadi fokus Anda.<br>
+			Lingkaran yang menjadi fokus akan diberi ruang dan ukuran yang lebih besar dibandingkan lingkaran lainnya.
+			Semakin jauh suatu lingkaran dari titik fokus, maka ukuran lingkaran tersebut akan semakin mengecil (distorsi).<br><br>
 		</div>
 		<a class="close" href="#close" id="closeHelpPan"></a>
 	</div>
