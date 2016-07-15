@@ -2522,18 +2522,17 @@
 			1. lingkaran dengan jumlah data <b>1</b> akan ditampilkan <b>popup</b> yang berisi <b>detail rinci data penelitian</b><br>
 			2. lingkaran dengan jumlah data <b>lebih dari 1</b> akan ditampilkan <b>lingkaran baru</b> yang telah dikelompokan <br>
 			<br>
+			<b>Navigasi Fisheye + Semantic</b><br>
+			Pada mode Fisheye + Semantic, lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
+			Fisheye zoom diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran
+			Semantic zoom diaktifkan dengan cara melakukan <b>klik</b> pada data tidak tunggal
+			Untuk <b>kembali ke data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya</b> (ditandai dengan adanya border atau <b>klik lingkaran lain dengan jumlah data lebih dari 1</b>
+			<br><br>
 			<b>Navigasi Breadcrumbs</b><br>
 			Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
 			<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
 			Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
 			Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
-			<br>
-			<b>Navigasi Fisheye + Semantic</b><br>
-			Pada mode Fisheye + Semantic, lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
-			Fisheye zoom diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran
-			Semantic zoom diaktifkan dengan cara melakukan klik pada data tidak tunggal
-			Untuk <b>kembali ke data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya (ditandai dengan adanya border</b> atau <br>
-			<b>klik pada lingkaran lain dengan jumlah data lebih dari 1</b>
 		</div>
 		<a class="close" href="#close" id="closeHelpZoom"></a>
 	</div>
