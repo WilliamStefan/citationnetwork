@@ -1153,7 +1153,7 @@
 			<b>Zoom:</b>   Hover to activate <b>fisheye zoom</b>, hover for at least 1 second to activate <b>tooltip</b>. Click to <b>see detail</b>, click again to <b>undo</b>.
 			<br><br>
 			<div class="helpPan"> <b>Pan:</b> Click on map area and drag it to desired position <b>OR</b> drag the box in overview map to pan.</div>
-			<div class="textInfo" style="margin-top: -10px;"> <b>Pan:</b> Press Ctrl key + move the cursor to pan. </div>
+			<div class="textInfo" style="margin-top: -20px;"> <b>Pan:</b> Press Ctrl key + move the cursor to pan. </div>
 		</div>
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
