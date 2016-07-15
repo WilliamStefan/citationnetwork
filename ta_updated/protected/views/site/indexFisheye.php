@@ -70,7 +70,7 @@
 
 <script type="text/javascript">
 	function posisiFinalX(jumlahGroup, sourcex, i, finalX, finalY) {
-		var miring = 75 * 0.7;
+		var miring = 75 * 0.7;		
 
 		if(jumlahGroup == 2) {
 			// Kiri atas
@@ -241,6 +241,16 @@
 		}
 		
 		if(jumlahGroup == 4) {
+			// Kiri atas
+			if(finalX <= 50 && finalY <= 50) {
+				if(i == 0) {
+					return sourcex + 120;
+				} else if(i == 1) {
+					return sourcex + 100;
+				} else if(i == 2) {
+					return sourcex;
+				}
+			}
 			// Atas
 			if((finalX >= 50 && finalX <= 700) && finalY <= 50) {
 				if(i == 0) {
@@ -251,6 +261,16 @@
 					return sourcex;
 				} else if(i == 3) {
 					return sourcex - miring;
+				}
+			}
+			// Kanan atas
+			else if(finalX >= 700 && finalY <= 50) {
+				if(i == 0) {
+					return sourcex;
+				} else if(i == 1) {
+					return sourcex - miring;
+				} else if(i == 2) {
+					return sourcex - 75;
 				}
 			}
 			// Kanan
@@ -265,6 +285,16 @@
 					return sourcex - miring;
 				}
 			}
+			// Kanan bawah
+			else if(finalX >= 700 && finalY >= 400) {
+				if(i == 0) {
+					return sourcex - 75;
+				} else if(i == 1) {
+					return sourcex - miring;
+				} else if(i == 2) {
+					return sourcex;
+				}
+			}
 			// Bawah
 			else if((finalX >= 50 && finalX <= 700) && finalY >= 400) {
 				if(i == 0) {
@@ -275,6 +305,16 @@
 					return sourcex;
 				} else if(i == 3) {
 					return sourcex + miring;
+				}
+			}
+			// Kiri bawah
+			else if(finalX <= 50 && finalY >= 400) {
+				if(i == 0) {
+					return sourcex;
+				} else if(i == 1) {
+					return sourcex + miring;
+				} else if(i == 2) {
+					return sourcex + 75;
 				}
 			}
 			// Kiri
@@ -393,20 +433,41 @@
 		}
 
 		if(jumlahGroup == 7) {
-			if(i == 0) {
-				return sourcex;
-			} else if(i == 1) {
-				return sourcex + miring;
-			} else if(i == 2) {
-				return sourcex + 75;
-			} else if(i == 3) {
-				return sourcex + miring;
-			} else if(i == 4) {
-				return sourcex;
-			} else if(i == 5) {
-				return sourcex - miring;
-			} else if(i == 6) {
-				return sourcex - 75;
+			// Kiri atas
+			if(finalX <= 50 && finalY <= 50) {
+				if(i == 0) {
+					return sourcex + 200;
+				} else if(i == 1) {
+					return sourcex + 195;
+				} else if(i == 2) {
+					return sourcex + 175;
+				} else if(i == 3) {
+					return sourcex + 140;
+				} else if(i == 4) {
+					return sourcex + 100;
+				} else if(i == 5) {
+					return sourcex + 50;
+				} else if(i == 6) {
+					return sourcex;
+				}
+			}
+			// Tengah
+			else {
+				if(i == 0) {
+					return sourcex;
+				} else if(i == 1) {
+					return sourcex + miring;
+				} else if(i == 2) {
+					return sourcex + 75;
+				} else if(i == 3) {
+					return sourcex + miring;
+				} else if(i == 4) {
+					return sourcex;
+				} else if(i == 5) {
+					return sourcex - miring;
+				} else if(i == 6) {
+					return sourcex - 75;
+				}
 			}
 		}
 		
@@ -755,20 +816,41 @@
 		}
 		
 		if(jumlahGroup == 7) {
-			if(i == 0) {
-				return sourcey - 75;
-			} else if(i == 1) {
-				return sourcey - miring;
-			} else if(i == 2) {
-				return sourcey;
-			} else if(i == 3) {
-				return sourcey + miring;
-			} else if(i == 4) {
-				return sourcey + 75;
-			} else if(i == 5) {
-				return sourcey + miring;
-			} else if(i == 6) {
-				return sourcey;
+			// Kiri atas
+			if(finalX <= 50 && finalY <= 50) {
+				if(i == 0) {
+					return sourcey;
+				} else if(i == 1) {
+					return sourcey + 50;
+				} else if(i == 2) {
+					return sourcey + 100;
+				} else if(i == 3) {
+					return sourcey + 140;
+				} else if(i == 4) {
+					return sourcey + 175;
+				} else if(i == 5) {
+					return sourcey + 195;
+				} else if(i == 6) {
+					return sourcey + 200;
+				}
+			}
+			// Tengah
+			else {
+				if(i == 0) {
+					return sourcey - 75;
+				} else if(i == 1) {
+					return sourcey - miring;
+				} else if(i == 2) {
+					return sourcey;
+				} else if(i == 3) {
+					return sourcey + miring;
+				} else if(i == 4) {
+					return sourcey + 75;
+				} else if(i == 5) {
+					return sourcey + miring;
+				} else if(i == 6) {
+					return sourcey;
+				}				
 			}
 		}
 		
@@ -3710,18 +3792,17 @@
 			1. lingkaran dengan jumlah data <b>1</b> akan ditampilkan <b>popup</b> yang berisi <b>detail rinci data penelitian</b><br>
 			2. lingkaran dengan jumlah data <b>lebih dari 1</b> akan ditampilkan <b>lingkaran baru</b> yang telah dikelompokan <br>
 			<br>
+			<b>Navigasi Fisheye + Semantic</b><br>
+			Lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
+			Fisheye zoom diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran<br>
+			Semantic zoom diaktifkan dengan cara melakukan <b>klik</b> pada data tidak tunggal<br>
+			Untuk <b>kembali ke data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya</b> (ditandai dengan adanya border) atau <b>klik lingkaran lain dengan jumlah data lebih dari 1</b>
+			<br><br>
 			<b>Navigasi Breadcrumbs</b><br>
 			Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
 			<img id="home" src="http://localhost/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
 			Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
 			Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
-			<br>
-			<b>Navigasi Fisheye + Semantic</b><br>
-			Pada mode Fisheye + Semantic, lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
-			Fisheye zoom diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran
-			Semantic zoom diaktifkan dengan cara melakukan klik pada data tidak tunggal
-			Untuk <b>kembali ke data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya (ditandai dengan adanya border</b> atau <br>
-			<b>klik pada lingkaran lain dengan jumlah data lebih dari 1</b>
 		</div>
 		<a class="close" href="#close" id="closeHelpZoom"></a>
 	</div>
