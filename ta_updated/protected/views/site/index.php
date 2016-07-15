@@ -189,7 +189,7 @@
 				});
 				
 				// Memulai help
-				// intro.start();
+				intro.start();
 				
 				$(".introjs-button introjs-nextbutton").click(function(){
 					intro.setOption('doneLabel', 'Lihat zooming').start().oncomplete(function() {
@@ -350,9 +350,13 @@
  
 	<!-- Tampilan di sebelah kiri, yaitu peta penelitian -->
 	<div class="left-content" style="width:80%">
+		<div id="Help zoom" style="margin-left: 150px; color: #3B5998;">
+			<div class="helpPan"> Click on map area and drag it to desired position <b>OR</b> drag the box in overview map to pan.</div>
+			<div class="textInfo"> Press Ctrl Key + Move The Cursor To Pan. </div>
+		</div>
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
-		<button id="reset" style="width:110px;" class="btn btn-info">Reset Pan</button>
+		<button id="reset" style="width:110px; margin-bottom: 10px;" class="btn btn-primary">Reset Pan</button>
 		<!-- Container untuk zoom menggunakan breadcrumb pada level 0 -->
 		<!-- <p id="chart"> -->
 			<svg class="chart" id="chart"></svg>
@@ -1108,7 +1112,8 @@
 			function grabAndDrag(selection){
 				selection.select('.background').on('mousemove',null);
 				d3.select('#reset').style('visibility','visible');
-				d3.select('.textInfo').remove();
+				d3.select(".helpPan").style("visibility","visible");
+				d3.select(".textInfo").style("visibility","hidden");
 				selection.append('rect')
 					.attr('class', 'block')
 					.attr('fill', 'white')
@@ -1159,15 +1164,12 @@
 
 			/* PANNING WITH DISTORTION */
 			function distortion(selection){
-				selection.append("text")
-					.attr("class","textInfo")
-					.text("Press Ctrl Key + Move The Cursor To Pan")
-					.attr("transform","translate(10,0)")
-					.style("fill","blue");
-
+				
 				selection.select('.background').on('mousedown.drag',null);
 				canvas.select('.overviewmap').remove();
 				d3.select('#reset').style('visibility','hidden');
+				d3.select(".helpPan").style("visibility","hidden");
+				d3.select(".textInfo").style("visibility","visible");
 				//posisi awal peta 
 				d3.select('.draggable').transition()
 					.attr("transform", function(d,i){
@@ -1175,6 +1177,7 @@
 				})
 				d3.select(".x").transition().attr('transform', 'translate(' + 0 + ',' + height + ')');	
 				d3.select(".y").transition().attr('transform', 'translate(' + 0 + ',' + 0 + ')');
+				panCanvas.transition().attr('transform','translate(0,0)');
 				//respond to the mouse and distort where necessary
 				selection.select(".background").on("mousemove", function(){
 				if(d3.event.ctrlKey){	//if the ctrl key is not pressed
@@ -1473,6 +1476,8 @@
 			.attr("transform", "translate(" + 220 + "," + 220 + ")");
 
 			d3.select('#reset').style('visibility','hidden');
+			d3.select('.helpPan').style('visibility','hidden');
+			d3.select('.textInfo').style('visibility','hidden');
  
 			circle2 = circle_packing.selectAll("circle").data(nodes2)
 			.enter().append("circle")
@@ -1703,8 +1708,12 @@
 		$("#home").click(function(){
 			if ($("#mode_pan option:selected").text() == 'Linier'){
 				d3.select("#reset").style("visibility","visible");
+				d3.select('.helpPan').style('visibility','visible');
 			}
-			else{ d3.select("#reset").style("visibility","hidden"); }
+			else{ 
+				d3.select("#reset").style("visibility","hidden"); 
+				d3.select('.textInfo').style('visibility','visible');
+			}
 			counter = 0;
 			d3.select(".graph").remove();
 			d3.select("#trail").remove();
@@ -1865,9 +1874,9 @@
 			pan = $("#mode_pan option:selected").text();
 
 			if(zooming == "Fisheye + Semantic") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
@@ -2512,7 +2521,7 @@
 		<a class="close" href="#close" id="closeDetail"></a>
 	</div>
 	
-	<!-- Pop-up help for zooming -->
+	<!-- Popup help for zooming -->
 	<a href="#helpZoom" class="overlay" id="helpZooming"></a>
 	<div class="popup" style ="width:600px;">
 		<h2>Mode Zoom</h2>
@@ -2523,37 +2532,35 @@
 			2. lingkaran dengan jumlah data <b>lebih dari 1</b> akan ditampilkan <b>lingkaran baru</b> yang telah dikelompokan <br>
 			<br>
 			<b>Navigasi Breadcrumbs</b><br>
-			Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
-			<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
-			Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
-			Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
+				Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
+				<img id="home" src="http://localhost/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
+				Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
+				Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
 			<br>
 			<b>Navigasi Fisheye + Semantic</b><br>
-			Pada mode Fisheye + Semantic, lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
-			Fisheye zoom diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran
-			Semantic zoom diaktifkan dengan cara melakukan klik pada data tidak tunggal
-			Untuk <b>kembali ke data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya (ditandai dengan adanya border</b> atau <br>
-			<b>klik pada lingkaran lain dengan jumlah data lebih dari 1</b>
+				Pada mode Fisheye + Semantic, lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
+				Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya (ditandai dengan adanya border</b> atau <br>
+				<b>klik pada lingkaran lain dengan jumlah data lebih dari 1</b>
 		</div>
 		<a class="close" href="#close" id="closeHelpZoom"></a>
 	</div>
 
-	<!-- Pop-up help for panning -->
+	<!-- Popup help for panning -->
 	<a href="#helpPan" class="overlay" id="helpPanning"></a>
 	<div class="popup" style ="width:600px;">
 		<h2>Mode Pan</h2>
 		<div id="popup-content">
-			Tombol ini digunakan untuk mengubah mode panning pada peta penelitian<br><br>
-			<b>1. Linier</b><br>
-			Pada mode pan ini, Anda dapat melakukan panning dengan cara: <br>
-			- klik area tertentu pada peta penelitian, dan kemudian menggesernya ke arah yang Anda inginkan. <b>Atau</b><br>
-			- menggeser kotak kecil di dalam overview map yang tersedia di pojok kiri atas.<br><br>
-			Setelah melakukan panning, Anda dapat mengembalikan peta pada posisi semula dengan menekan tombol "Reset Pan".<br><br>
-			<b>2. Distorsi</b><br>
-			Pada mode pan ini, Anda dapat melakukan panning dengan cara menekan <b>tombol Ctrl</b> pada keyboard 
-			dan <b>menggerakkan kursor</b> pada area peta atau lingkaran tertentu untuk menjadi fokus Anda.<br>
-			Lingkaran yang menjadi fokus akan diberi ruang dan ukuran yang lebih besar dibandingkan lingkaran lainnya.
-			Semakin jauh suatu lingkaran dari titik fokus, maka ukuran lingkaran tersebut akan semakin mengecil (distorsi).<br><br>
+			Tombol ini digunakan untuk mengubah mode <i>panning</i> pada peta penelitian<br><br>
+			<b>1. Linier</b><br><br>
+				Pada mode pan Linier, <i>panning</i> dapat dilakukan dengan cara: <br>
+				- Klik area tertentu pada peta penelitian, dan kemudian menggesernya ke arah yang pengguna inginkan (<i>Grab and Drag</i>). <br><br><b>Atau</b><br><br>
+				- Menggeser kotak kecil di dalam <i>overview map</i> yang tersedia di kiri atas, di bawah tombol "Reset Pan" (<i>Navigation window</i>).<br><br>
+				Untuk mengembalikan peta pada posisi semula, tekan tombol "Reset Pan".<br><br>
+			<b>2. Distorsi</b><br><br>
+				Pada mode pan Distorsi, <i>panning</i> dapat dilakukan dengan cara menekan <b>tombol Ctrl</b> pada <i>keyboard</i> 
+				dan <b>menggerakkan kursor</b> pada area peta atau lingkaran tertentu untuk dijadikan fokus.<br><br>
+				Lingkaran yang menjadi fokus akan diberi ruang dan ukuran yang lebih besar dibandingkan lingkaran lainnya.
+				Semakin jauh suatu lingkaran dari titik fokus, maka ukuran lingkaran tersebut akan semakin mengecil (distorsi).<br><br>
 		</div>
 		<a class="close" href="#close" id="closeHelpPan"></a>
 	</div>

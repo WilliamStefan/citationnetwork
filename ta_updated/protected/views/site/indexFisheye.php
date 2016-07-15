@@ -1069,10 +1069,13 @@
 	<div class="left-content" style="width:80%">
 		<div id="Help zoom" style="margin-left: 150px; color: #3B5998;">
 			<b>Zoom:</b>   Hover to activate <b>fisheye zoom</b>, hover for at least 1 second to activate <b>tooltip</b>. Click to <b>see detail</b>, click again to <b>undo</b>.
+			<br><br>
+			<div class="helpPan"> Click on map area and drag it to desired position <b>OR</b> drag the box in overview map to <b>pan</b>.</div>
+			<div class="textInfo"> Press Ctrl Key + Move The Cursor To Pan. </div>
 		</div>
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
-		<button id="reset" style="width:110px;" class="btn btn-info">Reset Pan</button>
+		<button id="reset" style="width:110px; margin-top: -26px; margin-bottom: 10px;" class="btn btn-primary">Reset Pan</button>
 		<!-- Container untuk chart yang digunakan -->
 		<svg class="chart" id="chart"></svg>
 	</div>
@@ -2711,7 +2714,8 @@
 			function grabAndDrag(selection){
 				// svgFisheye.select('.background').on('mousemove', null);
 				d3.select('#reset').style('visibility','visible');
-				d3.select(".textInfo").remove();
+				d3.select(".helpPan").style("visibility","visible");
+				d3.select(".textInfo").style("visibility","hidden");
 
 				selection.append('rect')
 				.attr('class', 'block')
@@ -2773,15 +2777,10 @@
 			/* PANNING WITH DISTORTION */
 			function distortion(selection){
 
-				selection.append("text")
-					.attr("class","textInfo")
-					.text("Press Ctrl Key + Move The Cursor To Pan")
-					.attr("transform","translate(10,0)")
-					.style("fill","blue");
-					// .style("fill","#46b8da");
-
 				wrapperInner.select('.background').on('mousedown.drag', null);	
 				canvasChart.select('.overviewmap').remove(); // Menghilangkan overview map
+				d3.select(".helpPan").style("visibility","hidden");
+				d3.select(".textInfo").style("visibility","visible");
 				d3.select('#reset').style('visibility','hidden'); // Menghilangkan tombol reset
 				// Posisi awal peta 
 				d3.select('.draggable').transition()
@@ -2790,6 +2789,7 @@
 				})
 				d3.select(".x").transition().attr('transform', 'translate(' + 0 + ',' + height + ')');	
 				d3.select(".y").transition().attr('transform', 'translate(' + 0 + ',' + 0 + ')');
+				panCanvas.transition().attr('transform','translate(0,0)');
 
 				// Merespon gerakan mouse dan memberi efek distorsi
 				wrapperInner.select(".background").on("mousemove", function(d, i){
@@ -3166,9 +3166,9 @@
 			pan = $("#mode_pan option:selected").text();
 
 			if(zooming == "Fisheye + Semantic") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
@@ -3712,7 +3712,7 @@
 			<br>
 			<b>Navigasi Breadcrumbs</b><br>
 			Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
-			<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
+			<img id="home" src="http://localhost/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
 			Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
 			Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
 			<br>
@@ -3731,17 +3731,17 @@
 	<div class="popup" style ="width:600px;">
 		<h2>Mode Pan</h2>
 		<div id="popup-content">
-			Tombol ini digunakan untuk mengubah mode panning pada peta penelitian<br><br>
-			<b>1. Linier</b><br>
-			Pada mode pan ini, Anda dapat melakukan panning dengan cara: <br>
-			- klik area tertentu pada peta penelitian, dan kemudian menggesernya ke arah yang Anda inginkan. <b>Atau</b><br>
-			- menggeser kotak kecil di dalam overview map yang tersedia di pojok kiri atas.<br><br>
-			Setelah melakukan panning, Anda dapat mengembalikan peta pada posisi semula dengan menekan tombol "Reset Pan".<br><br>
-			<b>2. Distorsi</b><br>
-			Pada mode pan ini, Anda dapat melakukan panning dengan cara menekan <b>tombol Ctrl</b> pada keyboard 
-			dan <b>menggerakkan kursor</b> pada area peta atau lingkaran tertentu untuk menjadi fokus Anda.<br>
-			Lingkaran yang menjadi fokus akan diberi ruang dan ukuran yang lebih besar dibandingkan lingkaran lainnya.
-			Semakin jauh suatu lingkaran dari titik fokus, maka ukuran lingkaran tersebut akan semakin mengecil (distorsi).<br><br>
+			Tombol ini digunakan untuk mengubah mode <i>panning</i> pada peta penelitian<br><br>
+			<b>1. Linier</b><br><br>
+				Pada mode pan Linier, <i>panning</i> dapat dilakukan dengan cara: <br>
+				- Klik area tertentu pada peta penelitian, dan kemudian menggesernya ke arah yang pengguna inginkan (<i>Grab and Drag</i>). <br><br><b>Atau</b><br><br>
+				- Menggeser kotak kecil di dalam <i>overview map</i> yang tersedia di kiri atas, di bawah tombol "Reset Pan" (<i>Navigation window</i>).<br><br>
+				Untuk mengembalikan peta pada posisi semula, tekan tombol "Reset Pan".<br><br>
+			<b>2. Distorsi</b><br><br>
+				Pada mode pan Distorsi, <i>panning</i> dapat dilakukan dengan cara menekan <b>tombol Ctrl</b> pada <i>keyboard</i> 
+				dan <b>menggerakkan kursor</b> pada area peta atau lingkaran tertentu untuk dijadikan fokus.<br><br>
+				Lingkaran yang menjadi fokus akan diberi ruang dan ukuran yang lebih besar dibandingkan lingkaran lainnya.
+				Semakin jauh suatu lingkaran dari titik fokus, maka ukuran lingkaran tersebut akan semakin mengecil (distorsi).<br><br>
 		</div>
 		<a class="close" href="#close" id="closeHelpPan"></a>
 	</div>
