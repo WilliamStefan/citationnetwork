@@ -1874,9 +1874,9 @@
 			pan = $("#mode_pan option:selected").text();
 
 			if(zooming == "Fisheye + Semantic") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
@@ -2540,7 +2540,7 @@
 			<b>Navigasi Breadcrumbs</b><br>
 
 			Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
-			<img id="home" src="http://localhost/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
+			<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
 			Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
 			Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
 		</div>
