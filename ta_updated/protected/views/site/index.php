@@ -315,7 +315,7 @@
 				</div>
 				<div class="col-md-4">
 					<a href="#helpZooming">
-						<span class="glyphicon glyphicon-question-sign" style="margin-top:15px;" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-question-sign" style="margin-top:15px; font-size:16px;" aria-hidden="true"></span>
 					</a>
 				</div>
 			</div>
@@ -341,7 +341,7 @@
 				</div>
 				<div class="col-md-4">
 					<a href="#helpPanning">
-						<span class="glyphicon glyphicon-question-sign" style="margin-top:15px;" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-question-sign" style="margin-top:15px; font-size:16px;" aria-hidden="true"></span>
 					</a>
 				</div>
 			</div>
@@ -352,7 +352,7 @@
 	<div class="left-content" style="width:80%">
 		<div id="Help zoom" style="margin-left: 150px; color: #3B5998;">
 			<div class="helpPan"> Click on map area and drag it to desired position <b>OR</b> drag the box in overview map to pan.</div>
-			<div class="textInfo"> Press Ctrl Key + Move The Cursor To Pan. </div>
+			<div class="textInfo"> Press Ctrl key + move the cursor to pan. </div>
 		</div>
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
