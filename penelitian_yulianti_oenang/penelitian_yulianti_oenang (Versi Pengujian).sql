@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2016 at 06:06 AM
+-- Generation Time: Jul 17, 2016 at 04:08 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -137,6 +137,204 @@ INSERT INTO `data_penelitian` (`id`, `judul`, `peneliti`, `tahun_publikasi`, `ma
 (174, 'Distant supervision for relation extraction without labeled data', 'Mike Mintz, Steven Bills, Rion Snow, Dan Jurafsky', 2009, ' Relation extraction without labeled data', 'Modern models of relation extraction for tasks like\r\nACE are based on supervised learning of relations\r\nfrom small hand-labeled corpora. We investigate an\r\nalternative paradigm that does not require labeled\r\ncorpora, avoiding the domain dependence of ACE-\r\nstyle algorithms, and allowing the use of corpora\r\nof any size', 'Distant supervision', 'Automatic Content Extraction (ACE) corpus', 'Automatic Content Extraction (ACE) corpus available from LDC (LDC2003T11)', 'Distant supervision', 'For each pair of enti-\r\nties that appears in some Freebase relation, we find\r\nall sentences containing those entities in a large un-\r\nlabeled corpus and extract textual features to train\r\na relation classifier. ', 'Our model is able to extract 10,000 instances of 102 relations at a precision of 67.6%. We also analyze\r\nfeature performance, showing that syntactic parse\r\nfeatures are particularly helpful for relations that are\r\nambiguous or lexically distant in their expression.', ''),
 (175, 'Unsupervised Relation Extraction by Massive Clustering', 'Edgar Gonza`lez, Jordi Turmo', 2009, ' Information Extraction', 'The goal of Information Extraction is to automatically generate structured pieces of information from the\r\nrelevant information contained in text documents.', 'Unsupervised RE', 'Automatic Content Extraction (ACE) corpus', 'Automatic Content Extraction (ACE) corpus available from LDC (LDC2003T11)', 'As learning corpus we used the year 2000 subset of the\\r\\nAssociated Press section of the AQUAINT Corpus.', 'an unsupervised approach to\r\nlearning for Relation Detection, based on the use of massive\r\nclustering ensembles.', 'The results obtained on the ACE Relation Mention Detection\r\ntask outperform in terms of F1 score by 5 points the state of the\r\nart of unsupervised techniques for this evaluation framework,\r\nin addition to being simpler and more flexible.', '');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `metadata_penelitian`
+--
+
+CREATE TABLE IF NOT EXISTS `metadata_penelitian` (
+`id` int(11) NOT NULL,
+  `col_name` text NOT NULL,
+  `deskripsi` text NOT NULL,
+  `flag` tinyint(4) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+
+--
+-- Dumping data for table `metadata_penelitian`
+--
+
+INSERT INTO `metadata_penelitian` (`id`, `col_name`, `deskripsi`, `flag`) VALUES
+(1, 'judul', 'Judul', 1),
+(2, 'tahun_publikasi', 'Tahun Publikasi', 1),
+(5, 'domain_data', 'Domain Data', 1),
+(8, 'metode', 'Metode', 1),
+(9, 'hasil', 'Hasil', 0),
+(13, 'masalah', 'Masalah', 1),
+(14, 'citation', 'Citation', 0),
+(15, 'peneliti', 'Peneliti', 1),
+(16, 'keyword', 'Keyword', 0),
+(17, 'deskripsi_domain_data', 'Deskripsi Domain Data', 0),
+(18, 'deskripsi_metode', 'Deskripsi Metode', 0),
+(19, 'deskripsi_masalah', 'Deskripsi Masalah', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `metadata_relasi`
+--
+
+CREATE TABLE IF NOT EXISTS `metadata_relasi` (
+`id` int(11) NOT NULL,
+  `deskripsi` text NOT NULL,
+  `keterangan` text NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `metadata_relasi`
+--
+
+INSERT INTO `metadata_relasi` (`id`, `deskripsi`, `keterangan`) VALUES
+(1, 'Citation', 'Relasi menunjukkan paper satu merujuk ke paper lain'),
+(2, 'Improvement', 'Relasi peningkatan hasil satu paper ke paper lain\r\n');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `relasi`
+--
+
+CREATE TABLE IF NOT EXISTS `relasi` (
+`id` int(11) NOT NULL,
+  `id_relasi` int(11) NOT NULL,
+  `id_paper_1` int(11) NOT NULL,
+  `id_paper_2` int(11) NOT NULL,
+  `creater` text NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+
+--
+-- Dumping data for table `relasi`
+--
+
+INSERT INTO `relasi` (`id`, `id_relasi`, `id_paper_1`, `id_paper_2`, `creater`) VALUES
+(1, 2, 12, 11, '7'),
+(2, 1, 1, 2, ''),
+(3, 2, 12, 15, ''),
+(4, 2, 1, 2, ''),
+(5, 1, 2, 1, ''),
+(6, 1, 2, 6, ''),
+(7, 1, 2, 20, ''),
+(9, 1, 10, 11, ''),
+(10, 1, 12, 4, ''),
+(11, 1, 11, 10, '1'),
+(12, 1, 2, 11, '1'),
+(13, 1, 8, 12, '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `saved_map`
+--
+
+CREATE TABLE IF NOT EXISTS `saved_map` (
+`id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_paper` text NOT NULL,
+  `parameter_x` text NOT NULL,
+  `parameter_y` text NOT NULL,
+  `parameter_relation` text NOT NULL,
+  `map_name` text NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+
+--
+-- Dumping data for table `saved_map`
+--
+
+INSERT INTO `saved_map` (`id`, `id_user`, `id_paper`, `parameter_x`, `parameter_y`, `parameter_relation`, `map_name`) VALUES
+(1, 7, '2,32,8,11,12,10', 'Domain Data', 'Tahun Publikasi', 'Citation', 'Text Clustering'),
+(16, 7, '8,10,11,12,13,14,15,16,17,18,19', 'Domain Data', 'Tahun Publikasi', 'Citation', 'Text Categorization'),
+(17, 7, '8,10,11,12,13,14,15,16,17,18,19,3,5,6', 'Peneliti', 'Tahun Publikasi', 'Citation', 'Summarization'),
+(18, 7, '2,8,10,11,12,32,6', 'Domain Data', 'Tahun Publikasi', 'Citation', 'Word Similarity');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_profiles`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_profiles` (
+  `user_id` int(11) NOT NULL,
+  `lastname` varchar(50) NOT NULL DEFAULT '',
+  `firstname` varchar(50) NOT NULL DEFAULT '',
+  `birthday` date NOT NULL DEFAULT '0000-00-00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_profiles`
+--
+
+INSERT INTO `tbl_profiles` (`user_id`, `lastname`, `firstname`, `birthday`) VALUES
+(1, 'Admin', 'Administrator', '0000-00-00'),
+(2, 'Demo', 'Demo', '0000-00-00'),
+(3, 'anti', 'yuli', '2014-09-24'),
+(4, 'anti', 'yuli', '2014-09-29'),
+(5, 'oenang', 'yulianti', '2014-10-07'),
+(6, 'oenang', 'yulianti', '2014-10-05'),
+(7, 'oenang', 'yulianti', '2014-10-05'),
+(8, 'oenang', 'yulianti', '2014-10-09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_profiles_fields`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_profiles_fields` (
+`id` int(10) NOT NULL,
+  `varname` varchar(50) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `field_type` varchar(50) NOT NULL,
+  `field_size` int(3) NOT NULL DEFAULT '0',
+  `field_size_min` int(3) NOT NULL DEFAULT '0',
+  `required` int(1) NOT NULL DEFAULT '0',
+  `match` varchar(255) NOT NULL DEFAULT '',
+  `range` varchar(255) NOT NULL DEFAULT '',
+  `error_message` varchar(255) NOT NULL DEFAULT '',
+  `other_validator` varchar(5000) NOT NULL DEFAULT '',
+  `default` varchar(255) NOT NULL DEFAULT '',
+  `widget` varchar(255) NOT NULL DEFAULT '',
+  `widgetparams` varchar(5000) NOT NULL DEFAULT '',
+  `position` int(3) NOT NULL DEFAULT '0',
+  `visible` int(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `tbl_profiles_fields`
+--
+
+INSERT INTO `tbl_profiles_fields` (`id`, `varname`, `title`, `field_type`, `field_size`, `field_size_min`, `required`, `match`, `range`, `error_message`, `other_validator`, `default`, `widget`, `widgetparams`, `position`, `visible`) VALUES
+(1, 'lastname', 'Last Name', 'VARCHAR', 50, 3, 1, '', '', 'Incorrect Last Name (length between 3 and 50 characters).', '', '', '', '', 1, 3),
+(2, 'firstname', 'First Name', 'VARCHAR', 50, 3, 1, '', '', 'Incorrect First Name (length between 3 and 50 characters).', '', '', '', '', 0, 3),
+(3, 'birthday', 'Birthday', 'DATE', 0, 0, 2, '', '', '', '', '0000-00-00', 'UWjuidate', '{"ui-theme":"redmond"}', 3, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_users`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_users` (
+`id` int(11) NOT NULL,
+  `username` varchar(20) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `activkey` varchar(128) NOT NULL DEFAULT '',
+  `createtime` int(10) NOT NULL DEFAULT '0',
+  `lastvisit` int(10) NOT NULL DEFAULT '0',
+  `superuser` int(1) NOT NULL DEFAULT '0',
+  `status` int(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `tbl_users`
+--
+
+INSERT INTO `tbl_users` (`id`, `username`, `password`, `email`, `activkey`, `createtime`, `lastvisit`, `superuser`, `status`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'webmaster@example.com', '9a24eff8c15a6a141ece27eb6947da0f', 1261146094, 1415770742, 1, 1),
+(2, 'demo', 'fe01ce2a7fbac8fafaed7c982a04e229', 'demo@example.com', '099f825543f7850cc038b90aaff39fac', 1261146096, 0, 0, 1),
+(7, 'yuli', 'f58a4d09485609a22c50547646e5282b', 'yuliantioenang@gmail.com', '4612463b486a397bb8299538cd9f1688', 1412464248, 1415770753, 0, 1),
+(8, 'yulianti', 'f58a4d09485609a22c50547646e5282b', 'yulianti@gmail.com', '800026964f7703ebec75fd8250494ffa', 1412584709, 1412584709, 0, 1);
+
 --
 -- Indexes for dumped tables
 --
@@ -148,6 +346,48 @@ ALTER TABLE `data_penelitian`
  ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `metadata_penelitian`
+--
+ALTER TABLE `metadata_penelitian`
+ ADD PRIMARY KEY (`id`), ADD KEY `id` (`id`);
+
+--
+-- Indexes for table `metadata_relasi`
+--
+ALTER TABLE `metadata_relasi`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `relasi`
+--
+ALTER TABLE `relasi`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `saved_map`
+--
+ALTER TABLE `saved_map`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_profiles`
+--
+ALTER TABLE `tbl_profiles`
+ ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `tbl_profiles_fields`
+--
+ALTER TABLE `tbl_profiles_fields`
+ ADD PRIMARY KEY (`id`), ADD KEY `varname` (`varname`,`widget`,`visible`);
+
+--
+-- Indexes for table `tbl_users`
+--
+ALTER TABLE `tbl_users`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `username` (`username`), ADD UNIQUE KEY `email` (`email`), ADD KEY `status` (`status`), ADD KEY `superuser` (`superuser`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -156,6 +396,36 @@ ALTER TABLE `data_penelitian`
 --
 ALTER TABLE `data_penelitian`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=176;
+--
+-- AUTO_INCREMENT for table `metadata_penelitian`
+--
+ALTER TABLE `metadata_penelitian`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT for table `metadata_relasi`
+--
+ALTER TABLE `metadata_relasi`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `relasi`
+--
+ALTER TABLE `relasi`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT for table `saved_map`
+--
+ALTER TABLE `saved_map`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
+--
+-- AUTO_INCREMENT for table `tbl_profiles_fields`
+--
+ALTER TABLE `tbl_profiles_fields`
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `tbl_users`
+--
+ALTER TABLE `tbl_users`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
