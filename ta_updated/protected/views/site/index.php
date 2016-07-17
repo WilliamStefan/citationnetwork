@@ -351,8 +351,8 @@
 	<!-- Tampilan di sebelah kiri, yaitu peta penelitian -->
 	<div class="left-content" style="width:80%">
 		<div id="Help zoom" style="margin-left: 150px; color: #3B5998;">
-			<div class="helpPan"> Click on map area and drag it to desired position <b>OR</b> drag the box in overview map to pan.</div>
-			<div class="textInfo"> Press Ctrl key + move the cursor to pan. </div>
+			<div class="helpPan"> Click on <b>map area</b> and drag it to desired position <b>or</b> drag the <b>box in overview map</b> to pan.</div>
+			<div class="textInfo"> Press <b>Ctrl key</b> + move the <b>cursor</b> to pan. </div>
 		</div>
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
