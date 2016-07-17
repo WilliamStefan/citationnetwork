@@ -116,7 +116,7 @@
 		<!-- Header -->
 
 		<!-- Header untuk menampilkan jumlah paper -->
-		<label style="width:100px">Jumlah Paper</label>
+		<label style="width:100px; margin-left: 15px;">Jumlah Paper</label>
 		<label style="width:13px">:</label>
 		<div id="jumlahPaper" style="float:right; font-weight:bold; margin-right:34px"></div>
  
@@ -124,7 +124,7 @@
 		<br/>
 
 		<!-- Fitur memilih paper yang akan ditampilkan -->
-		<a href="#AddPaper" id="login_pop" class="button" data-intro="Tombol ini digunakan untuk menambahkan dan mengurangi paper yang akan divisualisasikan" data-step="2">
+		<a href="#AddPaper" id="login_pop" class="button" style="margin-left: 15px;" data-intro="Tombol ini digunakan untuk menambahkan dan mengurangi paper yang akan divisualisasikan" data-step="2">
 			Pilih Paper
 		</a>
 		
@@ -200,9 +200,7 @@
 		<!-- Fitur untuk mengubah parameter pada sumbu x dan sumbu y -->
 		<div class="sub-right-content" data-step="3" data-intro="Ubah sumbu X dan sumbu Y visualisasi">
 			<!-- Header untuk menampilkan parameter yang dapat diubah -->
-			<div class="row">
-			  <div class="col-md-8">
-			  	<div class="sub-heading">Ubah Parameter</div>
+			<div class="sub-heading">Ubah Parameter</div>
 			 
 				<!-- Sumbu X -->
 				<div>Sumbu X</div>
@@ -224,45 +222,35 @@
 						}",*/
 						), 'class'=>'dropdown-style'));
 					?>
-				</div>
-			  </div>
-			  <div class="col-md-4"></div>
 			</div>
  
 			<!-- Sumbu Y -->
 			
-			<div class="row">
-			  <div class="col-md-8">
-			  	Sumbu Y
-				<div class="dropdown">
-						<?php
-							echo CHtml::dropDownList('sumbuY', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Domain Data\''), 'deskripsi', 'deskripsi'), array(
-							'ajax' => array(
-								'type'=>'POST', //request type
-								'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
-								//Style: CController::createUrl('currentController/methodToCall')
-								'update'=>'#sumbuX', //selector to update
-								//'data'=>'js:javascript statement' 
-								//leave out the data key to pass all form values through
-								'data'=>array('sumbuY' => 'js:this.value','sumbuXselected' => 'js:$(\'#sumbuX\').val()')
-								/*
-								'success' => "js:function(data)
-								{
-								alert(data);
-							}",*/
-							), 'class'=>'dropdown-style'));
-						?>
-				</div>
-			  </div>
-			  <div class="col-md-4"></div>
+			Sumbu Y
+			<div class="dropdown">
+				<?php
+					echo CHtml::dropDownList('sumbuY', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Domain Data\''), 'deskripsi', 'deskripsi'), array(
+					'ajax' => array(
+					'type'=>'POST', //request type
+					'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
+					//Style: CController::createUrl('currentController/methodToCall')
+					'update'=>'#sumbuX', //selector to update
+					//'data'=>'js:javascript statement' 
+					//leave out the data key to pass all form values through
+					'data'=>array('sumbuY' => 'js:this.value','sumbuXselected' => 'js:$(\'#sumbuX\').val()')
+					/*
+					'success' => "js:function(data)
+					{
+					alert(data);
+					}",*/
+					), 'class'=>'dropdown-style'));
+				?>
 			</div>
 		</div>
  
 		<!-- Fitur untuk mengubah parameter relasi -->
 		<div id="relation" class="sub-right-content" data-step="4">
-			<div class="row">
-			  <div class="col-md-8">
-			  	<div class="sub-heading">Ubah Relasi</div>
+			<div class="sub-heading">Ubah Relasi</div>
 				<div class="dropdown">
 					<?php
 						echo CHtml::dropDownList('edge', '', Chtml::listData(MetadataRelasi::model()->findAll(),'deskripsi', 'deskripsi'), array(
@@ -282,17 +270,21 @@
 						), 'class'=>'dropdown-style'));
 					?>
 				</div>
-			  </div>
-			  <div class="col-md-4"></div>
-			</div>
 		</div>
 
 		<!-- Fitur untuk mengubah mode zooming -->
 		<div id="zooming" class="sub-right-content">
-			<div class="row">
-			  <div class="col-md-8">
-			  	<div class="sub-heading">Mode Zoom</div>
-			  	<div class="dropdown">
+			  <div class="row" style="padding-left: 15px;">
+			  	<div class="col-md-7">
+			  		<div class="sub-heading">Mode Zoom</div>
+			  	</div>
+			  	<div class="col-md-2">
+			  	<a href="#helpZooming" class="btn btn-primary btn-xs" style="background-color: #72aed0; border-color: #ffffff; margin-left: -20px;">
+			  		Help
+				</a>
+				</div>
+			  </div>
+			  <div class="dropdown">
 			  	<?php
 					echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye + Semantic', 'Breadcrumbs' => 'Breadcrumbs'), array(
 					'ajax' => array(
@@ -303,21 +295,21 @@
 					), 
 					'class'=>'dropdown-style'));
 				?> 
-				</div> 
-			  </div>
-			  <div class="col-md-4">
-			  	<a href="#helpZooming">
-					<span class="glyphicon glyphicon-question-sign" style="margin-top:15px; font-size:16px;" aria-hidden="true"></span>
-				</a>
-			  </div>
-			</div>
+			  </div> 
 		</div>
 
 		<!-- Fitur untuk mengubah mode panning -->
 		<div id="pan" class="sub-right-content">
-			<div class="row">
-			  <div class="col-md-8">
-			  	<div class="sub-heading">Mode Pan</div>
+			  <div class="row" style="padding-left: 15px;">
+			  	<div class="col-md-6">
+			  		<div class="sub-heading">Mode Pan</div>
+			  	</div>
+			  	<div class="col-md-3">
+			  	<a href="#helpPanning" class="btn btn-primary btn-xs" style="background-color: #72aed0; border-color: #ffffff; margin-left: -4px;">
+			  		Help
+				</a>
+				</div>
+			  </div>
 			  	<div class="dropdown">
 			  	<?php
 					echo CHtml::dropDownList('mode_pan','',array('Distorsi' => 'Distorsi','Linier' => 'Linier'),array(
@@ -330,13 +322,6 @@
 					'class'=>'dropdown-style'));
 				?> 
 				</div>
-			  </div>
-			  <div class="col-md-4">
-			  	<a href="#helpPanning">
-					<span class="glyphicon glyphicon-question-sign" style="margin-top:15px; font-size:16px;" aria-hidden="true"></span>
-				</a>
-			  </div>
-			</div>
 		  </div>
 	</div>
  
@@ -350,7 +335,7 @@
 		</div>
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
-		<button id="reset" style="width:110px; margin-top: -26px; margin-bottom: 10px;" class="btn btn-primary">Reset Pan</button>
+		<button id="reset" class="btn btn-primary">Reset Pan</button>
 		<!-- Container untuk chart yang digunakan -->
 		<svg class="chart" id="chart"></svg>
 	</div>
@@ -2441,9 +2426,9 @@
 			pan = $("#mode_pan option:selected").text();
 
 			if(zooming == "Fisheye + Semantic") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
@@ -2993,7 +2978,7 @@
 			<br><br>
 			<b>Navigasi Breadcrumbs</b><br>
 			Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
-			<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
+			<img id="home" src="http://localhost/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
 			Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
 			Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
 		</div>
