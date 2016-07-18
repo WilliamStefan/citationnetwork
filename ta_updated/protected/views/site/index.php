@@ -431,7 +431,7 @@
 		chart.append('rect')
 			.attr('class', 'background')
 			.attr('pointer-events', 'all')
-			.style('cursor','move')
+			.style('cursor','-webkit-grab')
 			.attr('fill', 'none')
 			.attr('height', height)
 			.attr('width', width);
@@ -1098,6 +1098,8 @@
 				d3.select('#reset').style('visibility','visible');
 				d3.select(".helpPan").style("visibility","visible");
 				d3.select(".textInfo").style("visibility","hidden");
+				selection.select('.background').style('cursor','-webkit-grab');
+				
 				selection.append('rect')
 					.attr('class', 'block')
 					.attr('fill', 'white')
@@ -1154,6 +1156,7 @@
 				d3.select('#reset').style('visibility','hidden');
 				d3.select(".helpPan").style("visibility","hidden");
 				d3.select(".textInfo").style("visibility","visible");
+				selection.select('.background').style('cursor','default');
 				//posisi awal peta 
 				d3.select('.draggable').transition()
 					.attr("transform", function(d,i){

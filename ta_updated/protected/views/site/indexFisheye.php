@@ -421,7 +421,7 @@
  		svgFisheye.append('rect')
 		.attr('class', 'background')
 		.attr('pointer-events', 'all')
-		.style('cursor','move')
+		.style('cursor','-webkit-grab')
 		.attr('fill', 'none')
 		.attr('height', height);
 		
@@ -440,7 +440,7 @@
 		.attr("width", width)
 		.attr('pointer-events', 'all')
 		.style('fill','none')
-		.style('cursor','move')
+		.style('cursor','-webkit-grab')
 		.attr("height", height);
 
 		var panCanvas = wrapperInner.append("g")
@@ -1976,6 +1976,7 @@
 				d3.select('#reset').style('visibility','visible');
 				d3.select(".helpPan").style("visibility","visible");
 				d3.select(".textInfo").style("visibility","hidden");
+				wrapperInner.select('.background').style('cursor','-webkit-grab');
 
 				selection.append('rect')
 				.attr('class', 'block')
@@ -2042,6 +2043,7 @@
 				d3.select(".helpPan").style("visibility","hidden");
 				d3.select(".textInfo").style("visibility","visible");
 				d3.select('#reset').style('visibility','hidden'); // Menghilangkan tombol reset
+				wrapperInner.select('.background').style('cursor','default');
 				// Posisi awal peta 
 				d3.select('.draggable').transition()
 					.attr("transform", function(d,i){
