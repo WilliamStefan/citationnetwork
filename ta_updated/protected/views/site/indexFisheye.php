@@ -29,7 +29,7 @@
 			// echo ('SelectedId="7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";');
 			// echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71";');
 			// 67 - 71 menjadi 5 data (1, 1, 1, 1, 1)
-			// 11, 54 - 56, 158, 159, 160 menjadi 7 data (1, 1, 1, 1, 1, 1, 1) 
+			// 11, 54 - 56, 158-160 menjadi 7 data (1, 1, 1, 1, 1, 1, 1) 
 			// 72, 157, 168, 170, 174, 175 menjadi 6 data (1, 1, 1, 3)
 		} else {
 			// echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
@@ -68,732 +68,6 @@
 	?>
 </script>
 
-<script type="text/javascript">
-	function posisiFinalX(jumlahGroup, sourcex, i, finalX, finalY) {
-		var miring = 75 * 0.7;
-
-		if(jumlahGroup == 2) {
-			// Kiri atas
-			if(finalX <= 50 && finalY <= 50) {
-				if(i == 0) {
-					return sourcex + 75;
-				} else if(i == 1) {
-					return sourcex + miring;
-				}
-			}
-			// Atas
-			else if((finalX >= 50 && finalX <= 700) && finalY <= 50) {
-				if(i == 0) {
-					return sourcex + miring;
-				} else if(i == 1) {
-					return sourcex;
-				}
-			}
-			// Kanan atas
-			else if(finalX >= 700 && finalY <= 50) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex - miring;
-				}
-			}
-			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcex - miring;
-				} else if(i == 1) {
-					return sourcex - 75;
-				}
-			}
-			// Kanan bawah
-			else if(finalX >= 700 && finalY >= 400) {
-				if(i == 0) {
-					return sourcex - 75;
-				} else if(i == 1) {
-					return sourcex - miring;
-				}
-			}
-			// Bawah
-			else if((finalX >= 50 && finalX <= 700) && finalY >= 400) {
-				if(i == 0) {
-					return sourcex - miring;
-				} else if(i == 1) {
-					return sourcex;
-				}
-			}
-			// Kiri bawah
-			else if(finalX <= 50 && finalY >= 400) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				}
-			}
-			// Kiri
-			else if(finalX <= 50 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcex + miring;
-				} else if(i == 1) {
-					return sourcex + 75;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 3) {
-			// Kiri atas
-			if(finalX <= 50 && finalY <= 50) {
-				if(i == 0) {
-					return sourcex + 75;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex;
-				}
-			}
-			// Atas
-			else if((finalX >= 50 && finalX <= 700) && finalY <= 50) {
-				if(i == 0) {
-					return sourcex + miring;
-				} else if(i == 1) {
-					return sourcex;
-				} else if(i == 2) {
-					return sourcex - miring;
-				}
-			}
-			// Kanan atas
-			else if(finalX >= 700 && finalY <= 50) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex - miring;
-				} else if(i == 2) {
-					return sourcex - 75;
-				}
-			}
-			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcex - miring;
-				} else if(i == 1) {
-					return sourcex - 75;
-				} else if(i == 2) {
-					return sourcex - miring;
-				}
-			}
-			// Kanan bawah
-			else if(finalX >= 700 && finalY >= 400) {
-				if(i == 0) {
-					return sourcex - 75;
-				} else if(i == 1) {
-					return sourcex - miring;
-				} else if(i == 2) {
-					return sourcex;
-				}
-			}
-			// Bawah
-			else if((finalX >= 50 && finalX <= 700) && finalY >= 400) {
-				if(i == 0) {
-					return sourcex - miring;
-				} else if(i == 1) {
-					return sourcex;
-				} else if(i == 2) {
-					return sourcex + miring;
-				}
-			}
-			// Kiri bawah
-			else if(finalX <= 50 && finalY >= 400) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex + 75;
-				}
-			}
-			// Kiri
-			else if(finalX <= 50 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcex + miring;
-				} else if(i == 1) {
-					return sourcex + 75;
-				} else if(i == 2) {
-					return sourcex + miring;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex + 75;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 4) {
-			// Atas
-			if((finalX >= 50 && finalX <= 700) && finalY <= 50) {
-				if(i == 0) {
-					return sourcex + 75;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex;
-				} else if(i == 3) {
-					return sourcex - miring;
-				}
-			}
-			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex - miring;
-				} else if(i == 2) {
-					return sourcex - 75;
-				} else if(i == 3) {
-					return sourcex - miring;
-				}
-			}
-			// Bawah
-			else if((finalX >= 50 && finalX <= 700) && finalY >= 400) {
-				if(i == 0) {
-					return sourcex - 75;
-				} else if(i == 1) {
-					return sourcex - miring;
-				} else if(i == 2) {
-					return sourcex;
-				} else if(i == 3) {
-					return sourcex + miring;
-				}
-			}
-			// Kiri
-			else if(finalX <= 50 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex + 75;
-				} else if(i == 3) {
-					return sourcex + miring;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex + 75;
-				} else if(i == 3) {
-					return sourcex + miring;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 5) {
-			// Atas
-			if((finalX >= 50 && finalX <= 700) && finalY <= 50) {
-				if(i == 0) {
-					return sourcex + 75;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex;
-				} else if(i == 3) {
-					return sourcex - miring;
-				} else if(i == 4) {
-					return sourcex - 75;
-				}
-			}
-			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex - miring;
-				} else if(i == 2) {
-					return sourcex - 75;
-				} else if(i == 3) {
-					return sourcex - miring;
-				} else if(i == 4) {
-					return sourcex;
-				}
-			}
-			// Bawah
-			else if((finalX >= 50 && finalX <= 700) && finalY >= 400) {
-				if(i == 0) {
-					return sourcex - 75;
-				} else if(i == 1) {
-					return sourcex - miring;
-				} else if(i == 2) {
-					return sourcex;
-				} else if(i == 3) {
-					return sourcex + miring;
-				} else if(i == 4) {
-					return sourcex + 75;
-				}
-			}
-			// Kiri
-			else if(finalX <= 50 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex + 75;
-				} else if(i == 3) {
-					return sourcex + miring;
-				} else if(i == 4) {
-					return sourcex;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcex;
-				} else if(i == 1) {
-					return sourcex + miring;
-				} else if(i == 2) {
-					return sourcex + 75;
-				} else if(i == 3) {
-					return sourcex + miring;
-				} else if(i == 4) {
-					return sourcex;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 6) {
-			if(i == 0) {
-				return sourcex;
-			} else if(i == 1) {
-				return sourcex + miring;
-			} else if(i == 2) {
-				return sourcex + 75;
-			} else if(i == 3) {
-				return sourcex + miring;
-			} else if(i == 4) {
-				return sourcex;
-			} else if(i == 5) {
-				return sourcex - miring;
-			}
-		}
-
-		if(jumlahGroup == 7) {
-			if(i == 0) {
-				return sourcex;
-			} else if(i == 1) {
-				return sourcex + miring;
-			} else if(i == 2) {
-				return sourcex + 75;
-			} else if(i == 3) {
-				return sourcex + miring;
-			} else if(i == 4) {
-				return sourcex;
-			} else if(i == 5) {
-				return sourcex - miring;
-			} else if(i == 6) {
-				return sourcex - 75;
-			}
-		}
-		
-		if(jumlahGroup == 8) {
-			if(i == 0) {
-				return sourcex;
-			} else if(i == 1) {
-				return sourcex + miring;
-			} else if(i == 2) {
-				return sourcex + 75;
-			} else if(i == 3) {
-				return sourcex + miring;
-			} else if(i == 4) {
-				return sourcex;
-			} else if(i == 5) {
-				return sourcex - miring;
-			} else if(i == 6) {
-				return sourcex - 75;
-			} else if(i == 7) {
-				return sourcex - miring
-			}
-		}
-	}
-
-	function posisiFinalY(jumlahGroup, sourcey, i, finalX, finalY) {
-		var miring = 75 * 0.7;
-
-		if(jumlahGroup == 2) {
-			// Kiri atas
-			if(finalX <= 50 && finalY <= 50) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey + miring;
-				}
-			}
-			// Atas
-			else if((finalX >= 50 && finalX <= 700) && finalY <= 50) {
-				if(i == 0) {
-					return sourcey + miring;
-				} else if(i == 1) {
-					return sourcey + 75;
-				}
-			}
-			// Kanan atas
-			else if(finalX >= 700 && finalY <= 50) {
-				if(i == 0) {
-					return sourcey + 75;
-				} else if(i == 1) {
-					return sourcey + miring;
-				}
-			}
-			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcey + miring;
-				} else if(i == 1) {
-					return sourcey;
-				}
-			}
-			// Kanan bawah
-			else if(finalX >= 700 && finalY >= 400) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey - miring;
-				}
-			}
-			// Bawah
-			else if((finalX >= 50 && finalX <= 700) && finalY >= 400) {
-				if(i == 0) {
-					return sourcey - miring;
-				} else if(i == 1) {
-					return sourcey - 75;
-				}
-			}
-			// Kiri bawah
-			else if(finalX <= 50 && finalY >= 400) {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				}
-			}
-			// Kiri
-			else if(finalX <= 50 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcey - miring;
-				} else if(i == 1) {
-					return sourcey;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 3) {
-			// Kiri atas
-			if(finalX <= 50 && finalY <= 50) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey + miring;
-				} else if(i == 2) {
-					return sourcey + 75;
-				}
-			}
-			// Atas
-			else if((finalX >= 50 && finalX <= 700) && finalY <= 50) {
-				if(i == 0) {
-					return sourcey + miring;
-				} else if(i == 1) {
-					return sourcey + 75;
-				} else if(i == 2) {
-					return sourcey + miring;
-				}
-			}
-			// Kanan atas
-			else if(finalX >= 700 && finalY <= 50) {
-				if(i == 0) {
-					return sourcey + 75;
-				} else if(i == 1) {
-					return sourcey + miring;
-				} else if(i == 2) {
-					return sourcey;
-				}
-			}
-			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcey + miring;
-				} else if(i == 1) {
-					return sourcey;
-				} else if(i == 2) {
-					return sourcey - miring;
-				}
-			}
-			// Kanan bawah
-			else if(finalX >= 700 && finalY >= 400) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey - 75;
-				}
-			}
-			// Bawah
-			else if((finalX >= 50 && finalX <= 700) && finalY >= 400) {
-				if(i == 0) {
-					return sourcey - miring;
-				} else if(i == 1) {
-					return sourcey - 75;
-				} else if(i == 2) {
-					return sourcey - miring;
-				}
-			}
-			// Kiri bawah
-			else if(finalX <= 50 && finalY >= 400) {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey;
-				}
-			}
-			// Kiri
-			else if(finalX <= 50 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcey - miring;
-				} else if(i == 1) {
-					return sourcey;
-				} else if(i == 2) {
-					return sourcey + miring;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 4) {
-			// Atas
-			if((finalX >= 50 && finalX <= 700) && finalY <= 50) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey + miring;
-				} else if(i == 2) {
-					return sourcey + 75;
-				} else if(i == 3) {
-					return sourcey + miring;
-				}
-			}
-			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcey + 75;
-				} else if(i == 1) {
-					return sourcey + miring;
-				} else if(i == 2) {
-					return sourcey;
-				} else if(i == 3) {
-					return sourcey - miring;
-				}
-			}
-			// Bawah
-			else if((finalX >= 50 && finalX <= 700) && finalY >= 400) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey - 75;
-				} else if(i == 3) {
-					return sourcey - miring;
-				}
-			}
-			// Kiri
-			else if(finalX <= 50 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey;
-				} else if(i == 3) {
-					return sourcey + miring;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey;
-				} else if(i == 3) {
-					return sourcey + miring;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 5) {
-			// Atas
-			if((finalX >= 50 && finalX <= 700) && finalY <= 50) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey + miring;
-				} else if(i == 2) {
-					return sourcey + 75;
-				} else if(i == 3) {
-					return sourcey + miring;
-				} else if(i == 4) {
-					return sourcey;
-				}
-			}
-			// Kanan
-			else if(finalX >= 350 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcey + 75;
-				} else if(i == 1) {
-					return sourcey + miring;
-				} else if(i == 2) {
-					return sourcey;
-				} else if(i == 3) {
-					return sourcey - miring;
-				} else if(i == 4) {
-					return sourcey - 75;
-				}
-			}
-			// Bawah
-			else if((finalX >= 50 && finalX <= 700) && finalY >= 400) {
-				if(i == 0) {
-					return sourcey;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey - 75;
-				} else if(i == 3) {
-					return sourcey - miring;
-				} else if(i == 4) {
-					return sourcey;
-				}
-			}
-			// Kiri
-			else if(finalX <= 50 && (finalY >= 50 && finalY <= 400)) {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey;
-				} else if(i == 3) {
-					return sourcey + miring;
-				} else if(i == 4) {
-					return sourcey + 75;
-				}
-			}
-			// Tengah
-			else {
-				if(i == 0) {
-					return sourcey - 75;
-				} else if(i == 1) {
-					return sourcey - miring;
-				} else if(i == 2) {
-					return sourcey;
-				} else if(i == 3) {
-					return sourcey + miring;
-				} else if(i == 4) {
-					return sourcey + 75;
-				}
-			}
-		}
-		
-		if(jumlahGroup == 6) {
-			if(i == 0) {
-				return sourcey - 75;
-			} else if(i == 1) {
-				return sourcey - miring;
-			} else if(i == 2) {
-				return sourcey;
-			} else if(i == 3) {
-				return sourcey + miring;
-			} else if(i == 4) {
-				return sourcey + 75;
-			} else if(i == 5) {
-				return sourcey + miring;
-			}
-		}
-		
-		if(jumlahGroup == 7) {
-			if(i == 0) {
-				return sourcey - 75;
-			} else if(i == 1) {
-				return sourcey - miring;
-			} else if(i == 2) {
-				return sourcey;
-			} else if(i == 3) {
-				return sourcey + miring;
-			} else if(i == 4) {
-				return sourcey + 75;
-			} else if(i == 5) {
-				return sourcey + miring;
-			} else if(i == 6) {
-				return sourcey;
-			}
-		}
-		
-		if(jumlahGroup == 8) {
-			if(i == 0) {
-				return sourcey - 75;
-			} else if(i == 1) {
-				return sourcey - miring;
-			} else if(i == 2) {
-				return sourcey;
-			} else if(i == 3) {
-				return sourcey + miring;
-			} else if(i == 4) {
-				return sourcey + 75;
-			} else if(i == 5) {
-				return sourcey + miring;
-			} else if(i == 6) {
-				return sourcey;
-			} else if(i == 7) {
-				return sourcey - miring
-			}
-		}
-	}
-</script>
-
 <!-- Script ini digunakan untuk mendapatkan nilai-nilai default -->
 <script>
 	var a = "<?php echo Yii::app()->request->getParam('r');?>".split("/");
@@ -817,6 +91,7 @@
 		$cs = Yii::app()->getClientScript();
 		$cs->registerScriptFile($baseUrl.'/js/d3.min.js');
 		$cs->registerScriptFile($baseUrl.'/js/fisheye.js');
+		$cs->registerScriptFile($baseUrl.'/js/circularPath.js');
 		$cs->registerCssFile($baseUrl.'/css/fisheye.css');
 		$cs->registerScriptFile($baseUrl.'/js/json2.js');
 		$cs->registerScriptFile($baseUrl.'/js/context-menu.js');
@@ -841,15 +116,15 @@
 		<!-- Header -->
 
 		<!-- Header untuk menampilkan jumlah paper -->
-		<label style="width:100px">Jumlah Paper</label>
+		<label style="width:100px; margin-left: 15px;">Jumlah Paper</label>
 		<label style="width:13px">:</label>
-		<div id="jumlahPaper" style="float:right; font-weight:bold;"></div>
+		<div id="jumlahPaper" style="float:right; font-weight:bold; margin-right:34px"></div>
  
 		<br/>
 		<br/>
 
 		<!-- Fitur memilih paper yang akan ditampilkan -->
-		<a href="#AddPaper" id="login_pop" class="button" data-intro="Tombol ini digunakan untuk menambahkan dan mengurangi paper yang akan divisualisasikan" data-step="2">
+		<a href="#AddPaper" id="login_pop" class="button" style="margin-left: 15px;" data-intro="Tombol ini digunakan untuk menambahkan dan mengurangi paper yang akan divisualisasikan" data-step="2">
 			Pilih Paper
 		</a>
 		
@@ -927,41 +202,19 @@
 			<!-- Header untuk menampilkan parameter yang dapat diubah -->
 			<div class="sub-heading">Ubah Parameter</div>
 			 
-			<!-- Sumbu X -->
-			<div>Sumbu X</div>
-			<div class="dropdown">
-				<?php
-					echo CHtml::dropDownList('sumbuX', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Tahun Publikasi\''), 'deskripsi', 'deskripsi'), array(
-					'ajax' => array(
-						'type'=>'POST', //request type
-						'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
-						//Style: CController::createUrl('currentController/methodToCall')
-						'update'=>'#sumbuY', //selector to update
-						//'data'=>'js:javascript statement' 
-						//leave out the data key to pass all form values through
-						'data'=>array('sumbuX' => 'js:this.value','sumbuYselected' => 'js:$(\'#sumbuY\').val()')
-						/*
-						'success' => "js:function(data)
-						{
-						alert(data);
-					}",*/
-					), 'class'=>'dropdown-style'));
-				?>
-			</div>
- 
-			<!-- Sumbu Y -->
-			Sumbu Y
-			<div class="dropdown">
+				<!-- Sumbu X -->
+				<div>Sumbu X</div>
+				<div class="dropdown">
 					<?php
-						echo CHtml::dropDownList('sumbuY', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Domain Data\''), 'deskripsi', 'deskripsi'), array(
+						echo CHtml::dropDownList('sumbuX', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Tahun Publikasi\''), 'deskripsi', 'deskripsi'), array(
 						'ajax' => array(
 							'type'=>'POST', //request type
 							'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
 							//Style: CController::createUrl('currentController/methodToCall')
-							'update'=>'#sumbuX', //selector to update
+							'update'=>'#sumbuY', //selector to update
 							//'data'=>'js:javascript statement' 
 							//leave out the data key to pass all form values through
-							'data'=>array('sumbuY' => 'js:this.value','sumbuXselected' => 'js:$(\'#sumbuX\').val()')
+							'data'=>array('sumbuX' => 'js:this.value','sumbuYselected' => 'js:$(\'#sumbuY\').val()')
 							/*
 							'success' => "js:function(data)
 							{
@@ -970,38 +223,70 @@
 						), 'class'=>'dropdown-style'));
 					?>
 			</div>
-		</div>
  
-		<!-- Fitur untuk mengubah parameter relasi -->
-		<div id="relation" class="sub-right-content" data-step="4">
-			<div class="sub-heading">Ubah Relasi</div>
+			<!-- Sumbu Y -->
+			
+			Sumbu Y
 			<div class="dropdown">
 				<?php
-					echo CHtml::dropDownList('edge', '', Chtml::listData(MetadataRelasi::model()->findAll(),'deskripsi', 'deskripsi'), array(
+					echo CHtml::dropDownList('sumbuY', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Domain Data\''), 'deskripsi', 'deskripsi'), array(
 					'ajax' => array(
-						'type'=>'POST', //request type
-						'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
-						//Style: CController::createUrl('currentController/methodToCall')
-						'update'=>'#edge', //selector to update
-						//'data'=>'js:javascript statement' 
-						//leave out the data key to pass all form values through
-						'data'=>array('edge' => 'js:this.value','edgeSelected' => 'js:$(\'#edge\').val()')
-						/*
-						'success' => "js:function(data)
-						{
-						alert(data);
+					'type'=>'POST', //request type
+					'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
+					//Style: CController::createUrl('currentController/methodToCall')
+					'update'=>'#sumbuX', //selector to update
+					//'data'=>'js:javascript statement' 
+					//leave out the data key to pass all form values through
+					'data'=>array('sumbuY' => 'js:this.value','sumbuXselected' => 'js:$(\'#sumbuX\').val()')
+					/*
+					'success' => "js:function(data)
+					{
+					alert(data);
 					}",*/
 					), 'class'=>'dropdown-style'));
 				?>
 			</div>
 		</div>
+ 
+		<!-- Fitur untuk mengubah parameter relasi -->
+		<div id="relation" class="sub-right-content" data-step="4">
+			<div class="sub-heading">Ubah Relasi</div>
+				<div class="dropdown">
+					<?php
+						echo CHtml::dropDownList('edge', '', Chtml::listData(MetadataRelasi::model()->findAll(),'deskripsi', 'deskripsi'), array(
+						'ajax' => array(
+							'type'=>'POST', //request type
+							'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
+							//Style: CController::createUrl('currentController/methodToCall')
+							'update'=>'#edge', //selector to update
+							//'data'=>'js:javascript statement' 
+							//leave out the data key to pass all form values through
+							'data'=>array('edge' => 'js:this.value','edgeSelected' => 'js:$(\'#edge\').val()')
+							/*
+							'success' => "js:function(data)
+							{
+							alert(data);
+						}",*/
+						), 'class'=>'dropdown-style'));
+					?>
+				</div>
+		</div>
 
-		<!-- Fitur untuk mengubah parameter zooming -->
+		<!-- Fitur untuk mengubah mode zooming -->
 		<div id="zooming" class="sub-right-content">
-			<div class="sub-heading">Mode Zoom</div>
-			<div class="dropdown">
-				<?php
-					echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye', 'Breadcrumbs' => 'Breadcrumbs'), array(
+			  <div class="row" style="padding-left: 15px;">
+			  	<div class="col-md-7">
+			  		<div class="sub-heading">Mode Zoom</div>
+			  	</div>
+			  	<div class="col-md-2">
+			  	<a href="#helpZooming" class="btn btn-primary btn-xs" style="background-color: #72aed0; border-color: #ffffff; margin-left: -20px;">
+			  		Help
+				</a>
+				</div>
+			  </div>
+			  <div class="dropdown">
+			  	<?php
+					echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye + Semantic', 'Breadcrumbs' => 'Breadcrumbs'), array(
 					'ajax' => array(
 						'type'=>'POST', //request type
 						'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
@@ -1010,13 +295,23 @@
 					), 
 					'class'=>'dropdown-style'));
 				?> 
-			</div>
+			  </div> 
 		</div>
 
+		<!-- Fitur untuk mengubah mode panning -->
 		<div id="pan" class="sub-right-content">
-			<div class="sub-heading">Mode Pan</div>
-			<div class="dropdown">
-				<?php
+			  <div class="row" style="padding-left: 15px;">
+			  	<div class="col-md-6">
+			  		<div class="sub-heading">Mode Pan</div>
+			  	</div>
+			  	<div class="col-md-3">
+			  	<a href="#helpPanning" class="btn btn-primary btn-xs" style="background-color: #72aed0; border-color: #ffffff; margin-left: -4px;">
+			  		Help
+				</a>
+				</div>
+			  </div>
+			  	<div class="dropdown">
+			  	<?php
 					echo CHtml::dropDownList('mode_pan','',array('Distorsi' => 'Distorsi','Linier' => 'Linier'),array(
 					'ajax' => array(
 						'type'=>'POST', //request type
@@ -1026,15 +321,21 @@
 					), 
 					'class'=>'dropdown-style'));
 				?> 
-			</div>
+				</div>
 		  </div>
 	</div>
  
 	<!-- Tampilan di sebelah kiri, yaitu peta penelitian -->
 	<div class="left-content" style="width:80%">
+		<div id="Help zoom" style="margin-left: 150px; color: #3B5998;">
+			<b>Zoom:</b>   Hover to activate <b>fisheye zoom</b>, hover for at least 1 second to activate <b>tooltip</b>. Click to <b>see detail</b>, click again to <b>undo</b>.
+			<br><br>
+			<div class="helpPan"> <b>Pan:</b> Click on <b>map area</b> and drag it to desired position <b>or</b> drag the <b>box in overview map</b> to pan.</div>
+			<div class="textInfo" style="margin-top: -20px;"> <b>Pan:</b> Press <b>Ctrl key</b> + move the <b>cursor</b> to pan. </div>
+		</div>
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
-		<button id="reset" style="margin-left: 150px;" class="btn btn-info">Reset pan</button>
+		<button id="reset" class="btn btn-primary">Reset Pan</button>
 		<!-- Container untuk chart yang digunakan -->
 		<svg class="chart" id="chart"></svg>
 	</div>
@@ -1086,7 +387,7 @@
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		 
 		var parameter;   
-		parameter="7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";
+		parameter = "7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";
 				 
 		var force = d3.layout.force()
 		.charge(-240)
@@ -1124,10 +425,11 @@
  		svgFisheye.append('rect')
 		.attr('class', 'background')
 		.attr('pointer-events', 'all')
-		.style('cursor','move')
+		.style('cursor','-webkit-grab')
 		.attr('fill', 'none')
 		.attr('height', height);
 		
+		var jariJari = 0;
 		var globalX = 0;
 		var globalY = 0;
 		var posisiMiring = 75 * 0.7;
@@ -1142,7 +444,7 @@
 		.attr("width", width)
 		.attr('pointer-events', 'all')
 		.style('fill','none')
-		.style('cursor','move')
+		.style('cursor','-webkit-grab')
 		.attr("height", height);
 
 		var panCanvas = wrapperInner.append("g")
@@ -1156,6 +458,13 @@
 		.attr("width", width + 385)
 		.style('fill','none')
 		.attr("height", height + 230);
+
+		d3.select('.chart').append('rect')
+		.attr('class', 'block')
+		.attr('fill', 'white')
+		.attr('height', 100)
+		.attr('width', 60)
+		.attr("transform", "translate(920,460)");
 
 		//menampung elemen yang bisa di-pan
 		var svg1 = panCanvas.append('svg')
@@ -1240,21 +549,9 @@
 			
 		// Fungsi untuk menggambar kembali tampilan sesuai dengan parameter yang dipilih
 		function redraw(dataString) {
-			//////////////////////
-			// Variabel William //
-			//////////////////////
-			
 			var zoomLevel0 = true;
 			var zoomLevel1 = false;
 			var zoomLevel2 = false;
- 
-			// Ambil kelas .chart lalu buat tag g dengan atribut width dan height di dalamnya
-			// var svgFisheye = d3.select(".chart")
-			// .append("g")
-			// .attr("width", width + margin.left + margin.right)
-			// .attr("height", 515)
-			// .attr('class','wrapper map')
-			// .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
  
 			var fisheye = d3.fisheye.circular()
 			.radius(100);
@@ -1590,20 +887,8 @@
 
 					return realSize;
 				});
-				
-				$('.paperParent').hover(
-					function() {
-						$(this).children('text').attr("class", "labelParent zoomLabel");
-						// jQuery(this).children('text').css("font-size", "30px") // Ukuran font
-					},
-					
-					function() {
-						$(this).children('text').attr("class", "labelParent");
-						// jQuery(this).children('text').css("font-size", "14px") // Ukuran font
-					}
-				);
 			}
-			else{	// Mode pan = Distorsi
+			else {	// Mode pan = Distorsi
 				// Mengatur jari-jari lingkaran dan ukuran text pada saat mode pan distorsi
 				var node = elemParentEnter.append("circle")
 				.attr("class", "nodeParent")
@@ -1654,6 +939,29 @@
 					return realSize;
 				});
 			}
+			
+			$('.paperParent').hover(
+				function() {
+					if(zoomLevel0 == true) {
+						// Ubah ukuran label
+						$(this).children('text').attr("class", "labelParent zoomLabel");
+						
+						// Ubah ukuran lingkaran
+						jariJari = $(this).children('circle').attr("r");
+						$(this).children('circle').attr("r", "35");							
+					}
+				},
+				
+				function() {
+					if(zoomLevel0 == true) {
+						// Kembalikan ukuran label
+						$(this).children('text').attr("class", "labelParent");
+						
+						// Kembalikan ukuran lingkaran
+						$(this).children('circle').attr("r", jariJari);
+					}
+				}
+			);
 
 			node.attr("transform", function(d, i) {
 				d.x = (posisiX(d.sumbu_x) + (posisiX.rangeBand() / 2));
@@ -1702,25 +1010,9 @@
 			});
 			
 			if($("#mode_pan option:selected").text() == 'Linier') {
-				svgFisheye.on("mousemove", function() {
-					fisheye.focus(d3.mouse(this));
-
-					// Fisheye untuk setiap node
-					node.each(function(d) { d.fisheye = fisheye(d); })
-					.attr("r", function(d) {
-						return d.fisheye.z * 20;
-					});
-				});
+				// do nothing
 			} else {
-				elemParentEnter.on("mousemove", function() {
-					fisheye.focus(d3.mouse(this));
-
-					// Fisheye untuk setiap node
-					node.each(function(d) { d.fisheye = fisheye(d); })
-					.attr("r", function(d) {
-						return d.fisheye.z * 20;
-					});
-				});
+				// do nothing
 			}
 
 			elemParentEnter.on("click", function(d, i) {
@@ -1766,8 +1058,6 @@
 					if(zoomLevel0 == true) {
 						var finalX = globalX + d.x;
 						var finalY = globalY + d.y;
-
-						svgFisheye.on("mousemove", function() {});
 
 						var clickedParent = "circleParent-" + i;
 
@@ -1934,6 +1224,9 @@
 						// Ubah warna labelParent
 						label.style("opacity", 0.75);
 
+						// Ubah warna link
+						link.style("opacity", 0.3);
+
 						var elemChild = svgFisheye.select(".draggable").selectAll("g.circle")
 						.data(dataChild);
 
@@ -2005,11 +1298,13 @@
 						
 						$('.paperChild').hover(
 							function() {
-								jQuery(this).children('text').css("font-size", "30px") // Ukuran font
+								// Ubah ukuran label
+								$(this).children('text').attr("class", "labelChild zoomLabel");
 							},
 							
 							function() {
-								jQuery(this).children('text').css("font-size", "14px") // Ukuran font
+								// Kembalikan ukuran label
+								$(this).children('text').attr("class", "labelChild");
 							}
 						);
 
@@ -2034,7 +1329,7 @@
 						});
 						
 						if($("#mode_pan option:selected").text() == 'Linier') {
-							svgFisheye.on("mousemove", function() {
+							elemChildEnter.on("mousemove", function() {
 								fisheye.focus(d3.mouse(this));
 
 								// Fisheye untuk setiap node
@@ -2090,8 +1385,7 @@
 									var finalXChild = globalX + p.x;
 									var finalYChild = globalY + p.y;
 																		
-									svgFisheye.on("mousemove", function() {});
-									svgFisheye.on("mousemove", function() {});
+									elemChildEnter.on("mousemove", function() {});
 									
 									var clickedChild = "circleChild-" + i;
 
@@ -2302,11 +1596,13 @@
 									
 									$('.paperGrandChild').hover(
 										function() {
-											jQuery(this).children('text').css("font-size", "30px") // Ukuran font
+											// Ubah ukuran label
+											$(this).children('text').attr("class", "labelGrandChild zoomLabel");
 										},
 										
 										function() {
-											jQuery(this).children('text').css("font-size", "14px") // Ukuran font
+											// Kembalikan ukuran label
+											$(this).children('text').attr("class", "labelGrandChild");
 										}
 									);
 
@@ -2326,7 +1622,7 @@
 									});
 									
 									if($("#mode_pan option:selected").text() == 'Linier') {
-										svgFisheye.on("mousemove", function() {
+										elemGrandChildEnter.on("mousemove", function() {
 											fisheye.focus(d3.mouse(this));
 
 											// Fisheye untuk setiap node
@@ -2402,7 +1698,7 @@
 									
 									labelChild.style("opacity", 1);
 																		
-									svgFisheye.on("mousemove", function() {
+									elemChildEnter.on("mousemove", function() {
 										fisheye.focus(d3.mouse(this));
 
 										// Fisheye untuk setiap node
@@ -2448,10 +1744,15 @@
 						circleParent = document.getElementsByClassName("circleStroke");
 						circleParent[0].classList.remove("circleStroke");
 						
+						// Ubah warna node
 						node.style("fill", "#3B5998")
 						.style("opacity", 1);
 						
-						label.style("opacity", 1);		
+						// Ubah warna label
+						label.style("opacity", 1);
+
+						// Ubah warna link
+						link.style("opacity", 1);
 						
 						$('.paperParent').hover(
 							function() {
@@ -2462,49 +1763,6 @@
 								jQuery(this).children('text').css("font-size", "14px") // Ukuran font
 							}
 						);
-
-						svgFisheye.on("mousemove", function() {
-							fisheye.focus(d3.mouse(this));
-
-							// Fisheye untuk setiap node
-							node.each(function(d) { d.fisheye = fisheye(d); })
-							.attr("r", function(d) { return d.fisheye.z * 21});
-
-							// Fisheye untuk setiap label
-							label.each(function(d) { d.fisheye = fisheye(d); })
-							.attr("font-size", function(d) {
-								// Isi label
-								var realSize = 0;
-
-								for(var iterator = 0; iterator < d.size.length; iterator++) {
-									realSize += d.size[iterator];
-								}
-								
-								if(realSize == 1) {
-									return "14px";
-								} else if(realSize == 2) {
-									return "15px";
-								} else if(realSize == 3) {
-									return "16px";
-								} else if(realSize == 4) {
-									return "17px";
-								} else if(realSize == 5) {
-									return "18px";
-								} else if(realSize == 6) {
-									return "19px";
-								} else if(realSize == 7) {
-									return "20px";
-								} else if(realSize == 8) {
-									return "21px";
-								}
-							})
-
-							// Fisheye untuk setiap garis
-							// link.attr("x1", function(d) { return d.source.fisheye.x; })
-							// .attr("y1", function(d) { return d.source.fisheye.y; })
-							// .attr("x2", function(d) { return d.target.fisheye.x; })
-							// .attr("y2", function(d) { return d.target.fisheye.y; });
-						});
 					}
 				}
 			});
@@ -2719,7 +1977,9 @@
 			function grabAndDrag(selection){
 				// svgFisheye.select('.background').on('mousemove', null);
 				d3.select('#reset').style('visibility','visible');
-				d3.select(".textInfo").remove();
+				d3.select(".helpPan").style("visibility","visible");
+				d3.select(".textInfo").style("visibility","hidden");
+				wrapperInner.select('.background').style('cursor','-webkit-grab');
 
 				selection.append('rect')
 				.attr('class', 'block')
@@ -2781,16 +2041,12 @@
 			/* PANNING WITH DISTORTION */
 			function distortion(selection){
 
-				selection.append("text")
-					.attr("class","textInfo")
-					.text("* Press Ctrl Key + Move The Mouse Cursor To Pan")
-					.attr("transform","translate(10,0)")
-					.style("fill","blue");
-					// .style("fill","#46b8da");
-
 				wrapperInner.select('.background').on('mousedown.drag', null);	
 				canvasChart.select('.overviewmap').remove(); // Menghilangkan overview map
+				d3.select(".helpPan").style("visibility","hidden");
+				d3.select(".textInfo").style("visibility","visible");
 				d3.select('#reset').style('visibility','hidden'); // Menghilangkan tombol reset
+				wrapperInner.select('.background').style('cursor','default');
 				// Posisi awal peta 
 				d3.select('.draggable').transition()
 					.attr("transform", function(d,i){
@@ -2798,6 +2054,7 @@
 				})
 				d3.select(".x").transition().attr('transform', 'translate(' + 0 + ',' + height + ')');	
 				d3.select(".y").transition().attr('transform', 'translate(' + 0 + ',' + 0 + ')');
+				panCanvas.transition().attr('transform','translate(0,0)');
 
 				// Merespon gerakan mouse dan memberi efek distorsi
 				wrapperInner.select(".background").on("mousemove", function(d, i){
@@ -3173,10 +2430,10 @@
 			defaultZooming = zooming;
 			pan = $("#mode_pan option:selected").text();
 
-			if(zooming == "Fisheye") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+			if(zooming == "Fisheye + Semantic") {
+				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
@@ -3628,6 +2885,16 @@
 			window.xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 			window.xmlhttp.send(query);
 		}
+
+		d3.select(".glyphicon glyphicon-question-sign").on("click",function(){
+			if(document.URL.indexOf("#") >= 0) {
+				var location = document.URL.split("#");
+				document.location.href = location[0] + '#helpPanning';
+			} else {
+				document.location.href = document.URL + '#helpPanning';
+			}
+		});
+		
 	</script>
 
 	<!-- popup form #1 -->
@@ -3696,5 +2963,50 @@
 			</div>
 		</div>
 		<a class="close" href="#close" id="closeDetail"></a>
+	</div>
+
+	<!-- Pop-up help for zooming -->
+	<a href="#helpZoom" class="overlay" id="helpZooming"></a>
+	<div class="popup" style ="width:600px;">
+		<h2>Mode Zoom</h2>
+		<div id="popup-content">
+			Tombol ini digunakan untuk mengubah mode zooming pada peta penelitian<br><br>
+			Pada kedua mode tersebut saat dipilih:<br>
+			1. lingkaran dengan jumlah data <b>1</b> akan ditampilkan <b>popup</b> yang berisi <b>detail rinci data penelitian</b><br>
+			2. lingkaran dengan jumlah data <b>lebih dari 1</b> akan ditampilkan <b>lingkaran baru</b> yang telah dikelompokan <br>
+			<br>
+			<b>Navigasi Fisheye + Semantic</b><br>
+			Lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
+			Fisheye zoom diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran<br>
+			Semantic zoom diaktifkan dengan cara melakukan <b>klik</b> pada data tidak tunggal<br>
+			Untuk <b>kembali ke data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya</b> (ditandai dengan adanya border) atau <b>klik lingkaran lain dengan jumlah data lebih dari 1</b>
+			<br><br>
+			<b>Navigasi Breadcrumbs</b><br>
+			Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
+			<img id="home" src="http://localhost/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
+			Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
+			Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
+		</div>
+		<a class="close" href="#close" id="closeHelpZoom"></a>
+	</div>
+
+	<!-- Pop-up help for panning -->
+	<a href="#helpPan" class="overlay" id="helpPanning"></a>
+	<div class="popup" style ="width:600px;">
+		<h2>Mode Pan</h2>
+		<div id="popup-content">
+			Tombol ini digunakan untuk mengubah mode <i>panning</i> pada peta penelitian<br><br>
+			<b>1. Linier</b><br><br>
+				Pada mode pan Linier, <i>panning</i> dapat dilakukan dengan cara: <br>
+				- Klik area tertentu pada peta penelitian, dan kemudian menggesernya ke arah yang pengguna inginkan (<i>Grab and Drag</i>). <br><br><b>Atau</b><br><br>
+				- Menggeser kotak kecil di dalam <i>overview map</i> yang tersedia di kiri atas, di bawah tombol "Reset Pan" (<i>Navigation window</i>).<br><br>
+				Untuk mengembalikan peta pada posisi semula, tekan tombol "Reset Pan".<br><br>
+			<b>2. Distorsi</b><br><br>
+				Pada mode pan Distorsi, <i>panning</i> dapat dilakukan dengan cara menekan <b>tombol Ctrl</b> pada <i>keyboard</i> 
+				dan <b>menggerakkan kursor</b> pada area peta atau lingkaran tertentu untuk dijadikan fokus.<br><br>
+				Lingkaran yang menjadi fokus akan diberi ruang dan ukuran yang lebih besar dibandingkan lingkaran lainnya.
+				Semakin jauh suatu lingkaran dari titik fokus, maka ukuran lingkaran tersebut akan semakin mengecil (distorsi).<br><br>
+		</div>
+		<a class="close" href="#close" id="closeHelpPan"></a>
 	</div>
 </body>

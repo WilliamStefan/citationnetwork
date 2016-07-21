@@ -24,8 +24,10 @@
 
 		if(isset(Yii::app()->session['IdPaper'])) {
 			echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
+			// echo ('SelectedId="7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";');
 		} else {
-			echo ('SelectedId="8,10,11,12,13,14,15,16,17,18,19";');
+			echo ('SelectedId="7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";');
+			// echo ('SelectedId="'.Yii::app()->session['IdPaper'].'";');
 		}
 
 		if(isset(Yii::app()->session['Edge'])) {
@@ -110,15 +112,15 @@
 		<!-- Header -->
 
 		<!-- Header untuk menampilkan jumlah paper -->
-		<label style="width:100px">Jumlah Paper</label>
+		<label style="width:100px; margin-left: 15px;">Jumlah Paper</label>
 		<label style="width:13px">:</label>
-		<div id="jumlahPaper" style="float:right; font-weight:bold;"></div>
+		<div id="jumlahPaper" style="float:right; margin-right:34px; font-weight:bold;"></div>
  
 		<br/>
 		<br/>
 
 		<!-- Fitur memilih paper yang akan ditampilkan -->
-		<a href="#AddPaper" id="login_pop" class="button" data-intro="Tombol ini digunakan untuk menambahkan dan mengurangi paper yang akan divisualisasikan" data-step="2">
+		<a href="#AddPaper" id="login_pop" class="button" style="margin-left: 15px;" data-intro="Tombol ini digunakan untuk menambahkan dan mengurangi paper yang akan divisualisasikan" data-step="2">
 			Pilih Paper
 		</a>
 		
@@ -159,6 +161,10 @@
 							intro: "<b style=\"font-size:20px\">Ubah Relasi</b><br/><br/>Ubah relasi visualisasi (panah)<br/> Relasinya sebagai berikut : " + data,
 							position: 'top'
 						},
+						{	element: '#mode_zoom',
+							intro: "<b style=\"font-size:20px\">Ubah Mode Pan</b><br/><br/>Ubah mode zoom<br/> Breadcrumbs atau Fisheye + Semantic",
+							position: 'top'
+						},
 						{
 							element: '#mode_pan',
 							intro: "<b style=\"font-size:20px\">Ubah Mode Pan</b><br/><br/>Ubah mode pan<br/> Linier atau Distorsi",
@@ -171,16 +177,19 @@
 							intro: "<b style=\"font-size:20px\">Zoom Data</b><br/><br/>Angka pada lingkaran menunjukkan <b>jumlah paper</b> pada suatu kordinat. Untuk data yang <b>lebih dari satu</b>, pengguna dapat melakukan <b>zoom</b> data dengan melakukan <b>klik pada lingkaran</b>. Zoom bertujuan untuk melihat informasi yang terkadung dengan lebih rinci."         
 						},
 						{
-							intro: "<b style=\"font-size:20px\">Pengelompokan Data</b><br/><br/>Jika dilakukan zoom data, akan ditampilkan lingkaran berupa pengelompokan dari data yang sebelumnya dipilih. Warna <b>pink muda</b> menunjukkan <b>data tunggal</b>, warna <b>pink tua</b> menunjukkan <b>pengelompokan data</b> yang jika dipilih, pengguna dapat melihat <b>isi</b> dari pengelompokan data tersebut"
+							intro: "<b style=\"font-size:20px\">Pengelompokan Data</b><br/><br/>Jika dilakukan zoom data, akan ditampilkan lingkaran berupa pengelompokan dari data yang sebelumnya dipilih. Pada mode zoom <b>Breadcrumbs</b>, pengelompokan <b>view baru</b>. Pada mode zoom <b>Fisheye + Semantic</b> pengelompokan ditampilkan pada <b>view yang sama</b> untuk efisiensi"
 						},
 						{
-							intro: "<b style=\"font-size:20px\">Navigasi Level</b><br/><br/><img id=\"home\" src=\"<?php echo Yii::app()->request->baseUrl; ?>/images/breadcrumb.png\" height=\"30\" style=\"float:left;margin-right:10px;margin-bottom:10px\"></img>Untuk kembali ke data sebelumnya pengguna dapat melakukan klik pada <b><i>breadcrumb</i></b>. Untuk kembali ke peta penelitian, pengguna dapat melakukan klik pada <b>icon rumah (home)</b>"
+							intro: "<b style=\"font-size:20px\">Navigasi Level Breadcrumbs</b><br/><br/><img id=\"home\" src=\"<?php echo Yii::app()->request->baseUrl; ?>/images/breadcrumb.png\" height=\"30\" style=\"float:left;margin-right:10px;margin-bottom:10px\"></img>Untuk kembali ke data sebelumnya pengguna dapat melakukan klik pada <b><i>breadcrumb</i></b>. Untuk kembali ke peta penelitian, pengguna dapat melakukan klik pada <b>icon rumah (home)</b>"
+						},
+						{
+							intro: "<b style=\"font-size:20px\">Navigasi Level Fisheye + Semantic</b><br/><br/>Untuk kembali ke data sebelumnya pengguna dapat melakukan klik pada <b>lingkaran yang baru saja dipilih sebelumnya</b> (ditandai dengan adanya border).</b>"
 						}
 					]
 				});
 				
 				// Memulai help
-				intro.start();
+				// intro.start();
 				
 				$(".introjs-button introjs-nextbutton").click(function(){
 					intro.setOption('doneLabel', 'Lihat zooming').start().oncomplete(function() {
@@ -200,13 +209,13 @@
 		<div class="sub-right-content" data-step="3" data-intro="Ubah sumbu X dan sumbu Y visualisasi">
 			<!-- Header untuk menampilkan parameter yang dapat diubah -->
 			<div class="sub-heading">Ubah Parameter</div>
-			 
+				 
 			<!-- Sumbu X -->
 			<div>Sumbu X</div>
-			<div class="dropdown">
-				<?php
-					echo CHtml::dropDownList('sumbuX', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Tahun Publikasi\''), 'deskripsi', 'deskripsi'), array(
-					'ajax' => array(
+				<div class="dropdown">
+					<?php
+						echo CHtml::dropDownList('sumbuX', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Tahun Publikasi\''), 'deskripsi', 'deskripsi'), array(
+						'ajax' => array(
 						'type'=>'POST', //request type
 						'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
 						//Style: CController::createUrl('currentController/methodToCall')
@@ -218,41 +227,41 @@
 						'success' => "js:function(data)
 						{
 						alert(data);
-					}",*/
+						}",*/
 					), 'class'=>'dropdown-style'));
-				?>
-			</div>
+					?>
+				</div>
  
 			<!-- Sumbu Y -->
 			Sumbu Y
 			<div class="dropdown">
-					<?php
-						echo CHtml::dropDownList('sumbuY', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Domain Data\''), 'deskripsi', 'deskripsi'), array(
-						'ajax' => array(
-							'type'=>'POST', //request type
-							'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
-							//Style: CController::createUrl('currentController/methodToCall')
-							'update'=>'#sumbuX', //selector to update
-							//'data'=>'js:javascript statement' 
-							//leave out the data key to pass all form values through
-							'data'=>array('sumbuY' => 'js:this.value','sumbuXselected' => 'js:$(\'#sumbuX\').val()')
-							/*
-							'success' => "js:function(data)
-							{
-							alert(data);
-						}",*/
-						), 'class'=>'dropdown-style'));
-					?>
+				<?php
+					echo CHtml::dropDownList('sumbuY', '', Chtml::listData(MetadataPenelitian::model()->findAllByAttributes(array('flag'=>array('1')), 'deskripsi <> \'Domain Data\''), 'deskripsi', 'deskripsi'), array(
+					'ajax' => array(
+					'type'=>'POST', //request type
+					'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
+					//Style: CController::createUrl('currentController/methodToCall')
+					'update'=>'#sumbuX', //selector to update
+					//'data'=>'js:javascript statement' 
+					//leave out the data key to pass all form values through
+					'data'=>array('sumbuY' => 'js:this.value','sumbuXselected' => 'js:$(\'#sumbuX\').val()')
+					/*
+					'success' => "js:function(data)
+					{
+					alert(data);
+					}",*/
+					), 'class'=>'dropdown-style'));
+				?>
 			</div>
 		</div>
  
 		<!-- Fitur untuk mengubah parameter relasi -->
 		<div id="relation" class="sub-right-content" data-step="4">
 			<div class="sub-heading">Ubah Relasi</div>
-			<div class="dropdown">
-				<?php
-					echo CHtml::dropDownList('edge', '', Chtml::listData(MetadataRelasi::model()->findAll(),'deskripsi', 'deskripsi'), array(
-					'ajax' => array(
+				<div class="dropdown">
+					<?php
+						echo CHtml::dropDownList('edge', '', Chtml::listData(MetadataRelasi::model()->findAll(),'deskripsi', 'deskripsi'), array(
+						'ajax' => array(
 						'type'=>'POST', //request type
 						'url'=>CController::createUrl('metadataPenelitian/changeDropDown'), //url to call.
 						//Style: CController::createUrl('currentController/methodToCall')
@@ -264,34 +273,52 @@
 						'success' => "js:function(data)
 						{
 						alert(data);
-					}",*/
-					), 'class'=>'dropdown-style'));
-				?>
-			</div>
+						}",*/
+						), 'class'=>'dropdown-style'));
+					?>
+				</div>
 		</div>
 
-		<!-- Fitur untuk mengubah parameter zooming -->
+		<!-- Fitur untuk mengubah mode zooming -->
 		<div id="zooming" class="sub-right-content">
-			<div class="sub-heading">Mode Zoom</div>
+			<div class="row" style="padding-left: 15px;">
+			  	<div class="col-md-7">
+			  		<div class="sub-heading">Mode Zoom</div>
+			  	</div>
+			  	<div class="col-md-2">
+			  	<a href="#helpZooming" class="btn btn-primary btn-xs" style="background-color: #72aed0; border-color: #ffffff; margin-left: -20px;">
+			  		Help
+				</a>
+				</div>
+			</div>
 			<div class="dropdown">
 				<?php
-					echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye', 'Breadcrumbs' => 'Breadcrumbs'), array(
+					echo CHtml::dropDownList('mode_zoom', '', array('Fisheye' => 'Fisheye + Semantic', 'Breadcrumbs' => 'Breadcrumbs'), array(
 					'ajax' => array(
-						'type'=>'POST', //request type
-						'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
-						'update' => '#mode_zoom',
-						'data'=>array('mode_zoom' => 'js:this.value', 'zoomSelected'=>'js:$(\'#mode_zoom\').val()')
-					), 
-					'class'=>'dropdown-style'));
+					'type'=>'POST', //request type
+					'url'=>CController::createUrl('metadataPenelitian/changeDropDown'),
+					'update' => '#mode_zoom',
+					'data'=>array('mode_zoom' => 'js:this.value', 'zoomSelected'=>'js:$(\'#mode_zoom\').val()')
+				), 
+				'class'=>'dropdown-style'));
 				?> 
-			</div>
+			</div> 
 		</div>
 
+		<!-- Fitur untuk mengubah mode panning -->
 		<div id="pan" class="sub-right-content">
-			<div class="sub-heading">Mode Pan</div>
+			<div class="row" style="padding-left: 15px;">
+			  	<div class="col-md-6">
+			  		<div class="sub-heading">Mode Pan</div>
+			  	</div>
+			  	<div class="col-md-3">
+				  	<a href="#helpPanning" class="btn btn-primary btn-xs" style="background-color: #72aed0; border-color: #ffffff; margin-left: -4px;">
+				  		Help
+					</a>
+				</div>
+			</div>
 			<div class="dropdown">
 				<?php
-					
 					echo CHtml::dropDownList('mode_pan','',array('Distorsi' => 'Distorsi','Linier' => 'Linier'),array(
 					'ajax' => array(
 					'type'=>'POST', //request type
@@ -307,9 +334,13 @@
  
 	<!-- Tampilan di sebelah kiri, yaitu peta penelitian -->
 	<div class="left-content" style="width:80%">
+		<div id="Help zoom" style="margin-left: 150px; color: #3B5998;">
+			<div class="helpPan"> Click on <b>map area</b> and drag it to desired position <b>or</b> drag the <b>box in overview map</b> to pan.</div>
+			<div class="textInfo"> Press <b>Ctrl key</b> + move the <b>cursor</b> to pan. </div>
+		</div>
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
-		<button id="reset" style="margin-left: 150px;" class="btn btn-info">Reset pan</button>
+		<button id="reset" style="width:110px; margin-bottom: 10px;" class="btn btn-primary">Reset Pan</button>
 		<!-- Container untuk zoom menggunakan breadcrumb pada level 0 -->
 		<!-- <p id="chart"> -->
 			<svg class="chart" id="chart"></svg>
@@ -372,7 +403,8 @@
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		 
 		var parameter;   
-		parameter="8,10,11,12,13,14,15,16,17,18,19";
+		// parameter = "8,10,11,12,13,14,15,16,17,18,19";
+		parameter = "7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";
 				 
 		var force = d3.layout.force();
 		var sumbuX;
@@ -399,7 +431,7 @@
 		chart.append('rect')
 			.attr('class', 'background')
 			.attr('pointer-events', 'all')
-			.style('cursor','move')
+			.style('cursor','-webkit-grab')
 			.attr('fill', 'none')
 			.attr('height', height)
 			.attr('width', width);
@@ -426,6 +458,13 @@
 			.attr("width", width+385)
 			.style('fill','none')
 			.attr("height", height+230);
+
+		d3.select('.chart').append('rect')
+			.attr('class', 'block')
+			.attr('fill', 'white')
+			.attr('height', 100)
+			.attr('width', 60)
+			.attr("transform", "translate(920,460)");
 
 		//menampung elemen yang bisa di-pan
 		var svg1 = panCanvas.append('svg')
@@ -823,13 +862,14 @@
 				return "circle-" + i;
 			})
 			.attr("r", function(d) { return r(d.id.length); })
-			.style("fill", "#FFC2AD");
+			.style("fill", "#3B5998");
  
 			entering2.append("svg:text")
 			.classed("label2", true)
 			.attr("dy", function(d){return d.id.length + 3 + "px";})
 			.text(function(d) {return d.id.length;})
-			.attr("font-size", "14px");
+			.attr("font-size", "14px")
+			.style("fill","white");
  		}
  		else{
  			entering2.append("svg:circle")
@@ -849,10 +889,11 @@
 				if (a<b) {return a; }
 				else { return b; }
 			})
-			.style("fill", "#FFC2AD");
+			.style("fill", "#3B5998");
  
 			entering2.append("svg:text")
 			.classed("label2", true)
+			.style("fill","white")
 			.attr("dy", function(d){return d.id.length + 3 + "px";})
 			.text(function(d) {return d.id.length;})
 			.attr("font-size", function(d){
@@ -924,7 +965,7 @@
 			})
 		
 			// Untuk hover paper pada level 0 dengan jumlah paper 1
-			$("svg.circle").each(function(d, i) {
+			$("svg circle").each(function(d, i) {				
 				if(g1[0][d].__data__.children.length == 1) {
 					$(g1[0][d]).tipsy({ 
 						gravity: 'w', 
@@ -935,7 +976,7 @@
 						}
 					});
 				}
-			});
+			}); 
  
 			// Panah dan garis hanya akan dibuat jika linknya ada
 			if(rlink.length != 0) {
@@ -1055,7 +1096,10 @@
 			function grabAndDrag(selection){
 				selection.select('.background').on('mousemove',null);
 				d3.select('#reset').style('visibility','visible');
-				d3.select('.textInfo').remove();
+				d3.select(".helpPan").style("visibility","visible");
+				d3.select(".textInfo").style("visibility","hidden");
+				selection.select('.background').style('cursor','-webkit-grab');
+				
 				selection.append('rect')
 					.attr('class', 'block')
 					.attr('fill', 'white')
@@ -1079,14 +1123,14 @@
 				function dragmove(d) {
 					var translate = d3.transform(d3.select(".draggable").attr("transform")).translate;
 
-							x = d3.event.dx + translate[0],
-							y = d3.event.dy + translate[1];
+							delta_x = d3.event.dx + translate[0],
+							delta_y = d3.event.dy + translate[1];
 
-					  d3.select(".draggable").attr('transform', 'translate(' + (x) + ',' + (y) + ')');
-					  d3.select(".x").attr('transform', 'translate(' + (x) + ',' + height + ')');	
-					  d3.select(".y").attr('transform', 'translate(' + 0 + ',' + (y) + ')');
+					  d3.select(".draggable").attr('transform', 'translate(' + (delta_x) + ',' + (delta_y) + ')');
+					  d3.select(".x").attr('transform', 'translate(' + (delta_x) + ',' + height + ')');	
+					  d3.select(".y").attr('transform', 'translate(' + 0 + ',' + (delta_y) + ')');
 					  // var transformTarget = getXYTranslate(panCanvas.attr("transform"));
-					  d3.select(".frame").attr("transform", "translate(" + (-x) + "," + (-y) + ")");
+					  d3.select(".frame").attr("transform", "translate(" + (-delta_x) + "," + (-delta_y) + ")");
 				}
 				selection.select('.background').call(drag);
 
@@ -1106,15 +1150,13 @@
 
 			/* PANNING WITH DISTORTION */
 			function distortion(selection){
-				selection.append("text")
-					.attr("class","textInfo")
-					.text("* Press Ctrl Key + Move The Mouse Cursor To Pan")
-					.attr("transform","translate(10,0)")
-					.style("fill","blue");
-
+				
 				selection.select('.background').on('mousedown.drag',null);
 				canvas.select('.overviewmap').remove();
 				d3.select('#reset').style('visibility','hidden');
+				d3.select(".helpPan").style("visibility","hidden");
+				d3.select(".textInfo").style("visibility","visible");
+				selection.select('.background').style('cursor','default');
 				//posisi awal peta 
 				d3.select('.draggable').transition()
 					.attr("transform", function(d,i){
@@ -1122,6 +1164,7 @@
 				})
 				d3.select(".x").transition().attr('transform', 'translate(' + 0 + ',' + height + ')');	
 				d3.select(".y").transition().attr('transform', 'translate(' + 0 + ',' + 0 + ')');
+				panCanvas.transition().attr('transform','translate(0,0)');
 				//respond to the mouse and distort where necessary
 				selection.select(".background").on("mousemove", function(){
 				if(d3.event.ctrlKey){	//if the ctrl key is not pressed
@@ -1147,7 +1190,6 @@
 						yFeye = (y(d.sumbu_y) + (y.rangeBand() / 2));
 						a = Math.abs(rmax-(Math.abs(mouse[0]-xFeye)/rmax));
 						b = Math.abs(rmax-(Math.abs(mouse[1]-yFeye)/rmax));
-						console.log(a, b);
 						if (a<b) {return a; }
 						else { return b; }
 					});
@@ -1419,11 +1461,15 @@
 			.append("g")
 			.attr("class","g_circle")
 			.attr("transform", "translate(" + 220 + "," + 220 + ")");
+
+			d3.select('#reset').style('visibility','hidden');
+			d3.select('.helpPan').style('visibility','hidden');
+			d3.select('.textInfo').style('visibility','hidden');
  
 			circle2 = circle_packing.selectAll("circle").data(nodes2)
 			.enter().append("circle")
 			.attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-			.style("fill", function(d) { if(d.children && d.parent) { return "#F2A9A2"; } else if(!d.parent) { return null; } else {return "#FFC2AD"; }})
+			.style("fill", function(d) { if(d.children && d.parent) { return "#224389"; } else if(!d.parent) { return null; } else {return "#3B5998"; }})
 			.style("stroke", function(d) { if(!d.parent) { return "white"; }})
 			.style("display", function(d) { if (d.parent === focus) { return "inline"; } else { return d.parent === data2 ? null : "none"; }})
 			// .style("fill-opacity", function(d){if(!d.parent){return "white";} else if(d.children){ return opacity(d.depth);}})
@@ -1477,9 +1523,75 @@
 			.data(nodes2)
 			.enter().append("text")
 			.attr("class", "label2")
+			.style("fill","white")
 			.style("fill-opacity", function(d) { return d.parent === data2 ? 1 : 0; })
-			.style("display", function(d) {if (d.parent === focus) { return "inline" } else {return d.parent === data2 ? null : "none"; }})
-			.text(function(d) { return d.name; });
+			// .style("display", function(d) {if (d.parent === focus) { return "inline" } else {return d.parent === data2 ? null : "none"; }})
+			.style("word-wrap", "break-word")
+			.style("width", "10em")
+			.text(function(d) {
+				var text = String(d.name).split(" ");
+				var retText;
+				for(var i = 0; i < text.length; i++) {
+					if (text[i] != "") {
+						retText += text[i];
+						retText += "\n";
+					}
+				}
+				
+				console.log(retText);
+				
+				// return retText;
+				return d.name;
+			});
+			
+			// text2 = circle_packing.selectAll("text")
+			// .data(nodes2)
+			// .enter().append("foreignObject")
+			// .attr("x", function(d) {
+				// console.log("circle2");
+				// console.log(d3.transform(circle2.attr("transform")).translate[0]);
+				
+				// console.log("circle_packing");
+				// console.log(d3.transform(circle_packing.attr("transform")).translate[0]);
+				
+				// var finalx = d3.transform(circle2.attr("transform")).translate[0] + d3.transform(circle_packing.attr("transform")).translate[0];
+				// return finalx;
+			// })
+			// .attr("y", function(d) {
+				// console.log("circle2");
+				// console.log(d3.transform(circle2.attr("transform")).translate[0]);
+				
+				// console.log("circle_packing");
+				// console.log(d3.transform(circle_packing.attr("transform")).translate[0]);
+
+				// var finaly = d3.transform(circle2.attr("transform")).translate[1] + d3.transform(circle_packing.attr("transform")).translate[1];
+				// return finaly;
+			// })
+			// .attr("width", "100")
+			// .attr("height", "100")
+			// .style("word-wrap", "break-word")
+			// .style("width", "10em")
+			// .append("xhtml")
+			// .attr("class", "label2")
+			// // .style("fill-opacity", function(d) { return d.parent === data2 ? 1 : 0; })
+			// // .style("display", function(d) {if (d.parent === focus) { return "inline" } else {return d.parent === data2 ? null : "none"; }})
+			// .text(function(d) {
+				// // var text = String(d.name).split(" ");
+				// // var retText;
+				// // for(var i = 0; i < text.length; i++) {
+					// // if (text[i] != "") {
+						// // retText += text[i];
+						// // retText += "\n";
+					// // }
+				// // }
+				
+				// // console.log(retText);
+				
+				// // return retText;
+				// return d.name;
+			// })
+			// .attr('style', 'text-align:center; padding:10px; margin:10px;');
+			
 			node2 = circle_packing.selectAll("circle,text");
 			zoomTo([data2.x, data2.y, 52.28]);
 			 
@@ -1581,6 +1693,14 @@
 		}
  
 		$("#home").click(function(){
+			if ($("#mode_pan option:selected").text() == 'Linier'){
+				d3.select("#reset").style("visibility","visible");
+				d3.select('.helpPan').style('visibility','visible');
+			}
+			else{ 
+				d3.select("#reset").style("visibility","hidden"); 
+				d3.select('.textInfo').style('visibility','visible');
+			}
 			counter = 0;
 			d3.select(".graph").remove();
 			d3.select("#trail").remove();
@@ -1740,10 +1860,10 @@
 			zooming = $("#mode_zoom option:selected").text();
 			pan = $("#mode_pan option:selected").text();
 
-			if(zooming == "Fisheye") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+			if(zooming == "Fisheye + Semantic") {
+				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
@@ -2197,8 +2317,10 @@
 			g.attr("transform", function(d, i) {
 				return "translate(" + i * (b.w + b.s) + ", 10)";
 			})
-			.attr("class",function(d,i){if(nodeArray.length-1==i){return "not_click_breadcrumb"}else{return "click_breadcrumb"}})
-			.on("click", function(d, i) {if(nodeArray.length-1==i){}else{ zoom(nodes2[i]);updateBreadcrumbs(getAncestors(d))}});
+			.attr("class",function(d, i){if(nodeArray.length-1==i){return "not_click_breadcrumb"}else{return "click_breadcrumb"}})
+			.on("click", function(d, i) {if(nodeArray.length-1==i){ entering.style("fill","#ddd"); }else{ zoom(nodes2[i]);
+		
+			updateBreadcrumbs(getAncestors(d))}});
 			 
 			// Remove exiting nodes.
 			g.exit().remove();
@@ -2384,5 +2506,51 @@
 			</div>
 		</div>
 		<a class="close" href="#close" id="closeDetail"></a>
+	</div>
+	
+	<!-- Popup help for zooming -->
+	<a href="#helpZoom" class="overlay" id="helpZooming"></a>
+	<div class="popup" style ="width:600px;">
+		<h2>Mode Zoom</h2>
+		<div id="popup-content">
+			Tombol ini digunakan untuk mengubah mode zooming pada peta penelitian<br><br>
+			Pada kedua mode tersebut saat dipilih:<br>
+			1. lingkaran dengan jumlah data <b>1</b> akan ditampilkan <b>popup</b> yang berisi <b>detail rinci data penelitian</b><br>
+			2. lingkaran dengan jumlah data <b>lebih dari 1</b> akan ditampilkan <b>lingkaran baru</b> yang telah dikelompokan <br>
+			<br>
+			<b>Navigasi Fisheye + Semantic</b><br>
+			Pada mode Fisheye + Semantic, lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
+			Fisheye zoom diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran
+			Semantic zoom diaktifkan dengan cara melakukan <b>klik</b> pada data tidak tunggal
+			Untuk <b>kembali ke data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya</b> (ditandai dengan adanya border atau <b>klik lingkaran lain dengan jumlah data lebih dari 1</b>
+			<br><br>
+			<b>Navigasi Breadcrumbs</b><br>
+
+			Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
+			<img id="home" src="http://localhost/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
+			Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
+			Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
+		</div>
+		<a class="close" href="#close" id="closeHelpZoom"></a>
+	</div>
+
+	<!-- Popup help for panning -->
+	<a href="#helpPan" class="overlay" id="helpPanning"></a>
+	<div class="popup" style ="width:600px;">
+		<h2>Mode Pan</h2>
+		<div id="popup-content">
+			Tombol ini digunakan untuk mengubah mode <i>panning</i> pada peta penelitian<br><br>
+			<b>1. Linier</b><br><br>
+				Pada mode pan Linier, <i>panning</i> dapat dilakukan dengan cara: <br>
+				- Klik area tertentu pada peta penelitian, dan kemudian menggesernya ke arah yang pengguna inginkan (<i>Grab and Drag</i>). <br><br><b>Atau</b><br><br>
+				- Menggeser kotak kecil di dalam <i>overview map</i> yang tersedia di kiri atas, di bawah tombol "Reset Pan" (<i>Navigation window</i>).<br><br>
+				Untuk mengembalikan peta pada posisi semula, tekan tombol "Reset Pan".<br><br>
+			<b>2. Distorsi</b><br><br>
+				Pada mode pan Distorsi, <i>panning</i> dapat dilakukan dengan cara menekan <b>tombol Ctrl</b> pada <i>keyboard</i> 
+				dan <b>menggerakkan kursor</b> pada area peta atau lingkaran tertentu untuk dijadikan fokus.<br><br>
+				Lingkaran yang menjadi fokus akan diberi ruang dan ukuran yang lebih besar dibandingkan lingkaran lainnya.
+				Semakin jauh suatu lingkaran dari titik fokus, maka ukuran lingkaran tersebut akan semakin mengecil (distorsi).<br><br>
+		</div>
+		<a class="close" href="#close" id="closeHelpPan"></a>
 	</div>
 </body>

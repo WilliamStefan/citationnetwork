@@ -11,3 +11,8 @@
 .zoomLabel {
 	font-size: 30px !important;
 }
+
+.biggerNode {
+	width: 200px;
+	height: 200px;
+}
