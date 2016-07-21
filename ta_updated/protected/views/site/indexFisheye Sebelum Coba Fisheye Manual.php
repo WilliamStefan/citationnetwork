@@ -1594,12 +1594,10 @@
 				$('.paperParent').hover(
 					function() {
 						$(this).children('text').attr("class", "labelParent zoomLabel");
-						// jQuery(this).children('text').css("font-size", "30px") // Ukuran font
 					},
 					
 					function() {
 						$(this).children('text').attr("class", "labelParent");
-						// jQuery(this).children('text').css("font-size", "14px") // Ukuran font
 					}
 				);
 			}

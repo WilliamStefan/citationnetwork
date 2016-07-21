@@ -792,6 +792,39 @@
 			}
 		}
 	}
+	
+	function highlight(element) {
+		console.log("element");
+		console.log(element);
+		// var lingkarans = document.getElementsByClassName("nodeParent");
+		var lingkarans = document.getElementsByTagName("circle");
+		for(var i = 0; i < lingkarans.length; i++) {			
+			if(lingkarans[i] == element) {
+				console.log("lingkarans[i]");
+				console.log(lingkarans[i]);
+				// $(lingkarans[i]).addClass("biggerNode");
+				$(lingkarans[i]).attr("class", "nodeParent biggerNode");
+			} else {
+				// $(lingkarans[i]).addClass("smallerNode");
+				$(lingkarans[i]).attr("class", "nodeParent smallerNode");
+			}
+		}
+	}
+	
+	function unhighlight(element) {
+		console.log("element");
+		console.log(element);
+		var lingkarans = document.getElementsByClassName("nodeParent");
+		for(var i = 0; i < lingkarans.length; i++) {			
+			if(lingkarans[i] == element) {
+				console.log("lingkarans[i]");
+				console.log(lingkarans[i]);
+				// $(lingkarans[i]).addClass("biggerNode");
+				$(lingkarans[i]).attr("class", "nodeParent");
+			}
+		}
+	}
+	
 </script>
 
 <!-- Script ini digunakan untuk mendapatkan nilai-nilai default -->
@@ -1127,6 +1160,8 @@
 		.style('cursor','move')
 		.attr('fill', 'none')
 		.attr('height', height);
+		
+		var jariJari = 0;
 		
 		var globalX = 0;
 		var globalY = 0;
@@ -1592,14 +1627,25 @@
 				});
 				
 				$('.paperParent').hover(
-					function() {
+					function() {						
 						$(this).children('text').attr("class", "labelParent zoomLabel");
-						// jQuery(this).children('text').css("font-size", "30px") // Ukuran font
+						// jariJari = $(this).children('circle').attr("r");
+						// $(this).children('circle').attr("r", "35");
+						
+						$(this).children('circle').attr("class", "nodeParent bigger");
+						// $(this).children('circle').not(".nodeParent.bigger").attr("class", "nodeParent smaller");
+						
+						$(".nodeParent").not(".bigger").attr("class", "nodeParent smaller");
+						
+						$('.nodeParent.bigger').attr("r", "35");
+						$('.nodeParent.smaller').attr("r", "12.5");
 					},
 					
 					function() {
 						$(this).children('text').attr("class", "labelParent");
-						// jQuery(this).children('text').css("font-size", "14px") // Ukuran font
+						$(this).children('circle').attr("class", "nodeParent");
+						
+						$(this).children('circle').attr("class", "nodeParent");
 					}
 				);
 			}
@@ -1702,15 +1748,15 @@
 			});
 			
 			if($("#mode_pan option:selected").text() == 'Linier') {
-				svgFisheye.on("mousemove", function() {
-					fisheye.focus(d3.mouse(this));
+				// svgFisheye.on("mousemove", function() {
+					// fisheye.focus(d3.mouse(this));
 
-					// Fisheye untuk setiap node
-					node.each(function(d) { d.fisheye = fisheye(d); })
-					.attr("r", function(d) {
-						return d.fisheye.z * 20;
-					});
-				});
+					// // Fisheye untuk setiap node
+					// node.each(function(d) { d.fisheye = fisheye(d); })
+					// .attr("r", function(d) {
+						// return d.fisheye.z * 20;
+					// });
+				// });
 			} else {
 				elemParentEnter.on("mousemove", function() {
 					fisheye.focus(d3.mouse(this));

@@ -1,0 +1,18 @@
+.circleStroke {
+	stroke: #BBBBBB;
+	stroke-width: 3px !important;
+}
+
+.circleStroke2 {
+	stroke: #BBBBBB;
+	stroke-width: 3px !important;
+}
+
+.zoomLabel {
+	font-size: 30px !important;
+}
+
+.biggerNode {
+	width: 200px;
+	height: 200px;
+}
