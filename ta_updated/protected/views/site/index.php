@@ -2521,9 +2521,9 @@
 			<b>Navigasi Fisheye + Semantic</b><br>
 			Pada mode Fisheye + Semantic, lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
 
-			Fisheye zoom diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran
-			Tooltip diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran selama minimal <b>1 detik</b><br>
-			Semantic zoom diaktifkan dengan cara melakukan <b>klik</b> pada data tidak tunggal
+			Fisheye zoom diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran<br>
+			Tooltip akan diaktifkan saat hover dilakukan minimal selama <b>1 detik</b><br>
+			Semantic zoom diaktifkan dengan cara melakukan <b>klik</b> pada data tidak tunggal<br>
 
 			Untuk <b>kembali ke data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya</b> (ditandai dengan adanya border atau <b>klik lingkaran lain dengan jumlah data lebih dari 1</b>
 			<br><br>
