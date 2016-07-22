@@ -402,12 +402,12 @@ border-radius:3px;
     cursor: move;
 }
 .overviewmap .panCanvas .background{
-    stroke: blue;
-    stroke-width: 3px;
+    stroke: #3B5998;
+    stroke-width: 10px;
     fill: #ffffff !important;
 }
 .overviewmap .frame .background {
-    stroke: #42CACA;
+    stroke: blue;
     stroke-width: 3px;
     fill-opacity: 0.15;
     fill: #ffffff;

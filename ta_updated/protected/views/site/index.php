@@ -1861,9 +1861,9 @@
 			pan = $("#mode_pan option:selected").text();
 
 			if(zooming == "Fisheye + Semantic") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
@@ -2520,8 +2520,9 @@
 			<br>
 			<b>Navigasi Fisheye + Semantic</b><br>
 			Pada mode Fisheye + Semantic, lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
-			Fisheye zoom diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran
-			Semantic zoom diaktifkan dengan cara melakukan <b>klik</b> pada data tidak tunggal
+			Fisheye zoom diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran<br>
+			Tooltip akan diaktifkan saat hover dilakukan minimal selama <b>1 detik</b><br>
+			Semantic zoom diaktifkan dengan cara melakukan <b>klik</b> pada data tidak tunggal<br>
 			Untuk <b>kembali ke data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya</b> (ditandai dengan adanya border atau <b>klik lingkaran lain dengan jumlah data lebih dari 1</b>
 			<br><br>
 			<b>Navigasi Breadcrumbs</b><br>
@@ -2542,7 +2543,7 @@
 			Tombol ini digunakan untuk mengubah mode <i>panning</i> pada peta penelitian<br><br>
 			<b>1. Linier</b><br><br>
 				Pada mode pan Linier, <i>panning</i> dapat dilakukan dengan cara: <br>
-				- Klik area tertentu pada peta penelitian, dan kemudian menggesernya ke arah yang pengguna inginkan (<i>Grab and Drag</i>). <br><br><b>Atau</b><br><br>
+				- Klik pada area peta penelitian (bukan pada lingkaran), dan kemudian menggesernya ke arah yang pengguna inginkan (<i>Grab and Drag</i>). <br><br><b>Atau</b><br><br>
 				- Menggeser kotak kecil di dalam <i>overview map</i> yang tersedia di kiri atas, di bawah tombol "Reset Pan" (<i>Navigation window</i>).<br><br>
 				Untuk mengembalikan peta pada posisi semula, tekan tombol "Reset Pan".<br><br>
 			<b>2. Distorsi</b><br><br>
