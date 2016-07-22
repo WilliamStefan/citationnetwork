@@ -389,11 +389,7 @@
 		var parameter;   
 		parameter = "7,8,10,11,12,13,14,15,16,17,18,19,54,55,56,67,68,69,70,71,72,151,152,153,154,155,157,158,159,160,168,170,174,175";
 				 
-		var force = d3.layout.force()
-		.charge(-240)
-		.linkDistance(40)
-		.size([width, height]);
-		
+		var force = d3.layout.force();
 		var sumbuX;
 		var sumbuY;
 		var pack = d3.layout.pack().padding(2).size([200,200]).value(function(d) {
@@ -554,7 +550,8 @@
 			var zoomLevel2 = false;
  
 			var fisheye = d3.fisheye.circular()
-			.radius(100);
+			.radius(100)
+			.distortion(2);
 
 			///////////////////////////////////////////////////
 			// Persiapan membuat garis sumbu x dan y selesai //
@@ -2431,9 +2428,9 @@
 			pan = $("#mode_pan option:selected").text();
 
 			if(zooming == "Fisheye + Semantic") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
+				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/indexFisheye")
 			} else if(zooming == "Breadcrumbs") {
-				window.location.assign("http://localhost/citationnetwork/ta_updated/index.php?r=site/index")
+				window.location.assign("http://localhost:1337/citationnetwork/ta_updated/index.php?r=site/index")
 			}
 		});
 		
@@ -2978,14 +2975,12 @@
 			<b>Navigasi Fisheye + Semantic</b><br>
 			Lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
 			Fisheye zoom diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran<br>
-			Tooltip diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran selama minimal <b>1 detik</b><br>
-
 			Semantic zoom diaktifkan dengan cara melakukan <b>klik</b> pada data tidak tunggal<br>
 			Untuk <b>kembali ke data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya</b> (ditandai dengan adanya border) atau <b>klik lingkaran lain dengan jumlah data lebih dari 1</b>
 			<br><br>
 			<b>Navigasi Breadcrumbs</b><br>
 			Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
-			<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
+			<img id="home" src="http://localhost/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
 			Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
 			Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
 		</div>
@@ -3000,7 +2995,7 @@
 			Tombol ini digunakan untuk mengubah mode <i>panning</i> pada peta penelitian<br><br>
 			<b>1. Linier</b><br><br>
 				Pada mode pan Linier, <i>panning</i> dapat dilakukan dengan cara: <br>
-				- Klik pada area peta penelitian (bukan pada lingkaran), dan kemudian menggesernya ke arah yang pengguna inginkan (<i>Grab and Drag</i>). <br><br><b>Atau</b><br><br>
+				- Klik area tertentu pada peta penelitian, dan kemudian menggesernya ke arah yang pengguna inginkan (<i>Grab and Drag</i>). <br><br><b>Atau</b><br><br>
 				- Menggeser kotak kecil di dalam <i>overview map</i> yang tersedia di kiri atas, di bawah tombol "Reset Pan" (<i>Navigation window</i>).<br><br>
 				Untuk mengembalikan peta pada posisi semula, tekan tombol "Reset Pan".<br><br>
 			<b>2. Distorsi</b><br><br>
