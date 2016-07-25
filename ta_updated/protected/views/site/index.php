@@ -2545,13 +2545,12 @@
 			<b>1. Linier</b><br><br>
 				Pada mode pan Linier, <i>panning</i> dapat dilakukan dengan cara: <br>
 				- Klik pada area peta penelitian (bukan pada lingkaran), dan kemudian menggesernya ke arah yang pengguna inginkan (<i>Grab and Drag</i>). <br><br><b>Atau</b><br><br>
-				- Menggeser kotak kecil di dalam <i>overview map</i> yang tersedia di kiri atas, di bawah tombol "Reset Pan" (<i>Navigation window</i>).<br><br>
+				- Menggeser kotak kecil pada <i>overview map</i> (peta berskala lebih kecil) yang berada di kiri atas, di bawah tombol "Reset Pan" (<i>Navigation window</i>).<br><br>
 				Untuk mengembalikan peta pada posisi semula, tekan tombol "Reset Pan".<br><br>
 			<b>2. Distorsi</b><br><br>
-				Pada mode pan Distorsi, <i>panning</i> dapat dilakukan dengan cara menekan <b>tombol Ctrl</b> pada <i>keyboard</i> 
-				dan <b>menggerakkan kursor</b> pada area peta atau lingkaran tertentu untuk dijadikan fokus.<br><br>
-				Lingkaran yang menjadi fokus akan diberi ruang dan ukuran yang lebih besar dibandingkan lingkaran lainnya.
-				Semakin jauh suatu lingkaran dari titik fokus, maka ukuran lingkaran tersebut akan semakin mengecil (distorsi).<br><br>
+				Pada mode pan Distorsi, <i>panning</i> dapat dilakukan dengan cara: <br>
+				- Menekan <b>tombol Ctrl</b> pada <i>keyboard</i> 
+				dan <b>menggerakkan kursor</b> pada lingkaran tertentu untuk dipilih dan dijadikan fokus.<br>
 		</div>
 		<a class="close" href="#close" id="closeHelpPan"></a>
 	</div>
