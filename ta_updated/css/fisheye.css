@@ -1,10 +1,10 @@
 .circleStroke {
-	stroke: #BBBBBB;
+	stroke: #777777 !important;
 	stroke-width: 3px !important;
 }
 
 .circleStroke2 {
-	stroke: #BBBBBB;
+	stroke: #777777 !important;
 	stroke-width: 3px !important;
 }
 
@@ -12,7 +12,7 @@
 	font-size: 30px !important;
 }
 
-.biggerNode {
-	width: 200px;
-	height: 200px;
+.circleStrokeHover {
+	stroke: #FF2A19;
+	stroke-width: 3px !important;
 }

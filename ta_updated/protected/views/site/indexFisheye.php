@@ -419,7 +419,7 @@
 		.append("g")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", 515)
-		.attr('class','wrapper map')
+		.attr('class','wrapperFisheye')
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
  		
  		svgFisheye.append('rect')
@@ -946,6 +946,9 @@
 						// Ubah ukuran label
 						$(this).children('text').attr("class", "labelParent zoomLabel");
 						
+						// Beri border pada lingkaran
+						$(this).children('circle').attr("class", "circleParent circleStrokeHover");
+						
 						// Ubah ukuran lingkaran
 						jariJari = $(this).children('circle').attr("r");
 						$(this).children('circle').attr("r", "35");							
@@ -956,6 +959,9 @@
 					if(zoomLevel0 == true) {
 						// Kembalikan ukuran label
 						$(this).children('text').attr("class", "labelParent");
+						
+						// Hilangkan border lingkaran
+						$(this).children('circle').attr("class", "circleParent");
 						
 						// Kembalikan ukuran lingkaran
 						$(this).children('circle').attr("r", jariJari);
@@ -995,7 +1001,7 @@
 					delayIn: 1000,
 					title: function() {
 						if(g1[0][d].__data__.children.length == 1) {
-							return "<span style=\"font-size:12px\">" + this.__data__.children[0].judul + "</span><br>Peneliti : " + this.__data__.children[0].peneliti;
+							return "<span style=\"font-size:12px\">" + this.__data__.children[0].judul + "</span><br>Keyword : " + this.__data__.children[0].keyword + "</span><br>Peneliti : " + this.__data__.children[0].peneliti;
 						} else {
 							var realKeyword = "";
 
@@ -1014,6 +1020,29 @@
 			} else {
 				// do nothing
 			}
+			
+			// // Menutup zoom saat background di-klik
+			// $(".wrapperFisheye").click(function() {
+				// console.log("a");
+				
+				// d3.select(".paperChild").remove();
+				// d3.select(".paperGrandChild").remove();
+				
+				// zoomLevel0 = true;
+				// zoomLevel1 = false;
+				// zoomLevel2 = false;
+			// });
+			
+			// chart.on("click", function() {
+				// console.log("a");
+				
+				// d3.select(".paperChild").remove();
+				// d3.select(".paperGrandChild").remove();
+				
+				// zoomLevel0 = true;
+				// zoomLevel1 = false;
+				// zoomLevel2 = false;
+			// });
 
 			elemParentEnter.on("click", function(d, i) {
 				if(d.children.length == 1) {
@@ -1298,13 +1327,23 @@
 						
 						$('.paperChild').hover(
 							function() {
-								// Ubah ukuran label
-								$(this).children('text').attr("class", "labelChild zoomLabel");
+								if(zoomLevel1 == true) {
+									// Ubah ukuran label
+									$(this).children('text').attr("class", "labelChild zoomLabel");
+									
+									// Beri border pada lingkaran
+									$(this).children('circle').attr("class", "circleChild circleStrokeHover");
+								}
 							},
 							
 							function() {
-								// Kembalikan ukuran label
-								$(this).children('text').attr("class", "labelChild");
+								if(zoomLevel1 == true) {
+									// Kembalikan ukuran label
+									$(this).children('text').attr("class", "labelChild");
+									
+									// Hilangkan border pada lingkaran
+									$(this).children('circle').attr("class", "circleChild");
+								}
 							}
 						);
 
@@ -1320,7 +1359,7 @@
 									var size = Object.keys(g2[0][p].__data__).length;
 
 									if(size == 4) {
-										return "<span style=\"font-size:12px\">" + g2[0][p].__data__[0].judul + "</span><br>Peneliti : " + g2[0][p].__data__[0].peneliti;
+										return "<span style=\"font-size:12px\">" + g2[0][p].__data__[0].judul + "</span><br>Keyword : " + g2[0][p].__data__[0].keyword +  "</span><br>Peneliti : " + g2[0][p].__data__[0].peneliti;
 									} else if(size > 4) {
 										return "<span style=\"font-size:12px\">" + g2[0][p].__data__[0].keyword + "</span>";
 									}
@@ -1596,13 +1635,23 @@
 									
 									$('.paperGrandChild').hover(
 										function() {
-											// Ubah ukuran label
-											$(this).children('text').attr("class", "labelGrandChild zoomLabel");
+											if(zoomLevel2 == true) {
+												// Ubah ukuran label
+												$(this).children('text').attr("class", "labelGrandChild zoomLabel");
+												
+												// Beri border pada lingkaran
+												$(this).children('circle').attr("class", "circleGrandChild circleStrokeHover");
+											}
 										},
 										
 										function() {
-											// Kembalikan ukuran label
-											$(this).children('text').attr("class", "labelGrandChild");
+											if(zoomLevel2 == true) {
+												// Kembalikan ukuran label
+												$(this).children('text').attr("class", "labelGrandChild");
+												
+												// Hilangkan border pada lingkaran
+												$(this).children('circle').attr("class", "circleGrandChild");
+											}
 										}
 									);
 
@@ -1616,7 +1665,7 @@
 											html: true,
 											delayIn: 1000,
 											title: function() {
-												return "<span style=\"font-size:12px\">" + g3[0][q].__data__.judul + "</span><br>Peneliti : " + g3[0][q].__data__.peneliti;
+												return "<span style=\"font-size:12px\">" + g3[0][q].__data__.judul + "</span><br>Keyword : " + g3[0][q].__data__.keyword + "</span><br>Peneliti : " + g3[0][q].__data__.peneliti;
 											}
 										});
 									});
@@ -2040,7 +2089,6 @@
 
 			/* PANNING WITH DISTORTION */
 			function distortion(selection){
-
 				wrapperInner.select('.background').on('mousedown.drag', null);	
 				canvasChart.select('.overviewmap').remove(); // Menghilangkan overview map
 				d3.select(".helpPan").style("visibility","hidden");
@@ -2970,20 +3018,18 @@
 	<div class="popup" style ="width:600px;">
 		<h2>Mode Zoom</h2>
 		<div id="popup-content">
-			Tombol ini digunakan untuk mengubah mode zooming pada peta penelitian<br><br>
-			Pada kedua mode tersebut saat dipilih:<br>
-			1. lingkaran dengan jumlah data <b>1</b> akan ditampilkan <b>popup</b> yang berisi <b>detail rinci data penelitian</b><br>
-			2. lingkaran dengan jumlah data <b>lebih dari 1</b> akan ditampilkan <b>lingkaran baru</b> yang telah dikelompokan <br>
+			Lingkaran dengan jumlah data:<br>
+			1. <b>1</b> saat dipilih akan ditampilkan <b>popup</b> yang berisi <b>detail rinci data penelitian</b><br>
+			2. <b>lebih dari 1</b> saat dipilih akan ditampilkan <b>lingkaran baru</b> yang telah dikelompokan <br>
 			<br>
-			<b>Navigasi Fisheye + Semantic</b><br>
-			Lingkaran hasil pengelompokan akan ditampilkan pada <b>view yang sama</b><br>
-			Fisheye zoom diaktifkan dengan cara melakukan <b>hover</b> pada lingkaran<br>
-			Tooltip akan diaktifkan saat hover dilakukan minimal selama <b>1 detik</b><br>
-			Semantic zoom diaktifkan dengan cara melakukan <b>klik</b> pada data tidak tunggal<br>
-			Untuk <b>kembali ke data sebelumnya</b> pengguna dapat melakukan klik pada <b>data yang sudah dipilih sebelumnya</b> (ditandai dengan adanya border) atau <b>klik lingkaran lain dengan jumlah data lebih dari 1</b>
+			<font size="3" color="#3B5998"><b>Fisheye + Semantic</b><br></font>
+			Lingkaran baru ada pada <b>view yang sama</b><br>
+			<b>Fisheye zoom</b> diaktifkan dengan cara melakukan <b>hover</b><br>
+			<b>Semantic zoom</b> diaktifkan dengan cara melakukan <b>klik</b> pada data tidak tunggal<br>
+			Untuk menutup semantic zoom <b>klik data sebelumnya</b> atau <b>klik lingkaran lain (jumlah data lebih dari 1)</b>
 			<br><br>
-			<b>Navigasi Breadcrumbs</b><br>
-			Pada mode Breadcrumbs, lingkaran hasil pengelompokan akan ditampilkan pada <b>view baru</b><br><br>
+			<font size="3" color="#3B5998"><b>Breadcrumbs</b><br></font>
+			Lingkaran baru ada pada <b>view baru</b><br>
 			<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
 			Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
 			Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
