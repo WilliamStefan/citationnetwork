@@ -328,10 +328,11 @@
 	<!-- Tampilan di sebelah kiri, yaitu peta penelitian -->
 	<div class="left-content" style="width:80%">
 		<div id="Help zoom" style="margin-left: 150px; color: #3B5998;">
+			<div class="alertHelp alert-warning">
 			<b>Zoom:</b>   Hover to activate <b>fisheye zoom</b>, hover for at least 1 second to activate <b>tooltip</b>. Click to <b>see detail</b>, click again to <b>undo</b>.
-			<br><br>
-			<div class="helpPan"> <b>Pan:</b> Click on <b>map area</b> and drag it to desired position <b>or</b> drag the <b>box in overview map</b> to pan.</div>
-			<div class="textInfo" style="margin-top: -20px;"> <b>Pan:</b> Press <b>Ctrl key</b> + move the <b>cursor</b> to pan. </div>
+			</div>
+			<div class="helpPan alertHelp alert-warning"> <b>Pan:</b> Click on <b>map area</b> and drag it to desired position <b>or</b> drag the <b>box in overview map</b> to pan.</div>
+			<div class="textInfo alertHelp alert-warning" style="margin-top: -37px;"> <b>Pan:</b> Press <b>Ctrl key</b> + move the <b>cursor</b> to pan. </div>
 		</div>
 		<img id="home" src="<?php echo Yii::app()->request->baseUrl; ?>/images/home.png" height="40" style="display:none; float:left; margin-right:10px"></img>
 		<div id="sequence" style="display:none;"></div>
@@ -3030,7 +3031,7 @@
 			<br><br>
 			<font size="3" color="#3B5998"><b>Breadcrumbs</b><br></font>
 			Lingkaran baru ada pada <b>view baru</b><br>
-			<img id="home" src="http://localhost:1337/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
+			<img id="home" src="http://localhost/citationnetwork/ta_updated/images/breadcrumb.png" height="30\" style="float:left;margin-right:10px;margin-bottom:10px"></img><br><br><br>
 			Untuk kembali ke <b>data sebelumnya</b> pengguna dapat melakukan klik pada <b>breadcrumb</b><br>
 			Untuk kembali ke <b>peta penelitian</b> pengguna dapat melakukan klik pada <b>icon rumah (home)</b><br>
 		</div>
@@ -3042,16 +3043,17 @@
 	<div class="popup" style ="width:600px;">
 		<h2>Mode Pan</h2>
 		<div id="popup-content">
-			Tombol ini digunakan untuk mengubah mode <i>panning</i> pada peta penelitian<br><br>
-			<b>1. Linier</b><br><br>
+			Tombol ini digunakan untuk mengubah mode <i>panning</i> pada peta penelitian.<br><br>
+			Terdapat dua mode <i>pan</i>, yaitu:<br><br>
+			<font size="3" color="#3B5998"><b>1. Linier</b><br></font>
 				Pada mode pan Linier, <i>panning</i> dapat dilakukan dengan cara: <br>
-				- Klik pada area peta penelitian (bukan pada lingkaran), dan kemudian menggesernya ke arah yang pengguna inginkan (<i>Grab and Drag</i>). <br><br><b>Atau</b><br><br>
-				- Menggeser kotak kecil pada <i>overview map</i> (peta berskala lebih kecil) yang berada di kiri atas, di bawah tombol "Reset Pan" (<i>Navigation window</i>).<br><br>
+				- <b>Klik pada area peta penelitian</b> (bukan pada lingkaran), dan kemudian <b>tarik/geser area peta tersebut</b> ke arah yang diinginkan (<i>Grab and Drag</i>). <br><br><b>Atau</b><br><br>
+				- <b>Geser kotak kecil</b> pada <i>overview map</i> (peta berskala lebih kecil) yang berada di kiri atas, di bawah tombol "Reset Pan" (<i>Navigation window</i>).<br><br>
 				Untuk mengembalikan peta pada posisi semula, tekan tombol "Reset Pan".<br><br>
-			<b>2. Distorsi</b><br><br>
+			<font size="3" color="#3B5998"><b>2. Distorsi</b><br></font>
 				Pada mode pan Distorsi, <i>panning</i> dapat dilakukan dengan cara: <br>
-				- Menekan <b>tombol Ctrl</b> pada <i>keyboard</i> 
-				dan <b>menggerakkan kursor</b> pada lingkaran tertentu untuk dipilih dan dijadikan fokus.<br>
+				- <b>Tekan tombol Ctrl</b> pada <i>keyboard</i> 
+				dan <b>arahkan kursor</b> pada lingkaran tertentu untuk dipilih dan dijadikan fokus.<br><br>
 		</div>
 		<a class="close" href="#close" id="closeHelpPan"></a>
 	</div>
