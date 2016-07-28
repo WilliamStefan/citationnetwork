@@ -100,14 +100,16 @@ a
 	display: none;
 	position: absolute;
 	top: 100%;
-	background: #000;
+	/*background: #000;*/
+	background: #6caace;
 	color: #fff;
 	height: auto;
 }
 
 #mainmenu ul li ul li a
 {
-	color: #ccc;
+	/*color: #ccc;*/
+	color: #fff;
 	padding: 4px 14px;
 	display: block;
 }
