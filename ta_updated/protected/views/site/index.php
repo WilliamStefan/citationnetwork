@@ -286,9 +286,9 @@
 			  		<div class="sub-heading">Mode Zoom</div>
 			  	</div>
 			  	<div class="col-md-2">
-			  	<a href="#helpZooming" class="btn btn-primary btn-xs" style="background-color: #72aed0; border-color: #ffffff; margin-left: -20px;">
+			  	<!-- <a href="#helpZooming" class="btn btn-primary btn-xs" style="background-color: #72aed0; border-color: #ffffff; margin-left: -20px;">
 			  		Help
-				</a>
+				</a> -->
 				</div>
 			</div>
 			<div class="dropdown">
@@ -312,9 +312,9 @@
 			  		<div class="sub-heading">Mode Pan</div>
 			  	</div>
 			  	<div class="col-md-3">
-				  	<a href="#helpPanning" class="btn btn-primary btn-xs" style="background-color: #72aed0; border-color: #ffffff; margin-left: -4px;">
+				  	<!-- <a href="#helpPanning" class="btn btn-primary btn-xs" style="background-color: #72aed0; border-color: #ffffff; margin-left: -4px;">
 				  		Help
-					</a>
+					</a> -->
 				</div>
 			</div>
 			<div class="dropdown">
