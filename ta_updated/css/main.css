@@ -76,12 +76,44 @@ a
 {
 	padding:6px 20px 5px 20px;
 	margin:0px;
+	list-style: none;
+	position: relative;
+	height: 30px;
 }
 
 #mainmenu ul li
 {
-	display: inline;
+	/* display: inline; */
+	display: block;
+	height: 28px;
+	float: left;
+	overflow: visible;
 }
+
+#mainmenu ul li:hover > ul
+{
+	display: block;
+}
+
+#mainmenu ul li ul
+{
+	display: none;
+	position: absolute;
+	top: 100%;
+	background: #000;
+	color: #fff;
+	height: auto;
+}
+
+#mainmenu ul li ul li a
+{
+	color: #ccc;
+	padding: 4px 14px;
+	display: block;
+}
+
+#menu-top ul li ul li.active a,
+#menu-top ul li ul li a:hover { color: #fff; }
 
 #mainmenu ul li a
 {
@@ -91,6 +123,8 @@ a
 	font-weight:bold;
 	text-decoration:none;
 	padding:5px 8px;
+	float: left;
+	display: block;
 }
 
 #mainmenu ul li a:hover, #mainmenu ul li.active a

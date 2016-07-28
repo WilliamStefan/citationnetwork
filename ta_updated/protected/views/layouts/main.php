@@ -28,6 +28,8 @@
 
 	<div id="mainmenu">
 		<?php $this->widget('zii.widgets.CMenu',array(
+			'activeCssClass'=>'active',
+			'activateParents'=>true,
 			'items'=>array(
 				array('label'=>'Home', 'url'=>array('/site/indexFisheye')),
 				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
@@ -36,6 +38,10 @@
 				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Peta Penelitian', 'url'=>array('/site/peta_penelitian'), 'visible'=>!Yii::app()->user->isGuest),
 				// array('label'=>'Help','url'=>array('/site/help'))
+				array('label'=>'Help', 'url'=>array('/site/help'), 'items'=>array(
+					array('label'=>'Mode Zoom', 'url'=>array('/site/help')),
+					array('label'=>'Mode Pan', 'url'=>array('/site/help'))
+				))
 			),
 		));
 		?>

@@ -1022,16 +1022,18 @@
 				// do nothing
 			}
 			
-			// // Menutup zoom saat background di-klik
 			// $(".wrapperFisheye").click(function() {
-				// console.log("a");
-				
-				// d3.select(".paperChild").remove();
-				// d3.select(".paperGrandChild").remove();
-				
-				// zoomLevel0 = true;
-				// zoomLevel1 = false;
-				// zoomLevel2 = false;
+			// // Menutup zoom saat background di-klik
+				// if(zoomLevel1 == true) {
+					// console.log("a");
+					
+					// d3.select(".paperChild").remove();
+					// d3.select(".paperGrandChild").remove();
+					
+					// zoomLevel0 = true;
+					// zoomLevel1 = false;
+					// zoomLevel2 = false;
+				// }
 			// });
 			
 			// chart.on("click", function() {
