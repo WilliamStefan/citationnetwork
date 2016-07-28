@@ -39,8 +39,8 @@
 				array('label'=>'Peta Penelitian', 'url'=>array('/site/peta_penelitian'), 'visible'=>!Yii::app()->user->isGuest),
 				// array('label'=>'Help','url'=>array('/site/help'))
 				array('label'=>'Help', 'url'=>array('/site/help'), 'items'=>array(
-					array('label'=>'Mode Zoom', 'url'=>array('/site/help')),
-					array('label'=>'Mode Pan', 'url'=>array('/site/help'))
+					array('label'=>'Mode Zoom', 'url'=>array('/site/indexFisheye#helpZooming')),
+					array('label'=>'Mode Pan', 'url'=>array('/site/indexFisheye#helpPanning'))
 				))
 			),
 		));
