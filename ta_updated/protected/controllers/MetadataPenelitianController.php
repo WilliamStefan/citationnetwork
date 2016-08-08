@@ -200,7 +200,6 @@ class MetadataPenelitianController extends Controller
 			$AllData[0] = $dbCommand->queryAll();
 			
 			$AllData[1] = "";
-
 		}
 		else
 		{			

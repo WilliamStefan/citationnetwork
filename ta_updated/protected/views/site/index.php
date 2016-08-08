@@ -972,7 +972,7 @@
 						html: true,
 						delayIn: 1000,
 						title: function() {
-							return "<span style=\"font-size:12px\">" + this.__data__.children[0].judul + "</span><br>Peneliti : " + this.__data__.children[0].peneliti;
+							return "<span style=\"font-size:13px\">" + this.__data__.children[0].judul + "</span><br>Peneliti : " + this.__data__.children[0].peneliti;
 						}
 					});
 				}
@@ -2513,6 +2513,8 @@
 	<div class="popup" style ="width:600px;">
 		<h2>Mode Zoom</h2>
 		<div id="popup-content">
+			Tooltip diaktifkan dengan cara melakukan hover selama 1 detik<br>
+			<br>
 			Lingkaran dengan jumlah data:<br>
 			1. <b>1</b> saat dipilih akan ditampilkan <b>popup</b> yang berisi <b>detail rinci data penelitian</b><br>
 			2. <b>lebih dari 1</b> saat dipilih akan ditampilkan <b>lingkaran baru</b> yang telah dikelompokan <br>

@@ -113,19 +113,21 @@ class RelasiController extends Controller
 			$dbCommand = Yii::app()->db->createCommand($sql);
 			$id_relasi = $dbCommand->queryAll();
 			
-			
 			$_POST['Relasi']['id_relasi']=$id_relasi[0]['id'];
 			$sql = "SELECT id FROM data_penelitian where judul='".$_POST['Relasi']['id_paper_1']."'";
 			$dbCommand = Yii::app()->db->createCommand($sql);
 			$id_paper_1 = $dbCommand->queryAll();
+			
 			$_POST['Relasi']['id_paper_1']=$id_paper_1[0]['id'];
 			$sql = "SELECT id FROM data_penelitian where judul='".$_POST['Relasi']['id_paper_2']."'";
 			$dbCommand = Yii::app()->db->createCommand($sql);
 			$id_paper_2 = $dbCommand->queryAll();
+			
 			$_POST['Relasi']['id_paper_2']=$id_paper_2[0]['id'];
 			$_POST['Relasi']['creater']=(int)Yii::app()->user->id;
 			//var_dump($_POST['Relasi']);
 			//var_dump($_POST['Relasi']);
+			
 			$model->attributes=$_POST['Relasi'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));

@@ -1002,7 +1002,7 @@
 					delayIn: 1000,
 					title: function() {
 						if(g1[0][d].__data__.children.length == 1) {
-							return "<span style=\"font-size:12px\">" + this.__data__.children[0].judul + "</span><br>Keyword : " + this.__data__.children[0].keyword + "</span><br>Peneliti : " + this.__data__.children[0].peneliti;
+							return "<span style=\"font-size:13px\">" + this.__data__.children[0].judul + "</span><br><span style=\"font-size:12px\">Keyword : " + this.__data__.children[0].keyword + "</span><br>Peneliti : " + this.__data__.children[0].peneliti;
 						} else {
 							var realKeyword = "";
 
@@ -1010,7 +1010,7 @@
 							realKeyword += g1[0][d].__data__.keyword[iterator];
 						}
 
-						return "<span style=\"font-size:12px\">" + realKeyword + "</span>";
+						return "<span style=\"font-size:13px\">" + realKeyword + "</span>";
 						}
 					}
 				});
@@ -1362,9 +1362,9 @@
 									var size = Object.keys(g2[0][p].__data__).length;
 
 									if(size == 4) {
-										return "<span style=\"font-size:12px\">" + g2[0][p].__data__[0].judul + "</span><br>Keyword : " + g2[0][p].__data__[0].keyword +  "</span><br>Peneliti : " + g2[0][p].__data__[0].peneliti;
+										return "<span style=\"font-size:13px\">" + g2[0][p].__data__[0].judul + "</span><br><span style=\"font-size:12px\">Keyword : " + g2[0][p].__data__[0].keyword +  "</span><br>Peneliti : " + g2[0][p].__data__[0].peneliti;
 									} else if(size > 4) {
-										return "<span style=\"font-size:12px\">" + g2[0][p].__data__[0].keyword + "</span>";
+										return "<span style=\"font-size:13px\">" + g2[0][p].__data__[0].keyword + "</span>";
 									}
 								}
 							});
@@ -1668,7 +1668,7 @@
 											html: true,
 											delayIn: 1000,
 											title: function() {
-												return "<span style=\"font-size:12px\">" + g3[0][q].__data__.judul + "</span><br>Keyword : " + g3[0][q].__data__.keyword + "</span><br>Peneliti : " + g3[0][q].__data__.peneliti;
+												return "<span style=\"font-size:13px\">" + g3[0][q].__data__.judul + "</span><br><span style=\"font-size:12px\"> Keyword : " + g3[0][q].__data__.keyword + "</span><br>Peneliti : " + g3[0][q].__data__.peneliti;
 											}
 										});
 									});
@@ -3021,6 +3021,8 @@
 	<div class="popup" style ="width:600px;">
 		<h2>Mode Zoom</h2>
 		<div id="popup-content">
+			Tooltip diaktifkan dengan cara melakukan hover selama 1 detik<br>
+			<br>
 			Lingkaran dengan jumlah data:<br>
 			1. <b>1</b> saat dipilih akan ditampilkan <b>popup</b> yang berisi <b>detail rinci data penelitian</b><br>
 			2. <b>lebih dari 1</b> saat dipilih akan ditampilkan <b>lingkaran baru</b> yang telah dikelompokan <br>
